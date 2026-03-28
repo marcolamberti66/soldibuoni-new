@@ -39,16 +39,9 @@ const { title, description } = Astro.props;
     <a href="/" class="nav-logo">Soldi Buoni</a>
     
     <div class="nav-links-desktop">
+      <a href="/guida-risparmio" class="nav-link">📖 Guida</a>
       <a href="/quanto-spendo" class="nav-cta">🧮 Quanto Spendo?</a>
-      <a href="/analisi-bolletta" class="nav-cta" style="background: #059669;">🔍 Analizza Bolletta</a>
-      <a href="/energia" class="nav-link">Energia</a>
-      <a href="/gas" class="nav-link">Gas</a>
-      <a href="/internet" class="nav-link">Internet</a>
-      <a href="/mutuo" class="nav-link">Mutui</a>
-      <a href="/rc_auto" class="nav-link">RC Auto</a>
-      <a href="/salute" class="nav-link">Salute</a>
-      <a href="/istruzione" class="nav-link">Università</a>
-      <a href="/tfr_pensione" class="nav-link">Pensione</a>
+      <a href="/analisi-bolletta" class="nav-cta nav-cta-green">🔍 Analizza Bolletta</a>
     </div>
 
     <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
@@ -60,19 +53,29 @@ const { title, description } = Astro.props;
 
   <div id="mobile-menu" class="mobile-menu">
     <a href="/quanto-spendo" class="mobile-cta">🧮 Quanto Spendo?</a>
-    <a href="/analisi-bolletta" class="mobile-cta" style="background: linear-gradient(135deg, #059669, #10b981); margin-top: 6px;">🔍 Analizza Bolletta</a>
-    <div class="mobile-divider"></div>
+    <a href="/analisi-bolletta" class="mobile-cta mobile-cta-green">🔍 Analizza Bolletta</a>
+    
+    <div class="mobile-section-label">Confronta i prezzi</div>
     <a href="/energia" class="mobile-link">⚡ Energia Elettrica</a>
     <a href="/gas" class="mobile-link">🔥 Gas Naturale</a>
     <a href="/internet" class="mobile-link">📡 Internet</a>
     <a href="/acqua" class="mobile-link">💧 Acqua</a>
-    <a href="/mutuo" class="mobile-link">🏠 Mutuo & Affitto</a>
+
+    <div class="mobile-section-label">Auto & Casa</div>
     <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
-    <a href="/bollo_revisione" class="mobile-link">🔧 Bollo & Revisione</a>
     <a href="/carburante" class="mobile-link">⛽ Carburante</a>
-    <a href="/salute" class="mobile-link">🏥 Salute</a>
+    <a href="/bollo_revisione" class="mobile-link">🔧 Bollo & Revisione</a>
+    <a href="/mutuo" class="mobile-link">🏠 Mutuo</a>
+
+    <div class="mobile-section-label">Futuro</div>
     <a href="/istruzione" class="mobile-link">🎓 Università</a>
     <a href="/tfr_pensione" class="mobile-link">📊 Pensione & TFR</a>
+    <a href="/salute" class="mobile-link">🏥 Salute</a>
+
+    <div class="mobile-section-label">Risorse</div>
+    <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio</a>
+    <a href="/checklist" class="mobile-link">✅ Checklist</a>
+    <a href="/newsletter" class="mobile-link">📬 Newsletter</a>
   </div>
 
   <main style="flex: 1;">
@@ -84,34 +87,35 @@ const { title, description } = Astro.props;
     <p style="margin-top: 6px;">Comparatori imparziali e guide operative per le tue finanze personali.</p>
     <p style="margin-top: 8px;">© 2026 Soldi Buoni · <a href="/privacy" style="color: #94a3b8; text-decoration: underline;">Privacy Policy</a></p>
   </footer>
-<!-- COOKIE BANNER -->
-<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; color: #fff; padding: 16px 24px; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);">
-  <div style="max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-    <p style="font-size: 13px; color: #cbd5e1; margin: 0; flex: 1; min-width: 240px; line-height: 1.5;">
-      Questo sito utilizza cookie tecnici e Google Analytics per migliorare l'esperienza. 
-      <a href="/privacy" style="color: #34d399; text-decoration: underline;">Privacy Policy</a>
-    </p>
-    <div style="display: flex; gap: 8px;">
-      <button onclick="acceptCookies()" style="background: #059669; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">Accetta</button>
-      <button onclick="rejectCookies()" style="background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">Rifiuta</button>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; color: #fff; padding: 16px 24px; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);">
+    <div style="max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <p style="font-size: 13px; color: #cbd5e1; margin: 0; flex: 1; min-width: 240px; line-height: 1.5;">
+        Questo sito utilizza cookie tecnici e Google Analytics per migliorare l'esperienza. 
+        <a href="/privacy" style="color: #34d399; text-decoration: underline;">Privacy Policy</a>
+      </p>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="acceptCookies()" style="background: #059669; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">Accetta</button>
+        <button onclick="rejectCookies()" style="background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">Rifiuta</button>
+      </div>
     </div>
   </div>
-</div>
-<script>
-  if (!localStorage.getItem('cookie-consent')) {
-    document.getElementById('cookie-banner').style.display = 'block';
-  }
-  function acceptCookies() {
-    localStorage.setItem('cookie-consent', 'accepted');
-    document.getElementById('cookie-banner').style.display = 'none';
-  }
-  function rejectCookies() {
-    localStorage.setItem('cookie-consent', 'rejected');
-    document.getElementById('cookie-banner').style.display = 'none';
-    window['ga-disable-G-H2JD077CTH'] = true;
-  }
-</script>
-
+  <script>
+    if (!localStorage.getItem('cookie-consent')) {
+      document.getElementById('cookie-banner').style.display = 'block';
+    }
+    function acceptCookies() {
+      localStorage.setItem('cookie-consent', 'accepted');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+    function rejectCookies() {
+      localStorage.setItem('cookie-consent', 'rejected');
+      document.getElementById('cookie-banner').style.display = 'none';
+      window['ga-disable-G-H2JD077CTH'] = true;
+    }
+  </script>
+  
 </body>
 </html>
 
@@ -120,9 +124,7 @@ const { title, description } = Astro.props;
     background: rgba(255,255,255,0.95);
     backdrop-filter: blur(12px);
     padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     border-bottom: 1px solid #e2e8f0;
     position: sticky; top: 0; z-index: 100; height: 60px;
   }
@@ -130,21 +132,22 @@ const { title, description } = Astro.props;
     font-family: 'Playfair Display',serif;
     font-weight: 800; font-size: 22px;
     color: #0f172a; letter-spacing: -0.5px;
-    text-decoration: none; flex-shrink: 0;
+    flex-shrink: 0;
   }
-  .nav-links-desktop { display: flex; gap: 14px; align-items: center; }
+  .nav-links-desktop { display: flex; gap: 12px; align-items: center; }
   .nav-link {
     font-size: 14px; font-weight: 500;
-    color: #475569; text-decoration: none; transition: color 0.2s;
+    color: #475569; transition: color 0.2s;
   }
   .nav-link:hover { color: #0f172a; }
   .nav-cta {
     font-size: 13px; font-weight: 700;
     color: #fff; background: #0f172a;
-    padding: 6px 14px; border-radius: 8px;
-    text-decoration: none; transition: background 0.2s;
+    padding: 8px 16px; border-radius: 8px;
+    transition: opacity 0.2s;
   }
   .nav-cta:hover { opacity: 0.9; }
+  .nav-cta-green { background: #059669; }
 
   .menu-toggle {
     display: none; flex-direction: column;
@@ -166,25 +169,28 @@ const { title, description } = Astro.props;
     top: 60px; left: 0; right: 0; bottom: 0;
     background: rgba(255,255,255,0.98);
     backdrop-filter: blur(16px);
-    z-index: 99; padding: 20px 24px;
-    flex-direction: column; gap: 4px;
+    z-index: 99; padding: 16px 24px;
+    flex-direction: column; gap: 2px;
     overflow-y: auto;
   }
   .mobile-menu.open { display: flex; }
   .mobile-cta {
     display: block; text-align: center;
-    font-size: 16px; font-weight: 700;
-    color: #fff;
+    font-size: 15px; font-weight: 700; color: #fff;
     background: linear-gradient(135deg, #0f172a, #334155);
-    padding: 14px 20px; border-radius: 12px;
-    text-decoration: none;
+    padding: 13px 20px; border-radius: 12px;
+    margin-bottom: 4px;
   }
-  .mobile-divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
+  .mobile-cta-green { background: linear-gradient(135deg, #059669, #10b981); }
+  .mobile-section-label {
+    font-size: 11px; font-weight: 700; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 14px 12px 6px; margin-top: 4px;
+  }
   .mobile-link {
-    display: block; font-size: 16px; font-weight: 500;
-    color: #0f172a; padding: 14px 12px;
-    border-radius: 10px; text-decoration: none;
-    transition: background 0.2s;
+    display: block; font-size: 15px; font-weight: 500;
+    color: #0f172a; padding: 12px 12px;
+    border-radius: 10px; transition: background 0.2s;
   }
   .mobile-link:hover, .mobile-link:active { background: #f1f5f9; }
 
