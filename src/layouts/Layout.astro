@@ -84,7 +84,34 @@ const { title, description } = Astro.props;
     <p style="margin-top: 6px;">Comparatori imparziali e guide operative per le tue finanze personali.</p>
     <p style="margin-top: 8px;">© 2026 Soldi Buoni · <a href="/privacy" style="color: #94a3b8; text-decoration: underline;">Privacy Policy</a></p>
   </footer>
-  
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; color: #fff; padding: 16px 24px; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);">
+  <div style="max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+    <p style="font-size: 13px; color: #cbd5e1; margin: 0; flex: 1; min-width: 240px; line-height: 1.5;">
+      Questo sito utilizza cookie tecnici e Google Analytics per migliorare l'esperienza. 
+      <a href="/privacy" style="color: #34d399; text-decoration: underline;">Privacy Policy</a>
+    </p>
+    <div style="display: flex; gap: 8px;">
+      <button onclick="acceptCookies()" style="background: #059669; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">Accetta</button>
+      <button onclick="rejectCookies()" style="background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">Rifiuta</button>
+    </div>
+  </div>
+</div>
+<script>
+  if (!localStorage.getItem('cookie-consent')) {
+    document.getElementById('cookie-banner').style.display = 'block';
+  }
+  function acceptCookies() {
+    localStorage.setItem('cookie-consent', 'accepted');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+  function rejectCookies() {
+    localStorage.setItem('cookie-consent', 'rejected');
+    document.getElementById('cookie-banner').style.display = 'none';
+    window['ga-disable-G-H2JD077CTH'] = true;
+  }
+</script>
+
 </body>
 </html>
 
