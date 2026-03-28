@@ -1,0 +1,179 @@
+---
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://soldibuoni.it">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style is:global>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f8fafc; color: #475569; font-family: 'Inter', system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    input[type="range"] { height: 6px; border-radius: 3px; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
+    ::selection { background: #059669; color: #fff; }
+    @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); }}
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); }}
+  </style>
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+  
+  <nav id="main-nav">
+    <a href="/" class="nav-logo">Soldi Buoni</a>
+    
+    <div class="nav-links-desktop">
+      <a href="/quanto-spendo" class="nav-cta">🧮 Quanto Spendo?</a>
+      <a href="/analisi-bolletta" class="nav-cta" style="background: #059669;">🔍 Analizza Bolletta</a>
+      <a href="/energia" class="nav-link">Energia</a>
+      <a href="/gas" class="nav-link">Gas</a>
+      <a href="/internet" class="nav-link">Internet</a>
+      <a href="/mutuo" class="nav-link">Mutui</a>
+      <a href="/rc_auto" class="nav-link">RC Auto</a>
+      <a href="/salute" class="nav-link">Salute</a>
+      <a href="/istruzione" class="nav-link">Università</a>
+      <a href="/tfr_pensione" class="nav-link">Pensione</a>
+    </div>
+
+    <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="/quanto-spendo" class="mobile-cta">🧮 Quanto Spendo?</a>
+    <a href="/analisi-bolletta" class="mobile-cta" style="background: linear-gradient(135deg, #059669, #10b981); margin-top: 6px;">🔍 Analizza Bolletta</a>
+    <div class="mobile-divider"></div>
+    <a href="/energia" class="mobile-link">⚡ Energia Elettrica</a>
+    <a href="/gas" class="mobile-link">🔥 Gas Naturale</a>
+    <a href="/internet" class="mobile-link">📡 Internet</a>
+    <a href="/acqua" class="mobile-link">💧 Acqua</a>
+    <a href="/mutuo" class="mobile-link">🏠 Mutuo & Affitto</a>
+    <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+    <a href="/bollo_revisione" class="mobile-link">🔧 Bollo & Revisione</a>
+    <a href="/carburante" class="mobile-link">⛽ Carburante</a>
+    <a href="/salute" class="mobile-link">🏥 Salute</a>
+    <a href="/istruzione" class="mobile-link">🎓 Università</a>
+    <a href="/tfr_pensione" class="mobile-link">📊 Pensione & TFR</a>
+  </div>
+
+  <main style="flex: 1;">
+    <slot />
+  </main>
+
+  <footer style="background: #0f172a; color: #64748b; padding: 36px 20px; text-align: center; font-size: 13px;">
+    <span style="font-family: 'Playfair Display',serif; color: #fff; font-weight: 700; font-size: 18px;">Soldi Buoni</span>
+    <p style="margin-top: 6px;">Comparatori imparziali e guide operative per le tue finanze personali.</p>
+    <p style="margin-top: 8px;">© 2026 Soldi Buoni</p>
+  </footer>
+  
+</body>
+</html>
+
+<style>
+  #main-nav {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky; top: 0; z-index: 100; height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display',serif;
+    font-weight: 800; font-size: 22px;
+    color: #0f172a; letter-spacing: -0.5px;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links-desktop { display: flex; gap: 14px; align-items: center; }
+  .nav-link {
+    font-size: 14px; font-weight: 500;
+    color: #475569; text-decoration: none; transition: color 0.2s;
+  }
+  .nav-link:hover { color: #0f172a; }
+  .nav-cta {
+    font-size: 13px; font-weight: 700;
+    color: #fff; background: #0f172a;
+    padding: 6px 14px; border-radius: 8px;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.9; }
+
+  .menu-toggle {
+    display: none; flex-direction: column;
+    justify-content: center; gap: 5px;
+    background: none; border: none;
+    cursor: pointer; padding: 8px; z-index: 200;
+  }
+  .menu-toggle span {
+    display: block; width: 24px; height: 2px;
+    background: #0f172a; border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .mobile-menu {
+    display: none; position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(16px);
+    z-index: 99; padding: 20px 24px;
+    flex-direction: column; gap: 4px;
+    overflow-y: auto;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-cta {
+    display: block; text-align: center;
+    font-size: 16px; font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #0f172a, #334155);
+    padding: 14px 20px; border-radius: 12px;
+    text-decoration: none;
+  }
+  .mobile-divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
+  .mobile-link {
+    display: block; font-size: 16px; font-weight: 500;
+    color: #0f172a; padding: 14px 12px;
+    border-radius: 10px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .mobile-link:hover, .mobile-link:active { background: #f1f5f9; }
+
+  @media (max-width: 900px) {
+    .nav-links-desktop { display: none; }
+    .menu-toggle { display: flex; }
+  }
+  @media (min-width: 901px) {
+    .mobile-menu { display: none !important; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('active');
+    menu.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      toggle.classList.remove('active');
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

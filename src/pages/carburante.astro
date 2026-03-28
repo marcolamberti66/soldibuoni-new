@@ -1,0 +1,236 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TOPICS } from '../data.js';
+
+const topic = TOPICS.carburante;
+---
+
+<Layout title="Risparmio Carburante — Calcola il costo per km | SoldiBuoni" description="Calcola quanto spendi in carburante all'anno e scopri come risparmiare. Confronto benzina, diesel, GPL, elettrico.">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+    
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
+      </h1>
+    </div>
+
+    <div class="tab-container" style={`--theme-color: ${topic.color}`}>
+      <button class="tab-btn active" data-target="tab-calc">⛽ Calcolatore</button>
+      <button class="tab-btn" data-target="tab-capire">💡 Capire i prezzi</button>
+      <button class="tab-btn" data-target="tab-guida">🛠️ Come risparmiare</button>
+    </div>
+
+    <div id="tab-calc" class="tab-content" style="display: block;">
+      
+      <!-- Calcolatore Carburante -->
+      <div id="fuel-calc">
+        <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 18px;">
+          Calcolatore Costo Carburante
+        </h2>
+
+        <div style="background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+          <label style="font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 10px;">Tipo di carburante</label>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="fuel-type-pills">
+            <button class="fuel-pill active" data-type="benzina" data-price="1.72" data-consumption="14">Benzina</button>
+            <button class="fuel-pill" data-type="diesel" data-price="1.62" data-consumption="17">Diesel</button>
+            <button class="fuel-pill" data-type="gpl" data-price="0.73" data-consumption="10">GPL</button>
+            <button class="fuel-pill" data-type="metano" data-price="1.35" data-consumption="20">Metano</button>
+            <button class="fuel-pill" data-type="elettrico" data-price="0.40" data-consumption="16">Elettrico (kWh/100km)</button>
+          </div>
+        </div>
+
+        <div style="background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+          <label style="font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 8px;">
+            Km percorsi all'anno: <span id="km-value" style="color: #84CC16;">15.000 km</span>
+          </label>
+          <input type="range" id="km-slider" min="3000" max="50000" step="1000" value="15000" style="width: 100%; accent-color: #84CC16;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8;">
+            <span>3.000</span><span>50.000 km</span>
+          </div>
+        </div>
+
+        <div style="background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+          <label style="font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 8px;">
+            <span id="cons-label">Consumo medio</span>: <span id="cons-value" style="color: #84CC16;">14.0 km/l</span>
+          </label>
+          <input type="range" id="cons-slider" min="4" max="25" step="0.5" value="14" style="width: 100%; accent-color: #84CC16;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8;">
+            <span>4</span><span>25 km/l</span>
+          </div>
+        </div>
+
+        <div style="background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+          <label style="font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 8px;">
+            <span id="price-label">Prezzo al litro</span>: <span id="price-value" style="color: #84CC16;">€1.72</span>
+          </label>
+          <input type="range" id="price-slider" min="0.30" max="2.50" step="0.01" value="1.72" style="width: 100%; accent-color: #84CC16;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8;">
+            <span>€0.30</span><span>€2.50</span>
+          </div>
+        </div>
+
+        <!-- RISULTATI -->
+        <div style="background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 28px; color: #fff; margin-bottom: 16px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
+            <div>
+              <div style="font-size: 12px; color: #94a3b8; margin-bottom: 4px;">Costo/km</div>
+              <div id="res-km" style="font-size: 28px; font-weight: 800; font-family: 'Playfair Display',serif; color: #84CC16;">€0.123</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: #94a3b8; margin-bottom: 4px;">Spesa mensile</div>
+              <div id="res-mese" style="font-size: 28px; font-weight: 800; font-family: 'Playfair Display',serif;">€153</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: #94a3b8; margin-bottom: 4px;">Spesa annua</div>
+              <div id="res-anno" style="font-size: 28px; font-weight: 800; font-family: 'Playfair Display',serif; color: #f59e0b;">€1.843</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFRONTO -->
+        <div style="background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0;">
+          <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">Confronto annuo per carburante (stessi km)</h3>
+          <div id="comparison-bars"></div>
+        </div>
+
+        <p style="font-size: 11px; color: #94a3b8; margin-top: 14px; font-style: italic; text-align: center;">
+          * Prezzi medi marzo 2026. Self-service, aree urbane. Elettrico: costo ricarica domestica.
+        </p>
+      </div>
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      {topic.capire.content.map((c) => (
+        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+          <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
+          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        {topic.guida.steps.map((s) => (
+          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+            <div>
+              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fff; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .tab-btn:hover { background: #f8fafc; }
+  .tab-btn.active { background: var(--theme-color); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .tab-content { animation: fadeIn 0.3s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .fuel-pill { padding: 8px 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; background: #fff; color: #64748b; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .fuel-pill.active { background: #84CC16; color: #fff; border-color: #84CC16; }
+  @media (max-width: 768px) {
+    .tab-container { flex-direction: column; }
+    #fuel-calc [style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      btn.classList.add('active');
+      document.getElementById(btn.getAttribute('data-target')).style.display = 'block';
+    });
+  });
+
+  // Fuel calculator
+  const fuels = [
+    { type: 'Benzina', price: 1.72, kml: 14, color: '#F59E0B' },
+    { type: 'Diesel', price: 1.62, kml: 17, color: '#3B82F6' },
+    { type: 'GPL', price: 0.73, kml: 10, color: '#10B981' },
+    { type: 'Metano', price: 1.35, kml: 20, color: '#8B5CF6' },
+    { type: 'Elettrico', price: 0.40, kml: 6.5, color: '#EC4899' },
+  ];
+
+  const kmSlider = document.getElementById('km-slider');
+  const consSlider = document.getElementById('cons-slider');
+  const priceSlider = document.getElementById('price-slider');
+
+  function calculate() {
+    const km = +kmSlider.value;
+    const activePill = document.querySelector('.fuel-pill.active');
+    const isElettrico = activePill && activePill.dataset.type === 'elettrico';
+    
+    const kml = +consSlider.value;
+    const price = +priceSlider.value;
+    
+    let annuo;
+    if (isElettrico) {
+      // kml = kWh/100km, price = €/kWh
+      annuo = (km / 100) * kml * price;
+    } else {
+      // kml = km/l, price = €/l
+      annuo = (km / kml) * price;
+    }
+    const mensile = annuo / 12;
+    const costoKm = annuo / km;
+
+    document.getElementById('km-value').textContent = km.toLocaleString() + ' km';
+    document.getElementById('cons-value').textContent = isElettrico ? kml.toFixed(1) + ' kWh/100km' : kml.toFixed(1) + ' km/l';
+    document.getElementById('price-value').textContent = '€' + price.toFixed(2) + (isElettrico ? '/kWh' : '/litro');
+    document.getElementById('cons-label').textContent = isElettrico ? 'Consumo medio' : 'Consumo medio';
+    document.getElementById('price-label').textContent = isElettrico ? 'Prezzo per kWh' : 'Prezzo al litro';
+    document.getElementById('res-km').textContent = '€' + costoKm.toFixed(3);
+    document.getElementById('res-mese').textContent = '€' + Math.round(mensile).toLocaleString();
+    document.getElementById('res-anno').textContent = '€' + Math.round(annuo).toLocaleString();
+
+    // Comparison bars
+    const maxCost = Math.max(...fuels.map(f => {
+      if (f.type === 'Elettrico') return (km / 100) * f.kml * f.price;
+      return (km / f.kml) * f.price;
+    }));
+    const barsHtml = fuels.map(f => {
+      const cost = f.type === 'Elettrico' ? (km / 100) * f.kml * f.price : (km / f.kml) * f.price;
+      const pct = (cost / maxCost) * 100;
+      return `<div style="margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="font-size: 13px; font-weight: 600; color: #0f172a;">${f.type}</span>
+          <span style="font-size: 13px; font-weight: 700; color: ${f.color};">€${Math.round(cost).toLocaleString()}/anno</span>
+        </div>
+        <div style="background: #f1f5f9; border-radius: 4px; height: 8px; overflow: hidden;">
+          <div style="height: 100%; border-radius: 4px; background: ${f.color}; width: ${pct}%; transition: width 0.5s;"></div>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('comparison-bars').innerHTML = barsHtml;
+  }
+
+  kmSlider.addEventListener('input', calculate);
+  consSlider.addEventListener('input', calculate);
+  priceSlider.addEventListener('input', calculate);
+
+  // Fuel type pills
+  document.querySelectorAll('.fuel-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.fuel-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      consSlider.value = pill.dataset.consumption;
+      priceSlider.value = pill.dataset.price;
+      calculate();
+    });
+  });
+
+  calculate();
+</script>

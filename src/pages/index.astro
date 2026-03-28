@@ -1,0 +1,238 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TOPICS } from '../data.js';
+import NewsletterSignup from '../components/NewsletterSignup.jsx';
+
+const bollette = [
+  { id: "energia", ...TOPICS.energia, desc: "Taglia la bolletta della luce" },
+  { id: "gas", ...TOPICS.gas, desc: "Risparmia sul riscaldamento" },
+  { id: "internet", ...TOPICS.internet, desc: "Fibra e connessioni veloci" },
+  { id: "acqua", ...TOPICS.acqua, desc: "Ottimizza il consumo idrico" },
+];
+
+const veicolo = [
+  { id: "rc_auto", ...TOPICS.rc_auto, desc: "Confronta le polizze" },
+  { id: "bollo_revisione", ...TOPICS.bollo_revisione, desc: "Scadenze e promemoria" },
+  { id: "carburante", ...TOPICS.carburante, desc: "Risparmia alla pompa" },
+];
+
+const futuro = [
+  { id: "mutuo", ...TOPICS.mutuo, desc: "Tassi, surroga e confronto" },
+  { id: "istruzione", ...TOPICS.istruzione, desc: "Rette e borse di studio" },
+  { id: "tfr_pensione", ...TOPICS.tfr_pensione, desc: "TFR, fondi e previdenza" },
+  { id: "salute", ...TOPICS.salute, desc: "Polizze sanitarie integrative" },
+];
+
+const strumenti = [
+  { id: "quanto-spendo", title: "Quanto Spendo?", desc: "Calcola la spesa annua della famiglia", icon: "🧮", color: "#059669" },
+  { id: "analisi-bolletta", title: "Analizza Bolletta", desc: "Carica il PDF, scopri il risparmio", icon: "🔍", color: "#0ea5e9" },
+  { id: "checklist", title: "Checklist Risparmio", desc: "12 azioni concrete con progresso", icon: "✅", color: "#8b5cf6" },
+  { id: "bollo_revisione", title: "Scadenzario Auto", desc: "Promemoria bollo, revisione, gomme", icon: "📅", color: "#F97316" },
+];
+---
+
+<Layout title="Soldi Buoni | Ottimizza le tue finanze personali" description="Comparatori imparziali e guide operative per risparmiare su bollette, assicurazioni, mutui e molto altro.">
+  
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🧮 Nuovo strumento gratuito</div>
+      <h1 class="hero-title">
+        Le famiglie italiane sprecano<br/><span class="hero-accent">€800/anno</span> in bollette troppo care.
+      </h1>
+      <p class="hero-sub">
+        Scopri quanto spendi davvero e quanto puoi risparmiare.<br/>Bastano 3 domande, 60 secondi.
+      </p>
+      <a href="/quanto-spendo" class="hero-cta">
+        Calcola il tuo risparmio →
+      </a>
+      <p class="hero-note">Gratuito, anonimo, nessuna registrazione</p>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="categories-inner">
+
+      <!-- STRUMENTI -->
+      <div class="section-header">
+        <h2 class="section-title">🛠️ Strumenti gratuiti</h2>
+        <p class="section-sub">Tool interattivi per analizzare, calcolare e ottimizzare</p>
+      </div>
+      <div class="grid-4">
+        {strumenti.map(c => (
+          <a href={`/${c.id}`} class="card tool-card" style={`--card-color: ${c.color};`}>
+            <div class="card-icon" style={`background: ${c.color}14; font-size: 26px;`}>{c.icon}</div>
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-desc">{c.desc}</p>
+            <span class="card-arrow" style={`color: ${c.color};`}>Usa ora →</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- BOLLETTE -->
+      <div class="section-header">
+        <h2 class="section-title">💡 Bollette & Utenze</h2>
+        <p class="section-sub">Confronta i prezzi reali, aggiornati ogni giorno automaticamente</p>
+      </div>
+      <div class="grid-4">
+        {bollette.map(c => (
+          <a href={`/${c.id}`} class="card" style={`--card-color: ${c.color};`}>
+            <div class="card-icon" style={`background: ${c.color}14;`}>{c.icon}</div>
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-desc">{c.desc}</p>
+            <span class="card-arrow" style={`color: ${c.color};`}>Confronta →</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- VEICOLO -->
+      <div class="section-header">
+        <h2 class="section-title">🚗 Auto & Mobilità</h2>
+        <p class="section-sub">Assicurazione, bollo, revisione, carburante — tutto sotto controllo</p>
+      </div>
+      <div class="grid-3">
+        {veicolo.map(c => (
+          <a href={`/${c.id}`} class="card" style={`--card-color: ${c.color};`}>
+            <div class="card-icon" style={`background: ${c.color}14;`}>{c.icon}</div>
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-desc">{c.desc}</p>
+            <span class="card-arrow" style={`color: ${c.color};`}>Scopri →</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- FUTURO -->
+      <div class="section-header">
+        <h2 class="section-title">📊 Futuro & Protezione</h2>
+        <p class="section-sub">Mutui, università, pensione, salute — le scelte che pesano per anni</p>
+      </div>
+      <div class="grid-4">
+        {futuro.map(c => (
+          <a href={`/${c.id}`} class="card" style={`--card-color: ${c.color};`}>
+            <div class="card-icon" style={`background: ${c.color}14;`}>{c.icon}</div>
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-desc">{c.desc}</p>
+            <span class="card-arrow" style={`color: ${c.color};`}>Esplora →</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- NEWSLETTER -->
+      <div style="margin-top: 40px;">
+        <NewsletterSignup client:load variant="compact" />
+      </div>
+
+      <!-- BOTTOM BANNER -->
+      <div class="bottom-banner">
+        <div class="banner-text">
+          <h3>Non sai da dove iniziare?</h3>
+          <p>Il calcolatore analizza la tua situazione e ti dice esattamente dove stai spendendo troppo.</p>
+        </div>
+        <a href="/quanto-spendo" class="banner-cta">🧮 Quanto Spendo? →</a>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero {
+    background: linear-gradient(160deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
+    padding: 60px 20px 56px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -120px; right: -80px; width: 400px; height: 400px;
+    border-radius: 50%; background: rgba(5, 150, 105, 0.06);
+  }
+  .hero::after {
+    content: ''; position: absolute;
+    bottom: -100px; left: -60px; width: 300px; height: 300px;
+    border-radius: 50%; background: rgba(99, 102, 241, 0.04);
+  }
+  .hero-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-block; background: rgba(5, 150, 105, 0.15);
+    color: #34d399; font-size: 13px; font-weight: 600;
+    padding: 6px 16px; border-radius: 20px; margin-bottom: 24px;
+    border: 1px solid rgba(5, 150, 105, 0.2);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800;
+    color: #fff; line-height: 1.15; margin-bottom: 18px;
+  }
+  .hero-accent { color: #34d399; }
+  .hero-sub { font-size: 17px; color: #94a3b8; line-height: 1.7; margin-bottom: 32px; }
+  .hero-cta {
+    display: inline-block; background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff; font-size: 17px; font-weight: 700;
+    padding: 16px 36px; border-radius: 12px; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(5, 150, 105, 0.4); }
+  .hero-note { font-size: 12px; color: #64748b; margin-top: 14px; }
+
+  .categories { padding: 48px 20px 60px; }
+  .categories-inner { max-width: 960px; margin: 0 auto; }
+  .section-header { margin-bottom: 20px; margin-top: 40px; }
+  .section-header:first-child { margin-top: 0; }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;
+    color: #0f172a; margin-bottom: 4px;
+  }
+  .section-sub { font-size: 14px; color: #94a3b8; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 12px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 12px; }
+  .card {
+    display: flex; flex-direction: column; background: #fff;
+    border: 1px solid #e2e8f0; border-radius: 14px; padding: 22px;
+    text-decoration: none; transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--card-color); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .tool-card { border: 2px dashed #e2e8f0; background: #fafffe; }
+  .tool-card:hover { border-style: solid; }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 14px;
+  }
+  .card-title { font-family: 'Playfair Display', serif; color: #0f172a; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin: 0; flex: 1; }
+  .card-arrow { font-size: 12px; font-weight: 700; margin-top: 14px; transition: transform 0.2s; display: inline-block; }
+  .card:hover .card-arrow { transform: translateX(4px); }
+
+  .bottom-banner {
+    margin-top: 32px; background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 16px; padding: 32px; display: flex;
+    align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .banner-text h3 { font-family: 'Playfair Display', serif; color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .banner-text p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin: 0; }
+  .banner-cta {
+    flex-shrink: 0; background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff; font-size: 15px; font-weight: 700;
+    padding: 14px 28px; border-radius: 10px; text-decoration: none;
+    transition: transform 0.2s; white-space: nowrap;
+  }
+  .banner-cta:hover { transform: translateY(-2px); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 40px 20px 40px; }
+    .hero-title { font-size: 28px; }
+    .hero-sub { font-size: 15px; }
+    .hero-cta { font-size: 15px; padding: 14px 28px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr; }
+    .section-title { font-size: 20px; }
+    .bottom-banner { flex-direction: column; text-align: center; padding: 28px 20px; }
+    .banner-cta { width: 100%; text-align: center; }
+  }
+  @media (min-width: 769px) and (max-width: 900px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

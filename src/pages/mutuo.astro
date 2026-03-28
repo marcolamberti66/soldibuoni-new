@@ -1,0 +1,335 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TOPICS } from '../data.js';
+
+const topic = TOPICS.mutuo;
+---
+
+<Layout title="Calcola Rata Mutuo — Simulatore Gratuito | SoldiBuoni" description="Simula la rata del mutuo casa. Confronta durate e tassi, visualizza il piano di ammortamento e scopri quanto paghi davvero di interessi.">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+    
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
+      </h1>
+    </div>
+
+    <div class="tab-container" style={`--theme-color: ${topic.color}`}>
+      <button class="tab-btn active" data-target="tab-calc">🏠 Simulatore</button>
+      <button class="tab-btn" data-target="tab-capire">💡 Capire i mutui</button>
+      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
+    </div>
+
+    <div id="tab-calc" class="tab-content" style="display: block;">
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 18px;">
+        Simulatore Rata Mutuo
+      </h2>
+
+      <!-- IMPORTO -->
+      <div class="calc-card">
+        <label class="calc-label">
+          Importo del mutuo: <span id="importo-value" class="calc-accent">€150.000</span>
+        </label>
+        <input type="range" id="importo-slider" min="30000" max="500000" step="5000" value="150000" class="calc-slider">
+        <div class="calc-range"><span>€30.000</span><span>€500.000</span></div>
+      </div>
+
+      <!-- DURATA -->
+      <div class="calc-card">
+        <label class="calc-label">
+          Durata: <span id="durata-value" class="calc-accent">25 anni</span>
+        </label>
+        <input type="range" id="durata-slider" min="5" max="30" step="5" value="25" class="calc-slider">
+        <div class="calc-range"><span>5 anni</span><span>30 anni</span></div>
+      </div>
+
+      <!-- TASSO -->
+      <div class="calc-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <label class="calc-label" style="margin-bottom: 0;">
+            Tasso (TAEG): <span id="tasso-value" class="calc-accent">3.20%</span>
+          </label>
+          <div style="display: flex; gap: 4px;">
+            <button class="tipo-pill active" data-tasso="3.20">Fisso</button>
+            <button class="tipo-pill" data-tasso="4.50">Variabile</button>
+          </div>
+        </div>
+        <input type="range" id="tasso-slider" min="1.0" max="6.0" step="0.05" value="3.20" class="calc-slider">
+        <div class="calc-range"><span>1.0%</span><span>6.0%</span></div>
+      </div>
+
+      <!-- ANTICIPO -->
+      <div class="calc-card">
+        <label class="calc-label">
+          Valore immobile: <span id="immobile-value" class="calc-accent">€200.000</span>
+          <span id="ltv-badge" style="font-size: 11px; font-weight: 600; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 8px; margin-left: 8px;">LTV 75%</span>
+        </label>
+        <input type="range" id="immobile-slider" min="50000" max="800000" step="5000" value="200000" class="calc-slider">
+        <div class="calc-range"><span>€50.000</span><span>€800.000</span></div>
+      </div>
+
+      <!-- RISULTATI PRINCIPALI -->
+      <div class="results-hero">
+        <div class="result-box">
+          <div class="result-label">Rata mensile</div>
+          <div id="res-rata" class="result-big" style="color: #10b981;">€726</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Totale interessi</div>
+          <div id="res-interessi" class="result-big" style="color: #f59e0b;">€67.820</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Costo totale</div>
+          <div id="res-totale" class="result-big">€217.820</div>
+        </div>
+      </div>
+
+      <!-- REDDITO CONSIGLIATO -->
+      <div id="reddito-box" class="reddito-box">
+        <p>💡 Per una rata di <strong id="reddito-rata">€726</strong>/mese, il reddito netto consigliato è almeno <strong id="reddito-min">€2.074</strong>/mese (regola del 35%).</p>
+      </div>
+
+      <!-- CONFRONTO DURATE -->
+      <div class="calc-card" style="margin-top: 16px;">
+        <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">Confronto durate (stesso importo e tasso)</h3>
+        <div id="durata-comparison"></div>
+      </div>
+
+      <!-- PIANO AMMORTAMENTO -->
+      <div class="calc-card" style="margin-top: 16px;">
+        <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">Piano di ammortamento (primi 5 anni)</h3>
+        <div style="overflow-x: auto;">
+          <table id="ammortamento-table" class="amm-table">
+            <thead>
+              <tr>
+                <th>Anno</th>
+                <th>Rata annua</th>
+                <th>Quota capitale</th>
+                <th>Quota interessi</th>
+                <th>Debito residuo</th>
+              </tr>
+            </thead>
+            <tbody id="amm-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <p style="font-size: 11px; color: #94a3b8; margin-top: 14px; font-style: italic; text-align: center;">
+        * Simulazione indicativa. Il TAEG reale include spese di istruttoria, perizia e assicurazioni.
+        Consulta sempre più istituti prima di decidere.
+      </p>
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      {topic.capire.content.map((c) => (
+        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+          <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
+          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        {topic.guida.steps.map((s) => (
+          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+            <div>
+              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fff; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .tab-btn:hover { background: #f8fafc; }
+  .tab-btn.active { background: var(--theme-color); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .tab-content { animation: fadeIn 0.3s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .calc-card { background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px; }
+  .calc-label { font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 8px; }
+  .calc-accent { color: #10B981; }
+  .calc-slider { width: 100%; accent-color: #10B981; }
+  .calc-range { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; }
+
+  .tipo-pill { padding: 6px 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 12px; font-weight: 600; background: #fff; color: #64748b; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .tipo-pill.active { background: #10B981; color: #fff; border-color: #10B981; }
+
+  .results-hero { background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 28px; color: #fff; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; margin-bottom: 16px; }
+  .result-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+  .result-big { font-size: 28px; font-weight: 800; font-family: 'Playfair Display', serif; }
+
+  .reddito-box { background: #f0fdf4; border-radius: 12px; padding: 16px 20px; border: 1px solid #bbf7d0; font-size: 14px; color: #166534; line-height: 1.6; }
+
+  .amm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .amm-table th { text-align: left; padding: 10px 12px; color: #64748b; font-weight: 600; font-size: 12px; border-bottom: 2px solid #e2e8f0; }
+  .amm-table td { padding: 10px 12px; color: #0f172a; border-bottom: 1px solid #f1f5f9; }
+  .amm-table tr:last-child td { border-bottom: none; }
+
+  @media (max-width: 768px) {
+    .tab-container { flex-direction: column; }
+    .results-hero { grid-template-columns: 1fr; gap: 12px; }
+    .result-big { font-size: 24px; }
+    .tipo-pill { padding: 5px 10px; font-size: 11px; }
+  }
+</style>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      btn.classList.add('active');
+      document.getElementById(btn.getAttribute('data-target')).style.display = 'block';
+    });
+  });
+
+  // Tipo tasso pills
+  document.querySelectorAll('.tipo-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.tipo-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      document.getElementById('tasso-slider').value = pill.dataset.tasso;
+      calculate();
+    });
+  });
+
+  const importoSlider = document.getElementById('importo-slider');
+  const durataSlider = document.getElementById('durata-slider');
+  const tassoSlider = document.getElementById('tasso-slider');
+  const immobileSlider = document.getElementById('immobile-slider');
+
+  function pmt(rate, nper, pv) {
+    if (rate === 0) return pv / nper;
+    const x = Math.pow(1 + rate, nper);
+    return (pv * rate * x) / (x - 1);
+  }
+
+  function fmt(n) { return Math.round(n).toLocaleString('it-IT'); }
+
+  function calculate() {
+    const importo = +importoSlider.value;
+    const anni = +durataSlider.value;
+    const tassoAnnuo = +tassoSlider.value / 100;
+    const immobile = +immobileSlider.value;
+    const ltv = Math.round((importo / immobile) * 100);
+    const mesi = anni * 12;
+    const tassoMese = tassoAnnuo / 12;
+    const rata = pmt(tassoMese, mesi, importo);
+    const totale = rata * mesi;
+    const interessi = totale - importo;
+
+    document.getElementById('importo-value').textContent = '€' + fmt(importo);
+    document.getElementById('durata-value').textContent = anni + ' anni';
+    document.getElementById('tasso-value').textContent = (+tassoSlider.value).toFixed(2) + '%';
+    document.getElementById('immobile-value').textContent = '€' + fmt(immobile);
+    
+    const ltvBadge = document.getElementById('ltv-badge');
+    ltvBadge.textContent = 'LTV ' + ltv + '%';
+    if (ltv <= 80) {
+      ltvBadge.style.background = '#dcfce7'; ltvBadge.style.color = '#166534';
+    } else {
+      ltvBadge.style.background = '#fef3c7'; ltvBadge.style.color = '#92400e';
+    }
+
+    document.getElementById('res-rata').textContent = '€' + fmt(rata);
+    document.getElementById('res-interessi').textContent = '€' + fmt(interessi);
+    document.getElementById('res-totale').textContent = '€' + fmt(totale);
+
+    // Reddito consigliato (regola 35%)
+    const redditoMin = Math.round(rata / 0.35);
+    document.getElementById('reddito-rata').textContent = '€' + fmt(rata);
+    document.getElementById('reddito-min').textContent = '€' + fmt(redditoMin);
+
+    // Confronto durate
+    const durate = [10, 15, 20, 25, 30];
+    const maxTotale = Math.max(...durate.map(d => pmt(tassoMese, d * 12, importo) * d * 12));
+    const compHtml = durate.map(d => {
+      const r = pmt(tassoMese, d * 12, importo);
+      const t = r * d * 12;
+      const int = t - importo;
+      const pct = (t / maxTotale) * 100;
+      const isActive = d === anni;
+      return `<div style="margin-bottom: 10px; ${isActive ? 'background: #f0fdf4; padding: 10px 12px; border-radius: 10px; margin: 0 -12px 10px;' : ''}">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; align-items: center;">
+          <span style="font-size: 13px; font-weight: ${isActive ? '700' : '500'}; color: #0f172a;">${d} anni ${isActive ? '← attuale' : ''}</span>
+          <span style="font-size: 12px; color: #64748b;">€${fmt(r)}/mese · interessi €${fmt(int)}</span>
+        </div>
+        <div style="background: #f1f5f9; border-radius: 4px; height: 8px; overflow: hidden; position: relative;">
+          <div style="position: absolute; height: 100%; border-radius: 4px; background: #10b98140; width: ${pct}%;"></div>
+          <div style="position: absolute; height: 100%; border-radius: 4px; background: #10b981; width: ${(importo / maxTotale) * 100}%;"></div>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('durata-comparison').innerHTML = compHtml +
+      '<div style="display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: #94a3b8;">' +
+      '<span>■ Capitale</span><span style="opacity: 0.4;">■ Interessi</span></div>';
+
+    // Piano ammortamento (primi 5 anni)
+    let debito = importo;
+    let html = '';
+    const anniShow = Math.min(5, anni);
+    for (let a = 1; a <= anniShow; a++) {
+      let capAnno = 0;
+      let intAnno = 0;
+      for (let m = 0; m < 12; m++) {
+        const intMese = debito * tassoMese;
+        const capMese = rata - intMese;
+        capAnno += capMese;
+        intAnno += intMese;
+        debito -= capMese;
+      }
+      html += `<tr>
+        <td style="font-weight: 600;">Anno ${a}</td>
+        <td>€${fmt(rata * 12)}</td>
+        <td style="color: #10b981; font-weight: 600;">€${fmt(capAnno)}</td>
+        <td style="color: #f59e0b;">€${fmt(intAnno)}</td>
+        <td>€${fmt(Math.max(0, debito))}</td>
+      </tr>`;
+    }
+    if (anni > 5) {
+      // Salta al penultimo e ultimo anno
+      let debitoSkip = importo;
+      for (let a = 1; a <= anni; a++) {
+        let capAnno = 0; let intAnno = 0;
+        for (let m = 0; m < 12; m++) {
+          const intMese = debitoSkip * tassoMese;
+          const capMese = rata - intMese;
+          capAnno += capMese; intAnno += intMese;
+          debitoSkip -= capMese;
+        }
+        if (a === anni) {
+          html += `<tr style="border-top: 2px dashed #e2e8f0;">
+            <td style="font-weight: 600;">Anno ${a}</td>
+            <td>€${fmt(rata * 12)}</td>
+            <td style="color: #10b981; font-weight: 600;">€${fmt(capAnno)}</td>
+            <td style="color: #f59e0b;">€${fmt(intAnno)}</td>
+            <td style="font-weight: 700;">€0</td>
+          </tr>`;
+        }
+      }
+      html = html.replace('</tr><tr style="border-top', '</tr><tr><td colspan="5" style="text-align: center; color: #94a3b8; font-style: italic; padding: 8px;">···</td></tr><tr style="border-top');
+    }
+    document.getElementById('amm-body').innerHTML = html;
+  }
+
+  importoSlider.addEventListener('input', calculate);
+  durataSlider.addEventListener('input', calculate);
+  tassoSlider.addEventListener('input', calculate);
+  immobileSlider.addEventListener('input', calculate);
+
+  calculate();
+</script>

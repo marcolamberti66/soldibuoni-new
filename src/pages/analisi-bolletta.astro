@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Ecco il fix: le parentesi graffe sono obbligatorie per i named exports!
+import { AnalizzaBolletta } from '../components/AnalizzaBolletta.jsx';
+---
+
+<Layout 
+  title="Analizza Bolletta con AI | Soldi Buoni" 
+  description="Carica il PDF della tua bolletta e scopri subito quanto potresti risparmiare grazie all'Intelligenza Artificiale."
+>
+  <div style="padding: 60px 20px; background: #f8fafc; min-height: calc(100vh - 60px);">
+    <AnalizzaBolletta client:load color="#059669" />
+  </div>
+</Layout>

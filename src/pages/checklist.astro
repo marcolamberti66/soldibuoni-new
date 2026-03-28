@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ChecklistRisparmio from '../components/ChecklistRisparmio.jsx';
+---
+
+<Layout title="Checklist Risparmio — 12 Azioni per Risparmiare | SoldiBuoni" description="12 azioni concrete per risparmiare fino a €4.000/anno. Spunta quelle completate e tieni traccia del tuo progresso.">
+  
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <section style="max-width: 720px; margin: 0 auto; padding: 40px 20px 60px;">
+    
+    <div style="text-align: center; margin-bottom: 36px; animation: fadeIn 0.6s ease-out;">
+      <span style="font-size: 48px; display: block; margin-bottom: 12px;">✅</span>
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 32px; color: #0f172a; margin-bottom: 10px; line-height: 1.2;">
+        Checklist Risparmio
+      </h1>
+      <p style="font-size: 16px; color: #64748b; max-width: 500px; margin: 0 auto; line-height: 1.6;">
+        12 azioni concrete, dalla più semplice alla più impattante. 
+        Spunta quelle completate e guarda il risparmio crescere.
+      </p>
+    </div>
+
+    <ChecklistRisparmio client:load />
+
+  </section>
+
+</Layout>
