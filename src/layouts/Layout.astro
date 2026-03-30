@@ -13,7 +13,6 @@ const { title, description } = Astro.props;
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://soldibuoni.it">
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,87 +22,150 @@ const { title, description } = Astro.props;
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style is:global>
+    :root {
+      --bg-body: #f4f7f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --color-primary: #059669;
+      --color-primary-glow: rgba(5, 150, 105, 0.4);
+      --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #f8fafc; color: #475569; font-family: 'Inter', system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    body { 
+      background: var(--bg-body); 
+      color: var(--text-main); 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      line-height: 1.6; 
+      -webkit-font-smoothing: antialiased; 
+      -moz-osx-font-smoothing: grayscale;
+    }
     a { text-decoration: none; color: inherit; }
     input[type="range"] { height: 6px; border-radius: 3px; }
     input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
-    ::selection { background: #059669; color: #fff; }
-    @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); }}
-    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); }}
+    ::selection { background: var(--color-primary); color: #fff; }
+    
+    @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); }}
+    @keyframes fadeIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); }}
+    @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 var(--color-primary-glow); } 70% { box-shadow: 0 0 0 15px rgba(5,150,105,0); } 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0); } }
   </style>
 </head>
 <body style="min-height: 100vh; display: flex; flex-direction: column;">
   
-  <nav id="main-nav">
-    <a href="/" class="nav-logo">Soldi Buoni</a>
+  <nav id="main-nav" class="glass-nav">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-squircle">💰</div>
+      Soldi Buoni
+    </a>
     
     <div class="nav-links-desktop">
-      <a href="/guida-risparmio" class="nav-link">📖 Guida</a>
-      <a href="/quanto-spendo" class="nav-cta">🧮 Quanto Spendo?</a>
-      <a href="/analisi-bolletta" class="nav-cta nav-cta-green">🔍 Analizza Bolletta</a>
+      <a href="/#impara" class="nav-pill nav-pill-blue">📚 Impara</a>
+      <a href="/#risparmia" class="nav-pill nav-pill-green">💸 Risparmia</a>
+      <a href="/#gestisci" class="nav-pill nav-pill-purple">
+        📊 Gestisci
+        <span class="nav-soon">soon</span>
+      </a>
     </div>
 
     <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
   <div id="mobile-menu" class="mobile-menu">
-    <a href="/quanto-spendo" class="mobile-cta">🧮 Quanto Spendo?</a>
-    <a href="/analisi-bolletta" class="mobile-cta mobile-cta-green">🔍 Analizza Bolletta</a>
-    
-    <div class="mobile-section-label">Confronta i prezzi</div>
-    <a href="/energia" class="mobile-link">⚡ Energia Elettrica</a>
-    <a href="/gas" class="mobile-link">🔥 Gas Naturale</a>
-    <a href="/internet" class="mobile-link">📡 Internet</a>
-    <a href="/acqua" class="mobile-link">💧 Acqua</a>
+    <div class="mobile-menu-inner">
+      <div class="mobile-section-label" style="color: #3b82f6;">📚 IMPARA</div>
+      <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
+      <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
+      <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
+      <a href="/checklist" class="mobile-link">✅ Checklist 12 Azioni</a>
+      <a href="/carburante" class="mobile-link">⛽ Calcolatore Carburante</a>
+      <a href="/acqua" class="mobile-link">💧 Calcolatore Acqua</a>
+      <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
 
-    <div class="mobile-section-label">Auto & Casa</div>
-    <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
-    <a href="/carburante" class="mobile-link">⛽ Carburante</a>
-    <a href="/bollo_revisione" class="mobile-link">🔧 Bollo & Revisione</a>
-    <a href="/mutuo" class="mobile-link">🏠 Mutuo</a>
+      <div class="mobile-section-label" style="color: #059669; margin-top: 24px;">💸 RISPARMIA</div>
+      <a href="/energia" class="mobile-link">⚡ Offerte Energia</a>
+      <a href="/gas" class="mobile-link">🔥 Offerte Gas</a>
+      <a href="/internet" class="mobile-link">📡 Offerte Internet</a>
+      <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+      <a href="/istruzione" class="mobile-link">🎓 Università</a>
+      <a href="/tfr_pensione" class="mobile-link">📊 Pensione & TFR</a>
+      <a href="/salute" class="mobile-link">🏥 Salute</a>
 
-    <div class="mobile-section-label">Futuro</div>
-    <a href="/istruzione" class="mobile-link">🎓 Università</a>
-    <a href="/tfr_pensione" class="mobile-link">📊 Pensione & TFR</a>
-    <a href="/salute" class="mobile-link">🏥 Salute</a>
-
-    <div class="mobile-section-label">Risorse</div>
-    <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio</a>
-    <a href="/checklist" class="mobile-link">✅ Checklist</a>
-    <a href="/newsletter" class="mobile-link">📬 Newsletter</a>
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📊 GESTISCI</div>
+      <a href="/bollo_revisione" class="mobile-link">🔧 Scadenzario Auto</a>
+      <a href="/newsletter" class="mobile-link">📬 Newsletter Mensile</a>
+      <span class="mobile-link" style="color: #94a3b8; font-style: italic;">🚀 Dashboard personale — in arrivo</span>
+    </div>
   </div>
 
-  <main style="flex: 1;">
+  <main style="flex: 1; padding-bottom: 80px;">
     <slot />
   </main>
 
-  <footer style="background: #0f172a; color: #64748b; padding: 36px 20px; text-align: center; font-size: 13px;">
-    <span style="font-family: 'Playfair Display',serif; color: #fff; font-weight: 700; font-size: 18px;">Soldi Buoni</span>
-    <p style="margin-top: 6px;">Comparatori imparziali e guide operative per le tue finanze personali.</p>
-    <p style="margin-top: 8px;">© 2026 Soldi Buoni · <a href="/privacy" style="color: #94a3b8; text-decoration: underline;">Privacy Policy</a></p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span style="font-family: 'Playfair Display',serif; color: #fff; font-weight: 700; font-size: 24px; letter-spacing: -0.5px;">Soldi Buoni</span>
+        <p style="margin-top: 12px; font-size: 14px; color: #94a3b8; line-height: 1.8; max-width: 280px;">
+          Strumenti gratuiti, design premium e offerte selezionate per rivoluzionare le tue finanze personali.
+        </p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4 class="footer-heading">Impara</h4>
+          <a href="/guida-risparmio">Guida Risparmio</a>
+          <a href="/quanto-spendo">Quanto Spendo?</a>
+          <a href="/analisi-bolletta">Analizza Bolletta</a>
+          <a href="/checklist">Checklist</a>
+        </div>
+        <div>
+          <h4 class="footer-heading">Risparmia</h4>
+          <a href="/energia">Energia</a>
+          <a href="/gas">Gas</a>
+          <a href="/internet">Internet</a>
+          <a href="/rc_auto">RC Auto</a>
+        </div>
+        <div>
+          <h4 class="footer-heading">Altro</h4>
+          <a href="/mutuo">Mutuo</a>
+          <a href="/bollo_revisione">Scadenzario</a>
+          <a href="/newsletter">Newsletter</a>
+          <a href="/chi-siamo">Chi Siamo</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Soldi Buoni · <a href="/privacy" style="color: #cbd5e1; text-decoration: underline;">Privacy Policy</a></p>
+      <p style="margin-top: 8px; font-size: 12px; color: #64748b; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Questo sito contiene link di affiliazione. Quando acquisti tramite i nostri link, potremmo ricevere una commissione senza costi aggiuntivi per te.
+        <a href="/chi-siamo" style="color: #cbd5e1; text-decoration: underline;">Scopri di più →</a>
+      </p>
+    </div>
   </footer>
 
-  <!-- COOKIE BANNER -->
-  <div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; color: #fff; padding: 16px 24px; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);">
-    <div style="max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-      <p style="font-size: 13px; color: #cbd5e1; margin: 0; flex: 1; min-width: 240px; line-height: 1.5;">
-        Questo sito utilizza cookie tecnici e Google Analytics per migliorare l'esperienza. 
-        <a href="/privacy" style="color: #34d399; text-decoration: underline;">Privacy Policy</a>
+  <div id="sticky-bar" class="sticky-bar glass-panel">
+    <span class="sticky-text">Scopri quanto sprechi 💸</span>
+    <a href="/quanto-spendo" class="sticky-btn">Calcola Ora</a>
+  </div>
+
+  <div id="cookie-banner" class="cookie-banner-wrapper" style="display: none;">
+    <div class="cookie-squircle glass-panel">
+      <p class="cookie-text">
+        Utilizziamo cookie tecnici e analitici per offrirti l'esperienza migliore. 
+        <a href="/privacy" style="color: var(--color-primary); font-weight: 600;">Privacy Policy</a>
       </p>
-      <div style="display: flex; gap: 8px;">
-        <button onclick="acceptCookies()" style="background: #059669; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">Accetta</button>
-        <button onclick="rejectCookies()" style="background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">Rifiuta</button>
+      <div class="cookie-actions">
+        <button onclick="acceptCookies()" class="btn-cookie-accept">Accetta</button>
+        <button onclick="rejectCookies()" class="btn-cookie-reject">Rifiuta</button>
       </div>
     </div>
   </div>
+
   <script>
+    // Cookie consent
     if (!localStorage.getItem('cookie-consent')) {
-      document.getElementById('cookie-banner').style.display = 'block';
+      document.getElementById('cookie-banner').style.display = 'flex';
     }
     function acceptCookies() {
       localStorage.setItem('cookie-consent', 'accepted');
@@ -114,89 +176,161 @@ const { title, description } = Astro.props;
       document.getElementById('cookie-banner').style.display = 'none';
       window['ga-disable-G-H2JD077CTH'] = true;
     }
+
+    // Sticky bar: hide when cookie banner is visible, show/hide on scroll
+    var stickyBar = document.getElementById('sticky-bar');
+    var lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      var cookieBanner = document.getElementById('cookie-banner');
+      if (cookieBanner && cookieBanner.style.display !== 'none') {
+        stickyBar.style.transform = 'translateY(150%)';
+        return;
+      }
+      var currentScroll = window.pageYOffset;
+      if (currentScroll > 300) {
+        stickyBar.style.transform = 'translateY(0)';
+      } else {
+        stickyBar.style.transform = 'translateY(150%)';
+      }
+      lastScroll = currentScroll;
+    });
   </script>
-  
 </body>
 </html>
 
 <style>
-  #main-nav {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
-    padding: 0 24px;
+  /* ── GLASS NAV ── */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 0 32px;
     display: flex; justify-content: space-between; align-items: center;
-    border-bottom: 1px solid #e2e8f0;
-    position: sticky; top: 0; z-index: 100; height: 60px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    position: sticky; top: 0; z-index: 100; height: 72px;
+    transition: all 0.4s var(--ease-fluid);
   }
   .nav-logo {
+    display: flex; align-items: center; gap: 12px;
     font-family: 'Playfair Display',serif;
     font-weight: 800; font-size: 22px;
     color: #0f172a; letter-spacing: -0.5px;
-    flex-shrink: 0;
   }
+  .nav-logo-squircle {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.3);
+  }
+  
   .nav-links-desktop { display: flex; gap: 12px; align-items: center; }
-  .nav-link {
-    font-size: 14px; font-weight: 500;
-    color: #475569; transition: color 0.2s;
+  .nav-pill {
+    font-size: 14px; font-weight: 600; padding: 8px 20px;
+    border-radius: 100px; transition: all 0.3s var(--ease-fluid);
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid transparent;
   }
-  .nav-link:hover { color: #0f172a; }
-  .nav-cta {
-    font-size: 13px; font-weight: 700;
-    color: #fff; background: #0f172a;
-    padding: 8px 16px; border-radius: 8px;
-    transition: opacity 0.2s;
+  .nav-pill-blue { background: rgba(59,130,246,0.08); color: #1d4ed8; }
+  .nav-pill-blue:hover { background: rgba(59,130,246,0.15); transform: translateY(-1px); }
+  .nav-pill-green { background: rgba(16,185,129,0.08); color: #047857; }
+  .nav-pill-green:hover { background: rgba(16,185,129,0.15); transform: translateY(-1px); }
+  .nav-pill-purple { background: rgba(139,92,246,0.08); color: #6d28d9; }
+  .nav-pill-purple:hover { background: rgba(139,92,246,0.15); transform: translateY(-1px); }
+  
+  .nav-soon {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    background: #8b5cf6; color: #fff; padding: 2px 8px;
+    border-radius: 100px; letter-spacing: 0.5px;
   }
-  .nav-cta:hover { opacity: 0.9; }
-  .nav-cta-green { background: #059669; }
 
+  /* ── HAMBURGER ── */
   .menu-toggle {
-    display: none; flex-direction: column;
-    justify-content: center; gap: 5px;
-    background: none; border: none;
-    cursor: pointer; padding: 8px; z-index: 200;
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 8px; z-index: 200;
   }
   .menu-toggle span {
     display: block; width: 24px; height: 2px;
-    background: #0f172a; border-radius: 2px;
-    transition: all 0.3s ease;
+    background: #0f172a; border-radius: 2px; transition: all 0.3s ease;
   }
   .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   .menu-toggle.active span:nth-child(2) { opacity: 0; }
   .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
+  /* ── MOBILE MENU ── */
   .mobile-menu {
-    display: none; position: fixed;
-    top: 60px; left: 0; right: 0; bottom: 0;
-    background: rgba(255,255,255,0.98);
-    backdrop-filter: blur(16px);
-    z-index: 99; padding: 16px 24px;
-    flex-direction: column; gap: 2px;
-    overflow-y: auto;
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+    z-index: 99; overflow-y: auto; opacity: 0; transition: opacity 0.4s var(--ease-fluid);
   }
-  .mobile-menu.open { display: flex; }
-  .mobile-cta {
-    display: block; text-align: center;
-    font-size: 15px; font-weight: 700; color: #fff;
-    background: linear-gradient(135deg, #0f172a, #334155);
-    padding: 13px 20px; border-radius: 12px;
-    margin-bottom: 4px;
-  }
-  .mobile-cta-green { background: linear-gradient(135deg, #059669, #10b981); }
+  .mobile-menu.open { display: block; opacity: 1; }
+  .mobile-menu-inner { padding: 90px 24px 40px; display: flex; flex-direction: column; gap: 4px; }
+  
   .mobile-section-label {
-    font-size: 11px; font-weight: 700; color: #94a3b8;
-    text-transform: uppercase; letter-spacing: 1px;
-    padding: 14px 12px 6px; margin-top: 4px;
+    font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 16px 12px 8px;
   }
   .mobile-link {
-    display: block; font-size: 15px; font-weight: 500;
-    color: #0f172a; padding: 12px 12px;
-    border-radius: 10px; transition: background 0.2s;
+    display: block; font-size: 17px; font-weight: 600; color: #0f172a;
+    padding: 14px 16px; border-radius: 16px; transition: background 0.2s;
   }
-  .mobile-link:hover, .mobile-link:active { background: #f1f5f9; }
+  .mobile-link:hover, .mobile-link:active { background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  /* ── STICKY MOBILE BOTTOM BAR ── */
+  .sticky-bar {
+    display: none; position: fixed; bottom: 20px; left: 20px; right: 20px;
+    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    padding: 12px 16px; z-index: 90; align-items: center; justify-content: space-between;
+    border-radius: 24px; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+    transform: translateY(150%); transition: transform 0.5s var(--ease-fluid);
+  }
+  .sticky-text { color: #fff; font-size: 14px; font-weight: 600; margin-left: 8px; }
+  .sticky-btn {
+    background: linear-gradient(135deg, #10b981, #059669); color: #fff;
+    font-size: 14px; font-weight: 700; padding: 10px 20px; border-radius: 100px;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.3); transition: transform 0.2s; flex-shrink: 0;
+  }
+
+  /* ── COOKIE BANNER ── */
+  .cookie-banner-wrapper {
+    position: fixed; bottom: 24px; left: 0; right: 0;
+    display: flex; justify-content: center; z-index: 9999; padding: 0 20px;
+  }
+  .cookie-squircle {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0,0,0,0.05); border-radius: 24px; padding: 20px 24px;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+    display: flex; align-items: center; gap: 24px; max-width: 700px; width: 100%;
+    flex-wrap: wrap;
+  }
+  .cookie-text { font-size: 13px; color: #475569; margin: 0; flex: 1; min-width: 240px; line-height: 1.6; }
+  .cookie-actions { display: flex; gap: 10px; }
+  .btn-cookie-accept { background: #0f172a; color: #fff; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s; }
+  .btn-cookie-reject { background: transparent; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-cookie-accept:hover { transform: scale(1.05); }
+  .btn-cookie-reject:hover { background: #f1f5f9; color: #0f172a; }
+
+  /* ── FOOTER ── */
+  .site-footer { background: #0f172a; color: #94a3b8; padding: 60px 0 0; }
+  .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 32px 40px; display: flex; gap: 64px; flex-wrap: wrap; }
+  .footer-brand { flex: 1.5; min-width: 260px; }
+  .footer-columns { display: flex; gap: 48px; flex-wrap: wrap; flex: 2; }
+  .footer-columns > div { min-width: 140px; }
+  .footer-heading { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .footer-columns a { display: block; font-size: 14px; color: #94a3b8; padding: 6px 0; transition: color 0.2s; }
+  .footer-columns a:hover { color: #34d399; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding: 24px 32px; text-align: center; }
 
   @media (max-width: 900px) {
     .nav-links-desktop { display: none; }
     .menu-toggle { display: flex; }
+    .footer-inner { flex-direction: column; gap: 40px; }
+    .footer-columns { gap: 32px; }
+    .glass-nav { padding: 0 20px; height: 64px; }
+  }
+  @media (max-width: 768px) {
+    .sticky-bar { display: flex; }
   }
   @media (min-width: 901px) {
     .mobile-menu { display: none !important; }
@@ -208,14 +342,22 @@ const { title, description } = Astro.props;
   const menu = document.getElementById('mobile-menu');
   toggle.addEventListener('click', () => {
     toggle.classList.toggle('active');
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    if(menu.classList.contains('open')) {
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => menu.style.display = 'none', 400);
+    } else {
+      menu.style.display = 'block';
+      setTimeout(() => menu.classList.add('open'), 10);
+      document.body.style.overflow = 'hidden';
+    }
   });
   menu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       toggle.classList.remove('active');
       menu.classList.remove('open');
       document.body.style.overflow = '';
+      setTimeout(() => menu.style.display = 'none', 400);
     });
   });
 </script>
