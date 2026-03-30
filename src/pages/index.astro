@@ -34,12 +34,6 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
         <span class="trust-score">4.8/5</span>
         <span class="trust-text">Oltre <strong>2.500 famiglie</strong> hanno ottimizzato le spese.</span>
       </div>
-      <div class="trust-logos">
-        <span class="trust-sep">|</span>
-        <span class="trust-outlet">Il Sole Economico</span>
-        <span class="trust-outlet">Finanza & Risparmio</span>
-        <span class="trust-outlet">Tech Money</span>
-      </div>
     </div>
   </div>
 
@@ -328,24 +322,16 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
   }
   .hero-btn-glass:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
 
-  /* ── TRUST STRIP (ELEGANT LOGOS) ── */
+  /* ── TRUST STRIP (CENTERED) ── */
   .trust-strip { background: #fff; border-bottom: 1px solid rgba(0,0,0,0.04); padding: 16px 20px; }
   .trust-inner {
-    max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
+    max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: center;
   }
-  .trust-stars { display: flex; align-items: center; gap: 8px; }
+  .trust-stars { display: flex; align-items: center; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .stars { color: #FBBF24; font-size: 18px; letter-spacing: 2px; text-shadow: 0 2px 8px rgba(251,191,36,0.4); }
   .trust-score { font-size: 14px; font-weight: 800; color: #0f172a; margin-right: 8px; }
   .trust-text { font-size: 13px; color: #64748b; }
   .trust-text strong { color: #0f172a; }
-  
-  .trust-logos { display: flex; align-items: center; gap: 20px; }
-  .trust-sep { color: #e2e8f0; font-size: 20px; font-weight: 300; }
-  .trust-outlet {
-    font-size: 13px; font-weight: 800; font-family: 'Playfair Display', serif;
-    color: #0f172a; filter: grayscale(1) opacity(0.4); transition: all 0.4s var(--ease-fluid); cursor: default;
-  }
-  .trust-outlet:hover { filter: grayscale(0) opacity(1); }
 
   /* ── PAGE CONTENT & PILLARS ── */
   .page-content { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
@@ -474,7 +460,6 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     .hero-sub { font-size: 16px; }
     .hero-btn-glow, .hero-btn-glass { width: 100%; }
     .trust-inner { flex-direction: column; gap: 12px; }
-    .trust-logos { display: none; }
     .resources-row { grid-template-columns: 1fr; }
     .pillar { padding-top: 60px; }
     .pillar-title { font-size: 32px; }
