@@ -1476,7 +1476,7 @@ export const TOPICS = {
   },
 };
 // ═══════════════════════════════════════════════════════════════════
-// DATI CONTI CORRENTI
+// DATI CONTI CORRENTI (Aggiornato)
 // ═══════════════════════════════════════════════════════════════════
 export const CONTI_CORRENTI = [
   {
@@ -1484,20 +1484,60 @@ export const CONTI_CORRENTI = [
     name: "BBVA Conto Online",
     tags: ["zero_spese", "remunerato_cashback"], 
     canoneMensile: 0,
-    rendimento: "4% sul saldo", 
+    rendimento: "4% lordo sul saldo", 
     vantaggioPrincipale: "Cashback 4% primo mese",
-    note: "Carta di debito gratuita e zero commissioni all'estero.",
+    note: "Nessun costo nascosto. Bonifici istantanei e carta di debito gratuiti.",
     link: "[IL_TUO_LINK_FINANCEADS_BBVA]"
   },
   {
     id: "hype",
-    name: "Hype",
+    name: "Hype Base",
     tags: ["zero_spese", "giovani"],
     canoneMensile: 0,
     rendimento: "N/A",
-    vantaggioPrincipale: "Attivazione in 5 min con selfie",
-    note: "Ideale per under 30. Bonifici gratuiti e salvadanaio smart.",
+    vantaggioPrincipale: "Gestione risparmi via App",
+    note: "Ideale per under 30. Salvadanaio smart e carta virtuale immediata.",
     link: "[IL_TUO_LINK_FINANCEADS_HYPE]"
+  },
+  {
+    id: "revolut",
+    name: "Revolut Standard",
+    tags: ["zero_spese", "giovani"],
+    canoneMensile: 0,
+    rendimento: "Fino al 3.06% (Fondi)",
+    vantaggioPrincipale: "Zero commissioni cambio valuta",
+    note: "Il conto perfetto per chi viaggia o fa acquisti online all'estero.",
+    link: "[INSERISCI_LINK_REVOLUT]"
+  },
+  {
+    id: "fineco",
+    name: "FinecoBank",
+    tags: ["giovani", "business"], // Spesso lo usano anche i professionisti per il trading
+    canoneMensile: 3.95,
+    rendimento: "Accesso a ETF/Fondi",
+    vantaggioPrincipale: "Canone azzerabile (Gratis Under 30)",
+    note: "La banca n.1 in Italia per il trading. Prelievi gratuiti sopra i 100€.",
+    link: "[INSERISCI_LINK_FINECO]"
+  },
+  {
+    id: "isybank",
+    name: "Isybank (Gruppo Intesa)",
+    tags: ["zero_spese", "giovani"],
+    canoneMensile: 0,
+    rendimento: "N/A",
+    vantaggioPrincipale: "Prelievi cardless gratuiti",
+    note: "La banca 100% digitale di Intesa Sanpaolo. Solida e senza fronzoli.",
+    link: "[INSERISCI_LINK_ISYBANK]"
+  },
+  {
+    id: "ing",
+    name: "Conto Corrente Arancio",
+    tags: ["zero_spese"],
+    canoneMensile: 0,
+    rendimento: "3% per 12 mesi",
+    vantaggioPrincipale: "Canone zero con stipendio",
+    note: "Carta di Credito Mastercard Gold inclusa a zero spese (con accredito).",
+    link: "[INSERISCI_LINK_ING]"
   },
   {
     id: "finom",
@@ -1506,7 +1546,7 @@ export const CONTI_CORRENTI = [
     canoneMensile: 5,
     rendimento: "N/A",
     vantaggioPrincipale: "Fatturazione elettronica integrata",
-    note: "Conto aziendale ideale per Partite IVA e freelance.",
+    note: "Ideale per Partite IVA e Freelance. Conciliazione bancaria automatica.",
     link: "[IL_TUO_LINK_FINANCEADS_FINOM]"
   }
 ];
