@@ -20,18 +20,15 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       </p>
       <div class="hero-ctas">
         <a href="#strumenti" class="hero-btn-glow">Usa i Tool Gratuiti ↓</a>
-        <a href="#mercato" class="hero-btn-glass">Confronta il Mercato</a>
       </div>
     </div>
   </section>
 
   <div class="trust-strip">
     <div class="trust-inner">
-      <div class="trust-stars">
-        <span class="stars">★★★★★</span>
-        <span class="trust-score">4.8/5</span>
-        <span class="trust-text">Già <strong>2.500+ famiglie</strong> stanno ottimizzando le loro spese con noi.</span>
-      </div>
+      <span class="stars">★★★★★</span>
+      <span class="trust-score">4.8/5</span>
+      <span class="trust-text">Già <strong>2.500+ famiglie</strong> stanno ottimizzando le loro spese con noi.</span>
     </div>
   </div>
 
@@ -47,43 +44,43 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
         <div class="tools-slider">
           
           <a href="/guida-risparmio" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #3b82f6;">📖</div>
+            <div class="icon-squircle glass-squircle" style="color: #3b82f6;">📖</div>
             <h3 class="tool-name">Guida Risparmio 2026</h3>
             <p class="tool-desc">Le strategie pratiche per tagliare gli sprechi domestici quest'anno.</p>
           </a>
 
           <a href="/checklist" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #10b981;">✅</div>
+            <div class="icon-squircle glass-squircle" style="color: #10b981;">✅</div>
             <h3 class="tool-name">Checklist Salvavita</h3>
             <p class="tool-desc">12 azioni concrete da spuntare per sbloccare fino a €4.000/anno.</p>
           </a>
 
           <a href="/analisi-bolletta" class="tool-card tool-featured">
-            <div class="tool-icon" style="background: rgba(255,255,255,0.2); color: #fff;">🔍</div>
+            <div class="icon-squircle" style="background: rgba(255,255,255,0.2); color: #fff;">🔍</div>
             <h3 class="tool-name" style="color: #fff;">Analizza Bollette AI</h3>
             <p class="tool-desc" style="color: rgba(255,255,255,0.8);">Trascina il PDF. L'AI calcola all'istante quanti soldi stai regalando al fornitore.</p>
           </a>
 
           <a href="/mutuo" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #8b5cf6;">🏠</div>
+            <div class="icon-squircle glass-squircle" style="color: #8b5cf6;">🏠</div>
             <h3 class="tool-name">Simulatore Mutui</h3>
             <p class="tool-desc">Calcola la rata, l'ammortamento e scopri se ti conviene surrogare.</p>
           </a>
 
           <a href="/bollo_revisione" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #f43f5e;">🚗</div>
+            <div class="icon-squircle glass-squircle" style="color: #f43f5e;">🚗</div>
             <h3 class="tool-name">Memo Scadenze Auto</h3>
             <p class="tool-desc">Inserisci la targa, al bollo e alla revisione ci pensiamo noi via email.</p>
           </a>
 
           <a href="/quanto-spendo" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #f59e0b;">🧮</div>
+            <div class="icon-squircle glass-squircle" style="color: #f59e0b;">🧮</div>
             <h3 class="tool-name">Quanto Spendo?</h3>
             <p class="tool-desc">Scopri in 60 secondi il tuo "tesoretto" nascosto e dove puoi ottimizzare.</p>
           </a>
 
           <a href="/carburante" class="tool-card">
-            <div class="tool-icon glass-squircle" style="color: #06b6d4;">⛽</div>
+            <div class="icon-squircle glass-squircle" style="color: #06b6d4;">⛽</div>
             <h3 class="tool-name">Analisi Mobilità</h3>
             <p class="tool-desc">Benzina, Diesel o Elettrico? Calcola il costo reale al chilometro.</p>
           </a>
@@ -100,12 +97,12 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
       <div class="market-grid">
         
-        <a href="/luce-gas" class="market-card highlight-card">
+        <a href="/luce-gas" class="market-card">
           <div class="market-top">
             <div class="icon-squircle" style="background: #fef3c7; color: #d97706;">⚡🔥</div>
             <h3 class="market-name">Luce & Gas</h3>
           </div>
-          <p class="market-desc">Smetti di pagare la fedeltà al vecchio fornitore. Scopri le tariffe fisse o variabili migliori per le tue utenze, singole o congiunte.</p>
+          <p class="market-desc">Smetti di pagare la fedeltà al vecchio fornitore. Scopri le tariffe migliori.</p>
           <div class="market-btn" style="background: #f59e0b;">Scopri le offerte →</div>
         </a>
 
@@ -177,19 +174,19 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 <style>
   /* ── GLOBALS PER INDEX ── */
   .icon-squircle {
-    width: 52px; height: 52px; border-radius: 16px;
+    width: 56px; height: 56px; border-radius: 16px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 24px; flex-shrink: 0;
+    font-size: 26px; flex-shrink: 0;
   }
   .glass-squircle {
-    background: rgba(15,23,42,0.04); border: 1px solid rgba(0,0,0,0.05);
+    background: rgba(15,23,42,0.03); border: 1px solid rgba(0,0,0,0.05);
   }
 
-  /* ── HERO (MESH & GLOW) ── */
+  /* ── HERO ── */
   .hero {
     position: relative; background: #0A0F1C;
     padding: 100px 20px 80px; text-align: center;
-    overflow: hidden; min-height: 520px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; min-height: 480px; display: flex; align-items: center; justify-content: center;
   }
   .hero-bg-mesh {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -199,13 +196,12 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     position: absolute; filter: blur(90px); border-radius: 50%; opacity: 0.6;
     animation: floatBlob 15s ease-in-out infinite alternate;
   }
-  .blob-1 { top: -20%; left: -10%; width: 50vw; height: 50vw; background: rgba(5, 150, 105, 0.4); animation-delay: 0s; }
+  .blob-1 { top: -20%; left: -10%; width: 50vw; height: 50vw; background: rgba(5, 150, 105, 0.4); }
   .blob-2 { bottom: -20%; right: -10%; width: 40vw; height: 40vw; background: rgba(124, 58, 237, 0.4); animation-delay: -5s; }
   .blob-3 { top: 40%; left: 50%; width: 30vw; height: 30vw; background: rgba(59, 130, 246, 0.3); transform: translate(-50%, -50%); animation-delay: -10s; }
   @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 10%) scale(1.1); } }
   
   .hero-inner { position: relative; z-index: 1; max-width: 800px; width: 100%; margin: 0 auto; }
-  
   .hero-title {
     font-family: 'Playfair Display', serif; font-size: 54px; font-weight: 800;
     color: #ffffff; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px;
@@ -217,7 +213,6 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
   .hero-sub {
     font-size: 18px; color: #94a3b8; line-height: 1.6; margin-bottom: 40px; font-weight: 400; max-width: 640px; margin-left: auto; margin-right: auto;
   }
-  
   .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   .hero-btn-glow {
     background: var(--color-primary); color: #fff; font-size: 16px; font-weight: 700;
@@ -225,91 +220,74 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     box-shadow: 0 0 30px rgba(5,150,105,0.5); transition: all 0.3s var(--ease-fluid);
   }
   .hero-btn-glow:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(5,150,105,0.7); }
-  
   .hero-btn-glass {
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(12px); color: #fff; font-size: 16px; font-weight: 600;
-    padding: 16px 32px; border-radius: 100px; transition: all 0.3s var(--ease-fluid);
+    padding: 16px 32px; border-radius: 100px; transition: all 0.3s;
   }
   .hero-btn-glass:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
 
-  /* ── TRUST STRIP (CENTERED) ── */
+  /* ── TRUST STRIP ── */
   .trust-strip { background: #fff; border-bottom: 1px solid rgba(0,0,0,0.04); padding: 16px 20px; }
-  .trust-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: center; }
-  .trust-stars { display: flex; align-items: center; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .stars { color: #FBBF24; font-size: 18px; letter-spacing: 2px; text-shadow: 0 2px 8px rgba(251,191,36,0.4); }
+  .trust-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .stars { color: #FBBF24; font-size: 18px; letter-spacing: 2px; }
   .trust-score { font-size: 14px; font-weight: 800; color: #0f172a; margin-right: 8px; }
-  .trust-text { font-size: 13px; color: #64748b; }
+  .trust-text { font-size: 14px; color: #64748b; }
   .trust-text strong { color: #0f172a; }
 
-  /* ── PAGE CONTENT & PILLARS ── */
+  /* ── PAGE CONTENT ── */
   .page-content { max-width: 1080px; margin: 0 auto; }
   .pillar { padding-top: 80px; padding-left: 24px; padding-right: 24px; }
   .pillar-header { margin-bottom: 32px; text-align: left; }
   .pillar-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.5px; }
   .pillar-sub { font-size: 16px; color: #64748b; line-height: 1.6; }
 
-  /* ── SEZIONE 1: SLIDER TOOL (HORIZONTAL SCROLL) ── */
-  .slider-wrapper {
-    /* Sforiamo il padding del contenitore per fare in modo che lo scroll prenda tutto lo schermo ma parta allineato */
-    margin-left: -24px; margin-right: -24px;
-  }
+  /* ── SLIDER TOOL Orizzontale ── */
+  .slider-wrapper { margin-left: -24px; margin-right: -24px; }
   .tools-slider {
     display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 10px 24px 40px 24px; /* Padding bottom per l'ombra delle card */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;
+    padding: 10px 24px 40px 24px; scrollbar-width: none;
   }
-  .tools-slider::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+  .tools-slider::-webkit-scrollbar { display: none; }
   
   .tool-card {
-    flex: 0 0 280px; scroll-snap-align: start;
+    flex: 0 0 240px; scroll-snap-align: start;
     background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 24px; padding: 24px;
     text-decoration: none; transition: all 0.4s var(--ease-fluid); position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02); display: flex; flex-direction: column;
   }
   .tool-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
   
   .tool-featured { background: linear-gradient(135deg, #0f172a, #1e293b); border: none; }
   .tool-featured:hover { box-shadow: 0 20px 40px -10px rgba(15,23,42,0.4); }
 
-  .tool-icon { margin-bottom: 20px; }
+  .icon-squircle { margin-bottom: 20px; }
   .tool-name { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
   .tool-desc { font-size: 14px; color: #64748b; line-height: 1.5; font-weight: 400; }
 
-  /* ── SEZIONE 2: COMPARATORI ── */
+  /* ── COMPARATORI GRID ── */
   .pillar-market { margin-top: 20px; padding-top: 60px; border-top: 1px solid rgba(0,0,0,0.06); }
-  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 40px; }
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
   
   .market-card {
-    background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 32px; padding: 32px;
+    background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 28px; padding: 28px;
     display: flex; flex-direction: column; transition: all 0.4s var(--ease-fluid); text-decoration: none;
   }
-  .highlight-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr auto; align-items: center; gap: 32px; background: linear-gradient(to right, #fff, #fefce8); border-color: #fde68a; }
-  
   .market-card:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -12px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
   .market-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
   .market-name { font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px; }
   .market-desc { font-size: 14px; color: #64748b; font-weight: 400; line-height: 1.6; margin-bottom: 32px; flex: 1; }
   
   .market-btn {
-    text-align: center; color: #fff; font-size: 15px; font-weight: 700; padding: 16px 24px; border-radius: 16px;
+    text-align: center; color: #fff; font-size: 15px; font-weight: 700; padding: 14px 20px; border-radius: 16px;
     transition: all 0.3s var(--ease-fluid); width: 100%; box-shadow: 0 8px 20px -6px rgba(0,0,0,0.3);
   }
   .market-card:hover .market-btn { transform: scale(1.02); filter: brightness(1.05); }
 
-  /* ── RESPONSIVE MOBILE ── */
-  @media (max-width: 900px) {
-    .highlight-card { grid-template-columns: 1fr; gap: 16px; }
-    .hero-title { font-size: 42px; }
-  }
   @media (max-width: 768px) {
     .hero { padding: 80px 20px 60px; min-height: auto; }
     .hero-title { font-size: 36px; }
-    .hero-sub { font-size: 16px; }
     .hero-btn-glow, .hero-btn-glass { width: 100%; }
-    .pillar { padding-top: 50px; }
     .pillar-title { font-size: 28px; }
-    .market-grid { grid-template-columns: 1fr; gap: 16px; }
   }
 </style>
