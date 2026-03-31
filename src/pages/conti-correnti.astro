@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ContiComp } from '../components/ContiComp.jsx';
+---
+
+<Layout 
+  title="Confronto Conti Correnti Online | SoldiBuoni" 
+  description="Trova il miglior conto corrente online: zero spese, con cashback o per giovani. Confronta le offerte bancarie più vantaggiose."
+>
+  <div style="max-width: 1080px; margin: 0 auto; padding: 60px 20px;">
+    
+    <div style="text-align: center; margin-bottom: 48px;">
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0f172a; margin-bottom: 16px; letter-spacing: -1px;">
+        Banche vecchie, <span style="color: #10b981;">costi inutili.</span>
+      </h1>
+      <p style="font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+        Scegli un conto moderno: canone zero, interessi sulla tua liquidità e gestione 100% digitale dallo smartphone.
+      </p>
+    </div>
+
+    <ContiComp client:load color="#10b981" />
+
+  </div>
+</Layout>
