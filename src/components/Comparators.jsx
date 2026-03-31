@@ -65,7 +65,7 @@ export function AffiliateRow({ title, providerName, description, link, priceElem
       style={{
         background: `linear-gradient(145deg, #ffffff, rgba(255,255,255,0.9))`,
         borderRadius: 24,
-        padding: '2px', // Bordo luminoso gradient
+        padding: '2px', 
         marginBottom: 24,
         backgroundClip: 'padding-box',
         position: 'relative',
@@ -138,114 +138,13 @@ export function Badge({ text, color }) {
   );
 }
 
-export function EnergiaComp({ color }) {
-  const [consumo, setConsumo] = useState(2700);
-  const [filtroTipo, setFiltroTipo] = useState('tutti');
-  const [sort, setSort] = useState('costo');
-
-  const [providers, setProviders] = useState(ENERGY_PROVIDERS);
+// ── COMPONENTE UNIVERSITÀ (RIATTIVATO) ──
+export function IstruzioneComp({ color = '#475569' }) {
+  const [facolta, setFacolta] = useState('Economia');
+  const [livello, setLivello] = useState('med');
+  
+  const [uniData, setUniData] = useState(UNI_DATA);
   const [isLive, setIsLive] = useState(false);
-
-  useEffect(() => {
-    async function fetchPrices() {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 4000);
-        const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices", { signal: controller.signal });
-        clearTimeout(timeout);
-        if (!res.ok) return;
-        const payload = await res.json();
-        const validEnergia = Array.isArray(payload?.data?.energia) ? payload.data.energia.filter(p => typeof p.prezzo === 'number') : [];
-        if (validEnergia.length >= 3) {
-          setProviders(validEnergia);
-          setIsLive(true);
-        }
-      } catch (err) { }
-    }
-    fetchPrices();
-  }, []);
-
-  const sorted = useMemo(() => {
-    let w = providers.map((p) => ({ ...p, costoAnnuo: p.prezzo * consumo + p.fisso * 12 }));
-    if (filtroTipo === 'fisso') w = w.filter((p) => p.tipo && p.tipo.toLowerCase().startsWith('fisso'));
-    if (filtroTipo === 'variabile') w = w.filter((p) => p.tipo && p.tipo.toLowerCase().startsWith('variabil'));
-    return sort === 'costo' ? w.sort((a, b) => a.costoAnnuo - b.costoAnnuo) : w.sort((a, b) => a.prezzo - b.prezzo);
-  }, [consumo, sort, filtroTipo, providers]);
-
-  return (
-    <div className="comp-container">
-      <StyleInjector />
-      <h2 className="comp-title">Comparatore Luce</h2>
-      
-      <div className="comp-controls glass-panel">
-        <label className="comp-label">Consumo annuo: <span style={{ color }}>{consumo.toLocaleString()} kWh</span></label>
-        <input type="range" min={1000} max={6000} step={100} value={consumo} onChange={(e) => setConsumo(+e.target.value)} className="custom-slider" style={{'--slider-color': color}} />
-        <div className="comp-range-labels"><span>1.000</span><span>6.000 kWh</span></div>
-        
-        <div style={{ display: 'flex', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
-          {[['tutti', 'Tutte'], ['fisso', 'Prezzo Fisso'], ['variabile', 'Prezzo Variabile']].map(([v, l]) => (
-            <button key={v} onClick={() => setFiltroTipo(v)} className={`filter-btn ${filtroTipo === v ? 'active' : ''}`} style={{'--active-bg': color}}>{l}</button>
-          ))}
-        </div>
-      </div>
-
-      {/* ── CARD AFFILIAZIONE ENERGIA ── */}
-      <AffiliateRow 
-        title="Scelta di SoldiBuoni"
-        providerName="Reset Energia"
-        description="Tariffa green 100% chiara, gestione smart e zero costi nascosti. Ideale per abbattere la bolletta."
-        link="[INSERISCI_LINK_RESET_ENERGIA]"
-        color={color}
-        statsElement={
-          <>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Vantaggio</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>Prezzo Ingrosso</div>
-            </div>
-          </>
-        }
-        priceElement={
-          <>
-            <div style={{ fontSize: 11, color: '#94a3b8' }}>Attivazione</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: color }}>Gratis</div>
-          </>
-        }
-      />
-
-      {sorted.map((p, i) => (
-        <ProviderRow key={(p.name || '') + p.tipo + p.prezzo} p={p} i={i} color={color}>
-          <div style={{ flex: 1, minWidth: 160 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-              <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-              {i === 0 && <Badge text="PIÙ ECONOMICA" color={color} />}
-              {p.verde && <span style={{ fontSize: 12, color: '#059669', fontWeight: 600 }}>🌿 Green</span>}
-            </div>
-            <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo} {p.offerName ? ' — ' + p.offerName : ''}</span>
-          </div>
-          <div className="comparator-stats" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>€/kWh</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a' }}>{p.prezzo.toFixed(3)}</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Fisso/mese</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a' }}>€{p.fisso}</div>
-            </div>
-            <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Stima annua</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{Math.round(p.costoAnnuo)}</div>
-            </div>
-          </div>
-        </ProviderRow>
-      ))}
-    </div>
-  );
-}
-
-export function GasComp({ color }) {
-  const [consumo, setConsumo] = useState(1000);
-  const [filtroTipo, setFiltroTipo] = useState('tutti');
-  const [providers, setProviders] = useState(GAS_PROVIDERS);
 
   useEffect(() => {
     async function fetchPrices() {
@@ -253,45 +152,106 @@ export function GasComp({ color }) {
         const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
         if (!res.ok) return;
         const payload = await res.json();
-        if (payload?.data?.gas) setProviders(payload.data.gas);
-      } catch (err) { }
+        if (payload?.data?.universita && Object.keys(payload.data.universita).length > 0) {
+          setUniData(payload.data.universita);
+          setIsLive(true);
+        }
+      } catch (err) {}
     }
     fetchPrices();
   }, []);
 
-  const sorted = useMemo(() => {
-    let w = providers.map((p) => ({ ...p, costoAnnuo: p.prezzo * consumo + p.fisso * 12 }));
-    if (filtroTipo !== 'tutti') w = w.filter((p) => p.tipo && p.tipo.toLowerCase().includes(filtroTipo));
-    return w.sort((a, b) => a.costoAnnuo - b.costoAnnuo);
-  }, [consumo, filtroTipo, providers]);
+  const data = uniData[facolta] || [];
+  const sorted = useMemo(() => [...data].sort((a, b) => a[livello] - b[livello]), [data, livello]);
+  const maxVal = Math.max(...sorted.map((s) => s[livello]), 1);
 
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore Gas</h2>
-      <div className="comp-controls glass-panel">
-        <label className="comp-label">Consumo annuo: <span style={{ color }}>{consumo.toLocaleString()} Smc</span></label>
-        <input type="range" min={200} max={2500} step={50} value={consumo} onChange={(e) => setConsumo(+e.target.value)} className="custom-slider" style={{'--slider-color': color}} />
-        <div className="comp-range-labels"><span>200</span><span>2.500 Smc</span></div>
+      <h2 className="comp-title">Confronto Rette Universitarie {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
+      
+      <div className="glass-panel" style={{ marginBottom: 24 }}>
+        <label className="comp-label">Facoltà:</label>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
+          {UNI_FACOLTA.map((f) => (
+            <button key={f} onClick={() => setFacolta(f)} className={`filter-btn ${facolta === f ? 'active' : ''}`} style={{'--active-bg': color}}>{f}</button>
+          ))}
+        </div>
+
+        <label className="comp-label">Fascia di reddito (ISEE):</label>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {[['min', 'ISEE Basso'], ['med', 'ISEE Medio'], ['max', 'ISEE Alto']].map(([v, l]) => (
+            <button key={v} onClick={() => setLivello(v)} className={`filter-btn ${livello === v ? 'active' : ''}`} style={{'--active-bg': color, flex: 1}}>{l}</button>
+          ))}
+        </div>
       </div>
+
+      {sorted.map((u, i) => (
+        <div key={u.uni} className="provider-card" style={{ background: '#fff', borderRadius: 24, padding: '24px 28px', marginBottom: 16, border: '1px solid rgba(0,0,0,0.04)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both` }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 18 }}>{u.uni}</span>
+                {i === 0 && <Badge text="PIÙ ECONOMICA" color={color} />}
+              </div>
+              <span style={{ fontSize: 13, color: '#64748b' }}>📍 {u.citta} • {u.tipo}</span>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Retta annua stima</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{u[livello].toLocaleString()}</div>
+            </div>
+          </div>
+          
+          <div style={{ background: '#f1f5f9', borderRadius: 8, height: 8, overflow: 'hidden', marginBottom: 8 }}>
+            <div style={{ height: '100%', borderRadius: 8, background: `linear-gradient(90deg, ${color}88, ${color})`, width: `${(u[livello] / maxVal) * 100}%`, transition: 'width 0.5s ease' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>
+            <span>Min: €{u.min.toLocaleString()}</span>
+            <span>Max: €{u.max.toLocaleString()}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── COMPONENTE FONDI PENSIONE (RIATTIVATO) ──
+export function PensioneComp({ color = '#0284c7' }) {
+  const [funds, setFunds] = useState(PENSION_FUNDS);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    async function fetchPrices() {
+      try {
+        const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
+        if (!res.ok) return;
+        const payload = await res.json();
+        const valid = Array.isArray(payload?.data?.pensione) ? payload.data.pensione.filter(p => typeof p.costo === 'number') : [];
+        if (valid.length >= 3) { setFunds(valid); setIsLive(true); }
+      } catch (err) {}
+    }
+    fetchPrices();
+  }, []);
+
+  const sorted = useMemo(() => [...funds].sort((a, b) => a.costo - b.costo), [funds]);
+
+  return (
+    <div className="comp-container">
+      <StyleInjector />
+      <h2 className="comp-title">Comparatore Fondi Pensione {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
+      
       {sorted.map((p, i) => (
-        <ProviderRow key={(p.name || '') + p.tipo + p.prezzo} p={p} i={i} color={color}>
-          <div style={{ flex: 1 }}>
+        <ProviderRow key={p.name} p={p} i={i} color={color}>
+          <div style={{ flex: 1, minWidth: 180 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
               <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-              {i === 0 && <Badge text="MIGLIORE" color={color} />}
+              {i === 0 && <Badge text="MIGLIOR ISC" color={color} />}
             </div>
-            <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo}</span>
+            <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo} • {p.note}</span>
           </div>
           <div className="comparator-stats" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>€/Smc</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a' }}>{p.prezzo.toFixed(2)}</div>
-            </div>
-            <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Stima annua</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{Math.round(p.costoAnnuo)}</div>
-            </div>
+            <div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>ISC (10 anni)</div><div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a' }}>{p.costo}%</div></div>
+            <div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Rend. 10a</div><div style={{ fontSize: 16, fontWeight: 700, color: '#059669' }}>+{p.rendimento10y}%</div></div>
           </div>
         </ProviderRow>
       ))}
@@ -299,7 +259,129 @@ export function GasComp({ color }) {
   );
 }
 
-export function InternetComp({ color }) {
+// ── COMPONENTE ASSICURAZIONE SANITARIA (RIATTIVATO) ──
+export function SaluteComp({ color = '#ea580c' }) {
+  const [piano, setPiano] = useState('standard');
+  const sorted = useMemo(() => [...HEALTH_INSURANCE].sort((a, b) => a[piano] - b[piano]), [piano]);
+  
+  return (
+    <div className="comp-container">
+      <StyleInjector />
+      <h2 className="comp-title">Comparatore Assicurazioni Sanitarie</h2>
+      <div className="glass-panel" style={{ marginBottom: 24 }}>
+        <label className="comp-label">Livello di copertura desiderato:</label>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {[['base', 'Base'], ['standard', 'Standard'], ['premium', 'Premium']].map(([v, l]) => (
+            <button key={v} onClick={() => setPiano(v)} className={`filter-btn ${piano === v ? 'active' : ''}`} style={{'--active-bg': color, flex: 1}}>{l}</button>
+          ))}
+        </div>
+      </div>
+      {sorted.map((p, i) => (
+        <ProviderRow key={p.name} p={p} i={i} color={color}>
+          <div style={{ flex: 1, minWidth: 180 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
+              {i === 0 && <Badge text="MIGLIORE" color={color} />}
+            </div>
+            <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
+              {p.dentale && <span style={{ fontSize: 10, background: '#dcfce7', color: '#166534', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🦷 Dentale</span>}
+              {p.oculistica && <span style={{ fontSize: 10, background: '#dbeafe', color: '#1e40af', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>👁️ Oculistica</span>}
+              {p.ricovero && <span style={{ fontSize: 10, background: '#fef3c7', color: '#92400e', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🏥 Ricovero</span>}
+            </div>
+          </div>
+          <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 80 }}>
+            <div style={{ fontSize: 11, color: '#94a3b8' }}>€/mese</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{p[piano]}</div>
+          </div>
+        </ProviderRow>
+      ))}
+    </div>
+  );
+}
+
+// ── COMPONENTE SCADENZARIO AUTO (RIATTIVATO E ABBELLITO) ──
+export function CalendarioAuto({ color = '#f43f5e' }) {
+  const [form, setForm] = useState({ targa: '', immatricolazione: '', ultimoTagliando: '', email: '', nome: '' });
+  const [scadenze, setScadenze] = useState(null);
+  const [apiStatus, setApiStatus] = useState('idle');
+
+  const calcola = async () => {
+    if (!form.email || !form.email.includes('@')) { alert('Inserisci un indirizzo email valido'); return; }
+    if (!form.immatricolazione) { alert('Inserisci la data di immatricolazione'); return; }
+
+    const s = [];
+    const now = new Date();
+    
+    if (form.immatricolazione) {
+      const imm = new Date(form.immatricolazione);
+      let nb = new Date(now.getFullYear(), imm.getMonth(), 1);
+      if (nb < now) nb.setFullYear(nb.getFullYear() + 1);
+      s.push({ tipo: 'Bollo Auto', data: nb, icon: '💳', desc: 'Pagamento annuale tassa di possesso' });
+
+      let revDate = new Date(imm);
+      revDate.setFullYear(revDate.getFullYear() + 4);
+      if (revDate < now) {
+         revDate = new Date(now.getFullYear(), imm.getMonth(), imm.getDate());
+         if (revDate < now) revDate.setFullYear(revDate.getFullYear() + 2);
+      }
+      s.push({ tipo: 'Revisione', data: revDate, icon: '🔍', desc: 'Controllo obbligatorio sicurezza e emissioni' });
+    }
+    
+    let gi = new Date(now.getFullYear(), 10, 15);
+    if (gi < now) gi.setFullYear(gi.getFullYear() + 1);
+    s.push({ tipo: 'Gomme Invernali', data: gi, icon: '🛞', desc: 'Obbligo catene o pneumatici invernali' });
+
+    s.sort((a, b) => a.data - b.data);
+    setScadenze(s);
+    setApiStatus('success'); 
+  };
+
+  const inputStyle = { padding: '14px 20px', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.06)', background: '#f8fafc', fontSize: '15px', fontFamily: 'inherit', outline: 'none', width: '100%', transition: 'all 0.3s' };
+
+  return (
+    <div className="comp-container">
+      <StyleInjector />
+      <h2 className="comp-title">Memo Scadenze Auto</h2>
+      <p style={{ color: '#64748b', marginBottom: 24, fontSize: 15 }}>Inserisci i dati del veicolo per generare il tuo scadenzario personalizzato.</p>
+      
+      <div className="glass-panel" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div style={{ gridColumn: '1 / -1' }}><label className="comp-label">Nome e Cognome *</label><input style={inputStyle} value={form.nome} onChange={e => setForm({...form, nome: e.target.value})} placeholder="Mario Rossi" /></div>
+        <div style={{ gridColumn: '1 / -1' }}><label className="comp-label">Email per i promemoria *</label><input type="email" style={inputStyle} value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="mario@email.it" /></div>
+        <div><label className="comp-label">Targa</label><input style={inputStyle} value={form.targa} onChange={e => setForm({...form, targa: e.target.value.toUpperCase()})} placeholder="AB123CD" /></div>
+        <div><label className="comp-label">Immatricolazione *</label><input type="date" style={inputStyle} value={form.immatricolazione} onChange={e => setForm({...form, immatricolazione: e.target.value})} /></div>
+        
+        <button onClick={calcola} className="btn-solid-premium" style={{ '--btn-bg': color, gridColumn: '1 / -1', marginTop: 16 }}>Genera Scadenzario →</button>
+      </div>
+
+      {scadenze && (
+        <div style={{ marginTop: 32, animation: 'fadeInUp 0.5s ease-out' }}>
+          <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', marginBottom: 16 }}>Le tue prossime scadenze</h3>
+          {scadenze.map((s, i) => {
+            const days = Math.ceil((s.data - new Date()) / 86400000);
+            const urgent = days < 30;
+            return (
+              <div key={i} style={{ background: '#fff', borderRadius: 20, padding: 20, marginBottom: 12, border: `1px solid ${urgent ? '#fecaca' : 'rgba(0,0,0,0.04)'}`, borderLeft: `6px solid ${urgent ? '#ef4444' : color}`, display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
+                <span style={{ fontSize: 32 }}>{s.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: 0 }}>{s.tipo}</h4>
+                  <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>{s.desc}</p>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: urgent ? '#ef4444' : '#0f172a' }}>{s.data.toLocaleDateString('it-IT')}</div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: urgent ? '#ef4444' : '#94a3b8' }}>{days > 0 ? `Tra ${days} giorni` : 'SCADUTA'}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── COMPONENTI INTERNET E RC AUTO (CON AFFILIAZIONE E DESIGN) ──
+export function InternetComp({ color = '#8b5cf6' }) {
+  const [filtroTipo, setFiltroTipo] = useState('tutti');
   const [providers, setProviders] = useState(INTERNET_PROVIDERS);
   
   useEffect(() => {
@@ -309,7 +391,7 @@ export function InternetComp({ color }) {
         if (!res.ok) return;
         const payload = await res.json();
         if (payload?.data?.internet) setProviders(payload.data.internet);
-      } catch (err) { }
+      } catch (err) {}
     }
     fetchPrices();
   }, []);
@@ -321,25 +403,10 @@ export function InternetComp({ color }) {
       <StyleInjector />
       <h2 className="comp-title">Comparatore Internet & Fibra</h2>
 
-      {/* ── CARD AFFILIAZIONE INTERNET ── */}
       <AffiliateRow 
-        title="Offerta in Evidenza"
-        providerName="Wind Tre"
-        description="Super Fibra FTTH alla massima velocità. Modem incluso e zero vincoli nascosti per la tua casa."
-        link="[INSERISCI_LINK_WIND_TRE]"
-        color={color}
-        statsElement={
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: '#94a3b8' }}>Velocità Fino a</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>2.5 Gbps</div>
-          </div>
-        }
-        priceElement={
-          <>
-            <div style={{ fontSize: 11, color: '#94a3b8' }}>Prezzo Speciale</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: color }}>Vedi Sito</div>
-          </>
-        }
+        title="Offerta in Evidenza" providerName="Wind Tre" description="Super Fibra FTTH alla massima velocità. Modem incluso e zero vincoli nascosti per la tua casa." link="[INSERISCI_LINK_WIND_TRE]" color={color}
+        statsElement={<div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Velocità Fino a</div><div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>2.5 Gbps</div></div>}
+        priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Prezzo Speciale</div><div style={{ fontSize: 18, fontWeight: 800, color: color }}>Vedi Sito</div></>}
       />
 
       {sorted.map((p, i) => (
@@ -351,14 +418,8 @@ export function InternetComp({ color }) {
             <span style={{ fontSize: 13, color: '#64748b' }}>{p.note}</span>
           </div>
           <div className="comparator-stats" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Velocità</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>{p.velocita}</div>
-            </div>
-            <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>€/mese</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{p.prezzo.toFixed(2)}</div>
-            </div>
+            <div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Velocità</div><div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>{p.velocita}</div></div>
+            <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}><div style={{ fontSize: 11, color: '#94a3b8' }}>€/mese</div><div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{p.prezzo.toFixed(2)}</div></div>
           </div>
         </ProviderRow>
       ))}
@@ -366,7 +427,7 @@ export function InternetComp({ color }) {
   );
 }
 
-export function RCAutoComp({ color }) {
+export function RCAutoComp({ color = '#ec4899' }) {
   const [garanzie, setGaranzie] = useState(['rc']);
   const toggle = (g) => setGaranzie((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
   const [insuranceData, setInsuranceData] = useState(INSURANCE_DATA);
@@ -378,7 +439,7 @@ export function RCAutoComp({ color }) {
         if (!res.ok) return;
         const payload = await res.json();
         if (payload?.data?.rc_auto) setInsuranceData(payload.data.rc_auto);
-      } catch (err) { }
+      } catch (err) {}
     }
     fetchPrices();
   }, []);
@@ -400,7 +461,7 @@ export function RCAutoComp({ color }) {
       <h2 className="comp-title">Comparatore RC Auto</h2>
       
       <div className="comp-controls glass-panel" style={{ marginBottom: 32 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Aggiungi garanzie accessorie:</p>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Aggiungi garanzie accessorie (Stima):</p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {[{ id: 'furto', l: 'Furto/Incendio' }, { id: 'kasko', l: 'Kasko' }, { id: 'cristalli', l: 'Cristalli' }, { id: 'assistenza', l: 'Assistenza' }].map(g => (
             <button key={g.id} onClick={() => toggle(g.id)} className={`filter-btn ${garanzie.includes(g.id) ? 'active' : ''}`} style={{'--active-bg': color}}>
@@ -410,25 +471,10 @@ export function RCAutoComp({ color }) {
         </div>
       </div>
 
-      {/* ── CARD AFFILIAZIONE RC AUTO ── */}
       <AffiliateRow 
-        title="Scelta di SoldiBuoni"
-        providerName="Prima Assicurazioni"
-        description="L'assicurazione online più scelta in Italia. Gestione sinistri rapida 100% via app e prezzi imbattibili."
-        link="[INSERISCI_LINK_PRIMA_ASSICURAZIONI]"
-        color={color}
-        statsElement={
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: '#94a3b8' }}>Preventivo in</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>1 Minuto</div>
-          </div>
-        }
-        priceElement={
-          <>
-            <div style={{ fontSize: 11, color: '#94a3b8' }}>Calcolo online</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: color }}>Gratuito</div>
-          </>
-        }
+        title="Scelta di SoldiBuoni" providerName="Prima Assicurazioni" description="L'assicurazione online più scelta in Italia. Gestione sinistri rapida 100% via app e prezzi imbattibili." link="[INSERISCI_LINK_PRIMA_ASSICURAZIONI]" color={color}
+        statsElement={<div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Preventivo in</div><div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>1 Minuto</div></div>}
+        priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Calcolo online</div><div style={{ fontSize: 18, fontWeight: 800, color: color }}>Gratuito</div></>}
       />
 
       {sorted.map((p, i) => (
@@ -451,21 +497,10 @@ export function RCAutoComp({ color }) {
   );
 }
 
-// Dummy fallbacks for other components to avoid breaking if imported
-export function SaluteComp({ color }) { return <GenericComp />; }
-export function IstruzioneComp({ color }) { return <GenericComp />; }
-export function PensioneComp({ color }) { return <GenericComp />; }
-export function CalendarioAuto({ color }) { return <GenericComp />; }
-
-export function GenericComp({ color }) {
-  return (
-    <div className="glass-panel" style={{ textAlign: 'center', padding: 60 }}>
-      <div style={{ fontSize: 44, marginBottom: 14 }}>🚀</div>
-      <h3 style={{ color: '#0f172a', fontSize: 20, fontWeight: 800, marginBottom: 8 }}>In Arrivo</h3>
-      <p style={{ color: '#64748b', fontSize: 15 }}>Stiamo applicando il nuovo design premium a questa sezione.</p>
-    </div>
-  );
-}
+// ── VECCHI COMPONENTI (FALLBACK - PER NON ROMPERE VECCHIE PAGINE SE ESISTONO) ──
+export function EnergiaComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
+export function GasComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
+export function GenericComp({ color }) { return <div className="glass-panel" style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 44, marginBottom: 14 }}>🚀</div><h3 style={{ color: '#0f172a', fontSize: 20, fontWeight: 800, marginBottom: 8 }}>In Arrivo</h3><p style={{ color: '#64748b', fontSize: 15 }}>Stiamo applicando il nuovo design premium a questa sezione.</p></div>; }
 
 // ── INJECTION STILI GLOBALI COMPONENTI ──
 function StyleInjector() {
@@ -475,7 +510,6 @@ function StyleInjector() {
       .comp-title { font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 24px; letter-spacing: -0.5px; }
       .glass-panel { background: rgba(255,255,255,0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 24px; padding: 28px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); margin-bottom: 24px; }
       .comp-label { font-size: 15px; fontWeight: 700; color: #0f172a; display: block; margin-bottom: 12px; }
-      .comp-range-labels { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; font-weight: 500; margin-top: 8px; }
       
       .custom-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; outline: none; }
       .custom-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--slider-color); cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; }
