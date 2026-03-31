@@ -1475,3 +1475,38 @@ export const TOPICS = {
     },
   },
 };
+// ═══════════════════════════════════════════════════════════════════
+// DATI CONTI CORRENTI
+// ═══════════════════════════════════════════════════════════════════
+export const CONTI_CORRENTI = [
+  {
+    id: "bbva",
+    name: "BBVA Conto Online",
+    tags: ["zero_spese", "remunerato_cashback"], 
+    canoneMensile: 0,
+    rendimento: "4% sul saldo", 
+    vantaggioPrincipale: "Cashback 4% primo mese",
+    note: "Carta di debito gratuita e zero commissioni all'estero.",
+    link: "[IL_TUO_LINK_FINANCEADS_BBVA]"
+  },
+  {
+    id: "hype",
+    name: "Hype",
+    tags: ["zero_spese", "giovani"],
+    canoneMensile: 0,
+    rendimento: "N/A",
+    vantaggioPrincipale: "Attivazione in 5 min con selfie",
+    note: "Ideale per under 30. Bonifici gratuiti e salvadanaio smart.",
+    link: "[IL_TUO_LINK_FINANCEADS_HYPE]"
+  },
+  {
+    id: "finom",
+    name: "Finom Business",
+    tags: ["business"],
+    canoneMensile: 5,
+    rendimento: "N/A",
+    vantaggioPrincipale: "Fatturazione elettronica integrata",
+    note: "Conto aziendale ideale per Partite IVA e freelance.",
+    link: "[IL_TUO_LINK_FINANCEADS_FINOM]"
+  }
+];
