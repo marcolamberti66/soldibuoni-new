@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { LuceGasComp } from '../components/LuceGasComp.jsx';
+---
+
+<Layout title="Migliori Tariffe Luce e Gas | SoldiBuoni" description="Confronta le migliori offerte per l'energia elettrica e il gas metano. Scopri la tariffa più economica per la tua casa.">
+  <div style="max-width: 1080px; margin: 0 auto; padding: 60px 20px;">
+    
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 800; color: #0f172a; margin-bottom: 16px;">
+        Le migliori tariffe <span style="background: linear-gradient(to right, #d97706, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Luce & Gas</span>
+      </h1>
+      <p style="font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto;">
+        Seleziona l'utenza che ti interessa, regola i tuoi consumi e scopri immediatamente l'offerta più conveniente aggiornata ad oggi.
+      </p>
+    </div>
+
+    <LuceGasComp client:load />
+
+  </div>
+</Layout>
