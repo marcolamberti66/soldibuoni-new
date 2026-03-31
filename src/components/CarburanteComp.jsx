@@ -26,6 +26,8 @@ export function CarburanteComp({ color = '#06b6d4' }) {
 
   return (
     <div style={{ maxWidth: 840, margin: '0 auto' }}>
+      
+      {/* PANNELLO DI CONTROLLO IDENTICO AI COMPARATORI */}
       <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 32, border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)', marginBottom: 32 }}>
         <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 24 }}>1. Imposta la tua mobilità</h3>
         <div style={{ marginBottom: 32 }}>
@@ -50,13 +52,15 @@ export function CarburanteComp({ color = '#06b6d4' }) {
         </div>
       </div>
 
+      {/* RIGA AFFILIAZIONE */}
       <AffiliateRow 
-        title="Consiglio di Mobilità" providerName="Telepass Plus" description="Salta le code, paga i parcheggi e le strisce blu direttamente dall'app. Zero contanti." link="[INSERISCI_LINK_TELEPASS]" color={color}
+        title="Consiglio di Mobilità" providerName="Telepass Plus" description="Salta le code in autostrada, paga i parcheggi e le strisce blu direttamente dall'app." link="[INSERISCI_LINK_TELEPASS]" color={color}
         priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Canone 1° anno</div><div style={{ fontSize: 18, fontWeight: 800, color: color }}>Gratis</div></>}
       />
 
       <h3 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20 }}>Spesa Stimata Annuale</h3>
 
+      {/* RISULTATI (Usa le ProviderRow degli altri comparatori) */}
       {costs.map((c, i) => (
         <ProviderRow key={c.id} p={{ name: c.label, link: null }} i={i} color={color}>
           <div style={{ flex: 1, minWidth: 200 }}>
@@ -66,7 +70,7 @@ export function CarburanteComp({ color = '#06b6d4' }) {
               {currentFuel === c.id && <Badge text="LA TUA AUTO" color="#475569" />}
               {i === 0 && <Badge text="PIÙ ECONOMICO" color={color} />}
             </div>
-            <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0 36px' }}>Prezzo medio: {c.price} {c.unit} • Consumo: {c.defaultCons} {c.id === 'elettrico' ? 'kWh/100km' : 'km/l'}</p>
+            <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0 36px' }}>Prezzo medio: {c.price} {c.unit} • Consumo stima: {c.defaultCons} {c.id === 'elettrico' ? 'kWh/100km' : 'km/l'}</p>
           </div>
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 100 }}>
@@ -74,7 +78,6 @@ export function CarburanteComp({ color = '#06b6d4' }) {
               <div style={{ fontSize: 24, fontWeight: 800, color: currentFuel === c.id ? '#0f172a' : color }}>€{c.costoAnnuo.toLocaleString()}</div>
             </div>
           </div>
-          {/* Barra di costo visiva */}
           <div style={{ width: '100%', background: '#f1f5f9', borderRadius: 8, height: 8, marginTop: 12, overflow: 'hidden' }}>
             <div style={{ height: '100%', background: c.color, width: `${(c.costoAnnuo / maxCost) * 100}%`, borderRadius: 8, transition: 'width 0.5s ease' }}></div>
           </div>
