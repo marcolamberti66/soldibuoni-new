@@ -1550,3 +1550,12 @@ export const CONTI_CORRENTI = [
     link: "[IL_TUO_LINK_FINANCEADS_FINOM]"
   }
 ];
+// ═══════════════════════════════════════════════════════════════════
+// DATI CARBURANTE E MOBILITÀ
+// ═══════════════════════════════════════════════════════════════════
+export const FUEL_PRICES = {
+  benzina: { price: 1.85, label: "Benzina", unit: "€/l", icon: "⛽", color: "#f59e0b", defaultCons: 14 },
+  diesel: { price: 1.74, label: "Diesel", unit: "€/l", icon: "🛢️", color: "#3b82f6", defaultCons: 18 },
+  gpl: { price: 0.71, label: "GPL", unit: "€/l", icon: "🍃", color: "#10b981", defaultCons: 10 },
+  elettrico: { price: 0.25, label: "Elettrico (Ricarica Domestica)", unit: "€/kWh", icon: "⚡", color: "#8b5cf6", defaultCons: 16 }
+};
