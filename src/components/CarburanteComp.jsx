@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { FUEL_PRICES } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx'; 
 
@@ -33,7 +33,7 @@ export function CarburanteComp({ color = '#06b6d4' }) {
         <div style={{ marginBottom: 32 }}>
           <label style={{ fontSize: 15, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>Chilometri percorsi all'anno:</span> 
-            <span style={{ color: color, fontSize: 20 }}>{kmAnnui.toLocaleString()} km</span>
+            <span style={{ color: color, fontSize: 20 }}>{kmAnnui.toLocaleString('it-IT')} km</span>
           </label>
           <input type="range" min={5000} max={50000} step={1000} value={kmAnnui} onChange={(e) => setKmAnnui(+e.target.value)} style={{ width: '100%', accentColor: color, height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none', marginTop: 16, marginBottom: 8 }} />
         </div>
@@ -75,7 +75,7 @@ export function CarburanteComp({ color = '#06b6d4' }) {
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 100 }}>
               <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Spesa Annua</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: currentFuel === c.id ? '#0f172a' : color }}>€{c.costoAnnuo.toLocaleString()}</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: currentFuel === c.id ? '#0f172a' : color }}>€{c.costoAnnuo.toLocaleString('it-IT')}</div>
             </div>
           </div>
           <div style={{ width: '100%', background: '#f1f5f9', borderRadius: 8, height: 8, marginTop: 12, overflow: 'hidden' }}>
