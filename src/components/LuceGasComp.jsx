@@ -67,7 +67,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
             <label style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: 12 }}>
-              Consumo annuo stimato: <span style={{ color: '#d97706' }}>{consumoLuce.toLocaleString()} kWh</span>
+              Consumo annuo stimato: <span style={{ color: '#d97706' }}>{consumoLuce.toLocaleString('it-IT')} kWh</span>
             </label>
             <input type="range" min={1000} max={6000} step={100} value={consumoLuce} onChange={(e) => setConsumoLuce(+e.target.value)} style={{ width: '100%', accentColor: '#d97706', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
@@ -100,7 +100,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
             <label style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: 12 }}>
-              Consumo annuo stimato: <span style={{ color: '#dc2626' }}>{consumoGas.toLocaleString()} Smc</span>
+              Consumo annuo stimato: <span style={{ color: '#dc2626' }}>{consumoGas.toLocaleString('it-IT')} Smc</span>
             </label>
             <input type="range" min={200} max={2500} step={50} value={consumoGas} onChange={(e) => setConsumoGas(+e.target.value)} style={{ width: '100%', accentColor: '#dc2626', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
