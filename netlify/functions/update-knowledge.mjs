@@ -7,9 +7,25 @@ import { getStore } from "@netlify/blobs";
 // SCHEDULE: Mensile (il 1° del mese alle 07:00)
 // ═══════════════════════════════════════════════════════════════════
 
+// Estrattore robusto per ignorare testo discorsivo o markdown di Claude
+function extractJSON(text) {
+  const match = text.match(/[\{\[]/);
+  if (!match) throw new Error("Nessun inizio JSON trovato nella risposta");
+  
+  const start = match.index;
+  const isArray = match[0] === '[';
+  const closingChar = isArray ? ']' : '}';
+  const end = text.lastIndexOf(closingChar);
+  
+  if (end === -1) throw new Error("Nessuna fine JSON trovata nella risposta");
+  
+  const jsonString = text.substring(start, end + 1);
+  return JSON.parse(jsonString);
+}
+
 async function askClaude(prompt, maxTokens) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
+  if (!apiKey) throw new Error("ANTHROPIC_API_KEY non configurata");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -30,45 +46,65 @@ async function askClaude(prompt, maxTokens) {
 
   const data = await res.json();
   const raw = data.content && data.content[0] && data.content[0].text ? data.content[0].text.trim() : "";
-  if (!raw) throw new Error("Empty response from Claude");
+  if (!raw) throw new Error("Risposta vuota da Claude");
 
-  const cleaned = raw.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "").trim();
-  return JSON.parse(cleaned);
+  return extractJSON(raw);
 }
 
 // --- FUNZIONI DI GENERAZIONE DATI ---
 
 async function getUniversita() {
   console.log("  Fetching Università...");
-  const prompt = `Compila tabella rette universitarie italiane 2025/2026. 10 facoltà: Economia, Giurisprudenza, Ingegneria, Medicina, Architettura, Scienze Politiche, Lettere e Filosofia, Psicologia, Informatica, Scienze della Comunicazione. Includi 5-7 università (Pubbliche e Private: Bocconi, LUISS, Statale Milano, ecc.). Campi: facolta, uni, citta, min, med, max, tipo. JSON ARRAY:`;
-  return await askClaude(prompt, 10000);
+  const prompt = `Compila una tabella delle rette universitarie italiane A.A. 2025/2026.
+  Restituisci dati per ESATTAMENTE queste 10 facolta: Economia, Giurisprudenza, Ingegneria, Medicina, Architettura, Scienze Politiche, Lettere e Filosofia, Psicologia, Informatica, Scienze della Comunicazione.
+  Per OGNI facolta includi 5-7 universita (es. Bocconi, LUISS, Statale Milano, ecc.).
+  Campi richiesti: facolta, uni, citta, min (numero), med (numero), max (numero), tipo ("Pubblica"|"Privata").
+  FORMATO: ESCLUSIVAMENTE un JSON ARRAY. Niente markdown.`;
+  
+  const parsed = await askClaude(prompt, 10000);
+  if (!Array.isArray(parsed)) throw new Error("Atteso un array da Claude");
+
+  // Raggruppamento dati (logica originale)
+  const grouped = {};
+  parsed.forEach(o => {
+    const fac = o.facolta || "Altro";
+    if (!grouped[fac]) grouped[fac] = [];
+    grouped[fac].push({ uni: o.uni, citta: o.citta, min: o.min, med: o.med, max: o.max, tipo: o.tipo });
+  });
+  return grouped;
 }
 
 async function getRcAuto() {
   console.log("  Fetching RC Auto...");
-  const prompt = `Tabella premi RC Auto aprile 2026. Compagnie: UnipolSai, Generali, Allianz Direct, Zurich Connect, ConTe.it, Prima Assicurazioni, Verti. Campi: name, rc, furto, kasko, cristalli, assistenza, note, link. JSON ARRAY:`;
+  const prompt = `Tabella premi RC Auto aprile 2026. Profilo standard: classe 1-5, Milano.
+  Compagnie: UnipolSai, Generali, Allianz Direct, Zurich Connect, ConTe.it, Prima Assicurazioni, Verti.
+  Campi: name, rc, furto, kasko, cristalli, assistenza, note, link.
+  FORMATO: ESCLUSIVAMENTE un JSON ARRAY. Niente markdown.`;
   return await askClaude(prompt, 3000);
 }
 
 async function getPensione() {
   console.log("  Fetching Pensione...");
-  const prompt = `Tabella fondi pensione (Cometa, Amundi, Allianz Insieme, ecc.). Campi: name, tipo, costo (ISC), rendimento5y, rendimento10y, settore, note, link. JSON ARRAY:`;
+  const prompt = `Tabella fondi pensione aggiornata. 
+  Fondi: Cometa, Fonte, Fon.Te, Amundi SecondaPensione, Allianz Insieme, Arca Previdenza, Generali Global.
+  Campi: name, tipo ("Negoziale"|"Aperto"|"PIP"), costo (numero ISC), rendimento5y (numero), rendimento10y (numero), settore, note, link.
+  FORMATO: ESCLUSIVAMENTE un JSON ARRAY. Niente markdown.`;
   return await askClaude(prompt, 3000);
 }
 
 async function getConti() {
   console.log("  Fetching Conti Correnti...");
-  const prompt = `Compila una tabella dei migliori 7 conti correnti italiani (aprile 2026). Includi: BBVA, Hype, Fineco, Revolut, Illimity, Intesa Sanpaolo (XME), UniCredit (MyGenius). 
-  Campi richiesti: id (stringa minuscola), name, tags (array di stringhe es: ["Zero Spese", "Rendimento"]), canoneMensile (numero), rendimento (stringa es: "4%"), vantaggioPrincipale (stringa), note (max 50 caratteri), link. 
-  FORMATO: SOLO JSON array valido.`;
+  const prompt = `Compila una tabella dei migliori 7 conti correnti italiani (aprile 2026). Includi: BBVA, Hype, Fineco, Revolut, Illimity, Intesa Sanpaolo (XME), UniCredit. 
+  Campi richiesti: id (stringa minuscola), name, tags (array di stringhe es: ["Zero Spese", "Rendimento"]), canoneMensile (numero), rendimento (stringa es: "4%"), vantaggioPrincipale (stringa), note, link. 
+  FORMATO: ESCLUSIVAMENTE un JSON ARRAY. Niente markdown.`;
   return await askClaude(prompt, 3000);
 }
 
 async function getSalute() {
   console.log("  Fetching Assicurazioni Salute...");
-  const prompt = `Compila tabella per 6 assicurazioni sanitarie (UniSalute, Allianz, Generali, AXA, MetLife, Reale Mutua). 
-  Campi: name, base (costo mensile), standard (costo mensile), premium (costo mensile), dentale (booleano), oculistica (booleano), specialistica (booleano), ricovero (booleano), note, link. 
-  FORMATO: SOLO JSON array valido.`;
+  const prompt = `Compila tabella per 6 assicurazioni sanitarie in Italia (UniSalute, Allianz, Generali, AXA, MetLife, Reale Mutua). 
+  Campi: name, base (costo mensile), standard (costo), premium (costo), dentale (booleano), oculistica (booleano), specialistica (booleano), ricovero (booleano), note, link. 
+  FORMATO: ESCLUSIVAMENTE un JSON ARRAY. Niente markdown.`;
   return await askClaude(prompt, 3000);
 }
 
@@ -76,8 +112,8 @@ async function getCarburante() {
   console.log("  Fetching Prezzi Carburante...");
   const prompt = `Fornisci i prezzi medi nazionali dei carburanti in Italia (aprile 2026).
   Restituisci un OGGETTO con chiavi: benzina, diesel, gpl, elettrico. 
-  Ogni chiave contiene: price (numero), label (stringa es: "Benzina Senza Piombo"), unit (es: "€/l" o "€/kWh"), icon, color, defaultCons (numero km/l o kWh/100km). 
-  FORMATO: SOLO JSON.`;
+  Ogni chiave contiene: price (numero), label (stringa), unit (es: "€/l" o "€/kWh"), icon, color, defaultCons (numero km/l o kWh/100km). 
+  FORMATO: ESCLUSIVAMENTE un OGGETTO JSON. Niente markdown.`;
   return await askClaude(prompt, 2000);
 }
 
@@ -90,7 +126,6 @@ export default async function handler(req) {
   const newData = {};
   const errors = [];
 
-  // Esecuzione sequenziale per evitare spike di rate limit
   const tasks = [
     { name: 'universita', fn: getUniversita },
     { name: 'rc_auto', fn: getRcAuto },
@@ -118,7 +153,7 @@ export default async function handler(req) {
         existing = parsed.data || {};
       }
     } catch (e) {
-      console.warn("  Impossibile leggere blob esistente, creo nuovo set.");
+      console.warn("  Nessun blob esistente, creo un nuovo set.");
     }
 
     const merged = { ...existing, ...newData };
