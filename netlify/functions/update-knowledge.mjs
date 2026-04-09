@@ -1,19 +1,17 @@
 import { getStore } from "@netlify/blobs";
 
 // ═══════════════════════════════════════════════════════════════════
-// UPDATE-KNOWLEDGE: Aggiorna Università, RC Auto, Fondi Pensione
+// UPDATE-KNOWLEDGE: Aggiorna Università, RC Auto, Pensione, Conti, Salute, Carburante
 //
-// OTTIMIZZAZIONE: Usa Haiku (10x più economico di Sonnet)
-// Per generare dati da conoscenze interne, Haiku è sufficiente.
-//
-// SCHEDULE: Ogni lunedì alle 07:00 (1 ora dopo update-prices)
+// OTTIMIZZAZIONE: Usa Haiku (Velocità e risparmio)
+// SCHEDULE: Mensile (il 1° del mese alle 07:00)
 // ═══════════════════════════════════════════════════════════════════
 
 async function askClaude(prompt, maxTokens) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
 
-  var res = await fetch("https://api.anthropic.com/v1/messages", {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,218 +26,125 @@ async function askClaude(prompt, maxTokens) {
     }),
   });
 
-  if (!res.ok) throw new Error("Claude API error " + res.status + ": " + (await res.text()));
+  if (!res.ok) throw new Error(`Claude API error ${res.status}: ${await res.text()}`);
 
-  var data = await res.json();
-  var raw = data.content && data.content[0] && data.content[0].text ? data.content[0].text.trim() : "";
+  const data = await res.json();
+  const raw = data.content && data.content[0] && data.content[0].text ? data.content[0].text.trim() : "";
   if (!raw) throw new Error("Empty response from Claude");
 
-  var cleaned = raw.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "").trim();
+  const cleaned = raw.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "").trim();
   return JSON.parse(cleaned);
 }
 
+// --- FUNZIONI DI GENERAZIONE DATI ---
+
 async function getUniversita() {
-  console.log("  Asking Claude for universita data...");
-
-  var prompt = `Compila una tabella delle rette universitarie italiane A.A. 2025/2026.
-
-Restituisci dati per ESATTAMENTE queste 10 facolta (usa questi nomi IDENTICI):
-Economia, Giurisprudenza, Ingegneria, Medicina, Architettura, Scienze Politiche, Lettere e Filosofia, Psicologia, Informatica, Scienze della Comunicazione
-
-Per OGNI facolta includi 5-7 universita scelte SOLO tra queste (solo quelle che offrono realmente quella facolta):
-
-PRIVATE: Bocconi (Milano), LUISS (Roma), Cattolica (Milano), IULM (Milano), San Raffaele (Milano), Humanitas (Milano), Campus Bio-Medico (Roma)
-PUBBLICHE: Statale Milano, La Sapienza (Roma), Bologna, Padova, Politecnico Milano, Politecnico Torino, Torino, Federico II (Napoli), IUAV (Venezia), Trento, Bicocca (Milano)
-
-REGOLE RETTE PUBBLICHE:
-- min: no-tax area = 156 euro (ISEE sotto 13.000)
-- med: ISEE 25.000-30.000 = tipicamente 1000-1500 euro (Politecnici un po' di piu)
-- max: senza ISEE = tipicamente 2400-3800 euro (Politecnici fino a 3800)
-
-REGOLE RETTE PRIVATE:
-- Bocconi: min 5900, med 9000-9200, max 12500-13000
-- LUISS: min 5500, med 8000-8500, max 11000-12000
-- Cattolica: min 3500-3800, med 5500-6200, max 8000-8900
-- IULM: min 4500, med 6500, max 9000
-- San Raffaele Medicina: min 8000, med 14000, max 20000
-- Humanitas Medicina: min 9000, med 15000, max 20000
-- Campus Bio-Medico: min 6000, med 10000, max 15000
-
-FORMATO: SOLO JSON array valido. Niente markdown, backtick, commenti.
-Campi: facolta, uni, citta, min, med, max, tipo ("Pubblica"|"Privata")
-Almeno 55 oggetti. Ordina per facolta poi med crescente.
-
-JSON ARRAY:`;
-
-  var parsed = await askClaude(prompt, 10000);
-  if (!Array.isArray(parsed) || parsed.length < 30) throw new Error("Universita: too few results (" + parsed.length + ")");
-
-  var seen = new Set();
-  var deduped = parsed.filter(function (o) {
-    var key = (o.uni || "").toLowerCase() + "|" + (o.facolta || "").toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  var grouped = {};
-  deduped.forEach(function (o) {
-    var fac = o.facolta || "Altro";
-    if (!grouped[fac]) grouped[fac] = [];
-    grouped[fac].push({ uni: o.uni, citta: o.citta, min: o.min, med: o.med, max: o.max, tipo: o.tipo });
-  });
-
-  console.log("  Universita: " + deduped.length + " entries, " + Object.keys(grouped).length + " facolta");
-  return grouped;
+  console.log("  Fetching Università...");
+  const prompt = `Compila tabella rette universitarie italiane 2025/2026. 10 facoltà: Economia, Giurisprudenza, Ingegneria, Medicina, Architettura, Scienze Politiche, Lettere e Filosofia, Psicologia, Informatica, Scienze della Comunicazione. Includi 5-7 università (Pubbliche e Private: Bocconi, LUISS, Statale Milano, ecc.). Campi: facolta, uni, citta, min, med, max, tipo. JSON ARRAY:`;
+  return await askClaude(prompt, 10000);
 }
 
 async function getRcAuto() {
-  console.log("  Asking Claude for rc_auto data...");
-
-  var prompt = `Compila una tabella dei premi assicurativi RC Auto in Italia per marzo 2026.
-
-Profilo standard: classe di merito 1-5, provincia Milano, auto media (es. VW Golf o simile).
-
-Includi queste 7 compagnie:
-UnipolSai, Generali, Allianz Direct, Zurich Connect, ConTe.it, Prima Assicurazioni, Verti
-
-Per ogni compagnia fornisci i costi annui in euro di:
-- rc: premio RC Auto base annuo
-- furto: garanzia Furto e Incendio annua
-- kasko: garanzia Kasko annua
-- cristalli: garanzia Cristalli annua
-- assistenza: Assistenza Stradale annua
-- note: breve descrizione (max 40 caratteri)
-- link: URL del sito ufficiale della compagnia per preventivo (es. "https://www.allianzdirect.it/assicurazione-auto/")
-
-LINEE GUIDA PREZZI:
-- RC base: 280-420 euro (online piu economiche, tradizionali piu care)
-- Furto/Incendio: 85-140 euro
-- Kasko: 350-520 euro
-- Cristalli: 30-50 euro
-- Assistenza: 20-40 euro
-
-FORMATO: SOLO JSON array valido. Niente markdown, backtick, commenti.
-Campi: name, rc, furto, kasko, cristalli, assistenza, note, link
-Ordina per rc crescente.
-
-JSON ARRAY:`;
-
-  var parsed = await askClaude(prompt, 3000);
-  if (!Array.isArray(parsed) || parsed.length < 5) throw new Error("RC Auto: too few results (" + parsed.length + ")");
-
-  console.log("  RC Auto: " + parsed.length + " compagnie");
-  return parsed;
+  console.log("  Fetching RC Auto...");
+  const prompt = `Tabella premi RC Auto aprile 2026. Compagnie: UnipolSai, Generali, Allianz Direct, Zurich Connect, ConTe.it, Prima Assicurazioni, Verti. Campi: name, rc, furto, kasko, cristalli, assistenza, note, link. JSON ARRAY:`;
+  return await askClaude(prompt, 3000);
 }
 
 async function getPensione() {
-  console.log("  Asking Claude for pensione data...");
-
-  var prompt = `Compila una tabella dei principali fondi pensione italiani con dati aggiornati.
-
-Includi ESATTAMENTE questi 7 fondi:
-1. Cometa (Negoziale, Metalmeccanici)
-2. Fonte (Negoziale, Commercio/Turismo)
-3. Fon.Te (Negoziale, Vari CCNL)
-4. Amundi SecondaPensione (Aperto, Tutti)
-5. Allianz Insieme (Aperto, Tutti)
-6. Arca Previdenza (Aperto, Tutti)
-7. Generali Global (PIP, Tutti)
-
-Per ogni fondo fornisci:
-- name: nome del fondo
-- tipo: "Negoziale" | "Aperto" | "PIP"
-- costo: ISC in percentuale annua
-- rendimento5y: rendimento medio annuo composto a 5 anni (%)
-- rendimento10y: rendimento medio annuo composto a 10 anni (%)
-- settore: categoria lavoratori
-- note: breve descrizione (max 50 caratteri)
-- link: URL del sito ufficiale del fondo (es. "https://www.cometafondo.it/")
-
-LINEE GUIDA:
-- Negoziali: ISC 0.15-0.25%, rendimenti 3.5-4.5% (5y), 4.5-5.5% (10y)
-- Aperti: ISC 1.0-1.4%, rendimenti 4.5-5.5% (5y), 5.0-6.0% (10y)
-- PIP: ISC 1.8-2.2%, rendimenti 3.0-3.5% (5y), 3.5-4.0% (10y)
-
-FORMATO: SOLO JSON array valido. Niente markdown, backtick, commenti.
-Ordina per costo (ISC) crescente.
-
-JSON ARRAY:`;
-
-  var parsed = await askClaude(prompt, 3000);
-  if (!Array.isArray(parsed) || parsed.length < 5) throw new Error("Pensione: too few results (" + parsed.length + ")");
-
-  console.log("  Pensione: " + parsed.length + " fondi");
-  return parsed;
+  console.log("  Fetching Pensione...");
+  const prompt = `Tabella fondi pensione (Cometa, Amundi, Allianz Insieme, ecc.). Campi: name, tipo, costo (ISC), rendimento5y, rendimento10y, settore, note, link. JSON ARRAY:`;
+  return await askClaude(prompt, 3000);
 }
 
+async function getConti() {
+  console.log("  Fetching Conti Correnti...");
+  const prompt = `Compila una tabella dei migliori 7 conti correnti italiani (aprile 2026). Includi: BBVA, Hype, Fineco, Revolut, Illimity, Intesa Sanpaolo (XME), UniCredit (MyGenius). 
+  Campi richiesti: id (stringa minuscola), name, tags (array di stringhe es: ["Zero Spese", "Rendimento"]), canoneMensile (numero), rendimento (stringa es: "4%"), vantaggioPrincipale (stringa), note (max 50 caratteri), link. 
+  FORMATO: SOLO JSON array valido.`;
+  return await askClaude(prompt, 3000);
+}
+
+async function getSalute() {
+  console.log("  Fetching Assicurazioni Salute...");
+  const prompt = `Compila tabella per 6 assicurazioni sanitarie (UniSalute, Allianz, Generali, AXA, MetLife, Reale Mutua). 
+  Campi: name, base (costo mensile), standard (costo mensile), premium (costo mensile), dentale (booleano), oculistica (booleano), specialistica (booleano), ricovero (booleano), note, link. 
+  FORMATO: SOLO JSON array valido.`;
+  return await askClaude(prompt, 3000);
+}
+
+async function getCarburante() {
+  console.log("  Fetching Prezzi Carburante...");
+  const prompt = `Fornisci i prezzi medi nazionali dei carburanti in Italia (aprile 2026).
+  Restituisci un OGGETTO con chiavi: benzina, diesel, gpl, elettrico. 
+  Ogni chiave contiene: price (numero), label (stringa es: "Benzina Senza Piombo"), unit (es: "€/l" o "€/kWh"), icon, color, defaultCons (numero km/l o kWh/100km). 
+  FORMATO: SOLO JSON.`;
+  return await askClaude(prompt, 2000);
+}
+
+// --- HANDLER PRINCIPALE ---
+
 export default async function handler(req) {
-  console.log("Starting knowledge update (universita, rc_auto, pensione)...");
+  console.log("Avvio aggiornamento mensile Knowledge Base...");
 
-  var store = getStore("prices");
-  var newData = {};
-  var errors = [];
+  const store = getStore("prices");
+  const newData = {};
+  const errors = [];
 
-  try {
-    newData.universita = await getUniversita();
-  } catch (err) {
-    errors.push("universita: " + err.message);
-    console.error("  universita failed: " + err.message);
-  }
+  // Esecuzione sequenziale per evitare spike di rate limit
+  const tasks = [
+    { name: 'universita', fn: getUniversita },
+    { name: 'rc_auto', fn: getRcAuto },
+    { name: 'pensione', fn: getPensione },
+    { name: 'conti_correnti', fn: getConti },
+    { name: 'salute', fn: getSalute },
+    { name: 'carburante', fn: getCarburante }
+  ];
 
-  try {
-    newData.rc_auto = await getRcAuto();
-  } catch (err) {
-    errors.push("rc_auto: " + err.message);
-    console.error("  rc_auto failed: " + err.message);
-  }
-
-  try {
-    newData.pensione = await getPensione();
-  } catch (err) {
-    errors.push("pensione: " + err.message);
-    console.error("  pensione failed: " + err.message);
+  for (const task of tasks) {
+    try {
+      newData[task.name] = await task.fn();
+    } catch (err) {
+      errors.push(`${task.name}: ${err.message}`);
+      console.error(`  Task ${task.name} fallito:`, err.message);
+    }
   }
 
   if (Object.keys(newData).length > 0) {
-    var existing = {};
+    let existing = {};
     try {
-      var raw = await store.get("latest");
+      const raw = await store.get("latest");
       if (raw) {
-        var parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+        const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
         existing = parsed.data || {};
       }
     } catch (e) {
-      console.warn("  Could not read existing blob, starting fresh: " + e.message);
+      console.warn("  Impossibile leggere blob esistente, creo nuovo set.");
     }
 
-    var merged = Object.assign({}, existing, newData);
+    const merged = { ...existing, ...newData };
+    const payload = { 
+      lastUpdated: new Date().toISOString(), 
+      data: merged 
+    };
 
-    var payload = { lastUpdated: new Date().toISOString(), data: merged };
     await store.setJSON("latest", payload);
-    var dateKey = new Date().toISOString().split("T")[0];
-    await store.setJSON("archive-knowledge-" + dateKey, payload);
-    console.log("Merged and saved: " + JSON.stringify(Object.keys(merged)));
+    const dateKey = new Date().toISOString().split("T")[0];
+    await store.setJSON(`archive-knowledge-${dateKey}`, payload);
+    console.log("Dati salvati con successo per:", Object.keys(newData));
   }
 
-  var summary = {
-    success: Object.keys(newData).length > 0,
-    categoriesUpdated: Object.keys(newData),
-    details: {
-      universita: newData.universita ? Object.keys(newData.universita).length + " facolta" : "failed",
-      rc_auto: newData.rc_auto ? newData.rc_auto.length + " compagnie" : "failed",
-      pensione: newData.pensione ? newData.pensione.length + " fondi" : "failed",
-    },
+  const summary = {
+    success: errors.length === 0,
+    updatedCategories: Object.keys(newData),
     errors: errors,
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString()
   };
 
-  console.log("Summary: " + JSON.stringify(summary, null, 2));
   return new Response(JSON.stringify(summary, null, 2), {
     status: 200,
     headers: { "Content-Type": "application/json" },
   });
 }
 
-// Ogni lunedì alle 07:00
-export var config = { schedule: "0 7 * * 1" };
+// Schedule: Ore 07:00, Giorno 1 di ogni mese
+export const config = { schedule: "0 7 1 * *" };
