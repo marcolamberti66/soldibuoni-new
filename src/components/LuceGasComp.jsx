@@ -2,14 +2,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
-// Merge: prende i prezzi dal blob ma preserva i link dal fallback (data.js)
+// Nomi dei provider che hanno il box affiliato — esclusi dalla lista sotto
+const AFFILIATE_NAMES_LUCE = ['Reset Energia'];
+const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
+
 function mergeWithLinks(blobData, fallbackData) {
   const linkMap = {};
   fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
-  return blobData.map(p => ({
-    ...p,
-    link: p.link || linkMap[p.name] || null
-  }));
+  return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
 }
 
 export function LuceGasComp({ color = '#f59e0b' }) {
@@ -27,46 +27,41 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
         if (!res.ok) return;
         const payload = await res.json();
-        
         if (Array.isArray(payload?.data?.energia)) {
-          const valid = payload.data.energia.filter(p => typeof p.prezzo === 'number');
-          setProvidersLuce(mergeWithLinks(valid, ENERGY_PROVIDERS));
+          setProvidersLuce(mergeWithLinks(payload.data.energia.filter(p => typeof p.prezzo === 'number'), ENERGY_PROVIDERS));
         }
         if (Array.isArray(payload?.data?.gas)) {
-          const valid = payload.data.gas.filter(p => typeof p.prezzo === 'number');
-          setProvidersGas(mergeWithLinks(valid, GAS_PROVIDERS));
+          setProvidersGas(mergeWithLinks(payload.data.gas.filter(p => typeof p.prezzo === 'number'), GAS_PROVIDERS));
         }
-      } catch (err) {
-        console.warn("Uso fallback hardcoded.");
-      }
+      } catch (err) { console.warn("Uso fallback hardcoded."); }
     }
     fetchPrices();
   }, []);
 
   const sortedLuce = useMemo(() => {
-    let w = providersLuce.map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }));
-    return w.sort((a, b) => a.costoAnnuo - b.costoAnnuo);
+    return providersLuce
+      .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name))
+      .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }))
+      .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoLuce, providersLuce]);
 
   const sortedGas = useMemo(() => {
-    let w = providersGas.map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }));
-    return w.sort((a, b) => a.costoAnnuo - b.costoAnnuo);
+    return providersGas
+      .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name))
+      .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }))
+      .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoGas, providersGas]);
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
       
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
-        <button 
-          onClick={() => setActiveTab('gas')}
-          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'gas' ? '#fff' : 'transparent', color: activeTab === 'gas' ? '#dc2626' : '#64748b', boxShadow: activeTab === 'gas' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}
-        >
+        <button onClick={() => setActiveTab('gas')}
+          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'gas' ? '#fff' : 'transparent', color: activeTab === 'gas' ? '#dc2626' : '#64748b', boxShadow: activeTab === 'gas' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}>
           🔥 Gas
         </button>
-        <button 
-          onClick={() => setActiveTab('luce')}
-          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'luce' ? '#fff' : 'transparent', color: activeTab === 'luce' ? '#d97706' : '#64748b', boxShadow: activeTab === 'luce' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}
-        >
+        <button onClick={() => setActiveTab('luce')}
+          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'luce' ? '#fff' : 'transparent', color: activeTab === 'luce' ? '#d97706' : '#64748b', boxShadow: activeTab === 'luce' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}>
           ⚡ Luce
         </button>
       </div>
