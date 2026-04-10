@@ -15,6 +15,16 @@ let PRICES_SOURCE = 'hardcoded';
 
 const EASE_FLUID = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
+// ── FIX LINK: merge dati blob con link da data.js ──
+function mergeWithLinks(blobData, fallbackData) {
+  const linkMap = {};
+  fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
+  return blobData.map(p => ({
+    ...p,
+    link: p.link || linkMap[p.name] || null
+  }));
+}
+
 // ── COMPONENTE RIGA NORMALE ──
 export function ProviderRow({ p, i, color, children }) {
   const finalLink = p.link || `https://www.google.com/search?q=${encodeURIComponent(p.name + " offerta sito ufficiale")}`;
@@ -230,7 +240,7 @@ export function PensioneComp({ color = '#0284c7' }) {
         if (!res.ok) return;
         const payload = await res.json();
         const valid = Array.isArray(payload?.data?.pensione) ? payload.data.pensione.filter(p => p.costo !== undefined) : [];
-        if (valid.length >= 3) { setFunds(valid); setIsLive(true); }
+        if (valid.length >= 3) { setFunds(mergeWithLinks(valid, PENSION_FUNDS)); setIsLive(true); }
       } catch (err) {}
     }
     fetchPrices();
@@ -275,7 +285,7 @@ export function SaluteComp({ color = '#ea580c' }) {
         if (!res.ok) return;
         const payload = await res.json();
         if (Array.isArray(payload?.data?.salute)) {
-           setHealthData(payload.data.salute);
+           setHealthData(mergeWithLinks(payload.data.salute, HEALTH_INSURANCE));
            setIsLive(true);
         }
       } catch (err) {}
@@ -413,7 +423,9 @@ export function InternetComp({ color = '#8b5cf6' }) {
         const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
         if (!res.ok) return;
         const payload = await res.json();
-        if (payload?.data?.internet) setProviders(payload.data.internet);
+        if (Array.isArray(payload?.data?.internet)) {
+          setProviders(mergeWithLinks(payload.data.internet, INTERNET_PROVIDERS));
+        }
       } catch (err) {}
     }
     fetchPrices();
@@ -463,7 +475,7 @@ export function RCAutoComp({ color = '#ec4899' }) {
         if (!res.ok) return;
         const payload = await res.json();
         if (Array.isArray(payload?.data?.rc_auto)) {
-          setInsuranceData(payload.data.rc_auto);
+          setInsuranceData(mergeWithLinks(payload.data.rc_auto, INSURANCE_DATA));
           setIsLive(true);
         }
       } catch (err) {}
@@ -471,7 +483,6 @@ export function RCAutoComp({ color = '#ec4899' }) {
     fetchPrices();
   }, []);
 
-  // Estrattore di sicurezza: se incontra roba tipo "450-650", estrae solo il 450
   const extractNumber = (val) => {
     if (typeof val === 'number') return val;
     if (!val) return 0;
@@ -539,7 +550,7 @@ export function RCAutoComp({ color = '#ec4899' }) {
   );
 }
 
-// ── VECCHI COMPONENTI (FALLBACK - PER NON ROMPERE VECCHIE PAGINE SE ESISTONO) ──
+// ── VECCHI COMPONENTI (FALLBACK) ──
 export function EnergiaComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
 export function GasComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
 export function GenericComp({ color }) { return <div className="glass-panel" style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 44, marginBottom: 14 }}>🚀</div><h3 style={{ color: '#0f172a', fontSize: 20, fontWeight: 800, marginBottom: 8 }}>In Arrivo</h3><p style={{ color: '#64748b', fontSize: 15 }}>Stiamo applicando il nuovo design premium a questa sezione.</p></div>; }
