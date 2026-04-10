@@ -2,14 +2,22 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
+// Merge: prende i prezzi dal blob ma preserva i link dal fallback (data.js)
+function mergeWithLinks(blobData, fallbackData) {
+  const linkMap = {};
+  fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
+  return blobData.map(p => ({
+    ...p,
+    link: p.link || linkMap[p.name] || null
+  }));
+}
+
 export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
 
-  // Stati Luce
   const [consumoLuce, setConsumoLuce] = useState(2700);
   const [providersLuce, setProvidersLuce] = useState(ENERGY_PROVIDERS);
   
-  // Stati Gas
   const [consumoGas, setConsumoGas] = useState(1000);
   const [providersGas, setProvidersGas] = useState(GAS_PROVIDERS);
 
@@ -21,10 +29,12 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         const payload = await res.json();
         
         if (Array.isArray(payload?.data?.energia)) {
-          setProvidersLuce(payload.data.energia.filter(p => typeof p.prezzo === 'number'));
+          const valid = payload.data.energia.filter(p => typeof p.prezzo === 'number');
+          setProvidersLuce(mergeWithLinks(valid, ENERGY_PROVIDERS));
         }
         if (Array.isArray(payload?.data?.gas)) {
-          setProvidersGas(payload.data.gas.filter(p => typeof p.prezzo === 'number'));
+          const valid = payload.data.gas.filter(p => typeof p.prezzo === 'number');
+          setProvidersGas(mergeWithLinks(valid, GAS_PROVIDERS));
         }
       } catch (err) {
         console.warn("Uso fallback hardcoded.");
@@ -46,7 +56,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
       
-      {/* SELETTORE TAB STILE IOS — Gas prima, Luce dopo */}
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
         <button 
           onClick={() => setActiveTab('gas')}
@@ -62,7 +71,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </button>
       </div>
 
-      {/* VISTA GAS (ora prima) */}
       {activeTab === 'gas' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
@@ -95,7 +103,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </div>
       )}
 
-      {/* VISTA LUCE */}
       {activeTab === 'luce' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
