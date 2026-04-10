@@ -6,13 +6,15 @@ import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 const AFFILIATE_NAMES_LUCE = ['Reset Energia'];
 const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 
+// Provider da escludere sempre (irrilevanti o duplicati)
+const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
+
 function mergeWithLinks(blobData, fallbackData) {
   const linkMap = {};
   fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
   return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
 }
 
-// FIX: Inietto il CSS mancante per far tornare i bottoni colorati nei box
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
@@ -20,6 +22,11 @@ function StyleInjector() {
       .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
     `}} />
   );
+}
+
+function isExcluded(name) {
+  const lower = name.toLowerCase();
+  return EXCLUDED_NAMES.some(ex => lower.includes(ex.toLowerCase()));
 }
 
 export function LuceGasComp({ color = '#f59e0b' }) {
@@ -50,14 +57,14 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
   const sortedLuce = useMemo(() => {
     return providersLuce
-      .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name))
+      .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name) && !isExcluded(p.name))
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoLuce, providersLuce]);
 
   const sortedGas = useMemo(() => {
     return providersGas
-      .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name))
+      .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name) && !isExcluded(p.name))
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoGas, providersGas]);
