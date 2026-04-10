@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CalcolatoreStipendio } from '../components/CalcolatoreStipendio.jsx';
+---
+<Layout title="Calcolo Stipendio Netto Mensile | SoldiBuoni">
+  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
+      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>Dal Lordo al Netto</h1>
+      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri esattamente quanto ti resterà in tasca ogni mese.</p>
+    </div>
+    <CalcolatoreStipendio client:load />
+  </main>
+</Layout>
