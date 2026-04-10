@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
-// Nomi dei provider che hanno il box affiliato — esclusi dalla lista sotto
+// Provider affiliati — esclusi dalle liste sotto
 const AFFILIATE_NAMES_LUCE = ['Reset Energia'];
 const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 
@@ -10,6 +10,16 @@ function mergeWithLinks(blobData, fallbackData) {
   const linkMap = {};
   fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
   return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
+}
+
+// FIX: Inietto il CSS mancante per far tornare i bottoni colorati nei box
+function StyleInjector() {
+  return (
+    <style dangerouslySetInnerHTML={{__html: `
+      .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -6px var(--btn-bg); white-space: nowrap; }
+      .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
+    `}} />
+  );
 }
 
 export function LuceGasComp({ color = '#f59e0b' }) {
@@ -54,7 +64,34 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
-      
+      <StyleInjector />
+
+      {/* 🏆 BOX AFFILIATO ENI PLENITUDE — SOPRA LE TAB */}
+      <div style={{ marginBottom: 40 }}>
+        <AffiliateRow 
+          title="OFFERTA LUCE + GAS COMBINATA"
+          providerName="Eni Plenitude — Luce & Gas"
+          description="Pacchetto combinato Luce + Gas con gestione digitale, buono spesa da 100€ e sicurezza di un grande gruppo. Offerte Fixa Time Smart e Trend Casa disponibili."
+          link="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530"
+          color="#E2001A"
+          statsElement={
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Promo Attiva</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#E2001A' }}>Buono 100€</div>
+            </div>
+          }
+          priceElement={
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Attivazione</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#10b981' }}>GRATIS</div>
+            </div>
+          }
+        />
+      </div>
+
+      <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20, textAlign: 'center' }}>Confronta le singole offerte</h3>
+
+      {/* SELETTORE TAB — Gas prima, Luce dopo */}
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
         <button onClick={() => setActiveTab('gas')}
           style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'gas' ? '#fff' : 'transparent', color: activeTab === 'gas' ? '#dc2626' : '#64748b', boxShadow: activeTab === 'gas' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}>
@@ -66,6 +103,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </button>
       </div>
 
+      {/* VISTA GAS */}
       {activeTab === 'gas' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
@@ -74,11 +112,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
             </label>
             <input type="range" min={200} max={2500} step={50} value={consumoGas} onChange={(e) => setConsumoGas(+e.target.value)} style={{ width: '100%', accentColor: '#dc2626', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
-
-          <AffiliateRow 
-            title="Offerta in Evidenza" providerName="Eni Plenitude Gas" description="Prezzo bloccato e gestione digitale. Sicurezza di un grande gruppo." link="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530" color="#dc2626"
-            priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Sconto web</div><div style={{ fontSize: 18, fontWeight: 800, color: '#dc2626' }}>Attivo</div></>}
-          />
 
           {sortedGas.map((p, i) => (
             <ProviderRow key={p.name} p={p} i={i} color="#dc2626">
@@ -98,6 +131,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </div>
       )}
 
+      {/* VISTA LUCE */}
       {activeTab === 'luce' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
@@ -106,11 +140,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
             </label>
             <input type="range" min={1000} max={6000} step={100} value={consumoLuce} onChange={(e) => setConsumoLuce(+e.target.value)} style={{ width: '100%', accentColor: '#d97706', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
-
-          <AffiliateRow 
-            title="Scelta di SoldiBuoni" providerName="Reset Energia" description="Tariffa green 100% chiara, gestione smart e zero costi nascosti." link="[INSERISCI_LINK_RESET_ENERGIA]" color="#d97706"
-            priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Attivazione</div><div style={{ fontSize: 18, fontWeight: 800, color: '#d97706' }}>Gratis</div></>}
-          />
 
           {sortedLuce.map((p, i) => (
             <ProviderRow key={p.name} p={p} i={i} color="#d97706">
