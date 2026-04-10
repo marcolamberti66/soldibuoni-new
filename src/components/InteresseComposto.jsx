@@ -29,7 +29,8 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 32 }}>
           <div>
             <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}><span>Capitale iniziale:</span> <span style={{color}}>€ {capitale.toLocaleString('it-IT')}</span></label>
-            <input type="range" min={0} max={50000} step={1000} value={capitale} onChange={(e) => setCapitale(+e.target.value)} style={{ width: '100%', accentColor: color, marginTop: 12 }} />
+            {/* MODIFICA: max 200000 */}
+            <input type="range" min={0} max={200000} step={1000} value={capitale} onChange={(e) => setCapitale(+e.target.value)} style={{ width: '100%', accentColor: color, marginTop: 12 }} />
           </div>
           <div>
             <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}><span>Versamento mensile (PAC):</span> <span style={{color}}>€ {versamento.toLocaleString('it-IT')}</span></label>
@@ -37,7 +38,8 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           </div>
           <div>
             <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}><span>Anni di investimento:</span> <span style={{color}}>{anni} anni</span></label>
-            <input type="range" min={1} max={40} step={1} value={anni} onChange={(e) => setAnni(+e.target.value)} style={{ width: '100%', accentColor: color, marginTop: 12 }} />
+            {/* MODIFICA: max 60 */}
+            <input type="range" min={1} max={60} step={1} value={anni} onChange={(e) => setAnni(+e.target.value)} style={{ width: '100%', accentColor: color, marginTop: 12 }} />
           </div>
           <div>
             <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}><span>Rendimento annuo atteso:</span> <span style={{color}}>{tasso}%</span></label>

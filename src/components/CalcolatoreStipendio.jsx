@@ -48,7 +48,8 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
             <span>RAL (Reddito Annuo Lordo):</span>
             <span style={{ color: color, fontSize: 20 }}>€ {ral.toLocaleString('it-IT')}</span>
           </label>
-          <input type="range" min={10000} max={100000} step={1000} value={ral} onChange={(e) => setRal(+e.target.value)} style={{ width: '100%', accentColor: color, height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none', marginTop: 16 }} />
+          {/* MODIFICA: max portato a 300000 */}
+          <input type="range" min={10000} max={300000} step={1000} value={ral} onChange={(e) => setRal(+e.target.value)} style={{ width: '100%', accentColor: color, height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none', marginTop: 16 }} />
         </div>
 
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>

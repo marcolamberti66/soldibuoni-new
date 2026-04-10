@@ -8,12 +8,12 @@ export function TrovaBonus({ color = '#f59e0b' }) {
 
   const calcolaBonus = () => {
     const b = [];
-    if (dati.figli === 'si') b.push({ nome: 'Assegno Unico Universale', desc: 'Sostegno mensile per ogni figlio a carico.', valore: 'Fino a 200€/mese' });
-    if (dati.eta < 36 && dati.casa === 'nessuna' && dati.isee !== 'alto') b.push({ nome: 'Agevolazioni Mutuo Prima Casa Under 36', desc: 'Esenzione imposte di registro, ipotecaria e catastale.', valore: 'Migliaia di €' });
-    if (dati.casa === 'affitto' && dati.isee === 'basso') b.push({ nome: 'Bonus Affitto / Detrazione Canone', desc: 'Detrazione IRPEF per chi vive in affitto.', valore: 'Fino a 300€/anno' });
-    if (dati.eta <= 35) b.push({ nome: 'Carta Giovani Nazionale', desc: 'Sconti su trasporti, cultura e servizi.', valore: 'Sconti Vari' });
-    if (dati.lavoro === 'piva') b.push({ nome: 'Forfettario (Start-up)', desc: 'Tassazione agevolata al 5% per le nuove P.IVA per 5 anni.', valore: 'Risparmio enorme' });
-    if (dati.isee === 'basso') b.push({ nome: 'Bonus Bollette / Idrico', desc: 'Sconto automatico in bolletta per disagio economico.', valore: 'Variabile' });
+    if (dati.figli === 'si') b.push({ nome: 'Assegno Unico Universale', desc: 'Sostegno mensile per ogni figlio a carico.', valore: 'Fino a 200€/mese', link: 'https://www.inps.it/prestazioni-servizi/assegno-unico-e-universale-per-i-figli-a-carico' });
+    if (dati.eta < 36 && dati.casa === 'nessuna' && dati.isee !== 'alto') b.push({ nome: 'Agevolazioni Mutuo Prima Casa Under 36', desc: 'Esenzione imposte di registro, ipotecaria e catastale.', valore: 'Migliaia di €', link: 'https://www.agenziaentrate.gov.it/portale/web/guest/agevolazioni-prima-casa-under-36' });
+    if (dati.casa === 'affitto' && dati.isee === 'basso') b.push({ nome: 'Bonus Affitto / Detrazione Canone', desc: 'Detrazione IRPEF per chi vive in affitto.', valore: 'Fino a 300€/anno', link: 'https://www.agenziaentrate.gov.it/portale/web/guest/detrazione-canoni-di-locazione' });
+    if (dati.eta <= 35) b.push({ nome: 'Carta Giovani Nazionale', desc: 'Sconti su trasporti, cultura e servizi.', valore: 'Sconti Vari', link: 'https://giovani2030.it/iniziativa/carta-giovani-nazionale/' });
+    if (dati.lavoro === 'piva') b.push({ nome: 'Forfettario (Start-up)', desc: 'Tassazione agevolata al 5% per le nuove P.IVA per 5 anni.', valore: 'Risparmio enorme', link: 'https://www.agenziaentrate.gov.it/portale/web/guest/regime-forfettario-il-regime-agevolato-imprese' });
+    if (dati.isee === 'basso') b.push({ nome: 'Bonus Bollette / Idrico', desc: 'Sconto automatico in bolletta per disagio economico.', valore: 'Variabile', link: 'https://www.arera.it/consumatori/bonus-sociale' });
     return b;
   };
 
@@ -57,7 +57,9 @@ export function TrovaBonus({ color = '#f59e0b' }) {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
                 <div>
                   <h4 style={{ margin: '0 0 4px 0', fontSize: 18, fontWeight: 800, color: '#0f172a' }}>{b.nome}</h4>
-                  <p style={{ margin: 0, fontSize: 14, color: '#64748b' }}>{b.desc}</p>
+                  <p style={{ margin: '0 0 8px 0', fontSize: 14, color: '#64748b' }}>{b.desc}</p>
+                  {/* MODIFICA: Link ufficiale aggiunto qui */}
+                  <a href={b.link} target="_blank" rel="noreferrer" style={{ fontSize: 13, fontWeight: 700, color: color, textDecoration: 'none' }}>Fonte istituzionale →</a>
                 </div>
                 <div style={{ background: `${color}11`, color: color, padding: '6px 12px', borderRadius: 10, fontWeight: 800, fontSize: 13, whiteSpace: 'nowrap' }}>{b.valore}</div>
               </div>
