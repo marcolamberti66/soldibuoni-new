@@ -427,7 +427,7 @@ export function InternetComp({ color = '#8b5cf6' }) {
       <h2 className="comp-title">Comparatore Internet & Fibra</h2>
 
       <AffiliateRow 
-        title="Offerta in Evidenza" providerName="Wind Tre" description="Super Fibra FTTH alla massima velocità. Modem incluso e zero vincoli nascosti per la tua casa." link="[INSERISCI_LINK_WIND_TRE]" color={color}
+        title="Offerta in Evidenza" providerName="Wind Tre" description="Super Fibra FTTH alla massima velocità. Modem incluso e zero vincoli nascosti per la tua casa." link="https://www.awin1.com/cread.php?awinmid=27760&awinaffid=2811530" color={color}
         statsElement={<div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Velocità Fino a</div><div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>2.5 Gbps</div></div>}
         priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Prezzo Speciale</div><div style={{ fontSize: 18, fontWeight: 800, color: color }}>Vedi Sito</div></>}
       />
