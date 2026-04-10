@@ -451,7 +451,7 @@ export function InternetComp({ color = '#8b5cf6' }) {
 }
 
 export function RCAutoComp({ color = '#ec4899' }) {
-  const [garanzie, setGaranzie] = useState([]); // Initialize empty so just basic RC is calculated first
+  const [garanzie, setGaranzie] = useState([]); 
   const toggle = (g) => setGaranzie((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
   const [insuranceData, setInsuranceData] = useState(INSURANCE_DATA);
   const [isLive, setIsLive] = useState(false);
@@ -471,14 +471,21 @@ export function RCAutoComp({ color = '#ec4899' }) {
     fetchPrices();
   }, []);
 
+  // Estrattore di sicurezza: se incontra roba tipo "450-650", estrae solo il 450
+  const extractNumber = (val) => {
+    if (typeof val === 'number') return val;
+    if (!val) return 0;
+    const match = String(val).match(/\d+/);
+    return match ? parseInt(match[0], 10) : 0;
+  };
+
   const sorted = useMemo(() => {
     return insuranceData.map((p) => {
-      // Ensure all values are parsed as valid numbers. Fallback to 0 if Claude messed up.
-      let baseRc = Number(p.rc) || 0;
-      let costFurto = Number(p.furto) || 0;
-      let costKasko = Number(p.kasko) || 0;
-      let costCristalli = Number(p.cristalli) || 0;
-      let costAssistenza = Number(p.assistenza) || 0;
+      let baseRc = extractNumber(p.rc);
+      let costFurto = extractNumber(p.furto);
+      let costKasko = extractNumber(p.kasko);
+      let costCristalli = extractNumber(p.cristalli);
+      let costAssistenza = extractNumber(p.assistenza);
 
       let tot = baseRc;
       if (garanzie.includes('furto')) tot += costFurto;
