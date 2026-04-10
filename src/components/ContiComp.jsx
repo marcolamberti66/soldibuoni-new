@@ -5,6 +5,16 @@ import { ProviderRow, AffiliateRow } from './Comparators.jsx';
 // Provider che appaiono nei box affiliati in cima — esclusi dalla lista sotto
 const AFFILIATE_IDS = ['bbva', 'hype'];
 
+// FIX: Inietto il CSS mancante per far tornare i bottoni colorati nei box
+function StyleInjector() {
+  return (
+    <style dangerouslySetInnerHTML={{__html: `
+      .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -6px var(--btn-bg); white-space: nowrap; }
+      .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
+    `}} />
+  );
+}
+
 export function ContiComp({ color = '#10b981' }) {
   const [conti, setConti] = useState(CONTI_CORRENTI);
 
@@ -25,15 +35,12 @@ export function ContiComp({ color = '#10b981' }) {
   }, []);
 
   const bbvaData = useMemo(() => {
-    return conti.find(c => c.id === 'bbva') || {
-      link: "#", rendimento: "3% lordo", note: "Canone zero per sempre e cashback sugli acquisti."
-    };
+    return conti.find(c => c.id === 'bbva') || { link: "#", rendimento: "3% annuo" };
   }, [conti]);
 
   const hypeData = useMemo(() => {
-    return conti.find(c => c.id === 'hype') || {
-      link: "#", note: "Carta conto smart con gestione via app."
-    };
+    // Preserva il tuo VERO link di affiliazione anche se il Google Sheet è vuoto
+    return conti.find(c => c.id === 'hype') || { link: "https://www.financeads.net/tc.php?t=82784C257247700T" };
   }, [conti]);
 
   // Escludi dalla lista sotto i provider che hanno il box affiliato in cima
@@ -43,16 +50,17 @@ export function ContiComp({ color = '#10b981' }) {
 
   return (
     <div style={{ maxWidth: 840, margin: '0 auto' }}>
+      <StyleInjector />
       
       {/* 🏆 BOX AFFILIATI IN PRIMO PIANO */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 40 }}>
 
         {/* BBVA */}
         <AffiliateRow 
-          title="Miglior Conto per Rendimento"
+          title="MIGLIOR CONTO ONLINE 2026"
           providerName="BBVA - Conto Online"
-          description={bbvaData.note || "Il conto più remunerativo e flessibile del momento."}
-          link={bbvaData.link}
+          description="Canone zero per sempre, remunerazione sul saldo senza vincoli e cashback sugli acquisti. La scelta più intelligente oggi."
+          link={bbvaData.link !== "#" ? bbvaData.link : "[INSERISCI_LINK_BBVA]"}
           color="#004481"
           statsElement={
             <div style={{ textAlign: 'center' }}>
@@ -60,14 +68,20 @@ export function ContiComp({ color = '#10b981' }) {
               <div style={{ fontSize: 18, fontWeight: 800, color: '#004481' }}>{bbvaData.rendimento || '3% annuo'}</div>
             </div>
           }
+          priceElement={
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Canone</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#10b981' }}>GRATIS</div>
+            </div>
+          }
         />
 
         {/* HYPE */}
         <AffiliateRow 
-          title="Miglior Conto Smart & Bonus"
+          title="MIGLIOR CONTO SMART E BONUS"
           providerName="Hype - Carta Conto"
-          description="Gestione via app, carta virtuale immediata e salvadanaio automatico. Bonus di benvenuto fino a 25€."
-          link="https://www.financeads.net/tc.php?t=82784C257247700T"
+          description="La carta conto smart n.1 in Italia. Gestione 100% da app, carta virtuale immediata e zero costi nascosti."
+          link={hypeData.link !== "#" ? hypeData.link : "https://www.financeads.net/tc.php?t=82784C257247700T"}
           color="#00AEFF"
           statsElement={
             <div style={{ textAlign: 'center' }}>
@@ -77,8 +91,8 @@ export function ContiComp({ color = '#10b981' }) {
           }
           priceElement={
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Canone</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#00AEFF' }}>GRATIS</div>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Codice Promo</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: '#0f172a', background: '#f1f5f9', padding: '4px 10px', borderRadius: '8px', letterSpacing: '1px' }}>CIAOHYPER</div>
             </div>
           }
         />
