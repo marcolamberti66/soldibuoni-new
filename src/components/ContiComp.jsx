@@ -1,14 +1,46 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CONTI_CORRENTI } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
 export function ContiComp({ color = '#10b981' }) {
   const [filter, setFilter] = useState('all');
+  const [conti, setConti] = useState(CONTI_CORRENTI);
 
+  // FETCH DAI DATI GOOGLE SHEETS TRAMITE NETLIFY BLOB
+  useEffect(() => {
+    async function fetchConti() {
+      try {
+        const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
+        if (!res.ok) return;
+        const payload = await res.json();
+        
+        if (Array.isArray(payload?.data?.conti_correnti)) {
+          setConti(payload.data.conti_correnti);
+        }
+      } catch (err) {
+        console.warn("Uso fallback hardcoded per i conti correnti.");
+      }
+    }
+    fetchConti();
+  }, []);
+
+  // LOGICA FILTRI SMART
   const filteredConti = useMemo(() => {
-    if (filter === 'all') return CONTI_CORRENTI;
-    return CONTI_CORRENTI.filter(c => c.tags.includes(filter));
-  }, [filter]);
+    if (filter === 'all') return conti;
+    
+    return conti.filter(c => {
+      // Normalizziamo i tag in una singola stringa minuscola per facilitare la ricerca
+      const tagStr = (Array.isArray(c.tags) ? c.tags.join(' ') : (c.tags || '')).toLowerCase();
+      const rendimento = (c.rendimento || '').toString();
+
+      if (filter === 'zero_spese') return tagStr.includes('zero spese') || c.canoneMensile === 0;
+      if (filter === 'remunerato_cashback') return tagStr.includes('cashback') || tagStr.includes('remuner') || rendimento !== '0%';
+      if (filter === 'giovani') return tagStr.includes('under 30') || tagStr.includes('under 35') || tagStr.includes('giovani');
+      if (filter === 'business') return tagStr.includes('business') || tagStr.includes('p.iva');
+      
+      return true;
+    });
+  }, [filter, conti]);
 
   return (
     <div style={{ maxWidth: 840, margin: '0 auto' }}>
@@ -53,7 +85,7 @@ export function ContiComp({ color = '#10b981' }) {
 
       {/* LISTA DINAMICA */}
       {filteredConti.map((c, i) => (
-        <ProviderRow key={c.id} p={c} i={i} color={color}>
+        <ProviderRow key={c.id || i} p={c} i={i} color={color}>
           <div style={{ flex: 1, minWidth: 200 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
               <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{c.name}</span>
@@ -61,15 +93,25 @@ export function ContiComp({ color = '#10b981' }) {
             </div>
             <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>{c.note}</p>
           </div>
+          
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Bonus</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>{c.vantaggioPrincipale}</div>
+            {/* NUOVA COLONNA: RENDIMENTO */}
+            <div style={{ textAlign: 'center', minWidth: 80 }}>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Rendimento</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>{c.rendimento && c.rendimento !== '0%' ? c.rendimento : '-'}</div>
             </div>
+
+            {/* VANTAGGIO */}
+            <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, maxWidth: 120 }}>
+              <div style={{ fontSize: 11, color: '#94a3b8' }}>Vantaggio</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#475569', lineHeight: 1.2 }}>{c.vantaggioPrincipale}</div>
+            </div>
+            
+            {/* CANONE MENSILE */}
             <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 80 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Canone</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: c.canoneMensile === 0 ? '#10b981' : '#0f172a' }}>
-                {c.canoneMensile === 0 ? 'GRATIS' : `€${c.canoneMensile}`}
+                {c.canoneMensile === 0 ? 'GRATIS' : `€${c.canoneMensile.toLocaleString('it-IT')}`}
               </div>
             </div>
           </div>
