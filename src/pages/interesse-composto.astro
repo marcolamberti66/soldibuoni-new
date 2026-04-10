@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { InteresseComposto } from '../components/InteresseComposto.jsx';
+---
+<Layout title="Simulatore Interesse Composto | SoldiBuoni">
+  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
+      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>La Macchina del Tempo</h1>
+      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri come piccoli versamenti mensili possono trasformarsi in un capitale enorme.</p>
+    </div>
+    <InteresseComposto client:load color="#8b5cf6" />
+  </main>
+</Layout>

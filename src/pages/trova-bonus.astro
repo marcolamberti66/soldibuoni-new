@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TrovaBonus } from '../components/TrovaBonus.jsx';
+---
+<Layout title="Trova Bonus e Agevolazioni | SoldiBuoni">
+  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
+      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>Ottimizzatore Fiscale</h1>
+      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri in 30 secondi se stai lasciando dei soldi sul tavolo.</p>
+    </div>
+    <TrovaBonus client:load color="#f59e0b" />
+  </main>
+</Layout>
