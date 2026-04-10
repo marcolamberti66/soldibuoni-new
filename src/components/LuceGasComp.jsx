@@ -106,7 +106,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
           </div>
 
           <AffiliateRow 
-            title="Offerta in Evidenza" providerName="Eni Plenitude Gas" description="Prezzo bloccato e gestione digitale. Sicurezza di un grande gruppo." link="[INSERISCI_LINK_ENI_GAS]" color="#dc2626"
+            title="Offerta in Evidenza" providerName="Eni Plenitude Gas" description="Prezzo bloccato e gestione digitale. Sicurezza di un grande gruppo." link="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530" color="#dc2626"
             priceElement={<><div style={{ fontSize: 11, color: '#94a3b8' }}>Sconto web</div><div style={{ fontSize: 18, fontWeight: 800, color: '#dc2626' }}>Attivo</div></>}
           />
 
