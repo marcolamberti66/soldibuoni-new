@@ -1,65 +1,65 @@
 // ═══════════════════════════════════════════════════════════════════
-// DATA - SoldiBuoni.it (FULL RESTORE + SEO TOPICS - April 2026)
+// DATA - SoldiBuoni.it (FULL RESTORE + SEO TOPICS + LINKS - April 2026)
 // ═══════════════════════════════════════════════════════════════════
 
 export let ENERGY_PROVIDERS = [
-  { name: 'Enel Energia', tipo: 'Variabile', prezzo: 0.067, fisso: 12.5, verde: true, note: 'PUN + spread 0.012 €/kWh' },
-  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.082, fisso: 10, verde: false, note: 'Prezzo bloccato 12 mesi' },
-  { name: 'A2A Energia', tipo: 'Fisso 24m', prezzo: 0.089, fisso: 8, verde: true, note: '100% rinnovabile' },
-  { name: 'Edison', tipo: 'Variabile', prezzo: 0.063, fisso: 14, verde: false, note: 'PUN + spread 0.008 €/kWh' },
-  { name: 'Sorgenia', tipo: 'Fisso 12m', prezzo: 0.078, fisso: 0, verde: true, note: 'Zero costi fissi, 100% green' },
-  { name: 'Illumia', tipo: 'Variabile', prezzo: 0.071, fisso: 6, verde: false, note: 'PUN + spread 0.016 €/kWh' },
-  { name: 'Wekiwi', tipo: 'Fisso 12m', prezzo: 0.075, fisso: 5, verde: true, note: 'App-based, sconto digitale' },
-  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.069, fisso: 9, verde: false, note: 'PUN + spread 0.014 €/kWh' },
+  { name: 'Enel Energia', tipo: 'Variabile', prezzo: 0.067, fisso: 12.5, verde: true, note: 'PUN + spread 0.012 €/kWh', link: 'https://www.enel.it/it/luce-gas/luce' },
+  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.082, fisso: 10, verde: false, note: 'Prezzo bloccato 12 mesi', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  { name: 'A2A Energia', tipo: 'Fisso 24m', prezzo: 0.089, fisso: 8, verde: true, note: '100% rinnovabile', link: 'https://www.a2aenergia.eu/offerte-luce-gas' },
+  { name: 'Edison', tipo: 'Variabile', prezzo: 0.063, fisso: 14, verde: false, note: 'PUN + spread 0.008 €/kWh', link: 'https://www.edison.it/offerte-luce-e-gas' },
+  { name: 'Sorgenia', tipo: 'Fisso 12m', prezzo: 0.078, fisso: 0, verde: true, note: 'Zero costi fissi, 100% green', link: 'https://www.sorgenia.it/offerte-luce-e-gas' },
+  { name: 'Illumia', tipo: 'Variabile', prezzo: 0.071, fisso: 6, verde: false, note: 'PUN + spread 0.016 €/kWh', link: 'https://www.illumia.it/offerte/' },
+  { name: 'Wekiwi', tipo: 'Fisso 12m', prezzo: 0.075, fisso: 5, verde: true, note: 'App-based, sconto digitale', link: 'https://www.wekiwi.it/offerta-luce-e-gas/' },
+  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.069, fisso: 9, verde: false, note: 'PUN + spread 0.014 €/kWh', link: 'https://www.heracomm.it/casa/offerte' },
 ];
 
 export let GAS_PROVIDERS = [
-  { name: 'Enel Energia', tipo: 'Variabile', prezzo: 0.42, fisso: 10, note: 'PSV + spread 0.03 €/Smc' },
-  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.52, fisso: 8, note: 'Prezzo bloccato 12 mesi' },
-  { name: 'A2A Energia', tipo: 'Fisso 24m', prezzo: 0.55, fisso: 6, note: 'Blocco 24 mesi, carbon offset' },
-  { name: 'Edison', tipo: 'Variabile', prezzo: 0.4, fisso: 12, note: 'PSV + spread 0.02 €/Smc' },
-  { name: 'Sorgenia', tipo: 'Fisso 12m', prezzo: 0.49, fisso: 0, note: 'Zero costi fissi mensili' },
-  { name: 'Illumia', tipo: 'Variabile', prezzo: 0.44, fisso: 7, note: 'PSV + spread 0.04 €/Smc' },
-  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.43, fisso: 9, note: 'PSV + spread 0.035 €/Smc' },
+  { name: 'Enel Energia', tipo: 'Variabile', prezzo: 0.42, fisso: 10, note: 'PSV + spread 0.03 €/Smc', link: 'https://www.enel.it/it/luce-gas/gas' },
+  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.52, fisso: 8, note: 'Prezzo bloccato 12 mesi', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  { name: 'A2A Energia', tipo: 'Fisso 24m', prezzo: 0.55, fisso: 6, note: 'Blocco 24 mesi, carbon offset', link: 'https://www.a2aenergia.eu/offerte-luce-gas' },
+  { name: 'Edison', tipo: 'Variabile', prezzo: 0.4, fisso: 12, note: 'PSV + spread 0.02 €/Smc', link: 'https://www.edison.it/offerte-luce-e-gas' },
+  { name: 'Sorgenia', tipo: 'Fisso 12m', prezzo: 0.49, fisso: 0, note: 'Zero costi fissi mensili', link: 'https://www.sorgenia.it/offerte-luce-e-gas' },
+  { name: 'Illumia', tipo: 'Variabile', prezzo: 0.44, fisso: 7, note: 'PSV + spread 0.04 €/Smc', link: 'https://www.illumia.it/offerte/' },
+  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.43, fisso: 9, note: 'PSV + spread 0.035 €/Smc', link: 'https://www.heracomm.it/casa/offerte' },
 ];
 
 export const INSURANCE_DATA = [
-  { name: 'UnipolSai', rc: 380, furto: 120, kasko: 450, cristalli: 45, assistenza: 35, note: 'Leader mercato italiano' },
-  { name: 'Generali', rc: 420, furto: 140, kasko: 520, cristalli: 50, assistenza: 40, note: 'Capillarità agenzie' },
-  { name: 'Allianz Direct', rc: 310, furto: 95, kasko: 380, cristalli: 35, assistenza: 25, note: 'Solo online, prezzi competitivi' },
-  { name: 'Zurich Connect', rc: 325, furto: 100, kasko: 400, cristalli: 38, assistenza: 28, note: 'Polizza digitale flessibile' },
-  { name: 'ConTe.it', rc: 295, furto: 90, kasko: 360, cristalli: 32, assistenza: 22, note: 'Miglior prezzo online' },
-  { name: 'Prima Assicurazioni', rc: 305, furto: 88, kasko: 370, cristalli: 30, assistenza: 20, note: 'Startup insurtech italiana' },
-  { name: 'Verti', rc: 330, furto: 110, kasko: 410, cristalli: 40, assistenza: 30, note: 'Ex Direct Line' },
+  { name: 'UnipolSai', rc: 380, furto: 120, kasko: 450, cristalli: 45, assistenza: 35, note: 'Leader mercato italiano', link: 'https://www.unipolsai.it/assicurazione-auto' },
+  { name: 'Generali', rc: 420, furto: 140, kasko: 520, cristalli: 50, assistenza: 40, note: 'Capillarità agenzie', link: 'https://www.generali.it/prodotti/auto-e-moto' },
+  { name: 'Allianz Direct', rc: 310, furto: 95, kasko: 380, cristalli: 35, assistenza: 25, note: 'Solo online, prezzi competitivi', link: 'https://www.allianzdirect.it/assicurazione-auto/' },
+  { name: 'Zurich Connect', rc: 325, furto: 100, kasko: 400, cristalli: 38, assistenza: 28, note: 'Polizza digitale flessibile', link: 'https://www.zurichconnect.it/preventivo-auto' },
+  { name: 'ConTe.it', rc: 295, furto: 90, kasko: 360, cristalli: 32, assistenza: 22, note: 'Miglior prezzo online', link: 'https://www.conte.it/assicurazione-auto/' },
+  { name: 'Prima Assicurazioni', rc: 305, furto: 88, kasko: 370, cristalli: 30, assistenza: 20, note: 'Startup insurtech italiana', link: 'https://prima.it/assicurazione-auto' },
+  { name: 'Verti', rc: 330, furto: 110, kasko: 410, cristalli: 40, assistenza: 30, note: 'Ex Direct Line', link: 'https://www.verti.it/assicurazione-auto/' },
 ];
 
 export const HEALTH_INSURANCE = [
-  { name: 'UniSalute', base: 45, standard: 95, premium: 180, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'N.1 in Italia per sanità integrativa' },
-  { name: 'Allianz', base: 60, standard: 120, premium: 230, dentale: true, oculistica: false, specialistica: true, ricovero: true, note: 'Solidità internazionale' },
-  { name: 'Generali', base: 55, standard: 110, premium: 210, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Ampia rete convenzionata' },
-  { name: 'AXA', base: 52, standard: 105, premium: 200, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Soluzione Salute flessibile' },
-  { name: 'MetLife', base: 35, standard: 75, premium: 150, dentale: false, oculistica: true, specialistica: true, ricovero: true, note: 'Prezzi entry-level competitivi' },
-  { name: 'Reale Mutua', base: 50, standard: 100, premium: 195, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Forte su ricoveri e chirurgia' },
+  { name: 'UniSalute', base: 45, standard: 95, premium: 180, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'N.1 in Italia per sanità integrativa', link: 'https://www.unisalute.it/prodotti-assicurativi' },
+  { name: 'Allianz', base: 60, standard: 120, premium: 230, dentale: true, oculistica: false, specialistica: true, ricovero: true, note: 'Solidità internazionale', link: 'https://www.allianz.it/prodotti/salute.html' },
+  { name: 'Generali', base: 55, standard: 110, premium: 210, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Ampia rete convenzionata', link: 'https://www.generali.it/prodotti/salute' },
+  { name: 'AXA', base: 52, standard: 105, premium: 200, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Soluzione Salute flessibile', link: 'https://www.axa.it/assicurazione-salute' },
+  { name: 'MetLife', base: 35, standard: 75, premium: 150, dentale: false, oculistica: true, specialistica: true, ricovero: true, note: 'Prezzi entry-level competitivi', link: 'https://www.metlife.it/prodotti/protezione-salute/' },
+  { name: 'Reale Mutua', base: 50, standard: 100, premium: 195, dentale: true, oculistica: true, specialistica: true, ricovero: true, note: 'Forte su ricoveri e chirurgia', link: 'https://www.realemutua.it/prodotti/salute' },
 ];
 
 export let INTERNET_PROVIDERS = [
-  { name: 'Iliad Fibra', tipo: 'FTTH', prezzo: 19.99, velocita: '5 Gbps', vincolo: 'No', note: 'Prezzo per sempre, no sorprese' },
-  { name: 'Fastweb Casa Light', tipo: 'FTTH', prezzo: 27.95, velocita: '2.5 Gbps', vincolo: 'No', note: 'Modem incluso, WiFi 6' },
-  { name: 'TIM WiFi Power', tipo: 'FTTH', prezzo: 29.9, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Modem TIM Hub+, assistenza dedicata' },
-  { name: 'Vodafone Internet Unlimited', tipo: 'FTTH', prezzo: 27.9, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Vodafone Station inclusa' },
-  { name: 'WindTre Super Fibra', tipo: 'FTTH', prezzo: 26.99, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Modem incluso, 12 mesi Amazon Prime' },
-  { name: 'Sky WiFi', tipo: 'FTTH', prezzo: 29.9, velocita: '1 Gbps', vincolo: '18 mesi', note: 'Sky WiFi Hub, ottimizzazione AI' },
-  { name: 'Tiscali UltraFibra', tipo: 'FTTH', prezzo: 22.9, velocita: '2.5 Gbps', vincolo: 'No', note: 'Attivazione gratuita online' },
+  { name: 'Iliad Fibra', tipo: 'FTTH', prezzo: 19.99, velocita: '5 Gbps', vincolo: 'No', note: 'Prezzo per sempre, no sorprese', link: 'https://www.iliad.it/offerte-fibra.html' },
+  { name: 'Fastweb Casa Light', tipo: 'FTTH', prezzo: 27.95, velocita: '2.5 Gbps', vincolo: 'No', note: 'Modem incluso, WiFi 6', link: 'https://www.fastweb.it/adsl-fibra-ottica/' },
+  { name: 'TIM WiFi Power', tipo: 'FTTH', prezzo: 29.9, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Modem TIM Hub+, assistenza dedicata', link: 'https://www.tim.it/fisso-e-mobile/fibra' },
+  { name: 'Vodafone Internet Unlimited', tipo: 'FTTH', prezzo: 27.9, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Vodafone Station inclusa', link: 'https://www.vodafone.it/eshop/internet/offerte-internet-casa.html' },
+  { name: 'WindTre Super Fibra', tipo: 'FTTH', prezzo: 26.99, velocita: '2.5 Gbps', vincolo: '24 mesi', note: 'Modem incluso, 12 mesi Amazon Prime', link: 'https://www.windtre.it/offerte-fibra/' },
+  { name: 'Sky WiFi', tipo: 'FTTH', prezzo: 29.9, velocita: '1 Gbps', vincolo: '18 mesi', note: 'Sky WiFi Hub, ottimizzazione AI', link: 'https://www.sky.it/offerte/sky-wifi' },
+  { name: 'Tiscali UltraFibra', tipo: 'FTTH', prezzo: 22.9, velocita: '2.5 Gbps', vincolo: 'No', note: 'Attivazione gratuita online', link: 'https://casa.tiscali.it/' },
 ];
 
 export const PENSION_FUNDS = [
-  { name: 'Cometa', tipo: 'Negoziale', costo: 0.15, rendimento5y: 4.2, rendimento10y: 5.1, settore: 'Metalmeccanici', note: 'Più grande fondo negoziale italiano' },
-  { name: 'Fonte', tipo: 'Negoziale', costo: 0.18, rendimento5y: 3.8, rendimento10y: 4.7, settore: 'Commercio/Turismo', note: 'Per dipendenti del terziario' },
-  { name: 'Fon.Te', tipo: 'Negoziale', costo: 0.2, rendimento5y: 3.9, rendimento10y: 4.5, settore: 'Vari CCNL', note: 'Multi-comparto flessibile' },
-  { name: 'Amundi SecondaPensione', tipo: 'Aperto', costo: 1.2, rendimento5y: 5.1, rendimento10y: 5.8, settore: 'Tutti', note: 'Ampia scelta comparti' },
-  { name: 'Allianz Insieme', tipo: 'Aperto', costo: 1.35, rendimento5y: 4.8, rendimento10y: 5.5, settore: 'Tutti', note: 'Buona performance storica' },
-  { name: 'Arca Previdenza', tipo: 'Aperto', costo: 1.1, rendimento5y: 4.5, rendimento10y: 5.2, settore: 'Tutti', note: 'Costi contenuti per fondo aperto' },
-  { name: 'Generali Global', tipo: 'PIP', costo: 2.1, rendimento5y: 3.2, rendimento10y: 3.9, settore: 'Tutti', note: 'Piano Individuale Pensionistico' },
+  { name: 'Cometa', tipo: 'Negoziale', costo: 0.15, rendimento5y: 4.2, rendimento10y: 5.1, settore: 'Metalmeccanici', note: 'Più grande fondo negoziale italiano', link: 'https://www.cometafondo.it/' },
+  { name: 'Fonte', tipo: 'Negoziale', costo: 0.18, rendimento5y: 3.8, rendimento10y: 4.7, settore: 'Commercio/Turismo', note: 'Per dipendenti del terziario', link: 'https://www.fondofonte.it/' },
+  { name: 'Fon.Te', tipo: 'Negoziale', costo: 0.2, rendimento5y: 3.9, rendimento10y: 4.5, settore: 'Vari CCNL', note: 'Multi-comparto flessibile', link: 'https://www.fondofonte.it/' },
+  { name: 'Amundi SecondaPensione', tipo: 'Aperto', costo: 1.2, rendimento5y: 5.1, rendimento10y: 5.8, settore: 'Tutti', note: 'Ampia scelta comparti', link: 'https://www.amundi.it/privati/prodotti/previdenza-complementare' },
+  { name: 'Allianz Insieme', tipo: 'Aperto', costo: 1.35, rendimento5y: 4.8, rendimento10y: 5.5, settore: 'Tutti', note: 'Buona performance storica', link: 'https://www.allianz.it/prodotti/previdenza.html' },
+  { name: 'Arca Previdenza', tipo: 'Aperto', costo: 1.1, rendimento5y: 4.5, rendimento10y: 5.2, settore: 'Tutti', note: 'Costi contenuti per fondo aperto', link: 'https://www.arcaprevidenza.it/' },
+  { name: 'Generali Global', tipo: 'PIP', costo: 2.1, rendimento5y: 3.2, rendimento10y: 3.9, settore: 'Tutti', note: 'Piano Individuale Pensionistico', link: 'https://www.generali.it/prodotti/previdenza' },
 ];
 
 export const UNI_FACOLTA = [
@@ -429,13 +429,13 @@ export const TOPICS = {
 // DATI CONTI CORRENTI (Fallback — il sito li pesca da Google Sheets)
 // ═══════════════════════════════════════════════════════════════════
 export const CONTI_CORRENTI = [
-  { id: "bbva", name: "BBVA Conto Online", tags: ["zero_spese"], canoneMensile: 0, rendimento: "3% lordo", vantaggioPrincipale: "Cashback 4%", note: "No costi nascosti", link: "[LINK_BBVA]" },
-  { id: "hype", name: "Hype Base", tags: ["zero_spese"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Carta virtuale", note: "Under 30", link: "[LINK_HYPE]" },
-  { id: "fineco", name: "FinecoBank", tags: ["business"], canoneMensile: 3.95, rendimento: "1,50%", vantaggioPrincipale: "Trading", note: "Gratis Under 30", link: "[LINK_FINECO]" },
-  { id: "revolut", name: "Revolut", tags: ["zero_spese"], canoneMensile: 0, rendimento: "2,50%", vantaggioPrincipale: "Cambio valuta", note: "Per viaggiatori", link: "[LINK_REVOLUT]" },
-  { id: "bper", name: "BPER Banca", tags: ["tradizionale"], canoneMensile: 0, rendimento: "3,30%", vantaggioPrincipale: "Conto vincolato", note: "Canone zero", link: "[LINK_BPER]" },
-  { id: "intesa_xme", name: "Intesa XME", tags: ["giovani"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Under 35", note: "Esenzione bollo", link: "[LINK_INTESA]" },
-  { id: "unicredit", name: "UniCredit", tags: ["tradizionale"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Online gratis", note: "Bonifici SEPA", link: "[LINK_UNICREDIT]" }
+  { id: "bbva", name: "BBVA Conto Online", tags: ["zero_spese"], canoneMensile: 0, rendimento: "3% lordo", vantaggioPrincipale: "Cashback 4%", note: "No costi nascosti", link: "https://www.bbva.it/persone/prodotti/conti/conto-online.html" },
+  { id: "hype", name: "Hype Base", tags: ["zero_spese"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Carta virtuale", note: "Under 30", link: "https://www.hype.it/conti" },
+  { id: "fineco", name: "FinecoBank", tags: ["business"], canoneMensile: 3.95, rendimento: "1,50%", vantaggioPrincipale: "Trading", note: "Gratis Under 30", link: "https://finecobank.com/it/online/conto-e-carte/" },
+  { id: "revolut", name: "Revolut", tags: ["zero_spese"], canoneMensile: 0, rendimento: "2,50%", vantaggioPrincipale: "Cambio valuta", note: "Per viaggiatori", link: "https://www.revolut.com/it-IT/" },
+  { id: "bper", name: "BPER Banca", tags: ["tradizionale"], canoneMensile: 0, rendimento: "3,30%", vantaggioPrincipale: "Conto vincolato", note: "Canone zero", link: "https://www.bper.it/conti-correnti" },
+  { id: "intesa_xme", name: "Intesa XME", tags: ["giovani"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Under 35", note: "Esenzione bollo", link: "https://www.intesasanpaolo.com/it/persone-e-famiglie/prodotti/conti-correnti.html" },
+  { id: "unicredit", name: "UniCredit", tags: ["tradizionale"], canoneMensile: 0, rendimento: "0%", vantaggioPrincipale: "Online gratis", note: "Bonifici SEPA", link: "https://www.unicredit.it/it/privati/conti-correnti.html" }
 ];
 
 // ═══════════════════════════════════════════════════════════════════
