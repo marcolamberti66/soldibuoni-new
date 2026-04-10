@@ -138,7 +138,7 @@ export function Badge({ text, color }) {
   );
 }
 
-// ── COMPONENTE UNIVERSITÀ (RIATTIVATO) ──
+// ── COMPONENTE UNIVERSITÀ ──
 export function IstruzioneComp({ color = '#475569' }) {
   const [facolta, setFacolta] = useState('Economia');
   const [livello, setLivello] = useState('med');
@@ -161,9 +161,12 @@ export function IstruzioneComp({ color = '#475569' }) {
     fetchPrices();
   }, []);
 
-  const data = uniData[facolta] || [];
-  const sorted = useMemo(() => [...data].sort((a, b) => a[livello] - b[livello]), [data, livello]);
-  const maxVal = Math.max(...sorted.map((s) => s[livello]), 1);
+  const data = Array.isArray(uniData[facolta]) ? uniData[facolta] : [];
+  const sorted = useMemo(() => {
+     return [...data].sort((a, b) => (Number(a[livello]) || 0) - (Number(b[livello]) || 0));
+  }, [data, livello]);
+  
+  const maxVal = Math.max(...sorted.map((s) => Number(s[livello]) || 0), 1);
 
   return (
     <div className="comp-container">
@@ -187,7 +190,7 @@ export function IstruzioneComp({ color = '#475569' }) {
       </div>
 
       {sorted.map((u, i) => (
-        <div key={u.uni} className="provider-card" style={{ background: '#fff', borderRadius: 24, padding: '24px 28px', marginBottom: 16, border: '1px solid rgba(0,0,0,0.04)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both` }}>
+        <div key={u.uni + i} className="provider-card" style={{ background: '#fff', borderRadius: 24, padding: '24px 28px', marginBottom: 16, border: '1px solid rgba(0,0,0,0.04)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -198,16 +201,16 @@ export function IstruzioneComp({ color = '#475569' }) {
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Retta annua stima</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{u[livello].toLocaleString()}</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{(Number(u[livello]) || 0).toLocaleString('it-IT')}</div>
             </div>
           </div>
           
           <div style={{ background: '#f1f5f9', borderRadius: 8, height: 8, overflow: 'hidden', marginBottom: 8 }}>
-            <div style={{ height: '100%', borderRadius: 8, background: `linear-gradient(90deg, ${color}88, ${color})`, width: `${(u[livello] / maxVal) * 100}%`, transition: 'width 0.5s ease' }} />
+            <div style={{ height: '100%', borderRadius: 8, background: `linear-gradient(90deg, ${color}88, ${color})`, width: `${((Number(u[livello]) || 0) / maxVal) * 100}%`, transition: 'width 0.5s ease' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>
-            <span>Min: €{u.min.toLocaleString()}</span>
-            <span>Max: €{u.max.toLocaleString()}</span>
+            <span>Min: €{(Number(u.min) || 0).toLocaleString('it-IT')}</span>
+            <span>Max: €{(Number(u.max) || 0).toLocaleString('it-IT')}</span>
           </div>
         </div>
       ))}
@@ -215,7 +218,7 @@ export function IstruzioneComp({ color = '#475569' }) {
   );
 }
 
-// ── COMPONENTE FONDI PENSIONE (RIATTIVATO) ──
+// ── COMPONENTE FONDI PENSIONE ──
 export function PensioneComp({ color = '#0284c7' }) {
   const [funds, setFunds] = useState(PENSION_FUNDS);
   const [isLive, setIsLive] = useState(false);
@@ -226,14 +229,14 @@ export function PensioneComp({ color = '#0284c7' }) {
         const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
         if (!res.ok) return;
         const payload = await res.json();
-        const valid = Array.isArray(payload?.data?.pensione) ? payload.data.pensione.filter(p => typeof p.costo === 'number') : [];
+        const valid = Array.isArray(payload?.data?.pensione) ? payload.data.pensione.filter(p => p.costo !== undefined) : [];
         if (valid.length >= 3) { setFunds(valid); setIsLive(true); }
       } catch (err) {}
     }
     fetchPrices();
   }, []);
 
-  const sorted = useMemo(() => [...funds].sort((a, b) => a.costo - b.costo), [funds]);
+  const sorted = useMemo(() => [...funds].sort((a, b) => (Number(a.costo) || 0) - (Number(b.costo) || 0)), [funds]);
 
   return (
     <div className="comp-container">
@@ -259,15 +262,35 @@ export function PensioneComp({ color = '#0284c7' }) {
   );
 }
 
-// ── COMPONENTE ASSICURAZIONE SANITARIA (RIATTIVATO) ──
+// ── COMPONENTE ASSICURAZIONE SANITARIA ──
 export function SaluteComp({ color = '#ea580c' }) {
   const [piano, setPiano] = useState('standard');
-  const sorted = useMemo(() => [...HEALTH_INSURANCE].sort((a, b) => a[piano] - b[piano]), [piano]);
+  const [healthData, setHealthData] = useState(HEALTH_INSURANCE);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    async function fetchPrices() {
+      try {
+        const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
+        if (!res.ok) return;
+        const payload = await res.json();
+        if (Array.isArray(payload?.data?.salute)) {
+           setHealthData(payload.data.salute);
+           setIsLive(true);
+        }
+      } catch (err) {}
+    }
+    fetchPrices();
+  }, []);
+
+  const sorted = useMemo(() => {
+      return [...healthData].sort((a, b) => (Number(a[piano]) || 0) - (Number(b[piano]) || 0));
+  }, [piano, healthData]);
   
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore Assicurazioni Sanitarie</h2>
+      <h2 className="comp-title">Comparatore Assicurazioni Sanitarie {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
       <div className="glass-panel" style={{ marginBottom: 24 }}>
         <label className="comp-label">Livello di copertura desiderato:</label>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -291,7 +314,7 @@ export function SaluteComp({ color = '#ea580c' }) {
           </div>
           <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 80 }}>
             <div style={{ fontSize: 11, color: '#94a3b8' }}>€/mese</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{p[piano]}</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{Number(p[piano]) || 0}</div>
           </div>
         </ProviderRow>
       ))}
@@ -299,7 +322,7 @@ export function SaluteComp({ color = '#ea580c' }) {
   );
 }
 
-// ── COMPONENTE SCADENZARIO AUTO (RIATTIVATO E ABBELLITO) ──
+// ── COMPONENTE SCADENZARIO AUTO ──
 export function CalendarioAuto({ color = '#f43f5e' }) {
   const [form, setForm] = useState({ targa: '', immatricolazione: '', ultimoTagliando: '', email: '', nome: '' });
   const [scadenze, setScadenze] = useState(null);
@@ -379,7 +402,7 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
   );
 }
 
-// ── COMPONENTI INTERNET E RC AUTO (CON AFFILIAZIONE E DESIGN) ──
+// ── COMPONENTI INTERNET E RC AUTO ──
 export function InternetComp({ color = '#8b5cf6' }) {
   const [filtroTipo, setFiltroTipo] = useState('tutti');
   const [providers, setProviders] = useState(INTERNET_PROVIDERS);
@@ -428,9 +451,10 @@ export function InternetComp({ color = '#8b5cf6' }) {
 }
 
 export function RCAutoComp({ color = '#ec4899' }) {
-  const [garanzie, setGaranzie] = useState(['rc']);
+  const [garanzie, setGaranzie] = useState([]); // Initialize empty so just basic RC is calculated first
   const toggle = (g) => setGaranzie((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
   const [insuranceData, setInsuranceData] = useState(INSURANCE_DATA);
+  const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
     async function fetchPrices() {
@@ -438,7 +462,10 @@ export function RCAutoComp({ color = '#ec4899' }) {
         const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
         if (!res.ok) return;
         const payload = await res.json();
-        if (payload?.data?.rc_auto) setInsuranceData(payload.data.rc_auto);
+        if (Array.isArray(payload?.data?.rc_auto)) {
+          setInsuranceData(payload.data.rc_auto);
+          setIsLive(true);
+        }
       } catch (err) {}
     }
     fetchPrices();
@@ -446,11 +473,19 @@ export function RCAutoComp({ color = '#ec4899' }) {
 
   const sorted = useMemo(() => {
     return insuranceData.map((p) => {
-      let tot = p.rc;
-      if (garanzie.includes('furto')) tot += p.furto;
-      if (garanzie.includes('kasko')) tot += p.kasko;
-      if (garanzie.includes('cristalli')) tot += p.cristalli;
-      if (garanzie.includes('assistenza')) tot += p.assistenza;
+      // Ensure all values are parsed as valid numbers. Fallback to 0 if Claude messed up.
+      let baseRc = Number(p.rc) || 0;
+      let costFurto = Number(p.furto) || 0;
+      let costKasko = Number(p.kasko) || 0;
+      let costCristalli = Number(p.cristalli) || 0;
+      let costAssistenza = Number(p.assistenza) || 0;
+
+      let tot = baseRc;
+      if (garanzie.includes('furto')) tot += costFurto;
+      if (garanzie.includes('kasko')) tot += costKasko;
+      if (garanzie.includes('cristalli')) tot += costCristalli;
+      if (garanzie.includes('assistenza')) tot += costAssistenza;
+      
       return { ...p, tot };
     }).sort((a, b) => a.tot - b.tot);
   }, [garanzie, insuranceData]);
@@ -458,7 +493,7 @@ export function RCAutoComp({ color = '#ec4899' }) {
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore RC Auto</h2>
+      <h2 className="comp-title">Comparatore RC Auto {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
       
       <div className="comp-controls glass-panel" style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Aggiungi garanzie accessorie (Stima):</p>
@@ -488,7 +523,7 @@ export function RCAutoComp({ color = '#ec4899' }) {
           <div className="comparator-stats" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Stima mercato</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{p.tot}</div>
+              <div style={{ fontSize: 22, fontWeight: 800, color: color }}>€{p.tot.toLocaleString('it-IT')}</div>
             </div>
           </div>
         </ProviderRow>
