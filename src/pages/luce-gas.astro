@@ -8,72 +8,71 @@ const topicGas = TOPICS.gas;
 ---
 
 <Layout title="Migliori Tariffe Luce e Gas | SoldiBuoni" description="Confronta le migliori offerte per l'energia elettrica e il gas metano. Scopri la tariffa più economica per la tua casa.">
-  <div style="max-width: 1080px; margin: 0 auto; padding: 60px 20px;">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="text-align: center; margin-bottom: 32px;">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 800; color: #0f172a; margin-bottom: 16px;">
-        Le migliori tariffe <span style="background: linear-gradient(to right, #d97706, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Luce & Gas</span>
-      </h1>
-      <p style="font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto;">
-        Seleziona l'utenza che ti interessa, regola i tuoi consumi e scopri immediatamente l'offerta più conveniente aggiornata ad oggi.
-      </p>
-    </div>
-
-    {/* MENU A TAB (ANCORAGGI STICKY) */}
-    <div style="display: flex; justify-content: center; margin-bottom: 40px; position: sticky; top: 20px; z-index: 50;">
-      <div class="tabs-container">
-        <a href="#confronta" class="tab-link active" id="tab-confronta">📊 Confronta</a>
-        <a href="#capire" class="tab-link" id="tab-capire">📖 Capire il mercato</a>
-        <a href="#guida" class="tab-link" id="tab-guida">💡 Come scegliere</a>
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: linear-gradient(135deg, ${topicEnergia.color}14, ${topicGas.color}14);`}>
+        ⚡🔥
       </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Le migliori tariffe <span style={`background: linear-gradient(to right, ${topicEnergia.color}, ${topicGas.color}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;`}>Luce & Gas</span>
+      </h1>
     </div>
 
-    {/* SEZIONE 1: COMPARATORE */}
-    <div id="confronta" class="scroll-section">
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-confronta">📊 Confronta</button>
+      <button class="tab-btn" data-target="tab-capire">📖 Capire il mercato</button>
+      <button class="tab-btn" data-target="tab-guida">💡 Come scegliere</button>
+    </div>
+
+    <div id="tab-confronta" class="tab-content" style="display: block;">
       <LuceGasComp client:load />
     </div>
 
-    {/* SEZIONE 2: CAPIRE IL MERCATO */}
-    <div id="capire" class="scroll-section" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05);">
-      <h2 style="font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 800; color: #0f172a; margin-bottom: 32px; text-align: center;">Capire il mercato di Energia e Gas</h2>
-      
+    <div id="tab-capire" class="tab-content" style="display: none;">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
-        <div style="background: #fff; padding: 32px; border-radius: 24px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.04);">
-          <h3 style="font-size: 20px; font-weight: 800; color: #d97706; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">⚡ {topicEnergia.capire.title}</h3>
-          {topicEnergia.capire.content.map(item => (
-            <div style="margin-bottom: 20px;">
-              <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">{item.subtitle}</h4>
-              <p style="font-size: 15px; color: #475569; line-height: 1.6; margin: 0;">{item.text}</p>
+        
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            {topicEnergia.icon} {topicEnergia.capire.title}
+          </h2>
+          {topicEnergia.capire.content.map((c) => (
+            <div class="info-card">
+              <h3 style={`color: ${topicEnergia.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>{c.subtitle}</h3>
+              <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">{c.text}</p>
             </div>
           ))}
         </div>
 
-        <div style="background: #fff; padding: 32px; border-radius: 24px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.04);">
-          <h3 style="font-size: 20px; font-weight: 800; color: #dc2626; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">🔥 {topicGas.capire.title}</h3>
-          {topicGas.capire.content.map(item => (
-            <div style="margin-bottom: 20px;">
-              <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">{item.subtitle}</h4>
-              <p style="font-size: 15px; color: #475569; line-height: 1.6; margin: 0;">{item.text}</p>
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            {topicGas.icon} {topicGas.capire.title}
+          </h2>
+          {topicGas.capire.content.map((c) => (
+            <div class="info-card">
+              <h3 style={`color: ${topicGas.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>{c.subtitle}</h3>
+              <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">{c.text}</p>
             </div>
           ))}
         </div>
+
       </div>
     </div>
 
-    {/* SEZIONE 3: COME SCEGLIERE */}
-    <div id="guida" class="scroll-section" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05);">
-      <h2 style="font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 800; color: #0f172a; margin-bottom: 32px; text-align: center;">Come scegliere le offerte migliori</h2>
-      
+    <div id="tab-guida" class="tab-content" style="display: none;">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+        
         <div>
-          <h3 style="font-size: 20px; font-weight: 800; color: #d97706; margin-bottom: 24px;">⚡ {topicEnergia.guida.title}</h3>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            {topicEnergia.icon} {topicEnergia.guida.title}
+          </h2>
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            {topicEnergia.guida.steps.map(step => (
-              <div style="display: flex; gap: 16px; background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04);">
-                <div style="flex-shrink: 0; width: 32px; height: 32px; background: #fef3c7; color: #d97706; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">{step.n}</div>
+            {topicEnergia.guida.steps.map((s) => (
+              <div class="step-card">
+                <div class="step-number" style={`background: ${topicEnergia.color}; box-shadow: 0 4px 12px ${topicEnergia.color}40;`}>{s.n}</div>
                 <div>
-                  <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">{step.title}</h4>
-                  <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">{step.text}</p>
+                  <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">{s.title}</h3>
+                  <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">{s.text}</p>
                 </div>
               </div>
             ))}
@@ -81,19 +80,22 @@ const topicGas = TOPICS.gas;
         </div>
 
         <div>
-          <h3 style="font-size: 20px; font-weight: 800; color: #dc2626; margin-bottom: 24px;">🔥 {topicGas.guida.title}</h3>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            {topicGas.icon} {topicGas.guida.title}
+          </h2>
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            {topicGas.guida.steps.map(step => (
-              <div style="display: flex; gap: 16px; background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04);">
-                <div style="flex-shrink: 0; width: 32px; height: 32px; background: #fee2e2; color: #dc2626; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">{step.n}</div>
+            {topicGas.guida.steps.map((s) => (
+              <div class="step-card">
+                <div class="step-number" style={`background: ${topicGas.color}; box-shadow: 0 4px 12px ${topicGas.color}40;`}>{s.n}</div>
                 <div>
-                  <h4 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">{step.title}</h4>
-                  <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">{step.text}</p>
+                  <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">{s.title}</h3>
+                  <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">{s.text}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </div>
 
@@ -101,68 +103,103 @@ const topicGas = TOPICS.gas;
 </Layout>
 
 <style>
-  html { scroll-behavior: smooth; }
-  
-  .scroll-section {
-    scroll-margin-top: 120px; /* Evita che il titolo venga coperto dalla barra fissa */
-  }
-
-  .tabs-container {
-    display: flex; 
-    background: rgba(241, 245, 249, 0.85); 
-    backdrop-filter: blur(12px); 
-    padding: 6px; 
-    border-radius: 20px; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
-    border: 1px solid rgba(0,0,0,0.05); 
-    gap: 4px; 
-    flex-wrap: wrap;
-  }
-
-  .tab-link {
-    padding: 10px 20px;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 14px;
-    color: #64748b;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .tab-link:hover {
-    color: #0f172a;
-    background: rgba(0,0,0,0.03);
-  }
-
-  /* Lo stato attivo del bottone */
-  .tab-link.active {
+  /* ── STILI DEL MENU A TAB (Uniformato) ── */
+  .tab-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
     background: #fff;
-    color: #0f172a;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+  }
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 0;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+  }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn.active {
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+  }
+
+  /* ── NUOVO DESIGN DELLE CARD TESTUALI ── */
+  .info-card {
+    background: #fff; 
+    border-radius: 20px; 
+    padding: 24px; 
+    margin-bottom: 16px; 
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+  }
+
+  .step-card {
+    background: #fff; 
+    border-radius: 20px; 
+    padding: 24px; 
+    border: 1px solid rgba(0,0,0,0.04); 
+    display: flex; 
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .step-number {
+    width: 36px; height: 36px; 
+    border-radius: 12px; 
+    color: #fff; 
+    display: flex; align-items: center; justify-content: center; 
+    font-weight: 800; font-size: 16px; flex-shrink: 0;
+  }
+
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 
 <script>
-  // Script per evidenziare la tab corretta quando si scorre la pagina
-  document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.scroll-section');
-    const navLinks = document.querySelectorAll('.tab-link');
+  // Script che gestisce la scomparsa/comparsa delle tab
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
 
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 150) {
-          current = section.getAttribute('id');
-        }
-      });
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Togli l'attivo da tutti
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
 
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
-        }
+        // Metti l'attivo su quello cliccato
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
       });
     });
-  });
+  }
+  // Avvia lo script
+  setupTabs();
 </script>
