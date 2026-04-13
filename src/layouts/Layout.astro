@@ -17,7 +17,7 @@ const { title, description } = Astro.props;
   <meta property="og:url" content="https://soldibuoni.it">
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
-  <script>
+  <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -26,7 +26,6 @@ const { title, description } = Astro.props;
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style is:global>
     :root {
-      /* FIX: Sfondo meno abbagliante, più elegante (Slate 100) */
       --bg-body: #f1f5f9; 
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -42,13 +41,10 @@ const { title, description } = Astro.props;
       -webkit-font-smoothing: antialiased; 
     }
     a { text-decoration: none; color: inherit; }
-    input[type="range"] { height: 6px; border-radius: 3px; }
-    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
     ::selection { background: var(--color-primary); color: #fff; }
-    @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); }}
   </style>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
@@ -79,7 +75,7 @@ const { title, description } = Astro.props;
   
   <nav id="main-nav" class="glass-nav">
     <a href="/" class="nav-logo">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="8" fill="url(#paint0_linear)" />
         <path d="M14.5 9.5C14.5 8.11929 13.3807 7 12 7H10.5C9.11929 7 8 8.11929 8 9.5C8 10.8807 9.11929 12 10.5 12H13.5C14.8807 12 16 13.1193 16 14.5C16 15.8807 14.8807 17 13.5 17H12C10.6193 17 9.5 15.8807 9.5 14.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
         <path d="M12 5.5V18.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
@@ -97,8 +93,7 @@ const { title, description } = Astro.props;
       <a href="/#impara" class="nav-pill nav-pill-blue">📚 Strumenti</a>
       <a href="/#risparmia" class="nav-pill nav-pill-green">💸 Confronta</a>
       <a href="/#gestisci" class="nav-pill nav-pill-purple">
-        📊 Gestisci
-        <span class="nav-soon">soon</span>
+        📊 Gestisci <span class="nav-soon">soon</span>
       </a>
     </div>
 
@@ -114,7 +109,6 @@ const { title, description } = Astro.props;
       <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
       <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
       <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
-      <a href="/carburante" class="mobile-link">⛽ Analisi Mobilità</a>
       <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
 
       <div class="mobile-section-label" style="color: #059669; margin-top: 24px;">💸 CONFRONTA</div>
@@ -128,7 +122,6 @@ const { title, description } = Astro.props;
 
       <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📊 GESTISCI</div>
       <a href="/bollo_revisione" class="mobile-link">🔧 Memo Scadenze Auto</a>
-      <a href="/newsletter" class="mobile-link">📬 Newsletter Mensile</a>
     </div>
   </div>
 
@@ -168,15 +161,15 @@ const { title, description } = Astro.props;
     </div>
   </footer>
 
-  <script>
+  <script is:inline>
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
-    toggle.addEventListener('click', () => {
+    toggle?.addEventListener('click', () => {
       toggle.classList.toggle('active');
       if(menu.classList.contains('open')) {
         menu.classList.remove('open');
         document.body.style.overflow = '';
-        setTimeout(() => menu.style.display = 'none', 400);
+        setTimeout(() => { if(!menu.classList.contains('open')) menu.style.display = 'none' }, 400);
       } else {
         menu.style.display = 'block';
         setTimeout(() => menu.classList.add('open'), 10);
@@ -188,9 +181,7 @@ const { title, description } = Astro.props;
 </html>
 
 <style>
-  /* ── GLASS NAV ── */
   .glass-nav {
-    /* Adattata al nuovo sfondo */
     background: rgba(241, 245, 249, 0.85);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -199,67 +190,28 @@ const { title, description } = Astro.props;
     border-bottom: 1px solid rgba(0,0,0,0.04);
     position: sticky; top: 0; z-index: 100; height: 72px;
   }
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 800; font-size: 20px;
-    color: #0f172a; letter-spacing: -0.5px;
-  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #0f172a; }
   .nav-links-desktop { display: flex; gap: 12px; align-items: center; }
-  .nav-pill {
-    font-size: 14px; font-weight: 600; padding: 8px 20px;
-    border-radius: 100px; transition: all 0.3s var(--ease-fluid);
-    display: flex; align-items: center; gap: 6px;
-    border: 1px solid transparent;
-  }
+  .nav-pill { font-size: 14px; font-weight: 600; padding: 8px 20px; border-radius: 100px; transition: all 0.3s var(--ease-fluid); display: flex; align-items: center; gap: 6px; }
   .nav-pill-blue { background: rgba(59,130,246,0.08); color: #1d4ed8; }
-  .nav-pill-blue:hover { background: rgba(59,130,246,0.15); transform: translateY(-1px); }
   .nav-pill-green { background: rgba(16,185,129,0.08); color: #047857; }
-  .nav-pill-green:hover { background: rgba(16,185,129,0.15); transform: translateY(-1px); }
   .nav-pill-purple { background: rgba(139,92,246,0.08); color: #6d28d9; }
-  .nav-pill-purple:hover { background: rgba(139,92,246,0.15); transform: translateY(-1px); }
-  .nav-soon {
-    font-size: 10px; font-weight: 800; text-transform: uppercase;
-    background: #8b5cf6; color: #fff; padding: 2px 8px;
-    border-radius: 100px; letter-spacing: 0.5px;
-  }
-
-  /* ── HAMBURGER ── */
-  .menu-toggle {
-    display: none; flex-direction: column; justify-content: center; gap: 5px;
-    background: none; border: none; cursor: pointer; padding: 8px; z-index: 200;
-  }
-  .menu-toggle span {
-    display: block; width: 24px; height: 2px;
-    background: #0f172a; border-radius: 2px; transition: all 0.3s ease;
-  }
+  .nav-soon { font-size: 10px; font-weight: 800; text-transform: uppercase; background: #8b5cf6; color: #fff; padding: 2px 8px; border-radius: 100px; }
+  .menu-toggle { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 200; }
+  .menu-toggle span { display: block; width: 24px; height: 2px; background: #0f172a; border-radius: 2px; transition: all 0.3s ease; }
   .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   .menu-toggle.active span:nth-child(2) { opacity: 0; }
   .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-  /* ── MOBILE MENU ── */
-  .mobile-menu {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(241,245,249,0.95); backdrop-filter: blur(16px);
-    z-index: 99; overflow-y: auto; opacity: 0; transition: opacity 0.3s var(--ease-fluid);
-  }
+  .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(241,245,249,0.95); backdrop-filter: blur(16px); z-index: 99; overflow-y: auto; opacity: 0; transition: opacity 0.3s var(--ease-fluid); }
   .mobile-menu.open { display: block; opacity: 1; }
   .mobile-menu-inner { padding: 90px 24px 40px; display: flex; flex-direction: column; gap: 4px; }
   .mobile-section-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 16px 12px 8px; }
   .mobile-link { display: block; font-size: 17px; font-weight: 600; color: #0f172a; padding: 14px 16px; border-radius: 16px; }
-
-  /* ── FOOTER ── */
   .site-footer { background: #0f172a; color: #94a3b8; padding: 60px 0 40px; }
   .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 32px; display: flex; gap: 64px; flex-wrap: wrap; }
   .footer-brand { flex: 1.5; min-width: 260px; }
   .footer-columns { display: flex; gap: 48px; flex-wrap: wrap; flex: 2; }
   .footer-heading { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
   .footer-columns a { display: block; font-size: 14px; color: #94a3b8; padding: 6px 0; transition: color 0.2s; }
-  .footer-columns a:hover { color: #34d399; }
-
-  @media (max-width: 900px) {
-    .nav-links-desktop { display: none; }
-    .menu-toggle { display: flex; }
-    .glass-nav { padding: 0 20px; height: 64px; }
-  }
+  @media (max-width: 900px) { .nav-links-desktop { display: none; } .menu-toggle { display: flex; } .glass-nav { padding: 0 20px; height: 64px; } }
 </style>
