@@ -14,18 +14,15 @@ function Box({ title, children }) {
   );
 }
 
-// FIX DEFINITIVO: Sensori di tocco per impedire a React di "strapparti" il pallino mentre trascini
 function Sl({ label, value, onChange, min, max, step, prefix, suffix, color }) {
   const [dragVal, setDragVal] = useState(value);
-  const [isDragging, setIsDragging] = useState(false);
 
+  // Mantiene sincronizzato il pallino se i dati cambiano da fuori
   useEffect(() => {
-    // Sincronizza la posizione solo se l'utente NON sta toccando il pallino
-    if (!isDragging) {
-      setDragVal(value);
-    }
-  }, [value, isDragging]);
+    setDragVal(value);
+  }, [value]);
 
+  // Calcola il numero effettivo da mostrare tenendo conto degli "scatti" richiesti
   const displayVal = step ? Math.round(dragVal / step) * step : dragVal;
   const display = (prefix || '') + displayVal.toLocaleString() + (suffix || '');
 
@@ -39,19 +36,16 @@ function Sl({ label, value, onChange, min, max, step, prefix, suffix, color }) {
         type="range" 
         min={min} 
         max={max} 
-        step="1" 
+        step="1" // Il pallino visivamente si muove fluido di 1 in 1
         value={dragVal}
-        onPointerDown={() => setIsDragging(true)}
-        onPointerUp={() => setIsDragging(false)}
-        onPointerCancel={() => setIsDragging(false)}
         onChange={(e) => {
           const raw = +e.target.value;
-          setDragVal(raw); // Movimento fluido libero
+          setDragVal(raw); // Aggiornamento visivo immediato e fluido
           const snapped = step ? Math.round(raw / step) * step : raw;
-          onChange(snapped); // Invio del valore a scatti al calcolatore
+          onChange(snapped); // Salvataggio del dato logico "a scatti"
         }}
         className="big-slider" 
-        style={{ '--slider-color': color || 'var(--primary)' }} 
+        style={{ '--slider-color': color || 'var(--primary)', touchAction: 'none' }} 
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>
         <span>{(prefix || '') + min}</span><span>{(prefix || '') + max + (suffix || '')}</span>
@@ -122,12 +116,11 @@ function SavRow({ icon, label, annuo, risparmio, color, link, linkText }) {
   );
 }
 
-// ── LOGICA PRINCIPALE (Astro usa l'export non di default) ──
+// ── LOGICA PRINCIPALE ──
 
 export function QuantoSpendo({ color = '#059669' }) {
   const [step, setStep] = useState(0);
 
-  // Stato Globale
   const [d, setD] = useState({
     luce: 70, gas: 80, riscaldamento: true, internet: 28,
     haAuto: true, rcAuto: 380, carburanteMese: 150,
@@ -138,138 +131,30 @@ export function QuantoSpendo({ color = '#059669' }) {
 
   const isLast = step === STEPS.length - 1;
 
-  // ═══ STEP 1: BOLLETTE ═══
-  const S1 = () => (
-    <div>
-      <Box title="⚡ Bolletta Luce (media mensile)">
-        <Sl label="Quanto paghi al mese?" value={d.luce} onChange={(v) => setD({ ...d, luce: v })} min={20} max={200} step={5} prefix="€" color="#F59E0B" />
-      </Box>
-      <Box title="🔥 Bolletta Gas (media mensile)">
-        <Sl label="Quanto paghi al mese?" value={d.gas} onChange={(v) => setD({ ...d, gas: v })} min={10} max={250} step={5} prefix="€" color="#EF4444" />
-        <Tog label="Ho riscaldamento autonomo a gas" icon="🏠" checked={d.riscaldamento} onChange={(v) => setD({ ...d, riscaldamento: v })} color="#EF4444" />
-      </Box>
-      <Box title="📡 Internet Casa (mensile)">
-        <Sl label="Quanto paghi al mese?" value={d.internet} onChange={(v) => setD({ ...d, internet: v })} min={15} max={50} step={1} prefix="€" color="#8B5CF6" />
-      </Box>
-    </div>
-  );
+  // Calcoli per i risultati
+  const luceA = d.luce * 12;
+  const gasA = d.gas * 12;
+  const internetA = d.internet * 12;
+  const rcA = d.haAuto ? d.rcAuto : 0;
+  const carbA = d.haAuto ? d.carburanteMese * 12 : 0;
+  const contoA = d.contoCosto;
+  const polizzaA = d.haPolizza ? d.polizza * 12 : 0;
+  const casaA = d.tipoCasa !== 'nessuno' ? d.rataCasa * 12 : 0;
+  const uniA = d.haUni ? d.retta : 0;
+  const totale = luceA + gasA + internetA + rcA + carbA + contoA + polizzaA + casaA + uniA;
 
-  // ═══ STEP 2: AUTO E SERVIZI ═══
-  const S2 = () => (
-    <div>
-      <Box title="🚗 Auto & Mobilità">
-        <Tog label="Possiedo un'auto" icon="🚘" checked={d.haAuto} onChange={(v) => setD({ ...d, haAuto: v })} color="#EC4899" />
-        {d.haAuto && (
-          <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
-            <Sl label="RC Auto (premio annuale)" value={d.rcAuto} onChange={(v) => setD({ ...d, rcAuto: v })} min={150} max={800} step={10} prefix="€" color="#EC4899" />
-            <Sl label="Carburante al mese" value={d.carburanteMese} onChange={(v) => setD({ ...d, carburanteMese: v })} min={30} max={400} step={10} prefix="€" color="#06b6d4" />
-          </div>
-        )}
-      </Box>
-      <Box title="💳 Conto Corrente">
-        <Sl label="Costo annuo (canone + carte + bolli)" value={d.contoCosto} onChange={(v) => setD({ ...d, contoCosto: v })} min={0} max={200} step={5} prefix="€" color="#10B981" />
-      </Box>
-      <Box title="🏥 Polizza Sanitaria">
-        <Tog label="Ho una polizza sanitaria" icon="⚕️" checked={d.haPolizza} onChange={(v) => setD({ ...d, haPolizza: v })} color="#f97316" />
-        {d.haPolizza && (
-          <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
-            <Sl label="Quanto paghi al mese?" value={d.polizza} onChange={(v) => setD({ ...d, polizza: v })} min={15} max={150} step={5} prefix="€" color="#f97316" />
-          </div>
-        )}
-      </Box>
-    </div>
-  );
+  const risLuce = Math.max(0, luceA - 50 * 12);
+  const risGas = d.riscaldamento ? Math.max(0, gasA - 60 * 12) : Math.max(0, gasA - 20 * 12);
+  const risInternet = Math.max(0, internetA - 18 * 12);
+  const risRc = d.haAuto ? Math.max(0, rcA - 280) : 0;
+  const risCarb = d.haAuto ? Math.round(carbA * 0.12) : 0;
+  const risConto = Math.max(0, contoA);
+  const risMutuo = d.tipoCasa === 'mutuo' && d.rataCasa > 500 ? Math.round(casaA * 0.08) : 0;
+  const risPolizza = d.haPolizza ? Math.max(0, polizzaA - 300) : 0;
+  const rispTotale = risLuce + risGas + risInternet + risRc + risCarb + risConto + risMutuo + risPolizza;
 
-  // ═══ STEP 3: CASA E FAMIGLIA ═══
-  const S3 = () => (
-    <div>
-      <Box title="🏠 Mutuo o Affitto">
-        <Pill options={[{ id: 'nessuno', label: 'Nessuno' }, { id: 'mutuo', label: 'Mutuo' }, { id: 'affitto', label: 'Affitto' }]} value={d.tipoCasa} onChange={(v) => setD({ ...d, tipoCasa: v })} color="#3b82f6" />
-        {(d.tipoCasa === 'mutuo' || d.tipoCasa === 'affitto') && (
-          <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
-            <Sl label={d.tipoCasa === 'mutuo' ? 'Rata mutuo mensile' : 'Affitto mensile'} value={d.rataCasa} onChange={(v) => setD({ ...d, rataCasa: v })} min={200} max={2000} step={50} prefix="€" color="#3b82f6" />
-          </div>
-        )}
-      </Box>
-      <Box title="🎓 Università">
-        <Tog label="Ho figli all'università" icon="📚" checked={d.haUni} onChange={(v) => setD({ ...d, haUni: v })} color="#6366F1" />
-        {d.haUni && (
-          <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
-            <Sl label="Retta universitaria annuale" value={d.retta} onChange={(v) => setD({ ...d, retta: v })} min={500} max={15000} step={250} prefix="€" color="#6366F1" />
-          </div>
-        )}
-      </Box>
-    </div>
-  );
-
-  // ═══ STEP 4: RISULTATI ═══
-  const S4 = () => {
-    const luceA = d.luce * 12;
-    const gasA = d.gas * 12;
-    const internetA = d.internet * 12;
-    const rcA = d.haAuto ? d.rcAuto : 0;
-    const carbA = d.haAuto ? d.carburanteMese * 12 : 0;
-    const contoA = d.contoCosto;
-    const polizzaA = d.haPolizza ? d.polizza * 12 : 0;
-    const casaA = d.tipoCasa !== 'nessuno' ? d.rataCasa * 12 : 0;
-    const uniA = d.haUni ? d.retta : 0;
-    const totale = luceA + gasA + internetA + rcA + carbA + contoA + polizzaA + casaA + uniA;
-
-    // Stime risparmio realistiche
-    const risLuce = Math.max(0, luceA - 50 * 12);
-    const risGas = d.riscaldamento ? Math.max(0, gasA - 60 * 12) : Math.max(0, gasA - 20 * 12);
-    const risInternet = Math.max(0, internetA - 18 * 12);
-    const risRc = d.haAuto ? Math.max(0, rcA - 280) : 0;
-    const risCarb = d.haAuto ? Math.round(carbA * 0.12) : 0;
-    const risConto = Math.max(0, contoA);
-    const risMutuo = d.tipoCasa === 'mutuo' && d.rataCasa > 500 ? Math.round(casaA * 0.08) : 0;
-    const risPolizza = d.haPolizza ? Math.max(0, polizzaA - 300) : 0;
-    const rispTotale = risLuce + risGas + risInternet + risRc + risCarb + risConto + risMutuo + risPolizza;
-
-    const waText = `🧮 La mia famiglia spende €${Math.round(totale).toLocaleString()}/anno in spese fisse!\n💡 Potrei risparmiare fino a €${Math.round(rispTotale).toLocaleString()}/anno.\n\nCalcola il tuo spreco su 👉 https://soldibuoni.it/quanto-spendo`;
-    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(waText);
-
-    return (
-      <div className="step-anim">
-        <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', borderRadius: 24, padding: '40px 32px', color: '#fff', marginBottom: 32, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)' }}>
-          <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
-          
-          <p style={{ fontSize: 13, color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8 }}>Spesa Fissa Annuale</p>
-          <div style={{ fontSize: 56, fontWeight: 800, marginBottom: 8, fontFamily: "'Playfair Display',serif", letterSpacing: '-1px' }}>
-            €{Math.round(totale).toLocaleString()}
-          </div>
-          
-          {rispTotale > 20 && (
-            <div style={{ marginTop: 24, background: 'rgba(16,185,129,0.15)', borderRadius: 16, padding: '20px 24px', border: '1px solid rgba(16,185,129,0.3)', backdropFilter: 'blur(12px)' }}>
-              <p style={{ fontSize: 14, color: '#6ee7b7', fontWeight: 700, marginBottom: 4 }}>Spreco Recuperabile Stimato</p>
-              <p style={{ fontSize: 36, fontWeight: 800, color: '#34d399', fontFamily: "'Playfair Display',serif", letterSpacing: '-0.5px' }}>
-                −€{Math.round(rispTotale).toLocaleString()}<span style={{ fontSize: 16, fontWeight: 600 }}>/anno</span>
-              </p>
-            </div>
-          )}
-        </div>
-
-        <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', marginBottom: 20, fontFamily: "'Playfair Display',serif" }}>Il tuo Piano d'Azione</h3>
-
-        <SavRow icon="⚡" label="Energia Elettrica" annuo={luceA} risparmio={risLuce} color="#F59E0B" link="/luce-gas" linkText="Migliori offerte Luce →" />
-        <SavRow icon="🔥" label="Gas Naturale" annuo={gasA} risparmio={risGas} color="#EF4444" link="/luce-gas" linkText="Migliori offerte Gas →" />
-        <SavRow icon="📡" label="Internet" annuo={internetA} risparmio={risInternet} color="#8B5CF6" link="/internet" linkText="Trova Fibra più veloce →" />
-        {d.haAuto && <SavRow icon="🚗" label="RC Auto" annuo={rcA} risparmio={risRc} color="#EC4899" link="/rc_auto" linkText="Calcola RC Auto →" />}
-        {d.haAuto && <SavRow icon="⛽" label="Carburante" annuo={carbA} risparmio={risCarb} color="#06b6d4" link="/carburante" linkText="Confronta Auto Elettrica →" />}
-        <SavRow icon="💳" label="Conti Correnti" annuo={contoA} risparmio={risConto} color="#10B981" link="/conti-correnti" linkText="Apri conto a zero spese →" />
-        {d.haPolizza && <SavRow icon="🏥" label="Polizza Sanitaria" annuo={polizzaA} risparmio={risPolizza} color="#f97316" link="/salute" linkText="Confronta Polizze →" />}
-        {d.tipoCasa === 'mutuo' && risMutuo > 50 && <SavRow icon="🏠" label="Mutuo (Surroga)" annuo={casaA} risparmio={risMutuo} color="#3b82f6" link="/mutuo" linkText="Simula Surroga →" />}
-
-        <div style={{ background: '#fff', borderRadius: 24, padding: '32px 24px', border: '1px solid rgba(0,0,0,0.04)', marginTop: 32, textAlign: 'center', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)' }}>
-          <h4 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 8 }}>Sfida amici e parenti</h4>
-          <p style={{ fontSize: 14, color: '#64748b', marginBottom: 20 }}>Invia il tuo risultato e scopri chi spende meno.</p>
-          <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-nav-primary" style={{ '--primary': '#25D366', width: '100%' }}>
-            Invia su WhatsApp 💬
-          </a>
-        </div>
-      </div>
-    );
-  };
+  const waText = `🧮 La mia famiglia spende €${Math.round(totale).toLocaleString()}/anno in spese fisse!\n💡 Potrei risparmiare fino a €${Math.round(rispTotale).toLocaleString()}/anno.\n\nCalcola il tuo spreco su 👉 https://soldibuoni.it/quanto-spendo`;
+  const waUrl = 'https://wa.me/?text=' + encodeURIComponent(waText);
 
   return (
     <div className="wizard-wrapper" style={{ '--primary': color }}>
@@ -277,7 +162,7 @@ export function QuantoSpendo({ color = '#059669' }) {
         .wizard-wrapper { max-width: 680px; margin: 0 auto; font-family: 'Inter', sans-serif; }
         .glass-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 24px; padding: 32px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); margin-bottom: 24px; }
         
-        .big-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; outline: none; margin: 12px 0; }
+        .big-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; outline: none; margin: 12px 0; touch-action: none; }
         .big-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--slider-color); cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 4px solid #fff; transition: transform 0.2s; }
         .big-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
         
@@ -314,10 +199,108 @@ export function QuantoSpendo({ color = '#059669' }) {
         </div>
       </div>
 
-      {step === 0 && <S1 />}
-      {step === 1 && <S2 />}
-      {step === 2 && <S3 />}
-      {step === 3 && <S4 />}
+      {/* CONTENUTO INLINE (Risolto bug smontaggio React) */}
+      {step === 0 && (
+        <div>
+          <Box title="⚡ Bolletta Luce (media mensile)">
+            <Sl label="Quanto paghi al mese?" value={d.luce} onChange={(v) => setD({ ...d, luce: v })} min={20} max={200} step={5} prefix="€" color="#F59E0B" />
+          </Box>
+          <Box title="🔥 Bolletta Gas (media mensile)">
+            <Sl label="Quanto paghi al mese?" value={d.gas} onChange={(v) => setD({ ...d, gas: v })} min={10} max={250} step={5} prefix="€" color="#EF4444" />
+            <Tog label="Ho riscaldamento autonomo a gas" icon="🏠" checked={d.riscaldamento} onChange={(v) => setD({ ...d, riscaldamento: v })} color="#EF4444" />
+          </Box>
+          <Box title="📡 Internet Casa (mensile)">
+            <Sl label="Quanto paghi al mese?" value={d.internet} onChange={(v) => setD({ ...d, internet: v })} min={15} max={50} step={1} prefix="€" color="#8B5CF6" />
+          </Box>
+        </div>
+      )}
+
+      {step === 1 && (
+        <div>
+          <Box title="🚗 Auto & Mobilità">
+            <Tog label="Possiedo un'auto" icon="🚘" checked={d.haAuto} onChange={(v) => setD({ ...d, haAuto: v })} color="#EC4899" />
+            {d.haAuto && (
+              <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
+                <Sl label="RC Auto (premio annuale)" value={d.rcAuto} onChange={(v) => setD({ ...d, rcAuto: v })} min={150} max={800} step={10} prefix="€" color="#EC4899" />
+                <Sl label="Carburante al mese" value={d.carburanteMese} onChange={(v) => setD({ ...d, carburanteMese: v })} min={30} max={400} step={10} prefix="€" color="#06b6d4" />
+              </div>
+            )}
+          </Box>
+          <Box title="💳 Conto Corrente">
+            <Sl label="Costo annuo (canone + carte + bolli)" value={d.contoCosto} onChange={(v) => setD({ ...d, contoCosto: v })} min={0} max={200} step={5} prefix="€" color="#10B981" />
+          </Box>
+          <Box title="🏥 Polizza Sanitaria">
+            <Tog label="Ho una polizza sanitaria" icon="⚕️" checked={d.haPolizza} onChange={(v) => setD({ ...d, haPolizza: v })} color="#f97316" />
+            {d.haPolizza && (
+              <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
+                <Sl label="Quanto paghi al mese?" value={d.polizza} onChange={(v) => setD({ ...d, polizza: v })} min={15} max={150} step={5} prefix="€" color="#f97316" />
+              </div>
+            )}
+          </Box>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <Box title="🏠 Mutuo o Affitto">
+            <Pill options={[{ id: 'nessuno', label: 'Nessuno' }, { id: 'mutuo', label: 'Mutuo' }, { id: 'affitto', label: 'Affitto' }]} value={d.tipoCasa} onChange={(v) => setD({ ...d, tipoCasa: v })} color="#3b82f6" />
+            {(d.tipoCasa === 'mutuo' || d.tipoCasa === 'affitto') && (
+              <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
+                <Sl label={d.tipoCasa === 'mutuo' ? 'Rata mutuo mensile' : 'Affitto mensile'} value={d.rataCasa} onChange={(v) => setD({ ...d, rataCasa: v })} min={200} max={2000} step={50} prefix="€" color="#3b82f6" />
+              </div>
+            )}
+          </Box>
+          <Box title="🎓 Università">
+            <Tog label="Ho figli all'università" icon="📚" checked={d.haUni} onChange={(v) => setD({ ...d, haUni: v })} color="#6366F1" />
+            {d.haUni && (
+              <div style={{ marginTop: 24, animation: 'slideIn 0.3s ease-out' }}>
+                <Sl label="Retta universitaria annuale" value={d.retta} onChange={(v) => setD({ ...d, retta: v })} min={500} max={15000} step={250} prefix="€" color="#6366F1" />
+              </div>
+            )}
+          </Box>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="step-anim">
+          <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', borderRadius: 24, padding: '40px 32px', color: '#fff', marginBottom: 32, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.15)' }}>
+            <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
+            
+            <p style={{ fontSize: 13, color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8 }}>Spesa Fissa Annuale</p>
+            <div style={{ fontSize: 56, fontWeight: 800, marginBottom: 8, fontFamily: "'Playfair Display',serif", letterSpacing: '-1px' }}>
+              €{Math.round(totale).toLocaleString()}
+            </div>
+            
+            {rispTotale > 20 && (
+              <div style={{ marginTop: 24, background: 'rgba(16,185,129,0.15)', borderRadius: 16, padding: '20px 24px', border: '1px solid rgba(16,185,129,0.3)', backdropFilter: 'blur(12px)' }}>
+                <p style={{ fontSize: 14, color: '#6ee7b7', fontWeight: 700, marginBottom: 4 }}>Spreco Recuperabile Stimato</p>
+                <p style={{ fontSize: 36, fontWeight: 800, color: '#34d399', fontFamily: "'Playfair Display',serif", letterSpacing: '-0.5px' }}>
+                  −€{Math.round(rispTotale).toLocaleString()}<span style={{ fontSize: 16, fontWeight: 600 }}>/anno</span>
+                </p>
+              </div>
+            )}
+          </div>
+
+          <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', marginBottom: 20, fontFamily: "'Playfair Display',serif" }}>Il tuo Piano d'Azione</h3>
+
+          <SavRow icon="⚡" label="Energia Elettrica" annuo={luceA} risparmio={risLuce} color="#F59E0B" link="/luce-gas" linkText="Migliori offerte Luce →" />
+          <SavRow icon="🔥" label="Gas Naturale" annuo={gasA} risparmio={risGas} color="#EF4444" link="/luce-gas" linkText="Migliori offerte Gas →" />
+          <SavRow icon="📡" label="Internet" annuo={internetA} risparmio={risInternet} color="#8B5CF6" link="/internet" linkText="Trova Fibra più veloce →" />
+          {d.haAuto && <SavRow icon="🚗" label="RC Auto" annuo={rcA} risparmio={risRc} color="#EC4899" link="/rc_auto" linkText="Calcola RC Auto →" />}
+          {d.haAuto && <SavRow icon="⛽" label="Carburante" annuo={carbA} risparmio={risCarb} color="#06b6d4" link="/carburante" linkText="Confronta Auto Elettrica →" />}
+          <SavRow icon="💳" label="Conti Correnti" annuo={contoA} risparmio={risConto} color="#10B981" link="/conti-correnti" linkText="Apri conto a zero spese →" />
+          {d.haPolizza && <SavRow icon="🏥" label="Polizza Sanitaria" annuo={polizzaA} risparmio={risPolizza} color="#f97316" link="/salute" linkText="Confronta Polizze →" />}
+          {d.tipoCasa === 'mutuo' && risMutuo > 50 && <SavRow icon="🏠" label="Mutuo (Surroga)" annuo={casaA} risparmio={risMutuo} color="#3b82f6" link="/mutuo" linkText="Simula Surroga →" />}
+
+          <div style={{ background: '#fff', borderRadius: 24, padding: '32px 24px', border: '1px solid rgba(0,0,0,0.04)', marginTop: 32, textAlign: 'center', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)' }}>
+            <h4 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 8 }}>Sfida amici e parenti</h4>
+            <p style={{ fontSize: 14, color: '#64748b', marginBottom: 20 }}>Invia il tuo risultato e scopri chi spende meno.</p>
+            <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-nav-primary" style={{ '--primary': '#25D366', width: '100%' }}>
+              Invia su WhatsApp 💬
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* BOTTONIERA DI NAVIGAZIONE */}
       <div style={{ display: 'flex', gap: 12, marginTop: 32 }}>
