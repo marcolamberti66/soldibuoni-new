@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const STEPS = ['Bollette', 'Auto & Servizi', 'Casa & Famiglia', 'Risultati'];
 const EASE_FLUID = 'cubic-bezier(0.16, 1, 0.3, 1)';
@@ -14,17 +14,39 @@ function Box({ title, children }) {
   );
 }
 
+// FIX FLUIDITÀ: Il componente Slider ora gestisce uno stato visivo fluido e uno logico a scatti
 function Sl({ label, value, onChange, min, max, step, prefix, suffix, color }) {
-  const display = (prefix || '') + value.toLocaleString() + (suffix || '');
+  const [dragVal, setDragVal] = useState(value);
+
+  // Sincronizza il pallino se il valore viene resettato alla fine del percorso
+  useEffect(() => {
+    setDragVal(value);
+  }, [value]);
+
+  // Calcola il valore da mostrare a schermo rispettando il "salto" (step) richiesto
+  const displayVal = step ? Math.round(dragVal / step) * step : dragVal;
+  const display = (prefix || '') + displayVal.toLocaleString() + (suffix || '');
+
   return (
     <div style={{ marginBottom: 28 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
         <span style={{ fontSize: 15, fontWeight: 600, color: '#475569' }}>{label}</span>
         <span style={{ fontSize: 24, fontWeight: 800, color: color || 'var(--primary)' }}>{display}</span>
       </div>
-      <input type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(+e.target.value)}
-        className="big-slider" style={{ '--slider-color': color || 'var(--primary)' }} 
+      <input 
+        type="range" 
+        min={min} 
+        max={max} 
+        step="1" // TRUCCO: Forziamo il browser a far scorrere il pallino sempre fluido (1 a 1)
+        value={dragVal}
+        onChange={(e) => {
+          const raw = +e.target.value;
+          setDragVal(raw); // Aggiorniamo la posizione del pallino in tempo reale in modo fluido
+          const snapped = step ? Math.round(raw / step) * step : raw;
+          onChange(snapped); // Passiamo al sistema di calcolo generale il valore "a scatti"
+        }}
+        className="big-slider" 
+        style={{ '--slider-color': color || 'var(--primary)' }} 
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>
         <span>{(prefix || '') + min}</span><span>{(prefix || '') + max + (suffix || '')}</span>
