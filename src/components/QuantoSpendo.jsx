@@ -14,16 +14,18 @@ function Box({ title, children }) {
   );
 }
 
-// FIX FLUIDITÀ: Il componente Slider ora gestisce uno stato visivo fluido e uno logico a scatti
+// FIX DEFINITIVO: Sensori di tocco per impedire a React di "strapparti" il pallino mentre trascini
 function Sl({ label, value, onChange, min, max, step, prefix, suffix, color }) {
   const [dragVal, setDragVal] = useState(value);
+  const [isDragging, setIsDragging] = useState(false);
 
-  // Sincronizza il pallino se il valore viene resettato alla fine del percorso
   useEffect(() => {
-    setDragVal(value);
-  }, [value]);
+    // Sincronizza la posizione solo se l'utente NON sta toccando il pallino
+    if (!isDragging) {
+      setDragVal(value);
+    }
+  }, [value, isDragging]);
 
-  // Calcola il valore da mostrare a schermo rispettando il "salto" (step) richiesto
   const displayVal = step ? Math.round(dragVal / step) * step : dragVal;
   const display = (prefix || '') + displayVal.toLocaleString() + (suffix || '');
 
@@ -37,13 +39,16 @@ function Sl({ label, value, onChange, min, max, step, prefix, suffix, color }) {
         type="range" 
         min={min} 
         max={max} 
-        step="1" // TRUCCO: Forziamo il browser a far scorrere il pallino sempre fluido (1 a 1)
+        step="1" 
         value={dragVal}
+        onPointerDown={() => setIsDragging(true)}
+        onPointerUp={() => setIsDragging(false)}
+        onPointerCancel={() => setIsDragging(false)}
         onChange={(e) => {
           const raw = +e.target.value;
-          setDragVal(raw); // Aggiorniamo la posizione del pallino in tempo reale in modo fluido
+          setDragVal(raw); // Movimento fluido libero
           const snapped = step ? Math.round(raw / step) * step : raw;
-          onChange(snapped); // Passiamo al sistema di calcolo generale il valore "a scatti"
+          onChange(snapped); // Invio del valore a scatti al calcolatore
         }}
         className="big-slider" 
         style={{ '--slider-color': color || 'var(--primary)' }} 
