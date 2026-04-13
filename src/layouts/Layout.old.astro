@@ -1,0 +1,217 @@
+---
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> 
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" /> 
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://soldibuoni.it">
+  <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H2JD077CTH');
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style is:global>
+    :root {
+      --bg-body: #f1f5f9; 
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --color-primary: #059669;
+      --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background: var(--bg-body); 
+      color: var(--text-main); 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      line-height: 1.6; 
+      -webkit-font-smoothing: antialiased; 
+    }
+    a { text-decoration: none; color: inherit; }
+    ::selection { background: var(--color-primary); color: #fff; }
+  </style>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://soldibuoni.it/#website",
+          "url": "https://soldibuoni.it/",
+          "name": "Soldi Buoni",
+          "description": "La tua plancia di comando per abbattere i costi e ottimizzare le finanze personali.",
+          "inLanguage": "it-IT"
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://soldibuoni.it/#organization",
+          "name": "Soldi Buoni",
+          "alternateName": "Soldibuoni.it",
+          "url": "https://soldibuoni.it/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://soldibuoni.it/favicon-48.png"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+  
+  <nav id="main-nav" class="glass-nav">
+    <a href="/" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="8" fill="url(#paint0_linear)" />
+        <path d="M14.5 9.5C14.5 8.11929 13.3807 7 12 7H10.5C9.11929 7 8 8.11929 8 9.5C8 10.8807 9.11929 12 10.5 12H13.5C14.8807 12 16 13.1193 16 14.5C16 15.8807 14.8807 17 13.5 17H12C10.6193 17 9.5 15.8807 9.5 14.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M12 5.5V18.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="paint0_linear" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#10b981"/>
+            <stop offset="1" stop-color="#047857"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      Soldi Buoni
+    </a>
+    
+    <div class="nav-links-desktop">
+      <a href="/#impara" class="nav-pill nav-pill-blue">📚 Strumenti</a>
+      <a href="/#risparmia" class="nav-pill nav-pill-green">💸 Confronta</a>
+      <a href="/#gestisci" class="nav-pill nav-pill-purple">
+        📊 Gestisci <span class="nav-soon">soon</span>
+      </a>
+    </div>
+
+    <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <div class="mobile-section-label" style="color: #3b82f6;">📚 STRUMENTI</div>
+      <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
+      <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
+      <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
+      <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
+      <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
+
+      <div class="mobile-section-label" style="color: #059669; margin-top: 24px;">💸 CONFRONTA</div>
+      <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
+      <a href="/internet" class="mobile-link">📡 Offerte Internet</a>
+      <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+      <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
+      <a href="/istruzione" class="mobile-link">🎓 Università</a>
+      <a href="/tfr_pensione" class="mobile-link">📈 Previdenza & TFR</a>
+      <a href="/salute" class="mobile-link">🏥 Salute</a>
+
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📊 GESTISCI</div>
+      <a href="/bollo_revisione" class="mobile-link">🔧 Memo Scadenze Auto</a>
+    </div>
+  </div>
+
+  <main style="flex: 1; padding-bottom: 80px;">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span style="font-family: 'Playfair Display',serif; color: #fff; font-weight: 700; font-size: 24px;">Soldi Buoni</span>
+        <p style="margin-top: 12px; font-size: 14px; color: #94a3b8; line-height: 1.8;">
+          La tua plancia di comando per abbattere i costi e ottimizzare le finanze personali.
+        </p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4 class="footer-heading">Strumenti</h4>
+          <a href="/guida-risparmio">Guida Risparmio</a>
+          <a href="/quanto-spendo">Quanto Spendo?</a>
+          <a href="/analisi-bolletta">Analizza Bolletta</a>
+          <a href="/checklist">Checklist</a>
+        </div>
+        <div>
+          <h4 class="footer-heading">Confronta</h4>
+          <a href="/luce-gas">Luce & Gas</a>
+          <a href="/conti-correnti">Conti Correnti</a>
+          <a href="/internet">Internet</a>
+          <a href="/rc_auto">RC Auto</a>
+        </div>
+        <div>
+          <h4 class="footer-heading">Info</h4>
+          <a href="/chi-siamo">Chi Siamo</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle?.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      if(menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => { if(!menu.classList.contains('open')) menu.style.display = 'none' }, 400);
+      } else {
+        menu.style.display = 'block';
+        setTimeout(() => menu.classList.add('open'), 10);
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  </script>
+</body>
+</html>
+
+<style>
+  .glass-nav {
+    background: rgba(241, 245, 249, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    position: sticky; top: 0; z-index: 100; height: 72px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #0f172a; }
+  .nav-links-desktop { display: flex; gap: 12px; align-items: center; }
+  .nav-pill { font-size: 14px; font-weight: 600; padding: 8px 20px; border-radius: 100px; transition: all 0.3s var(--ease-fluid); display: flex; align-items: center; gap: 6px; }
+  .nav-pill-blue { background: rgba(59,130,246,0.08); color: #1d4ed8; }
+  .nav-pill-green { background: rgba(16,185,129,0.08); color: #047857; }
+  .nav-pill-purple { background: rgba(139,92,246,0.08); color: #6d28d9; }
+  .nav-soon { font-size: 10px; font-weight: 800; text-transform: uppercase; background: #8b5cf6; color: #fff; padding: 2px 8px; border-radius: 100px; }
+  .menu-toggle { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 200; }
+  .menu-toggle span { display: block; width: 24px; height: 2px; background: #0f172a; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(241,245,249,0.95); backdrop-filter: blur(16px); z-index: 99; overflow-y: auto; opacity: 0; transition: opacity 0.3s var(--ease-fluid); }
+  .mobile-menu.open { display: block; opacity: 1; }
+  .mobile-menu-inner { padding: 90px 24px 40px; display: flex; flex-direction: column; gap: 4px; }
+  .mobile-section-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 16px 12px 8px; }
+  .mobile-link { display: block; font-size: 17px; font-weight: 600; color: #0f172a; padding: 14px 16px; border-radius: 16px; }
+  .site-footer { background: #0f172a; color: #94a3b8; padding: 60px 0 40px; }
+  .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 32px; display: flex; gap: 64px; flex-wrap: wrap; }
+  .footer-brand { flex: 1.5; min-width: 260px; }
+  .footer-columns { display: flex; gap: 48px; flex-wrap: wrap; flex: 2; }
+  .footer-heading { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .footer-columns a { display: block; font-size: 14px; color: #94a3b8; padding: 6px 0; transition: color 0.2s; }
+  @media (max-width: 900px) { .nav-links-desktop { display: none; } .menu-toggle { display: flex; } .glass-nav { padding: 0 20px; height: 64px; } }
+</style>
