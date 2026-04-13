@@ -1,3 +1,4 @@
+
 ---
 import Layout from '../layouts/Layout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.jsx';
@@ -5,364 +6,770 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
 <Layout title="Soldi Buoni — Strumenti e Offerte per le tue Finanze" description="La tua plancia di comando per abbattere i costi, ricordare ogni scadenza e scegliere le migliori offerte di luce, gas, internet e assicurazioni.">
   
+  <!-- ══════ HERO ══════ -->
   <section class="hero">
-    <div class="hero-bg-mesh">
-      <div class="mesh-blob blob-1"></div>
-      <div class="mesh-blob blob-2"></div>
-      <div class="mesh-blob blob-3"></div>
-    </div>
+    <div class="hero-glow"></div>
     <div class="hero-inner">
-      <h1 class="hero-title">
-        Spese fuori controllo? <br/>Riprendi in mano i tuoi <span class="hero-accent">soldi.</span>
-      </h1>
-      <p class="hero-sub">
-        La tua plancia di comando per abbattere i costi di casa, ricordare ogni scadenza e non farti più fregare dal mercato.
-      </p>
-      <div class="hero-ctas">
-        <a href="/quanto-spendo" class="hero-btn-glow">🧮 Calcola quanto spendi →</a>
+      <div class="hero-left">
+        <h1>Il tuo consulente finanziario <em>personale.</em></h1>
+        <p>Guide, strumenti e comparazioni per aiutarti a prendere decisioni migliori per le tue finanze. Completamente gratis!</p>
+
+        <div class="msg-box">
+          <label>💬 Scrivici — ti rispondiamo entro 24h</label>
+          <textarea class="msg-input" rows="2" placeholder="Es: Ho una bolletta da €180/mese, è troppo? Come posso risparmiare?"></textarea>
+          <button class="msg-send">Invia messaggio →</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="popular-tools">
+          <h3>⚡ Gli strumenti più usati</h3>
+          <a href="/tfr_pensione" class="pop-tool">
+            <div class="pop-tool-icon" style="background:rgba(20,184,166,.15);">📊</div>
+            <span class="pop-tool-name">Confronta i fondi di investimento</span>
+            <span class="pop-tool-arrow">→</span>
+          </a>
+          <a href="/trova-bonus" class="pop-tool">
+            <div class="pop-tool-icon" style="background:rgba(245,158,11,.15);">🎁</div>
+            <span class="pop-tool-name">Trova bonus fiscale</span>
+            <span class="pop-tool-arrow">→</span>
+          </a>
+          <a href="/mutuo" class="pop-tool">
+            <div class="pop-tool-icon" style="background:rgba(16,185,129,.15);">🏠</div>
+            <span class="pop-tool-name">Simulatore mutui</span>
+            <span class="pop-tool-arrow">→</span>
+          </a>
+          <a href="/bollo_revisione" class="pop-tool">
+            <div class="pop-tool-icon" style="background:rgba(236,72,153,.15);">🚗</div>
+            <span class="pop-tool-name">Memo scadenze auto</span>
+            <span class="pop-tool-arrow">→</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="trust-strip">
-    <div class="trust-inner">
-      <span style="font-size: 18px;">🛡️</span>
-      <span class="trust-text">Strumenti <strong>100% gratuiti</strong> · Nessuna registrazione · Dati aggiornati ogni settimana · <a href="/chi-siamo" style="color: #059669; text-decoration: underline; font-weight: 600;">Come funziona →</a></span>
+  <!-- ══════ PROOF BAR ══════ -->
+  <div class="proof">
+    <div class="proof-inner">
+      <div class="proof-item"><span class="proof-n">8</span><span class="proof-l">Aree di spesa coperte</span></div>
+      <div class="proof-d"></div>
+      <div class="proof-item"><span class="proof-n">40+</span><span class="proof-l">Provider confrontati</span></div>
+      <div class="proof-d"></div>
+      <div class="proof-item"><span class="proof-n">172</span><span class="proof-l">Fondi pensione COVIP</span></div>
+      <div class="proof-d"></div>
+      <div class="proof-item"><span class="proof-n">12</span><span class="proof-l">Strumenti gratuiti</span></div>
     </div>
   </div>
 
-  <div class="page-content">
-
-    <section id="strumenti" class="pillar">
-      <div class="pillar-header">
-        <h2 class="pillar-title">I tuoi Strumenti Intelligenti</h2>
-        <p class="pillar-sub">Diagnostica, calcola e ottimizza. Azioni rapide senza registrazione.</p>
+  <!-- ══════ 8 CATEGORIE ══════ -->
+  <section id="cats" class="cats">
+    <div class="cats-inner">
+      <div class="cats-header">
+        <h2>Categorie di spesa</h2>
+        <p>Per ogni categoria trovi una guida per capire il mercato, i criteri per fare la scelta giusta e uno strumento per semplificarti la vita.</p>
       </div>
-
-      <div class="tools-grid">
-        
-        <a href="/analisi-bolletta" class="tool-card-hz tool-featured">
-          <div class="icon-squircle icon-featured">🔍</div>
-          <div class="tool-hz-content">
-            <h3 style="color: #fff;">Analizza Bollette AI</h3>
-            <p style="color: rgba(255,255,255,0.75);">L'AI calcola quanti soldi regali al fornitore.</p>
-          </div>
-          <div class="tool-hz-arrow" style="color: #34d399;">→</div>
+      <div class="cats-grid">
+        <a href="/luce-gas" class="cat-card" style="--cat-color:#f59e0b">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#fef3c7;">⚡🔥</div>
+          <h3>Luce & Gas</h3>
+          <p>Confronta le migliori tariffe del mercato libero</p>
         </a>
-
-        <a href="/quanto-spendo" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">🧮</div>
-          <div class="tool-hz-content">
-            <h3>Quanto Spendo?</h3>
-            <p>Scopri in 60 sec dove puoi tagliare le spese.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/internet" class="cat-card" style="--cat-color:#8b5cf6">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#ede9fe;">📡</div>
+          <h3>Fibra & Internet</h3>
+          <p>FTTH, FTTC e FWA a confronto senza vincoli</p>
         </a>
-
-        <a href="/checklist" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">✅</div>
-          <div class="tool-hz-content">
-            <h3>Checklist Salvavita</h3>
-            <p>12 azioni per sbloccare fino a €4.000/anno.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/rc_auto" class="cat-card" style="--cat-color:#ec4899">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#fce7f3;">🚗</div>
+          <h3>RC Auto</h3>
+          <p>Preventivo rapido tra le principali compagnie</p>
         </a>
-
-        <a href="/guida-risparmio" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">📖</div>
-          <div class="tool-hz-content">
-            <h3>Guida Risparmio 2026</h3>
-            <p>Le strategie pratiche per gli sprechi domestici.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/tfr_pensione" class="cat-card" style="--cat-color:#14b8a6">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#ccfbf1;">📊</div>
+          <h3>Previdenza & TFR</h3>
+          <p>172 fondi COVIP con rendimenti ufficiali</p>
         </a>
-
-        <a href="/mutuo" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">🏠</div>
-          <div class="tool-hz-content">
-            <h3>Simulatore Mutui</h3>
-            <p>Calcola rata, ammortamento e surroga.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/conti-correnti" class="cat-card" style="--cat-color:#10b981">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#dcfce7;">💳</div>
+          <h3>Conti Correnti</h3>
+          <p>Zero spese, cashback e liquidità remunerata</p>
         </a>
-
-        <a href="/bollo_revisione" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">🚗</div>
-          <div class="tool-hz-content">
-            <h3>Memo Scadenze Auto</h3>
-            <p>Al bollo e alla revisione ci pensiamo noi.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/interesse-composto" class="cat-card" style="--cat-color:#3b82f6">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#dbeafe;">📈</div>
+          <h3>Investimenti</h3>
+          <p>Simula l'interesse composto sui tuoi risparmi</p>
         </a>
-
-        <a href="/calcolo-stipendio" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">💶</div>
-          <div class="tool-hz-content">
-            <h3>Calcolo Stipendio</h3>
-            <p>Dal Lordo al Netto in un clic.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
+        <a href="/salute" class="cat-card" style="--cat-color:#ef4444">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#fee2e2;">🏥</div>
+          <h3>Polizze Sanitarie</h3>
+          <p>Integrativa dentale, oculistica e ricoveri</p>
         </a>
-
-        <a href="/interesse-composto" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">📈</div>
-          <div class="tool-hz-content">
-            <h3>Macchina del Tempo</h3>
-            <p>Simula l'interesse composto.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
-        </a>
-
-        <a href="/trova-bonus" class="tool-card-hz">
-          <div class="icon-squircle glass-squircle">🎁</div>
-          <div class="tool-hz-content">
-            <h3>Trova Bonus</h3>
-            <p>Agevolazioni e sgravi fiscali.</p>
-          </div>
-          <div class="tool-hz-arrow">→</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section id="mercato" class="pillar pillar-market">
-      <div class="pillar-header">
-        <h2 class="pillar-title">Capire il mercato e scegliere</h2>
-        <p class="pillar-sub">Offerte reali e trasparenti, aggiornate automaticamente.</p>
-      </div>
-
-      <div class="market-grid">
-        
-        <a href="/luce-gas" class="market-card">
-          <div class="icon-market" style="background: #fef3c7; color: #d97706;">⚡🔥</div>
-          <h3 class="market-name">Luce & Gas</h3>
-          <span class="market-price">Da €0.118/kWh · Da €0.41/Smc</span>
-          <p class="market-desc">Smetti di pagare la fedeltà al vecchio fornitore e abbatti le bollette.</p>
-          <div class="market-bottom">
-            <span class="live-badge">● Dati Live</span>
-            <span class="market-btn" style="background: #f59e0b; color: #fff;">Scopri le offerte →</span>
-          </div>
-        </a>
-
-        <a href="/internet" class="market-card">
-          <div class="icon-market" style="background: #ede9fe; color: #7c3aed;">📡</div>
-          <h3 class="market-name">Fibra & Internet</h3>
-          <span class="market-price">Da €17.69/mese · FTTH fino a 5 Gbps</span>
-          <p class="market-desc">Naviga al massimo senza vincoli nascosti o costi modem esorbitanti.</p>
-          <div class="market-bottom">
-            <span class="live-badge">● Dati Live</span>
-            <span class="market-btn" style="background: #8b5cf6; color: #fff;">Verifica copertura →</span>
-          </div>
-        </a>
-
-        <a href="/rc_auto" class="market-card">
-          <div class="icon-market" style="background: #fce7f3; color: #db2777;">🚗</div>
-          <h3 class="market-name">RC Auto</h3>
-          <span class="market-price">7 compagnie · Preventivo in 2 min</span>
-          <p class="market-desc">Evita il rinnovo automatico. Confronta il mercato e risparmia sul premio.</p>
-          <div class="market-bottom">
-            <span class="estimate-badge">📊 Stima Mercato</span>
-            <span class="market-btn" style="background: #ec4899; color: #fff;">Calcola Preventivo →</span>
-          </div>
-        </a>
-
-        <a href="/conti-correnti" class="market-card">
-          <div class="icon-market" style="background: #dcfce7; color: #059669;">💳</div>
-          <h3 class="market-name">Conti Correnti</h3>
-          <span class="market-price">Zero spese · Cashback · Carte gratuite</span>
-          <p class="market-desc">Scegli la banca giusta: azzera il canone o ottieni liquidità remunerata.</p>
-          <div class="market-bottom">
-            <span class="estimate-badge">📊 Confronto</span>
-            <span class="market-btn" style="background: #10b981; color: #fff;">Trova il tuo conto →</span>
-          </div>
-        </a>
-
-        <a href="/tfr_pensione" class="market-card">
-          <div class="icon-market" style="background: #e0f2fe; color: #0284c7;">📈</div>
-          <h3 class="market-name">Previdenza & TFR</h3>
-          <span class="market-price">ISC da 0.15% · Rend. fino al 5.5%</span>
-          <p class="market-desc">Scopri dove versare il TFR per massimizzare il rendimento e i vantaggi fiscali.</p>
-          <div class="market-bottom">
-            <span class="estimate-badge">📊 Stima Mercato</span>
-            <span class="market-btn" style="background: #0ea5e9; color: #fff;">Confronta i fondi →</span>
-          </div>
-        </a>
-
-        <a href="/salute" class="market-card">
-          <div class="icon-market" style="background: #ffedd5; color: #ea580c;">🏥</div>
-          <h3 class="market-name">Polizze Sanitarie</h3>
-          <span class="market-price">Da €25/mese · Base, Standard, Premium</span>
-          <p class="market-desc">Azzera i costi del privato con rimborso rapido per visite e grandi interventi.</p>
-          <div class="market-bottom">
-            <span class="estimate-badge">📊 Confronto</span>
-            <span class="market-btn" style="background: #f97316; color: #fff;">Vedi i pacchetti →</span>
-          </div>
-        </a>
-
-        <a href="/istruzione" class="market-card">
-          <div class="icon-market" style="background: #f3f4f6; color: #475569;">🎓</div>
-          <h3 class="market-name">Rette Universitarie</h3>
-          <span class="market-price">10 facoltà · Pubbliche e private</span>
-          <p class="market-desc">Confronta all'istante le tasse universitarie in base alla tua fascia ISEE.</p>
-          <div class="market-bottom">
-            <span class="estimate-badge">📊 Confronto</span>
-            <span class="market-btn" style="background: #64748b; color: #fff;">Confronta rette →</span>
-          </div>
+        <a href="/istruzione" class="cat-card" style="--cat-color:#6366f1">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#eef2ff;">🎓</div>
+          <h3>Rette Universitarie</h3>
+          <p>Stima tasse per facoltà e fascia ISEE</p>
         </a>
       </div>
+    </div>
+  </section>
 
+  <!-- ══════ 3 OFFERTE IN EVIDENZA ══════ -->
+  <section class="offers">
+    <div class="offers-inner">
+      <div class="offers-header">
+        <h2>Offerte in evidenza</h2>
+        <p>Le migliori opportunità del momento selezionate per te.</p>
+      </div>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <div class="offer-top">
+            <div class="offer-icon" style="background:#dcfce7;">💳</div>
+            <span class="offer-badge">Consigliato</span>
+          </div>
+          <h3>BBVA — Conto Online</h3>
+          <p class="offer-price">Rendimento 3% lordo · Cashback 4% · Canone €0</p>
+          <p class="offer-desc">Il conto più remunerativo del momento. Zero spese, zero vincoli, gestione 100% digitale.</p>
+          <a href="https://www.bbva.it/persone/prodotti/conti/conto-online.html" target="_blank" rel="noopener noreferrer" class="offer-cta">Scopri l'offerta →</a>
+        </div>
+        <div class="offer-card">
+          <div class="offer-top">
+            <div class="offer-icon" style="background:#fef3c7;">⚡🔥</div>
+            <span class="offer-badge">Luce + Gas</span>
+          </div>
+          <h3>Eni Plenitude — Combinata</h3>
+          <p class="offer-price">Pacchetto Luce + Gas · Buono spesa 100€</p>
+          <p class="offer-desc">Offerta combinata con gestione digitale e attivazione gratuita. Fixa Time Smart e Trend Casa.</p>
+          <a href="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530" target="_blank" rel="noopener noreferrer" class="offer-cta">Scopri l'offerta →</a>
+        </div>
+        <div class="offer-card">
+          <div class="offer-top">
+            <div class="offer-icon" style="background:#e0f2fe;">💰</div>
+            <span class="offer-badge">Bonus 25€</span>
+          </div>
+          <h3>Hype — Carta Conto</h3>
+          <p class="offer-price">Canone €0 · Carta virtuale immediata</p>
+          <p class="offer-desc">La carta conto smart n.1 in Italia. Gestione 100% da app, zero costi nascosti e bonus di benvenuto.</p>
+          <a href="https://www.financeads.net/tc.php?t=82784C257247700T" target="_blank" rel="noopener noreferrer" class="offer-cta">Scopri l'offerta →</a>
+        </div>
+      </div>
       <div class="transparency-box">
         <p>
           <strong>🤝 Trasparenza:</strong> Alcuni link in questa sezione sono link di affiliazione. 
           Potremmo ricevere una commissione — senza costi aggiuntivi per te. 
           Questo ci permette di mantenere gli strumenti gratuiti. 
-          <a href="/chi-siamo" style="color: #059669; text-decoration: underline; font-weight: 600;">Scopri di più →</a>
+          <a href="/chi-siamo" style="color: var(--green-600); text-decoration: underline; font-weight: 600;">Scopri di più →</a>
         </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="pillar" style="padding-bottom: 80px;">
-      <NewsletterSignup client:load variant="compact" />
-    </section>
+  <!-- ══════ TUTTI GLI STRUMENTI ══════ -->
+  <section id="tools" class="all-tools">
+    <div class="all-tools-inner">
+      <div class="all-tools-header">
+        <h2>Tutti gli strumenti</h2>
+        <p>Simula, calcola e ottimizza. Azioni rapide senza nessuna registrazione.</p>
+      </div>
+      <div class="tool-list">
+        <a href="/analisi-bolletta" class="tool-bar">
+          <div class="tool-bar-icon">🔍</div>
+          <div class="tool-bar-content"><h4>Analizza Bollette AI</h4><p>Carica la bolletta e scopri quanto stai pagando in più rispetto al mercato.</p></div>
+          <span class="tool-bar-tag">AI</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/quanto-spendo" class="tool-bar">
+          <div class="tool-bar-icon">🧮</div>
+          <div class="tool-bar-content"><h4>Quanto Spendo?</h4><p>Analisi completa delle spese domestiche in 60 secondi.</p></div>
+          <span class="tool-bar-tag">Diagnostica</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/checklist" class="tool-bar">
+          <div class="tool-bar-icon">✅</div>
+          <div class="tool-bar-content"><h4>Checklist Salvavita</h4><p>12 azioni concrete per risparmiare fino a €4.000/anno.</p></div>
+          <span class="tool-bar-tag">Guida</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/guida-risparmio" class="tool-bar">
+          <div class="tool-bar-icon">📖</div>
+          <div class="tool-bar-content"><h4>Guida Risparmio 2026</h4><p>Le strategie pratiche per eliminare ogni spreco domestico.</p></div>
+          <span class="tool-bar-tag">Guida</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/mutuo" class="tool-bar">
+          <div class="tool-bar-icon">🏠</div>
+          <div class="tool-bar-content"><h4>Simulatore Mutui</h4><p>Calcola rata, ammortamento, confronta tasso fisso e variabile.</p></div>
+          <span class="tool-bar-tag">Calcolatore</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/calcolo-stipendio" class="tool-bar">
+          <div class="tool-bar-icon">💶</div>
+          <div class="tool-bar-content"><h4>Calcolo Stipendio Netto</h4><p>Dal lordo al netto in un clic. Con IRPEF, contributi e detrazioni.</p></div>
+          <span class="tool-bar-tag">Calcolatore</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/interesse-composto" class="tool-bar">
+          <div class="tool-bar-icon">📈</div>
+          <div class="tool-bar-content"><h4>Simulatore Interesse Composto</h4><p>Visualizza come crescono i tuoi risparmi nel tempo con diversi scenari.</p></div>
+          <span class="tool-bar-tag">Calcolatore</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/trova-bonus" class="tool-bar">
+          <div class="tool-bar-icon">🎁</div>
+          <div class="tool-bar-content"><h4>Trova Bonus Fiscale</h4><p>Verifica le agevolazioni e i bonus a cui hai diritto in base alla tua situazione.</p></div>
+          <span class="tool-bar-tag">Diagnostica</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/bollo_revisione" class="tool-bar">
+          <div class="tool-bar-icon">🚗</div>
+          <div class="tool-bar-content"><h4>Memo Scadenze Auto</h4><p>Bollo, revisione, tagliando e gomme: non dimenticare più nessuna scadenza.</p></div>
+          <span class="tool-bar-tag">Gestione</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+        <a href="/tfr_pensione" class="tool-bar">
+          <div class="tool-bar-icon">📊</div>
+          <div class="tool-bar-content"><h4>Confronta Fondi Pensione</h4><p>172 comparti COVIP con rendimenti ufficiali su 1, 3, 5, 10 e 20 anni.</p></div>
+          <span class="tool-bar-tag">Confronto</span>
+          <span class="tool-bar-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- ══════ NEWSLETTER ══════ -->
+  <section class="cta-s">
+    <NewsletterSignup client:load variant="compact" />
+  </section>
 
 </Layout>
 
 <style>
-  /* ── HERO (NUOVO COLORE PREMIUM) ── */
+  /* ══════ HERO ══════ */
   .hero {
-    position: relative; 
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    padding: 100px 20px 80px; text-align: center;
-    overflow: hidden; min-height: 440px;
-    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(170deg, var(--navy-900), var(--navy-800) 60%, var(--navy-700));
+    padding: 80px 32px 72px;
+    position: relative;
+    overflow: hidden;
   }
-  .hero-bg-mesh { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
-  .mesh-blob { position: absolute; filter: blur(90px); border-radius: 50%; opacity: 0.5; animation: floatBlob 15s ease-in-out infinite alternate; }
-  .blob-1 { top: -20%; left: -10%; width: 50vw; height: 50vw; background: rgba(5,150,105,0.4); }
-  .blob-2 { bottom: -20%; right: -10%; width: 40vw; height: 40vw; background: rgba(124,58,237,0.3); animation-delay: -5s; }
-  .blob-3 { top: 40%; left: 50%; width: 30vw; height: 30vw; background: rgba(59,130,246,0.3); transform: translate(-50%,-50%); animation-delay: -10s; }
-  @keyframes floatBlob { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(5%,10%) scale(1.1); } }
-  .hero-inner { position: relative; z-index: 1; max-width: 800px; width: 100%; margin: 0 auto; }
-  .hero-title { font-family: 'Playfair Display',serif; font-size: 54px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
-  .hero-accent { background: linear-gradient(to right,#34d399,#60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero-sub { font-size: 18px; color: #94a3b8; line-height: 1.6; margin-bottom: 36px; max-width: 640px; margin-left: auto; margin-right: auto; }
-  .hero-ctas { display: flex; gap: 16px; justify-content: center; }
-  .hero-btn-glow {
-    background: #059669; color: #fff; font-size: 16px; font-weight: 700;
-    padding: 16px 36px; border-radius: 100px;
-    box-shadow: 0 0 30px rgba(5,150,105,0.4);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  .hero-glow {
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%);
+    pointer-events: none;
   }
-  .hero-btn-glow:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(5,150,105,0.7); }
-
-  /* ── TRUST ── */
-  .trust-strip { background: #fff; border-bottom: 1px solid rgba(0,0,0,0.03); padding: 14px 20px; }
-  .trust-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .trust-text { font-size: 13px; color: #64748b; text-align: center; }
-  .trust-text strong { color: #0f172a; }
-
-  /* ── CONTENT & PILLARS ── */
-  .page-content { max-width: 1080px; margin: 0 auto; }
-  .pillar { padding-top: 70px; padding-left: 24px; padding-right: 24px; }
-  .pillar-header { margin-bottom: 32px; }
-  .pillar-title { font-family: 'Playfair Display',serif; font-size: 34px; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.5px; }
-  .pillar-sub { font-size: 16px; color: #64748b; }
-
-  /* ── LAYOUT TOOLS (Pillole Orizzontali) ── */
-  .tools-grid {
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: var(--bg);
+    border-radius: 40px 40px 0 0;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-left h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .hero-left h1 em {
+    font-style: italic;
+    color: var(--green-400);
+  }
+  .hero-left p {
+    font-size: 16px;
+    color: rgba(148,163,184,0.85);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+
+  /* Message box */
+  .msg-box {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  }
+  .msg-box label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .msg-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    resize: none;
+    color: var(--text-body);
+    transition: border 0.2s;
+  }
+  .msg-input:focus { border-color: var(--green-600); }
+  .msg-send {
+    margin-top: 10px;
+    width: 100%;
+    background: var(--green-600);
+    color: #fff;
+    border: none;
+    padding: 11px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .msg-send:hover { background: #047857; }
+
+  /* Popular tools */
+  .hero-right { display: flex; flex-direction: column; gap: 16px; }
+  .popular-tools {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 22px 20px;
+    backdrop-filter: blur(8px);
+  }
+  .popular-tools h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green-400);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 16px;
+  }
+  .pop-tool {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.2s;
+  }
+  .pop-tool:last-child { border-bottom: none; }
+  .pop-tool:hover { padding-left: 4px; }
+  .pop-tool-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .pop-tool-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    flex: 1;
+  }
+  .pop-tool-arrow {
+    font-size: 14px;
+    color: rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+  .pop-tool:hover .pop-tool-arrow {
+    color: var(--green-400);
+    transform: translateX(3px);
+  }
+
+  /* ══════ PROOF BAR ══════ */
+  .proof {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+  }
+  .proof-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+  }
+  .proof-item { text-align: center; }
+  .proof-n {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy-900);
+    font-family: 'DM Serif Display', serif;
+  }
+  .proof-l { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .proof-d { width: 1px; height: 32px; background: var(--border); }
+
+  /* ══════ CATEGORIE ══════ */
+  .cats { padding: 48px 0 40px; }
+  .cats-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  .cats-header { margin-bottom: 28px; }
+  .cats-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--navy-900);
+    margin-bottom: 6px;
+  }
+  .cats-header p { font-size: 15px; color: var(--text-muted); }
+
+  .cats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
-  .tool-card-hz {
-    background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 16px 20px;
-    display: flex; align-items: center; gap: 16px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    text-decoration: none;
+  .cat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 20px 22px;
+    text-align: center;
+    transition: all 0.35s var(--ease);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(12,35,64,0.03);
   }
-  .tool-card-hz:hover { transform: translateY(-4px); box-shadow: 0 16px 30px -10px rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.08); }
-  .tool-featured { background: linear-gradient(135deg,#0f172a,#1e293b); border: none; box-shadow: 0 8px 20px rgba(15,23,42,0.15); }
-  .tool-featured:hover { box-shadow: 0 16px 30px -10px rgba(15,23,42,0.4); }
-  
-  .icon-squircle {
-    width: 48px; height: 48px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0; align-self: flex-start;
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--cat-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease);
   }
-  .glass-squircle { background: rgba(15,23,42,0.03); border: 1px solid rgba(0,0,0,0.05); }
-  .icon-featured { background: rgba(255,255,255,0.15); }
-  
-  .tool-hz-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-  .tool-hz-content h3 { font-size: 15px; font-weight: 800; color: #0f172a; margin: 0 0 4px; line-height: 1.2; }
-  .tool-hz-content p { font-size: 13px; color: #64748b; line-height: 1.4; margin: 0; }
-  
-  .tool-hz-arrow { color: #cbd5e1; font-weight: 800; font-size: 18px; transition: transform 0.2s, color 0.2s; }
-  .tool-card-hz:hover .tool-hz-arrow { transform: translateX(4px); color: #059669; }
+  .cat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--cat-color), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s var(--ease);
+    pointer-events: none;
+  }
+  .cat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px -12px rgba(12,35,64,0.12);
+    border-color: rgba(12,35,64,0.10);
+  }
+  .cat-card:hover::before { transform: scaleX(1); }
+  .cat-card:hover::after { opacity: 0.04; }
 
-  /* ── MARKET GRID (ALLINEAMENTO VERTICALE PERFETTO) ── */
-  .pillar-market { margin-top: 20px; padding-top: 60px; border-top: 1px solid rgba(0,0,0,0.04); }
-  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 24px; }
-  
-  .market-card {
-    background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 28px; padding: 28px;
-    display: flex; flex-direction: column;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  .cat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: transform 0.35s var(--ease);
   }
-  .market-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
-  
-  .icon-market {
-    width: 52px; height: 52px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; flex-shrink: 0; margin-bottom: 16px;
-  }
-  .market-name { font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 6px; letter-spacing: -0.3px; }
-  .market-price { font-size: 13px; color: #059669; font-weight: 700; display: inline-block; margin-bottom: 12px; }
-  .market-desc { font-size: 14px; color: #64748b; line-height: 1.6; margin: 0 0 24px; flex: 1; }
-  
-  .market-bottom { 
-    display: flex; align-items: center; justify-content: flex-start; gap: 12px; 
-    flex-wrap: wrap; margin-top: auto; 
-  }
-  
-  .live-badge, .estimate-badge { 
-    font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 10px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px; 
-  }
-  .live-badge { color: #059669; background: #f0fdf4; }
-  .estimate-badge { color: #0284c7; background: #e0f2fe; }
-  
-  /* IL FIX È QUI: Aggiunto white-space: nowrap per non far spezzare il testo del bottone */
-  .market-btn { 
-    font-size: 14px; font-weight: 700; padding: 12px 18px; border-radius: 14px; transition: all 0.2s; text-align: center;
-    flex: 1; min-width: 140px; box-shadow: 0 4px 12px -4px rgba(0,0,0,0.25); 
-    white-space: nowrap; 
-  }
-  .market-card:hover .market-btn { transform: scale(1.02); filter: brightness(1.05); }
-  
-  .transparency-box { background: #fff; border-radius: 16px; padding: 16px 24px; border: 1px solid rgba(0,0,0,0.04); margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.01); }
-  .transparency-box p { font-size: 13px; color: #64748b; line-height: 1.6; margin: 0; }
+  .cat-card:hover .cat-icon { transform: scale(1.08); }
 
-  /* ── MOBILE RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .hero { padding: 80px 20px 50px; min-height: auto; }
-    .hero-title { font-size: 36px; }
-    .hero-sub { font-size: 16px; }
-    .hero-btn-glow { width: 100%; text-align: center; }
-    .pillar { padding-top: 56px; }
-    .pillar-title { font-size: 28px; }
-    
-    .tools-grid { grid-template-columns: 1fr; gap: 12px; }
-    .tool-card-hz { padding: 16px; }
-    
-    .market-grid { grid-template-columns: 1fr; gap: 20px; }
-    .market-bottom { flex-direction: column; align-items: stretch; gap: 12px; }
-    .market-btn { width: 100%; }
-    .live-badge, .estimate-badge { text-align: center; }
+  .cat-card h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--navy-900);
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
   }
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+  .cat-card .cat-arrow {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 14px;
+    color: var(--text-light);
+    transition: all 0.3s var(--ease);
+    z-index: 1;
+  }
+  .cat-card:hover .cat-arrow {
+    color: var(--cat-color);
+    transform: translate(2px, -2px);
+  }
+
+  /* ══════ OFFERTE IN EVIDENZA ══════ */
+  .offers { padding: 24px 0 48px; }
+  .offers-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  .offers-header { margin-bottom: 24px; }
+  .offers-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--navy-900);
+    margin-bottom: 4px;
+  }
+  .offers-header p { font-size: 14px; color: var(--text-muted); }
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .offer-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s var(--ease);
+    border-left: 3px solid var(--green-600);
+  }
+  .offer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px -8px rgba(12,35,64,0.1);
+  }
+  .offer-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .offer-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .offer-badge {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--green-50);
+    color: var(--green-600);
+    margin-left: auto;
+  }
+  .offer-card h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy-900);
+    margin-bottom: 4px;
+  }
+  .offer-card .offer-price {
+    font-size: 13px;
+    color: var(--green-600);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .offer-card .offer-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .offer-cta {
+    display: inline-block;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--green-600);
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: all 0.25s var(--ease);
+  }
+  .offer-cta:hover {
+    background: #047857;
+    transform: translateY(-1px);
+  }
+
+  .transparency-box {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 16px 24px;
+    border: 1px solid var(--border);
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+  }
+  .transparency-box p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ══════ TUTTI GLI STRUMENTI ══════ */
+  .all-tools {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0;
+  }
+  .all-tools-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+  .all-tools-header { margin-bottom: 28px; }
+  .all-tools-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--navy-900);
+    margin-bottom: 4px;
+  }
+  .all-tools-header p { font-size: 14px; color: var(--text-muted); }
+
+  .tool-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .tool-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    transition: all 0.3s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--green-600);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .tool-bar:hover {
+    transform: translateX(6px);
+    box-shadow: 0 8px 28px -8px rgba(12,35,64,0.08);
+    border-color: rgba(12,35,64,0.10);
+  }
+  .tool-bar:hover::before { opacity: 1; }
+
+  .tool-bar-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+    transition: all 0.3s var(--ease);
+    border: 1px solid var(--border);
+  }
+  .tool-bar:hover .tool-bar-icon {
+    background: var(--navy-50);
+    border-color: rgba(12,35,64,0.08);
+    transform: scale(1.05);
+  }
+
+  .tool-bar-content { flex: 1; }
+  .tool-bar-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy-900);
+    margin-bottom: 2px;
+  }
+  .tool-bar-content p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .tool-bar-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--navy-50);
+    color: var(--navy-700);
+    flex-shrink: 0;
+    border: 1px solid rgba(12,35,64,0.04);
+  }
+
+  .tool-bar-arrow {
+    font-size: 18px;
+    color: var(--text-light);
+    transition: all 0.3s var(--ease);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+  .tool-bar:hover .tool-bar-arrow {
+    color: var(--green-600);
+    background: var(--green-50);
+    transform: translateX(2px);
+  }
+
+  /* ══════ NEWSLETTER CTA ══════ */
+  .cta-s {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 28px 72px;
+  }
+
+  /* ══════ RESPONSIVE ══════ */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; align-items: start; }
+    .hero-left h1 { font-size: 30px; }
+    .hero { padding: 60px 24px 56px; }
+    .hero-right { margin-top: 8px; }
+    .cats-grid { grid-template-columns: repeat(2, 1fr); }
+    .offers-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 500px) {
+    .cats-grid { grid-template-columns: 1fr; }
+    .proof-d { display: none; }
+    .tool-bar { padding: 14px 16px; }
+    .tool-bar-tag { display: none; }
   }
 </style>
