@@ -52,12 +52,32 @@ function StyleInjector() {
         box-sizing: border-box;
       }
       .hero-contact-send:hover { background: #047857; }
+      .hero-contact-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .hero-contact-email {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 13px;
+        font-family: inherit;
+        outline: none;
+        color: #334155;
+        transition: border 0.2s;
+        box-sizing: border-box;
+      }
+      .hero-contact-email:focus { border-color: #059669; }
     `}} />
   );
 }
 
 export default function HeroContact() {
   const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
 
   const handleSubmit = async (e) => {
@@ -72,13 +92,15 @@ export default function HeroContact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           action: 'contact_message', 
-          message: message 
+          message: message,
+          email: email 
         })
       });
 
       if (res.ok) {
         setStatus('success');
         setMessage('');
+        setEmail('');
       } else {
         setStatus('error');
       }
@@ -110,7 +132,18 @@ export default function HeroContact() {
   return (
     <form className="hero-contact-box" onSubmit={handleSubmit}>
       <StyleInjector />
-      <label>💬 Scrivici — ti rispondiamo entro 24h</label>
+      <div className="hero-contact-row">
+        <label style={{ marginBottom: 0 }}>💬 Scrivici — ti rispondiamo entro 24h</label>
+        <input 
+          type="email"
+          className="hero-contact-email"
+          placeholder="La tua email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={status === 'loading'}
+          required
+        />
+      </div>
       <textarea 
         className="hero-contact-input" 
         rows="2" 
