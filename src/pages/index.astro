@@ -759,10 +759,11 @@ import HeroContact from '../components/HeroContact.jsx';
 
   /* ══════ RESPONSIVE ══════ */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr; align-items: start; }
+    .hero-inner { grid-template-columns: 1fr; align-items: start; gap: 24px; }
     .hero-left h1 { font-size: 30px; }
-    .hero { padding: 32px 24px 56px; min-height: auto; }
-    .hero-right { margin-top: 8px; }
+    .hero-left p { margin-bottom: 24px; }
+    .hero { padding: 24px 24px 64px; min-height: auto; }
+    .hero-right { margin-top: 0; }
     .cats-grid { grid-template-columns: repeat(2, 1fr); }
     .offers-grid { grid-template-columns: 1fr; }
   }
