@@ -110,12 +110,14 @@ export function ContiComp({ color = '#10b981' }) {
             <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>{c.note}</p>
           </div>
           
-          <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center', minWidth: 80 }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {/* FIX: Larghezza fissa (width: 100) per forzare l'allineamento verticale a colonna */}
+            <div style={{ textAlign: 'center', width: 100, flexShrink: 0 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Rendimento</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a' }}>{c.rendimento && c.rendimento !== '0%' ? c.rendimento : '-'}</div>
             </div>
-            <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, maxWidth: 160 }}>
+            {/* FIX: Larghezza fissa (width: 130) anche per il vantaggio */}
+            <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', width: 130, flexShrink: 0 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Vantaggio</div>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#475569', lineHeight: 1.3 }}>{c.vantaggioPrincipale}</div>
             </div>
