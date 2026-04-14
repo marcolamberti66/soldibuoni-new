@@ -279,8 +279,8 @@ import HeroContact from '../components/HeroContact.jsx';
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 360px;
-    gap: 48px;
-    align-items: center;
+    gap: 64px;
+    align-items: stretch;
     position: relative;
     z-index: 1;
   }
@@ -356,6 +356,10 @@ import HeroContact from '../components/HeroContact.jsx';
     border-radius: 16px;
     padding: 22px 20px;
     backdrop-filter: blur(8px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .popular-tools h3 {
     font-size: 13px;
