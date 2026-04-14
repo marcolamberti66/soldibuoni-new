@@ -39,8 +39,7 @@ export function ContiComp({ color = '#10b981' }) {
   }, [conti]);
 
   const hypeData = useMemo(() => {
-    // Preserva il tuo VERO link di affiliazione anche se il Google Sheet è vuoto
-    return conti.find(c => c.id === 'hype') || { link: "https://www.financeads.net/tc.php?t=82784C257247700T" };
+    return conti.find(c => c.id === 'hype') || {};
   }, [conti]);
 
   // Escludi dalla lista sotto i provider che hanno il box affiliato in cima
@@ -80,8 +79,8 @@ export function ContiComp({ color = '#10b981' }) {
         <AffiliateRow 
           title="MIGLIOR CONTO SMART E BONUS"
           providerName="Hype - Carta Conto"
-          description="La carta conto smart n.1 in Italia. Gestione 100% da app, carta virtuale immediata e zero costi nascosti."
-          link={hypeData.link !== "#" ? hypeData.link : "https://www.financeads.net/tc.php?t=82784C257247700T"}
+          description="Conto a canone zero per le tue spese quotidiane. Include carta virtuale per acquisti online e in negozio, box risparmi e cashback integrato in app."
+          link="https://www.financeads.net/tc.php?t=82784C257247700T"
           color="#00AEFF"
           statsElement={
             <div style={{ textAlign: 'center' }}>
