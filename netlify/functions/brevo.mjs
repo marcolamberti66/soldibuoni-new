@@ -246,7 +246,7 @@ export default async (req) => {
 
     // ─── CONTACT MESSAGE SIGNUP (NUOVO BLOCCO PER LA HOMEPAGE) ────────────────
     if (action === "contact_message") {
-      const { message } = body;
+      const { message, email: userEmail } = body;
       
       if (!message || message.trim() === "") {
         return new Response(JSON.stringify({ error: "Il messaggio è vuoto." }), {
@@ -265,7 +265,8 @@ export default async (req) => {
           sender: { name: "Utente SoldiBuoni", email: SENDER_EMAIL }, 
           to: [{ email: ADMIN_EMAIL, name: "Admin SoldiBuoni" }],
           subject: "💬 Nuovo messaggio dalla Hero Page",
-          textContent: `Hai ricevuto una nuova richiesta:\n\n"${message}"\n\n---\nMessaggio anonimo inviato dalla homepage di SoldiBuoni.it`
+          textContent: `Hai ricevuto una nuova richiesta:\n\n"${message}"\n\n---\nEmail mittente: ${userEmail || "non fornita"}\nInviato dalla homepage di SoldiBuoni.it`,
+          replyTo: userEmail ? { email: userEmail } : undefined
         }),
       });
 
