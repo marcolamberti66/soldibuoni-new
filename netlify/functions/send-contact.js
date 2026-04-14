@@ -19,7 +19,7 @@ export const handler = async (event, context) => {
       const API_KEY = process.env.BREVO_API_KEY; 
       
       // INSERISCI QUI LA TUA EMAIL REALE DOVE VUOI RICEVERE I MESSAGGI
-      const TUA_EMAIL_DI_DESTINAZIONE = "tua.email@esempio.it";
+      const TUA_EMAIL_DI_DESTINAZIONE = "clart.mgmt@gmail.com";
   
       const response = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
