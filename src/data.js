@@ -2,25 +2,52 @@
 // DATA - SoldiBuoni.it (FULL RESTORE + SEO TOPICS + LINKS)
 // ═══════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════
+// DATI LUCE & GAS — Aggiornamento Aprile 2026
+// Fonti: Schede sintetiche ufficiali dei fornitori
+// Per offerte variabili, stima con PUN ≈ 0,125 €/kWh e PSV ≈ 0,43 €/Smc
+// Ultimo aggiornamento: 15 aprile 2026
+// ═══════════════════════════════════════════════════════════════════
+
 export let ENERGY_PROVIDERS = [
-  { name: 'Illumia', tipo: 'Fisso 12m', prezzo: 0.119, fisso: 8, verde: false, note: 'Energia Lunga Easy — miglior fisso sul mercato', link: 'https://www.illumia.it/offerte/' },
-  { name: 'Wekiwi', tipo: 'Fisso 12m', prezzo: 0.128, fisso: 5, verde: true, note: 'App-based, sconto digitale, 100% green', link: 'https://www.wekiwi.it/offerta-luce-e-gas/' },
-  { name: 'Enel Energia', tipo: 'Fisso 12m', prezzo: 0.138, fisso: 12, verde: true, note: 'Fix Web Luce — prezzo bloccato 12 mesi', link: 'https://www.enel.it/it/luce-gas/luce' },
-  { name: 'Edison', tipo: 'Fisso 12m', prezzo: 0.135, fisso: 12, verde: false, note: 'World Luce — bloccato 12 mesi con bonus', link: 'https://www.edison.it/offerte-luce-e-gas' },
-  { name: 'Sorgenia', tipo: 'Variabile', prezzo: 0.145, fisso: 0, verde: true, note: 'Next Energy — PUN + 0.019, zero costi fissi', link: 'https://www.sorgenia.it/offerte-luce-e-gas' },
-  { name: 'A2A Energia', tipo: 'Variabile', prezzo: 0.142, fisso: 8, verde: true, note: 'Smart Casa — PUN + spread, 100% rinnovabile', link: 'https://www.a2aenergia.eu/offerte-luce-gas' },
-  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.148, fisso: 9, verde: false, note: 'PUN + spread 0.022 €/kWh', link: 'https://www.heracomm.it/casa/offerte' },
-  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.196, fisso: 12, verde: true, note: 'Fixa Time Smart — bloccato 12 mesi, 100% green', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  // ── ILLUMIA ──
+  { name: 'Illumia Energia Lunga', tipo: 'Fisso 36 mesi', prezzo: 0.125, fisso: 6, verde: false, note: 'F0 monorario — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/luce/energia-lunga-luce/' },
+  { name: 'Illumia Luce Flex', tipo: 'Variabile (PUN+0)', prezzo: 0.125, fisso: 7, verde: false, note: 'PUN puro, zero spread — nessuna penale di recesso', link: 'https://www.illumia.it/casa/luce/luce-flex/' },
+  // ── SORGENIA ──
+  { name: 'Sorgenia Sunlight', tipo: 'Variabile (PUN+0,006)', prezzo: 0.131, fisso: 6.18, verde: true, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-luce-casa' },
+  { name: 'Sorgenia Smart', tipo: 'Fisso 12 mesi', prezzo: 0.159, fisso: 9.50, verde: true, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-luce-casa' },
+  // ── ENEL ──
+  { name: 'Enel Fix Web Luce', tipo: 'Fisso 36 mesi', prezzo: 0.135, fisso: 12, verde: true, note: 'Bonus 60€ in bolletta — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-luce' },
+  { name: 'Enel Flex Control', tipo: 'Variabile con tetto', prezzo: 0.147, fisso: 15, verde: false, note: 'PUN+0,022 con tetto massimo 0,174 €/kWh', link: 'https://www.enel.it/it-it/offerte-luce' },
+  // ── A2A ENERGIA ──
+  { name: 'A2A Start Luce', tipo: 'Fisso 24 mesi', prezzo: 0.144, fisso: 9.50, verde: true, note: '100% green — bloccato 24 mesi, nessuna penale', link: 'https://www.a2a.it/casa/a2a-start' },
+  { name: 'A2A Smart Casa', tipo: 'Variabile 12 mesi', prezzo: 0.150, fisso: 9.50, verde: true, note: 'PUN+0,025 — 100% green, nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
+  // ── HERA COMM ──
+  { name: 'Hera PiùControllo Flat', tipo: 'Fisso 12 mesi', prezzo: 0.1535, fisso: 12.10, verde: false, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
+  // ── ENI PLENITUDE (non affiliato, per confronto) ──
+  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.165, fisso: 12, verde: true, note: 'Fixa Time Smart — bloccato 12 mesi, 100% green', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
 export let GAS_PROVIDERS = [
-  { name: 'Enel Energia', tipo: 'Fisso 12m', prezzo: 0.42, fisso: 12, note: 'Fix Web Gas — prezzo bloccato 12 mesi', link: 'https://www.enel.it/it/luce-gas/gas' },
-  { name: 'Edison', tipo: 'Variabile', prezzo: 0.45, fisso: 12, note: 'PSV + spread 0.035 €/Smc', link: 'https://www.edison.it/offerte-luce-e-gas' },
-  { name: 'Illumia', tipo: 'Variabile', prezzo: 0.48, fisso: 7, note: 'PSV + spread 0.04 €/Smc', link: 'https://www.illumia.it/offerte/' },
-  { name: 'Sorgenia', tipo: 'Variabile', prezzo: 0.52, fisso: 0, note: 'PSV + spread, zero costi fissi mensili', link: 'https://www.sorgenia.it/offerte-luce-e-gas' },
-  { name: 'Hera Comm', tipo: 'Variabile', prezzo: 0.50, fisso: 9, note: 'PSV + spread 0.04 €/Smc', link: 'https://www.heracomm.it/casa/offerte' },
-  { name: 'A2A Energia', tipo: 'Variabile', prezzo: 0.55, fisso: 8, note: 'Smart Casa Gas — PUN + spread', link: 'https://www.a2aenergia.eu/offerte-luce-gas' },
-  { name: 'Eni Plenitude', tipo: 'Fisso 12m', prezzo: 0.60, fisso: 12, note: 'Fixa Time Smart Gas — bloccato 12 mesi', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  // ── ENEL ──
+  { name: 'Enel Fix Web Gas', tipo: 'Fisso 36 mesi', prezzo: 0.420, fisso: 12, note: '-30% vs listino — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-gas' },
+  // ── ILLUMIA ──
+  { name: 'Illumia Gas Flex', tipo: 'Variabile (PSV+0,05)', prezzo: 0.480, fisso: 7, note: 'PSV + 0,05 €/Smc — nessuna penale di recesso', link: 'https://www.illumia.it/casa/gas/gas-flex/' },
+  // ── A2A ENERGIA ──
+  { name: 'A2A Start Gas', tipo: 'Fisso 24 mesi', prezzo: 0.540, fisso: 9.50, note: 'Bloccato 24 mesi — nessuna penale di recesso', link: 'https://www.a2a.it/casa/a2a-start' },
+  { name: 'A2A Smart Casa Gas', tipo: 'Variabile 12 mesi', prezzo: 0.550, fisso: 9.50, note: 'PSV + 0,12 €/Smc — nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
+  // ── ENEL ──
+  { name: 'Enel Flex Control Gas', tipo: 'Variabile con tetto', prezzo: 0.540, fisso: 15, note: 'PSV+0,11 con tetto massimo 0,80 €/Smc', link: 'https://www.enel.it/it-it/offerte-gas' },
+  // ── SORGENIA ──
+  { name: 'Sorgenia Sunlight Gas', tipo: 'Variabile (PSV+0,15)', prezzo: 0.580, fisso: 9.50, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-gas-casa' },
+  // ── ILLUMIA ──
+  { name: 'Illumia Energia Lunga Gas', tipo: 'Fisso 36 mesi', prezzo: 0.590, fisso: 6, note: 'Bloccato 36 mesi — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/gas/energia-lunga-gas/' },
+  // ── HERA COMM ──
+  { name: 'Hera PiùControllo Flat Gas', tipo: 'Fisso 12 mesi', prezzo: 0.599, fisso: 12, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
+  // ── SORGENIA ──
+  { name: 'Sorgenia Smart Gas', tipo: 'Fisso 12 mesi', prezzo: 0.800, fisso: 12, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-gas-casa' },
+  // ── ENI PLENITUDE (non affiliato, per confronto) ──
+  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.730, fisso: 12, note: 'Fixa Time Smart Gas — bloccato 12 mesi', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
 export const INSURANCE_DATA = [

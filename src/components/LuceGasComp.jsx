@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
@@ -8,12 +8,6 @@ const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 
 // Provider da escludere sempre (irrilevanti o duplicati)
 const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
-
-function mergeWithLinks(blobData, fallbackData) {
-  const linkMap = {};
-  fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
-  return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
-}
 
 function StyleInjector() {
   return (
@@ -33,41 +27,21 @@ export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
 
   const [consumoLuce, setConsumoLuce] = useState(2700);
-  const [providersLuce, setProvidersLuce] = useState(ENERGY_PROVIDERS);
-  
   const [consumoGas, setConsumoGas] = useState(1000);
-  const [providersGas, setProvidersGas] = useState(GAS_PROVIDERS);
-
-  useEffect(() => {
-    async function fetchPrices() {
-      try {
-        const res = await fetch("https://soldibuoni.it/.netlify/functions/get-prices");
-        if (!res.ok) return;
-        const payload = await res.json();
-        if (Array.isArray(payload?.data?.energia)) {
-          setProvidersLuce(mergeWithLinks(payload.data.energia.filter(p => typeof p.prezzo === 'number'), ENERGY_PROVIDERS));
-        }
-        if (Array.isArray(payload?.data?.gas)) {
-          setProvidersGas(mergeWithLinks(payload.data.gas.filter(p => typeof p.prezzo === 'number'), GAS_PROVIDERS));
-        }
-      } catch (err) { console.warn("Uso fallback hardcoded."); }
-    }
-    fetchPrices();
-  }, []);
 
   const sortedLuce = useMemo(() => {
-    return providersLuce
+    return ENERGY_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name) && !isExcluded(p.name))
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
-  }, [consumoLuce, providersLuce]);
+  }, [consumoLuce]);
 
   const sortedGas = useMemo(() => {
-    return providersGas
+    return GAS_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name) && !isExcluded(p.name))
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
-  }, [consumoGas, providersGas]);
+  }, [consumoGas]);
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
