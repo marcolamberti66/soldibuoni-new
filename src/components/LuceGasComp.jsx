@@ -51,20 +51,23 @@ export function LuceGasComp({ color = '#f59e0b' }) {
       <div style={{ marginBottom: 40 }}>
         <AffiliateRow 
           title="OFFERTA LUCE + GAS COMBINATA"
-          providerName="Eni Plenitude — Luce & Gas"
-          description="Pacchetto combinato Luce + Gas con gestione digitale, buono spesa da 100€ e sicurezza di un grande gruppo. Offerte Fixa Time Smart e Trend Casa disponibili."
+          providerName="Eni Plenitude — Fixa Time Smart"
+          description="Corrispettivi fissi 12 mesi. Sconto 108€ sui costi fissi con dual luce+gas. In omaggio Polizza Zurich Meteo Protetto (fino a 145€ di indennizzo)."
           link="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530"
           color="#E2001A"
           statsElement={
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Promo Attiva</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#E2001A' }}>Buono 100€</div>
+              <div style={{ fontSize: 10, color: '#94a3b8', letterSpacing: '0.5px' }}>LUCE</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>0,1881 <span style={{ fontSize: 11, fontWeight: 600, color: '#64748b' }}>€/kWh</span></div>
+              <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 4, letterSpacing: '0.5px' }}>GAS</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#0f172a' }}>0,7050 <span style={{ fontSize: 11, fontWeight: 600, color: '#64748b' }}>€/Smc</span></div>
             </div>
           }
           priceElement={
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Attivazione</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#10b981' }}>GRATIS</div>
+              <div style={{ fontSize: 10, color: '#94a3b8', letterSpacing: '0.5px' }}>SCONTO DUAL</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#E2001A' }}>-108€/anno</div>
+              <div style={{ fontSize: 11, color: '#10b981', fontWeight: 700, marginTop: 4 }}>+ Polizza Zurich gratis</div>
             </div>
           }
         />

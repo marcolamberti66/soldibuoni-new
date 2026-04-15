@@ -25,7 +25,7 @@ export let ENERGY_PROVIDERS = [
   // ── HERA COMM ──
   { name: 'Hera PiùControllo Flat', tipo: 'Fisso 12 mesi', prezzo: 0.1535, fisso: 12.10, verde: false, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
   // ── ENI PLENITUDE (non affiliato, per confronto) ──
-  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.165, fisso: 12, verde: true, note: 'Fixa Time Smart — bloccato 12 mesi, 100% green', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.1881, fisso: 7.50, verde: true, note: 'Fixa Time Smart — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
 export let GAS_PROVIDERS = [
@@ -47,7 +47,7 @@ export let GAS_PROVIDERS = [
   // ── SORGENIA ──
   { name: 'Sorgenia Smart Gas', tipo: 'Fisso 12 mesi', prezzo: 0.800, fisso: 12, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-gas-casa' },
   // ── ENI PLENITUDE (non affiliato, per confronto) ──
-  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.730, fisso: 12, note: 'Fixa Time Smart Gas — bloccato 12 mesi', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
+  { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.7050, fisso: 7.50, note: 'Fixa Time Smart Gas — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
 export const INSURANCE_DATA = [
