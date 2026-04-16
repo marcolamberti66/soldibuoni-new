@@ -86,7 +86,7 @@ const { title, description } = Astro.props;
   <!-- NAV -->
   <nav id="main-nav" class="site-nav">
     <a href="/" class="logo">
-      <div class="logo-m">$</div>
+      <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
       SoldiBuoni
     </a>
     
@@ -138,7 +138,7 @@ const { title, description } = Astro.props;
     <div class="ft-in">
       <div class="ft-b">
         <div class="logo" style="color: #fff; margin-bottom: 10px;">
-          <div class="logo-m">$</div>
+          <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
           SoldiBuoni
         </div>
         <p>Il tuo consulente finanziario domestico. Gratuito, indipendente, sempre aggiornato.</p>
@@ -216,15 +216,10 @@ const { title, description } = Astro.props;
   .logo-m {
     width: 30px;
     height: 30px;
-    background: linear-gradient(135deg, #10b981, #059669);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 800;
-    font-family: 'DM Serif Display', serif;
+    display: block;
+    object-fit: cover;
+    flex-shrink: 0;
   }
   .nav-links-desktop {
     display: flex;
