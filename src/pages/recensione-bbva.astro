@@ -19,12 +19,20 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
     <div class="premium-card">
       <div class="pc-badge">Consigliato 2026</div>
+      
       <div class="pc-header">
         <div class="pc-logo-placeholder">💳</div>
         <h2>BBVA — Conto Online</h2>
         <p>Il conto a zero spese che fa fruttare la tua liquidità ogni mese.</p>
       </div>
       
+      <ul class="bbva-features">
+        <li>✅ <strong>Canone zero per sempre</strong> (nessun vincolo)</li>
+        <li>✅ <strong>Bonifici SEPA istantanei gratuiti</strong></li>
+        <li>✅ Nessun obbligo di accredito stipendio</li>
+        <li class="limit">⚠️ Prelievi gratis solo da 100€ in su</li>
+      </ul>
+
       <div class="pc-stats-row">
         <div class="pc-stat">
           <span class="stat-label">Canone Mensile</span>
@@ -153,10 +161,26 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     border-radius: 30px;
   }
 
-  .pc-header { margin-bottom: 32px; }
+  .pc-header { margin-bottom: 24px; }
   .pc-logo-placeholder { font-size: 40px; margin-bottom: 12px; line-height: 1; }
   .pc-header h2 { font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 8px; font-family: 'DM Serif Display', serif; }
   .pc-header p { font-size: 15px; color: #64748b; margin: 0; max-width: 400px; margin: 0 auto; }
+
+  /* Lista caratteristiche stile Hype */
+  .bbva-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 32px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 15px;
+    color: #334155;
+    line-height: 1.6;
+    text-align: left;
+  }
+  .bbva-features li { margin-bottom: 10px; display: flex; gap: 10px; }
+  .bbva-features .limit { color: #64748b; font-size: 14px; }
 
   .pc-stats-row {
     display: flex;
