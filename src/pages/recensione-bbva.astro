@@ -27,10 +27,10 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       </div>
       
       <ul class="bbva-features">
-        <li>✅ <strong>Canone zero per sempre</strong> (nessun vincolo)</li>
-        <li>✅ <strong>Bonifici SEPA istantanei gratuiti</strong></li>
-        <li>✅ Nessun obbligo di accredito stipendio</li>
-        <li class="limit">⚠️ Prelievi gratis solo da 100€ in su</li>
+        <li><span class="icon">✅</span><span><strong>Canone zero per sempre</strong> (nessun vincolo)</span></li>
+        <li><span class="icon">✅</span><span><strong>Bonifici SEPA istantanei gratuiti</strong></span></li>
+        <li><span class="icon">✅</span><span>Nessun obbligo di accredito stipendio</span></li>
+        <li class="limit"><span class="icon">⚠️</span><span>Prelievi gratis solo da 100€ in su</span></li>
       </ul>
 
       <div class="pc-stats-row">
@@ -166,7 +166,7 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
   .pc-header h2 { font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 8px; font-family: 'DM Serif Display', serif; }
   .pc-header p { font-size: 15px; color: #64748b; margin: 0; max-width: 400px; margin: 0 auto; }
 
-  /* Lista caratteristiche stile Hype */
+  /* Lista caratteristiche stile Hype - ALLINEAMENTO CORRETTO */
   .bbva-features {
     list-style: none;
     padding: 0;
@@ -179,7 +179,17 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     line-height: 1.6;
     text-align: left;
   }
-  .bbva-features li { margin-bottom: 10px; display: flex; gap: 10px; }
+  .bbva-features li { 
+    margin-bottom: 12px; 
+    display: flex; 
+    align-items: flex-start; 
+    gap: 12px; 
+  }
+  .bbva-features .icon {
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+  }
   .bbva-features .limit { color: #64748b; font-size: 14px; }
 
   .pc-stats-row {
