@@ -58,7 +58,15 @@ export function ContiComp({ color = '#10b981' }) {
         <AffiliateRow 
           title="MIGLIOR CONTO ONLINE 2026"
           providerName="BBVA - Conto Online"
-          description="Canone zero per sempre, remunerazione sul saldo senza vincoli e cashback sugli acquisti. La scelta più intelligente oggi."
+          description={
+            <span>
+              Canone zero per sempre, remunerazione sul saldo senza vincoli e cashback sugli acquisti. La scelta più intelligente oggi.
+              <br/><br/>
+              <a href="/recensione-bbva" style={{ color: '#004481', fontWeight: 700, textDecoration: 'underline' }}>
+                Leggi la nostra analisi completa →
+              </a>
+            </span>
+          }
           link="https://www.financeads.net/tc.php?t=82784C5581131019T"
           color="#004481"
           statsElement={
@@ -77,23 +85,13 @@ export function ContiComp({ color = '#10b981' }) {
 
         {/* HYPE */}
         <AffiliateRow 
-          title="MIGLIOR CONTO SMART E BONUS"
-          providerName="Hype - Carta Conto"
-          description="Conto a canone zero per le tue spese quotidiane. Include carta virtuale per acquisti online e in negozio, box risparmi e cashback integrato in app."
-          link="https://www.financeads.net/tc.php?t=82784C257247700T"
+          title="LA CARTA CONTO PIÙ SCARICATA"
+          providerName="Hype - Tutte le versioni"
+          description="Hype offre 3 piani distinti: dal conto Base gratuito alle versioni Next e Premium. Scopri quale versione si adatta meglio alle tue esigenze, i bonus di benvenuto attivi e i vantaggi esclusivi per chi viaggia o vuole azzerare le commissioni."
+          link="/recensione-hype"
           color="#00AEFF"
-          statsElement={
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Bonus Benvenuto</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#00AEFF' }}>Fino a 25€</div>
-            </div>
-          }
-          priceElement={
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 11, color: '#94a3b8' }}>Codice Promo</div>
-              <div style={{ fontSize: 16, fontWeight: 900, color: '#0f172a', background: '#f1f5f9', padding: '4px 10px', borderRadius: '8px', letterSpacing: '1px' }}>CIAOHYPER</div>
-            </div>
-          }
+          ctaText="Confronta i 3 piani Hype →"
+          /* Rimosse intenzionalmente le prop statsElement e priceElement per Hype */
         />
 
       </div>
@@ -111,12 +109,10 @@ export function ContiComp({ color = '#10b981' }) {
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {/* FIX: Larghezza fissa (width: 100) per forzare l'allineamento verticale a colonna */}
             <div style={{ textAlign: 'center', width: 100, flexShrink: 0 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Rendimento</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a' }}>{c.rendimento && c.rendimento !== '0%' ? c.rendimento : '-'}</div>
             </div>
-            {/* FIX: Larghezza fissa (width: 130) anche per il vantaggio */}
             <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', width: 130, flexShrink: 0 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Vantaggio</div>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#475569', lineHeight: 1.3 }}>{c.vantaggioPrincipale}</div>
