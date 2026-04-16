@@ -35,7 +35,7 @@ export function ContiComp({ color = '#10b981' }) {
   }, []);
 
   const bbvaData = useMemo(() => {
-    return conti.find(c => c.id === 'bbva') || { link: "#", rendimento: "3% annuo" };
+    return conti.find(c => c.id === 'bbva') || { rendimento: "3% annuo" };
   }, [conti]);
 
   const hypeData = useMemo(() => {
@@ -59,7 +59,7 @@ export function ContiComp({ color = '#10b981' }) {
           title="MIGLIOR CONTO ONLINE 2026"
           providerName="BBVA - Conto Online"
           description="Canone zero per sempre, remunerazione sul saldo senza vincoli e cashback sugli acquisti. La scelta più intelligente oggi."
-          link={bbvaData.link !== "#" ? bbvaData.link : "[INSERISCI_LINK_BBVA]"}
+          link="https://www.financeads.net/tc.php?t=82784C5581131019T"
           color="#004481"
           statsElement={
             <div style={{ textAlign: 'center' }}>
