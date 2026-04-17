@@ -4,49 +4,31 @@
 
 // ═══════════════════════════════════════════════════════════════════
 // DATI LUCE & GAS — Aggiornamento Aprile 2026
-// Fonti: Schede sintetiche ufficiali dei fornitori
-// Per offerte variabili, stima con PUN ≈ 0,125 €/kWh e PSV ≈ 0,43 €/Smc
-// Ultimo aggiornamento: 15 aprile 2026
 // ═══════════════════════════════════════════════════════════════════
 
 export let ENERGY_PROVIDERS = [
-  // ── ILLUMIA ──
   { name: 'Illumia Energia Lunga', tipo: 'Fisso 36 mesi', prezzo: 0.125, fisso: 6, verde: false, note: 'F0 monorario — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/luce/energia-lunga-luce/' },
   { name: 'Illumia Luce Flex', tipo: 'Variabile (PUN+0)', prezzo: 0.125, fisso: 7, verde: false, note: 'PUN puro, zero spread — nessuna penale di recesso', link: 'https://www.illumia.it/casa/luce/luce-flex/' },
-  // ── SORGENIA ──
   { name: 'Sorgenia Sunlight', tipo: 'Variabile (PUN+0,006)', prezzo: 0.131, fisso: 6.18, verde: true, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-luce-casa' },
   { name: 'Sorgenia Smart', tipo: 'Fisso 12 mesi', prezzo: 0.159, fisso: 9.50, verde: true, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-luce-casa' },
-  // ── ENEL ──
   { name: 'Enel Fix Web Luce', tipo: 'Fisso 36 mesi', prezzo: 0.135, fisso: 12, verde: true, note: 'Bonus 60€ in bolletta — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-luce' },
   { name: 'Enel Flex Control', tipo: 'Variabile con tetto', prezzo: 0.147, fisso: 15, verde: false, note: 'PUN+0,022 con tetto massimo 0,174 €/kWh', link: 'https://www.enel.it/it-it/offerte-luce' },
-  // ── A2A ENERGIA ──
   { name: 'A2A Start Luce', tipo: 'Fisso 24 mesi', prezzo: 0.144, fisso: 9.50, verde: true, note: '100% green — bloccato 24 mesi, nessuna penale', link: 'https://www.a2a.it/casa/a2a-start' },
   { name: 'A2A Smart Casa', tipo: 'Variabile 12 mesi', prezzo: 0.150, fisso: 9.50, verde: true, note: 'PUN+0,025 — 100% green, nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
-  // ── HERA COMM ──
   { name: 'Hera PiùControllo Flat', tipo: 'Fisso 12 mesi', prezzo: 0.1535, fisso: 12.10, verde: false, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
-  // ── ENI PLENITUDE (non affiliato, per confronto) ──
   { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.1881, fisso: 7.50, verde: true, note: 'Fixa Time Smart — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
 export let GAS_PROVIDERS = [
-  // ── ENEL ──
   { name: 'Enel Fix Web Gas', tipo: 'Fisso 36 mesi', prezzo: 0.420, fisso: 12, note: '-30% vs listino — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-gas' },
-  // ── ILLUMIA ──
   { name: 'Illumia Gas Flex', tipo: 'Variabile (PSV+0,05)', prezzo: 0.480, fisso: 7, note: 'PSV + 0,05 €/Smc — nessuna penale di recesso', link: 'https://www.illumia.it/casa/gas/gas-flex/' },
-  // ── A2A ENERGIA ──
   { name: 'A2A Start Gas', tipo: 'Fisso 24 mesi', prezzo: 0.540, fisso: 9.50, note: 'Bloccato 24 mesi — nessuna penale di recesso', link: 'https://www.a2a.it/casa/a2a-start' },
   { name: 'A2A Smart Casa Gas', tipo: 'Variabile 12 mesi', prezzo: 0.550, fisso: 9.50, note: 'PSV + 0,12 €/Smc — nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
-  // ── ENEL ──
   { name: 'Enel Flex Control Gas', tipo: 'Variabile con tetto', prezzo: 0.540, fisso: 15, note: 'PSV+0,11 con tetto massimo 0,80 €/Smc', link: 'https://www.enel.it/it-it/offerte-gas' },
-  // ── SORGENIA ──
   { name: 'Sorgenia Sunlight Gas', tipo: 'Variabile (PSV+0,15)', prezzo: 0.580, fisso: 9.50, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-gas-casa' },
-  // ── ILLUMIA ──
   { name: 'Illumia Energia Lunga Gas', tipo: 'Fisso 36 mesi', prezzo: 0.590, fisso: 6, note: 'Bloccato 36 mesi — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/gas/energia-lunga-gas/' },
-  // ── HERA COMM ──
   { name: 'Hera PiùControllo Flat Gas', tipo: 'Fisso 12 mesi', prezzo: 0.599, fisso: 12, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
-  // ── SORGENIA ──
   { name: 'Sorgenia Smart Gas', tipo: 'Fisso 12 mesi', prezzo: 0.800, fisso: 12, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-gas-casa' },
-  // ── ENI PLENITUDE (non affiliato, per confronto) ──
   { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.7050, fisso: 7.50, note: 'Fixa Time Smart Gas — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' },
 ];
 
@@ -89,6 +71,14 @@ export const PENSION_FUNDS = [
   { name: 'Generali Global', tipo: 'PIP', costo: 2.1, rendimento5y: 3.2, rendimento10y: 3.9, settore: 'Tutti', note: 'Piano Individuale Pensionistico', link: 'https://www.generali.it/prodotti/previdenza' },
 ];
 
+// ═══════════════════════════════════════════════════════════════════
+// DATI UNIVERSITÀ — Aggiornamento 2026
+// Struttura:
+//   min  = quanto paga uno studente in No Tax Area (tassa regionale + bollo = ~156€)
+//   med  = importo medio per fasce ISEE intermedie (22-30k€)
+//   max  = contributo pieno (ISEE oltre 30k o non presentato)
+// ═══════════════════════════════════════════════════════════════════
+
 export const UNI_FACOLTA = [
   'Economia', 'Giurisprudenza', 'Ingegneria', 'Medicina', 'Architettura',
   'Scienze Politiche', 'Lettere e Filosofia', 'Psicologia', 'Informatica', 'Scienze della Comunicazione',
@@ -96,83 +86,86 @@ export const UNI_FACOLTA = [
 
 export const UNI_DATA = {
   Economia: [
-    { uni: 'Bocconi', citta: 'Milano', min: 5900, med: 9200, max: 13000, tipo: 'Privata' },
-    { uni: 'LUISS', citta: 'Roma', min: 5500, med: 8500, max: 12000, tipo: 'Privata' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1200, max: 2800, tipo: 'Pubblica' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1300, max: 2900, tipo: 'Pubblica' },
-    { uni: 'Cattolica', citta: 'Milano', min: 3800, med: 6200, max: 8900, tipo: 'Privata' },
-    { uni: 'Torino', citta: 'Torino', min: 156, med: 1000, max: 2600, tipo: 'Pubblica' },
+    { uni: 'Bocconi', citta: 'Milano', min: 3400, med: 10000, max: 16700, tipo: 'Privata', indicator: 'ISU' },
+    { uni: 'LUISS', citta: 'Roma', min: 14000, med: 14000, max: 14000, tipo: 'Privata', retta_fissa: true },
+    { uni: 'Cattolica', citta: 'Milano', min: 3200, med: 6500, max: 10400, tipo: 'Privata' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1500, max: 3200, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1400, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1600, max: 3100, tipo: 'Pubblica' },
+    { uni: 'Torino', citta: 'Torino', min: 156, med: 1400, max: 2800, tipo: 'Pubblica' },
   ],
   Giurisprudenza: [
-    { uni: 'LUISS', citta: 'Roma', min: 5500, med: 8500, max: 12000, tipo: 'Privata' },
-    { uni: 'Bocconi', citta: 'Milano', min: 5900, med: 9000, max: 12500, tipo: 'Privata' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1200, max: 2800, tipo: 'Pubblica' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1150, max: 2700, tipo: 'Pubblica' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1050, max: 2600, tipo: 'Pubblica' },
+    { uni: 'LUISS', citta: 'Roma', min: 13200, med: 13200, max: 13200, tipo: 'Privata', retta_fissa: true },
+    { uni: 'Bocconi', citta: 'Milano', min: 3400, med: 10000, max: 16700, tipo: 'Privata', indicator: 'ISU' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1400, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1500, max: 3100, tipo: 'Pubblica' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1500, max: 3200, tipo: 'Pubblica' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1400, max: 2900, tipo: 'Pubblica' },
   ],
   Ingegneria: [
-    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1500, max: 3800, tipo: 'Pubblica' },
-    { uni: 'Politecnico Torino', citta: 'Torino', min: 156, med: 1300, max: 3200, tipo: 'Pubblica' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1250, max: 2900, tipo: 'Pubblica' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1100, max: 2700, tipo: 'Pubblica' },
-    { uni: 'Federico II', citta: 'Napoli', min: 156, med: 900, max: 2400, tipo: 'Pubblica' },
+    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1800, max: 3891, tipo: 'Pubblica' },
+    { uni: 'Politecnico Torino', citta: 'Torino', min: 161, med: 1500, max: 3100, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1500, max: 3080, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1600, max: 3300, tipo: 'Pubblica' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1500, max: 3100, tipo: 'Pubblica' },
+    { uni: 'Federico II', citta: 'Napoli', min: 156, med: 1100, max: 2800, tipo: 'Pubblica' },
   ],
   Medicina: [
-    { uni: 'San Raffaele', citta: 'Milano', min: 8000, med: 14000, max: 20000, tipo: 'Privata' },
-    { uni: 'Humanitas', citta: 'Milano', min: 9000, med: 15000, max: 20000, tipo: 'Privata' },
-    { uni: 'Campus Bio-Medico', citta: 'Roma', min: 6000, med: 10000, max: 15000, tipo: 'Privata' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1400, max: 2800, tipo: 'Pubblica' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1500, max: 3000, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1350, max: 2900, tipo: 'Pubblica' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1200, max: 2700, tipo: 'Pubblica' },
+    { uni: 'San Raffaele', citta: 'Milano', min: 20190, med: 20190, max: 20190, tipo: 'Privata', retta_fissa: true },
+    { uni: 'Humanitas', citta: 'Milano', min: 10206, med: 16500, max: 23206, tipo: 'Privata', indicator: 'ISEP' },
+    { uni: 'Campus Bio-Medico', citta: 'Roma', min: 15500, med: 15500, max: 15500, tipo: 'Privata', retta_fissa: true },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1500, max: 3080, tipo: 'Pubblica' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1600, max: 3300, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1600, max: 3300, tipo: 'Pubblica' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1500, max: 3100, tipo: 'Pubblica' },
   ],
   Architettura: [
-    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1500, max: 3800, tipo: 'Pubblica' },
-    { uni: 'IUAV', citta: 'Venezia', min: 156, med: 1300, max: 3200, tipo: 'Pubblica' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Politecnico Torino', citta: 'Torino', min: 156, med: 1200, max: 3000, tipo: 'Pubblica' },
-    { uni: 'Federico II', citta: 'Napoli', min: 156, med: 900, max: 2200, tipo: 'Pubblica' },
+    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1800, max: 3891, tipo: 'Pubblica' },
+    { uni: 'IUAV', citta: 'Venezia', min: 156, med: 1500, max: 3200, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1400, max: 3080, tipo: 'Pubblica' },
+    { uni: 'Politecnico Torino', citta: 'Torino', min: 161, med: 1400, max: 3100, tipo: 'Pubblica' },
+    { uni: 'Federico II', citta: 'Napoli', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
   ],
   'Scienze Politiche': [
-    { uni: 'LUISS', citta: 'Roma', min: 5500, med: 8000, max: 11000, tipo: 'Privata' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1000, max: 2400, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1150, max: 2700, tipo: 'Pubblica' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
-    { uni: 'Torino', citta: 'Torino', min: 156, med: 950, max: 2400, tipo: 'Pubblica' },
+    { uni: 'LUISS', citta: 'Roma', min: 14000, med: 14000, max: 14000, tipo: 'Privata', retta_fissa: true },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1300, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1400, max: 3000, tipo: 'Pubblica' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1400, max: 3000, tipo: 'Pubblica' },
+    { uni: 'Torino', citta: 'Torino', min: 156, med: 1300, max: 2700, tipo: 'Pubblica' },
   ],
   'Lettere e Filosofia': [
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1000, max: 2300, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1050, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Cattolica', citta: 'Milano', min: 3500, med: 5500, max: 8000, tipo: 'Privata' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1000, max: 2400, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1300, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1400, max: 2900, tipo: 'Pubblica' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1300, max: 2900, tipo: 'Pubblica' },
+    { uni: 'Cattolica', citta: 'Milano', min: 3200, med: 6000, max: 9500, tipo: 'Privata' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1300, max: 2800, tipo: 'Pubblica' },
   ],
   Psicologia: [
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1050, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1150, max: 2700, tipo: 'Pubblica' },
-    { uni: 'Cattolica', citta: 'Milano', min: 3500, med: 5800, max: 8200, tipo: 'Privata' },
-    { uni: 'Bicocca', citta: 'Milano', min: 156, med: 1200, max: 2800, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1400, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1400, max: 2900, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1500, max: 3000, tipo: 'Pubblica' },
+    { uni: 'Cattolica', citta: 'Milano', min: 3200, med: 6200, max: 9800, tipo: 'Privata' },
+    { uni: 'Bicocca', citta: 'Milano', min: 156, med: 1400, max: 2900, tipo: 'Pubblica' },
   ],
   Informatica: [
-    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1500, max: 3800, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1250, max: 2900, tipo: 'Pubblica' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
-    { uni: 'Trento', citta: 'Trento', min: 156, med: 1100, max: 2700, tipo: 'Pubblica' },
-    { uni: 'Padova', citta: 'Padova', min: 156, med: 1050, max: 2600, tipo: 'Pubblica' },
+    { uni: 'Politecnico Milano', citta: 'Milano', min: 156, med: 1800, max: 3891, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1600, max: 3300, tipo: 'Pubblica' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1500, max: 3080, tipo: 'Pubblica' },
+    { uni: 'Trento', citta: 'Trento', min: 156, med: 1400, max: 3000, tipo: 'Pubblica' },
+    { uni: 'Padova', citta: 'Padova', min: 156, med: 1500, max: 3100, tipo: 'Pubblica' },
   ],
   'Scienze della Comunicazione': [
-    { uni: 'IULM', citta: 'Milano', min: 4500, med: 6500, max: 9000, tipo: 'Privata' },
-    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1000, max: 2400, tipo: 'Pubblica' },
-    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1100, max: 2600, tipo: 'Pubblica' },
-    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1050, max: 2500, tipo: 'Pubblica' },
-    { uni: 'Torino', citta: 'Torino', min: 156, med: 950, max: 2300, tipo: 'Pubblica' },
+    { uni: 'IULM', citta: 'Milano', min: 3600, med: 6800, max: 9956, tipo: 'Privata' },
+    { uni: 'La Sapienza', citta: 'Roma', min: 156, med: 1300, max: 2977, tipo: 'Pubblica' },
+    { uni: 'Bologna', citta: 'Bologna', min: 156, med: 1400, max: 2900, tipo: 'Pubblica' },
+    { uni: 'Statale Milano', citta: 'Milano', min: 156, med: 1300, max: 2900, tipo: 'Pubblica' },
+    { uni: 'Torino', citta: 'Torino', min: 156, med: 1200, max: 2700, tipo: 'Pubblica' },
   ],
 };
 
+// ═══════════════════════════════════════════════════════════════════
+// TOPICS (Testi Guida e Capire il mercato)
+// ═══════════════════════════════════════════════════════════════════
 export const TOPICS = {
   energia: {
     icon: '⚡',
@@ -348,20 +341,21 @@ export const TOPICS = {
     capire: {
       title: "Capire i costi dell'università in Italia",
       content: [
-        { subtitle: 'Come funzionano le rette', text: "Le pubbliche calcolano la retta in base all'ISEE. Con ISEE sotto ~22.000€ sei nella fascia minima (spesso 156€). Le private hanno rette fisse più alte ma spesso offrono borse di merito." },
-        { subtitle: 'La No Tax Area', text: "ISEE fino a 13.000€: esenzione totale nelle pubbliche. Tra 13.000€ e 30.000€: riduzione progressiva. Sottoutilizzata: molti non presentano l'ISEE e pagano il massimo." },
-        { subtitle: 'Borse di studio e DSU', text: 'Borse DSU: coprono retta + vitto + alloggio. Da 2.000€ a 5.200€/anno. Bandi tra luglio e settembre. Serve mantenere un minimo di crediti.' },
-        { subtitle: 'Pubblica vs. Privata', text: 'Le private costano 5-20x di più. Il valore aggiunto è nel network e brand. Per molte professioni, le pubbliche top hanno placement identico o superiore a una frazione del costo.' },
+        { subtitle: 'Come funzionano le rette nelle pubbliche', text: "Le università pubbliche modulano la retta in base all'ISEE per il diritto allo studio universitario (ISEE-U). Sotto la soglia di No Tax Area (almeno 22.000€ a livello nazionale, fino a 30.000€ in atenei come Statale Milano, Padova, Federico II) si è esenti dal contributo universitario: si paga solo la tassa regionale per il diritto allo studio (~140€) e l'imposta di bollo (16€), per un totale di ~156€. Sopra la No Tax Area la retta cresce progressivamente fino al contributo pieno (in genere 2.800-3.900€ per le facoltà scientifiche)." },
+        { subtitle: 'La No Tax Area e le riduzioni graduali', text: "Con ISEE fino a 22.000€ l'esenzione è totale in tutti gli atenei statali. Tra 22.001 e 30.000€ sono previste riduzioni progressive: 80% di sconto fino a 24k, 50% fino a 26k, 25% fino a 28k, 10% fino a 30k. Molti atenei (Bologna, Sapienza, Politecnico di Milano, Federico II, Padova) estendono autonomamente la No Tax Area fino a 24-30k€, rendendo le riduzioni ancora più favorevoli. Senza ISEE presentato si paga automaticamente il contributo massimo." },
+        { subtitle: 'Le private: rette modulate vs rette fisse', text: "Le università private si dividono in due categorie. Quelle a retta modulata (Bocconi, Cattolica, IULM, Humanitas) calcolano l'importo su fasce di reddito interne — a volte basate sull'ISEE parificato, a volte su indicatori propri come l'ISU Bocconi o l'ISEP di Humanitas — con range ampi (Bocconi: 3.400-16.700€, Cattolica: 3.200-10.400€). Quelle a retta fissa (LUISS, San Raffaele, Campus Bio-Medico) applicano un unico importo uguale per tutti, abbattibile solo tramite borse di studio separate basate sul merito o l'ISEE." },
+        { subtitle: 'Borse DSU regionali: importi e requisiti', text: "La borsa di studio DSU (Diritto allo Studio Universitario) è erogata dalle Regioni in base a reddito e merito. Gli importi minimi fissati dal MUR sono: studente in sede 2.850€, pendolare 4.133€, fuori sede 7.072€. Per ISEE sotto i 13.974€ è prevista una maggiorazione del 15% che porta la borsa fuori sede fino a oltre 8.100€. Le soglie ISEE/ISPE per accedere sono 27.948€ e 60.758€. I bandi escono tra giugno e settembre sui siti degli enti regionali (DSU Lombardia, DiSCo Lazio, ER.GO Emilia-Romagna, ecc.)." },
+        { subtitle: 'Pubblica vs privata: quando vale la differenza', text: "Le rette delle private sono 3-10 volte superiori a quelle delle pubbliche (escluso il caso della No Tax Area). Il valore aggiunto è nel network, nei servizi di placement, nella dimensione internazionale e nel brand. Per economia e finanza, management e giurisprudenza il premio salariale di Bocconi e LUISS è documentato, soprattutto nei primi anni di carriera. Per medicina, ingegneria e materie STEM le pubbliche top (Politecnico di Milano, Sapienza, Padova, Federico II) hanno tassi di occupazione e stipendi post-laurea allineati alle private, a costi molto inferiori." },
       ],
     },
     guida: {
-      title: "Come scegliere l'università",
+      title: "Come scegliere l'università e risparmiare",
       steps: [
-        { n: '1', title: 'Calcola il tuo ISEE', text: 'CAF o simulatore INPS. È GRATUITO. Senza ISEE paghi il massimo. Presentarlo è il singolo atto che fa risparmiare di più.' },
-        { n: '2', title: 'Usa il comparatore', text: 'Seleziona la facoltà e confronta i costi. Aggiungi affitto (fuori sede: 300-700€/mese), trasporti, libri.' },
-        { n: '3', title: 'Verifica borse di merito', text: 'Molte università offrono borse basate sul voto di maturità. Alcune coprono il 100%. Controlla entro giugno-luglio.' },
-        { n: '4', title: 'Considera il costo totale', text: 'Fuori sede a Milano: 10.000-15.000€/anno extra. Città più piccole: -20-30%. Valuta le residenze universitarie.' },
-        { n: '5', title: 'Pensa al ROI', text: 'Consulta AlmaLaurea: tasso occupazione e stipendio a 1 e 5 anni. Un ateneo costoso con placement del 95% si ripaga.' },
+        { n: '1', title: 'Calcola e presenta sempre l\'ISEE-U', text: "Rivolgiti a un CAF o usa il simulatore INPS per ottenere l'ISEE per il diritto allo studio universitario (è gratuito). Presentarlo è il singolo atto che fa risparmiare di più: senza, paghi automaticamente il contributo massimo, fino a 4.000€ di differenza. Le scadenze sono in genere tra ottobre e dicembre." },
+        { n: '2', title: 'Confronta rette sapendo che sono semplificate', text: "Il comparatore raggruppa in tre fasce (No Tax Area, zona agevolata 22-30k€, contributo pieno). Nella realtà ogni ateneo ha 4-9 scaglioni. Per un calcolo preciso al centesimo usa i simulatori ufficiali del tuo ateneo target (Sapienza Infostud, Unibo, Polimi, Federico II ne hanno tutti uno pubblico)." },
+        { n: '3', title: 'Verifica borse di merito e convenzioni', text: "Le private offrono borse di merito legate al voto di maturità o al test di ingresso (Bocconi4Access fino al 100%, agevolazioni LUISS per SAT/IB, borse Humanitas fino a 23.000€). Le pubbliche hanno bonus per diploma 100/100 e lode (Federico II: 50% di sconto). Controlla i bandi tra aprile e luglio." },
+        { n: '4', title: 'Stima il costo totale, non solo la retta', text: "Fuori sede a Milano: 12.000-18.000€/anno extra (affitto 600-900€/mese, vitto, trasporti, libri). Roma: 10.000-14.000€. Città medie (Bologna, Torino, Padova, Pisa): 8.000-11.000€. Città del sud (Napoli, Bari, Catania): 5.500-8.000€. Le residenze universitarie DSU sono la soluzione più economica ma i posti sono limitati." },
+        { n: '5', title: 'Valuta il ritorno sull\'investimento (ROI)', text: "Consulta il portale AlmaLaurea (almalaurea.it) per tassi di occupazione e stipendio a 1 e 5 anni dalla laurea, ateneo per ateneo e corso per corso. Un ateneo più costoso con il 95% di occupazione e stipendio medio 35.000€ a 5 anni si ripaga rapidamente; uno con il 60% di occupazione e stipendio 22.000€ è un cattivo investimento anche se la retta è bassa." },
       ],
     },
   },
@@ -440,7 +434,7 @@ export const TOPICS = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// DATI CONTI CORRENTI (Fallback — il sito li pesca da Google Sheets)
+// DATI CONTI CORRENTI (Fallback)
 // ═══════════════════════════════════════════════════════════════════
 export const CONTI_CORRENTI = [
   { id: "bbva", name: "BBVA Conto Online", tags: ["zero_spese"], canoneMensile: 0, rendimento: "3% annuo", vantaggioPrincipale: "Cashback 4%", note: "No costi nascosti", link: "https://www.bbva.it/persone/prodotti/conti/conto-online.html" },
