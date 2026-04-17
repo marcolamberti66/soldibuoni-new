@@ -33,25 +33,58 @@ function isExcluded(name) {
   return EXCLUDED_NAMES.some(ex => lower.includes(ex.toLowerCase()));
 }
 
+// === NUOVO: helper per classificare il tipo di tariffa dalla stringa `tipo` ===
+// Esempi gestiti: "Fisso 12 mesi", "Fisso 36 mesi", "Variabile (PUN+0)",
+// "Variabile (PSV+0,05)", "Variabile con tetto", "Variabile 12 mesi"
+function isFissa(tipoStr) {
+  const s = (tipoStr || '').toLowerCase();
+  return s.includes('fisso') || s.includes('fissa') || s.includes('fix');
+}
+function isVariabile(tipoStr) {
+  const s = (tipoStr || '').toLowerCase();
+  return s.includes('variabile') || s.includes('indicizzat');
+}
+
 export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
+  const [tipoTariffa, setTipoTariffa] = useState('fissa'); // === NUOVO: filtro Fissa/Variabile ===
 
   const [consumoLuce, setConsumoLuce] = useState(2700);
   const [consumoGas, setConsumoGas] = useState(1000);
 
+  // Colore corrente in base al combustibile selezionato (usato anche dal toggle Fissa/Variabile)
+  const currentColor = activeTab === 'gas' ? '#dc2626' : '#d97706';
+
   const sortedLuce = useMemo(() => {
     return ENERGY_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name) && !isExcluded(p.name))
+      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo)) // === NUOVO ===
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
-  }, [consumoLuce]);
+  }, [consumoLuce, tipoTariffa]);
 
   const sortedGas = useMemo(() => {
     return GAS_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name) && !isExcluded(p.name))
+      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo)) // === NUOVO ===
       .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
-  }, [consumoGas]);
+  }, [consumoGas, tipoTariffa]);
+
+  // Stile riutilizzabile per i bottoni dei toggle (Gas/Luce e Fissa/Variabile)
+  const tabBtnStyle = (isActive, activeColor) => ({
+    flex: 1,
+    padding: '12px 24px',
+    borderRadius: 16,
+    border: 'none',
+    fontWeight: 800,
+    fontSize: 16,
+    cursor: 'pointer',
+    transition: 'all 0.3s',
+    background: isActive ? '#fff' : 'transparent',
+    color: isActive ? activeColor : '#64748b',
+    boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.05)' : 'none'
+  });
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -85,15 +118,24 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
       <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20, textAlign: 'center' }}>Confronta le singole offerte</h3>
 
-      {/* SELETTORE TAB — Gas prima, Luce dopo */}
-      <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
-        <button onClick={() => setActiveTab('gas')}
-          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'gas' ? '#fff' : 'transparent', color: activeTab === 'gas' ? '#dc2626' : '#64748b', boxShadow: activeTab === 'gas' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}>
+      {/* SELETTORE TAB — Gas / Luce (marginBottom ridotto a 12 per raggruppare visivamente con il filtro sotto) */}
+      <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 12, gap: 4 }}>
+        <button onClick={() => setActiveTab('gas')} style={tabBtnStyle(activeTab === 'gas', '#dc2626')}>
           🔥 Gas
         </button>
-        <button onClick={() => setActiveTab('luce')}
-          style={{ flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16, cursor: 'pointer', transition: 'all 0.3s', background: activeTab === 'luce' ? '#fff' : 'transparent', color: activeTab === 'luce' ? '#d97706' : '#64748b', boxShadow: activeTab === 'luce' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none' }}>
+        <button onClick={() => setActiveTab('luce')} style={tabBtnStyle(activeTab === 'luce', '#d97706')}>
           ⚡ Luce
+        </button>
+      </div>
+
+      {/* === NUOVO: SELETTORE TIPO TARIFFA — Fissa / Variabile === */}
+      {/* Layout identico al toggle Gas/Luce. Colore attivo eredita quello del combustibile selezionato. */}
+      <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
+        <button onClick={() => setTipoTariffa('fissa')} style={tabBtnStyle(tipoTariffa === 'fissa', currentColor)}>
+          🔒 Fissa
+        </button>
+        <button onClick={() => setTipoTariffa('variabile')} style={tabBtnStyle(tipoTariffa === 'variabile', currentColor)}>
+          📈 Variabile
         </button>
       </div>
 
@@ -107,7 +149,11 @@ export function LuceGasComp({ color = '#f59e0b' }) {
             <input type="range" min={200} max={2500} step={50} value={consumoGas} onChange={(e) => setConsumoGas(+e.target.value)} style={{ width: '100%', accentColor: '#dc2626', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
 
-          {sortedGas.map((p, i) => (
+          {sortedGas.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 40, color: '#64748b', background: '#fff', borderRadius: 20, border: '1px dashed rgba(0,0,0,0.08)', fontSize: 15 }}>
+              Nessuna offerta <strong>{tipoTariffa}</strong> disponibile per il gas in questo momento.
+            </div>
+          ) : sortedGas.map((p, i) => (
             <ProviderRow key={p.name} p={p} i={i} color="#dc2626">
               <div style={{ flex: 1, minWidth: 160 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -135,7 +181,11 @@ export function LuceGasComp({ color = '#f59e0b' }) {
             <input type="range" min={1000} max={6000} step={100} value={consumoLuce} onChange={(e) => setConsumoLuce(+e.target.value)} style={{ width: '100%', accentColor: '#d97706', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
           </div>
 
-          {sortedLuce.map((p, i) => (
+          {sortedLuce.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 40, color: '#64748b', background: '#fff', borderRadius: 20, border: '1px dashed rgba(0,0,0,0.08)', fontSize: 15 }}>
+              Nessuna offerta <strong>{tipoTariffa}</strong> disponibile per la luce in questo momento.
+            </div>
+          ) : sortedLuce.map((p, i) => (
             <ProviderRow key={p.name} p={p} i={i} color="#d97706">
               <div style={{ flex: 1, minWidth: 160 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
