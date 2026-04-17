@@ -10,23 +10,17 @@ import {
   UNI_DATA,
 } from '../data.js';
 
-let PRICES_LAST_UPDATED = null;
-let PRICES_SOURCE = 'hardcoded';
-
 const EASE_FLUID = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-// Nomi dei provider affiliati per categoria — esclusi dalla lista sotto il box
 const AFFILIATE_NAMES_INTERNET = ['WindTre Super Fibra', 'WindTre'];
 const AFFILIATE_NAMES_RC = ['Prima Assicurazioni'];
 
-// Merge: prende i prezzi dal blob ma preserva i link dal fallback (data.js)
 function mergeWithLinks(blobData, fallbackData) {
   const linkMap = {};
   fallbackData.forEach(p => { if (p.link) linkMap[p.name] = p.link; });
   return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
 }
 
-// ── COMPONENTE RIGA NORMALE (PREMIUM LAYOUT) ──
 export function ProviderRow({ p, i, color, children }) {
   const finalLink = p.link || `https://www.google.com/search?q=${encodeURIComponent(p.name + " offerta sito ufficiale")}`;
 
@@ -70,7 +64,6 @@ export function ProviderRow({ p, i, color, children }) {
   );
 }
 
-// ── COMPONENTE RIGA AFFILIAZIONE (SCELTA SOLDIBUONI) ──
 export function AffiliateRow({ title, providerName, description, link, priceElement, statsElement, color, ctaText = "Scopri l'Offerta in Evidenza →" }) {
   return (
     <div
@@ -107,16 +100,16 @@ export function AffiliateRow({ title, providerName, description, link, priceElem
           <div style={{ fontSize: 13, color: '#64748b' }}>{description}</div>
         </div>
 
-        {statsElement ? (
+        {statsElement && (
           <div className="comparator-stats" style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
             {statsElement}
-            {priceElement ? (
+            {priceElement && (
               <div style={{ textAlign: 'center', minWidth: 80, borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}>
                 {priceElement}
               </div>
-            ) : null}
+            )}
           </div>
-        ) : null}
+        )}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0, width: '100%', marginTop: 10 }}>
           <a
@@ -143,27 +136,24 @@ export function Badge({ text, color }) {
   );
 }
 
-// ── COMPONENTE UNIVERSITÀ (100% STATICO E AGGIORNATO CON MENU A TENDINA) ──
 export function IstruzioneComp({ color = '#475569' }) {
   const [facolta, setFacolta] = useState('Economia');
   const [livello, setLivello] = useState('med');
   
-  // Nessuna chiamata fetch esterna. I dati vengono presi direttamente da data.js
   const uniData = UNI_DATA || {}; 
-
   const data = Array.isArray(uniData[facolta]) ? uniData[facolta] : [];
+  
   const sorted = useMemo(
     () => [...data].sort((a, b) => (Number(a[livello]) || 0) - (Number(b[livello]) || 0)),
     [data, livello]
   );
+  
   const maxVal = Math.max(...sorted.map((s) => Number(s[livello]) || 0), 1);
 
-  // Etichetta descrittiva della fascia selezionata
-  const livelloLabel = {
-    min: "No Tax Area — ISEE fino a 22.000€ (esenzione totale nelle pubbliche)",
-    med: "Fascia agevolata — ISEE tra 22.000€ e 30.000€",
-    max: "Contributo pieno — ISEE oltre 30.000€ o non presentato",
-  }[livello] || "Fascia selezionata";
+  let livelloLabel = "Fascia selezionata";
+  if (livello === 'min') livelloLabel = "No Tax Area — ISEE fino a 22.000€ (esenzione totale nelle pubbliche)";
+  if (livello === 'med') livelloLabel = "Fascia agevolata — ISEE tra 22.000€ e 30.000€";
+  if (livello === 'max') livelloLabel = "Contributo pieno — ISEE oltre 30.000€ o non presentato";
 
   return (
     <div className="comp-container">
@@ -173,14 +163,12 @@ export function IstruzioneComp({ color = '#475569' }) {
       <div className="glass-panel" style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
 
-          {/* Menu Tendina Facoltà */}
           <div style={{ flex: '1 1 240px' }}>
             <label className="comp-label">Seleziona la Facoltà:</label>
             <select
               className="custom-select"
               value={facolta}
               onChange={(e) => setFacolta(e.target.value)}
-              style={{ '--focus-color': color }}
             >
               {UNI_FACOLTA.map((f) => (
                 <option key={f} value={f}>{f}</option>
@@ -188,14 +176,12 @@ export function IstruzioneComp({ color = '#475569' }) {
             </select>
           </div>
 
-          {/* Menu Tendina ISEE */}
           <div style={{ flex: '1 1 240px' }}>
             <label className="comp-label">Fascia di reddito (ISEE-U):</label>
             <select
               className="custom-select"
               value={livello}
               onChange={(e) => setLivello(e.target.value)}
-              style={{ '--focus-color': color }}
             >
               <option value="min">ISEE Basso — No Tax Area (fino a 22.000€)</option>
               <option value="med">ISEE Medio — zona agevolata (22.000€ - 30.000€)</option>
@@ -205,18 +191,7 @@ export function IstruzioneComp({ color = '#475569' }) {
 
         </div>
 
-        {/* Disclaimer compatto per chiarire le semplificazioni */}
-        <div
-          style={{
-            marginTop: 18,
-            padding: '12px 16px',
-            background: `${color}0F`,
-            borderRadius: 12,
-            fontSize: 12,
-            color: '#475569',
-            lineHeight: 1.55,
-          }}
-        >
+        <div style={{ marginTop: 18, padding: '12px 16px', background: `${color}0F`, borderRadius: 12, fontSize: 12, color: '#475569', lineHeight: 1.55 }}>
           <strong style={{ color: '#0f172a' }}>{livelloLabel}.</strong>{' '}
           Le fasce qui sono una semplificazione: ogni ateneo applica da 4 a 9 scaglioni reali.
           Nelle università pubbliche, chi rientra nella No Tax Area paga solo la tassa regionale per il diritto allo studio (~140€) e l'imposta di bollo (16€). 
@@ -236,91 +211,37 @@ export function IstruzioneComp({ color = '#475569' }) {
             key={u.uni + i}
             className="provider-card"
             style={{
-              background: '#fff',
-              borderRadius: 20,
-              padding: '22px 28px',
-              marginBottom: 16,
-              border: '1px solid #e2e8f0',
-              borderLeft: `5px solid ${color}`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
-              animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both`,
-              transition: `all 0.3s ${EASE_FLUID}`,
+              background: '#fff', borderRadius: 20, padding: '22px 28px', marginBottom: 16,
+              border: '1px solid #e2e8f0', borderLeft: `5px solid ${color}`,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.02)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both`, transition: `all 0.3s ${EASE_FLUID}`
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 16,
-                flexWrap: 'wrap',
-                gap: 12,
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                   <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 18 }}>{u.uni}</span>
-                  {i === 0 ? <Badge text="PIÙ ECONOMICA" color={color} /> : null}
-                  {isFissa ? <Badge text="RETTA FISSA" color="#64748b" /> : null}
-                  {customIndicator ? <Badge text={`MODULATA SU ${customIndicator}`} color="#0ea5e9" /> : null}
+                  {i === 0 && <Badge text="PIÙ ECONOMICA" color={color} />}
+                  {isFissa && <Badge text="RETTA FISSA" color="#64748b" />}
+                  {customIndicator && <Badge text={`MODULATA SU ${customIndicator}`} color="#0ea5e9" />}
                 </div>
                 <span style={{ fontSize: 13, color: '#64748b' }}>
                   📍 {u.citta} • {u.tipo}
-                  {isFissa ? ' • Indipendente dall\'ISEE' : null}
+                  {isFissa && " • Indipendente dall'ISEE"}
                 </span>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div
-                  style={{
-                    fontSize: 11,
-                    color: '#94a3b8',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                  }}
-                >
-                  Retta annua stimata
-                </div>
-                <div style={{ fontSize: 24, fontWeight: 800, color: color }}>
-                  €{valore.toLocaleString('it-IT')}
-                </div>
+                <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Retta annua stimata</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: color }}>€{valore.toLocaleString('it-IT')}</div>
               </div>
             </div>
 
-            <div
-              style={{
-                background: '#f1f5f9',
-                borderRadius: 8,
-                height: 8,
-                overflow: 'hidden',
-                marginBottom: 8,
-              }}
-            >
-              <div
-                style={{
-                  height: '100%',
-                  borderRadius: 8,
-                  background: `linear-gradient(90deg, ${color}88, ${color})`,
-                  width: `${(valore / maxVal) * 100}%`,
-                  transition: 'width 0.5s ease',
-                }}
-              />
+            <div style={{ background: '#f1f5f9', borderRadius: 8, height: 8, overflow: 'hidden', marginBottom: 8 }}>
+              <div style={{ height: '100%', borderRadius: 8, background: `linear-gradient(90deg, ${color}88, ${color})`, width: `${(valore / maxVal) * 100}%`, transition: 'width 0.5s ease' }} />
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontSize: 12,
-                color: '#94a3b8',
-                fontWeight: 600,
-              }}
-            >
-              <span>
-                {isFissa ? 'Retta Unica' : `Min: €${minVal.toLocaleString('it-IT')}`}
-              </span>
-              <span>
-                {isFissa ? '(Agevolazioni solo su bando)' : `Max: €${maxUni.toLocaleString('it-IT')}`}
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>
+              <span>{isFissa ? 'Retta Unica' : `Min: €${minVal.toLocaleString('it-IT')}`}</span>
+              <span>{isFissa ? '(Agevolazioni solo su bando)' : `Max: €${maxUni.toLocaleString('it-IT')}`}</span>
             </div>
           </div>
         );
@@ -329,7 +250,6 @@ export function IstruzioneComp({ color = '#475569' }) {
   );
 }
 
-// ── COMPONENTE FONDI PENSIONE ──
 export function PensioneComp({ color = '#0284c7' }) {
   const [funds, setFunds] = useState(PENSION_FUNDS);
   const [isLive, setIsLive] = useState(false);
@@ -349,13 +269,13 @@ export function PensioneComp({ color = '#0284c7' }) {
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore Fondi Pensione {isLive ? <span style={{fontSize: 14, color: '#10b981'}}>● Live</span> : null}</h2>
+      <h2 className="comp-title">Comparatore Fondi Pensione {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
       {sorted.map((p, i) => (
         <ProviderRow key={p.name} p={p} i={i} color={color}>
           <div style={{ flex: 1, minWidth: 180 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
               <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-              {i === 0 ? <Badge text="MIGLIOR ISC" color={color} /> : null}
+              {i === 0 && <Badge text="MIGLIOR ISC" color={color} />}
             </div>
             <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo} • {p.note}</span>
           </div>
@@ -369,7 +289,6 @@ export function PensioneComp({ color = '#0284c7' }) {
   );
 }
 
-// ── COMPONENTE ASSICURAZIONE SANITARIA ──
 export function SaluteComp({ color = '#ea580c' }) {
   const [piano, setPiano] = useState('standard');
   const [healthData, setHealthData] = useState(HEALTH_INSURANCE);
@@ -389,7 +308,7 @@ export function SaluteComp({ color = '#ea580c' }) {
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore Assicurazioni Sanitarie {isLive ? <span style={{fontSize: 14, color: '#10b981'}}>● Live</span> : null}</h2>
+      <h2 className="comp-title">Comparatore Assicurazioni Sanitarie {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
       <div className="glass-panel" style={{ marginBottom: 24 }}>
         <label className="comp-label">Livello di copertura desiderato:</label>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -401,12 +320,12 @@ export function SaluteComp({ color = '#ea580c' }) {
           <div style={{ flex: 1, minWidth: 180 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
               <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-              {i === 0 ? <Badge text="MIGLIORE" color={color} /> : null}
+              {i === 0 && <Badge text="MIGLIORE" color={color} />}
             </div>
             <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-              {p.dentale ? <span style={{ fontSize: 10, background: '#dcfce7', color: '#166534', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🦷 Dentale</span> : null}
-              {p.oculistica ? <span style={{ fontSize: 10, background: '#dbeafe', color: '#1e40af', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>👁️ Oculistica</span> : null}
-              {p.ricovero ? <span style={{ fontSize: 10, background: '#fef3c7', color: '#92400e', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🏥 Ricovero</span> : null}
+              {p.dentale && <span style={{ fontSize: 10, background: '#dcfce7', color: '#166534', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🦷 Dentale</span>}
+              {p.oculistica && <span style={{ fontSize: 10, background: '#dbeafe', color: '#1e40af', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>👁️ Oculistica</span>}
+              {p.ricovero && <span style={{ fontSize: 10, background: '#fef3c7', color: '#92400e', padding: '4px 8px', borderRadius: 8, fontWeight: 700 }}>🏥 Ricovero</span>}
             </div>
           </div>
           <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16, minWidth: 80 }}>
@@ -419,7 +338,6 @@ export function SaluteComp({ color = '#ea580c' }) {
   );
 }
 
-// ── COMPONENTE SCADENZARIO AUTO ──
 export function CalendarioAuto({ color = '#f43f5e' }) {
   const [form, setForm] = useState({ targa: '', immatricolazione: '', ultimoTagliando: '', email: '', nome: '' });
   const [scadenze, setScadenze] = useState(null);
@@ -454,7 +372,7 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
         <div><label className="comp-label">Immatricolazione *</label><input type="date" style={inputStyle} value={form.immatricolazione} onChange={e => setForm({...form, immatricolazione: e.target.value})} /></div>
         <button onClick={calcola} className="btn-solid-premium" style={{ '--btn-bg': color, gridColumn: '1 / -1', marginTop: 16 }}>Genera Scadenzario →</button>
       </div>
-      {scadenze ? (
+      {scadenze && (
         <div style={{ marginTop: 32, animation: 'fadeInUp 0.5s ease-out' }}>
           <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', marginBottom: 16 }}>Le tue prossime scadenze</h3>
           {scadenze.map((s, i) => {
@@ -468,12 +386,11 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
             );
           })}
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
 
-// ── INTERNET (con esclusione Wind Tre dalla lista) ──
 export function InternetComp({ color = '#8b5cf6' }) {
   const [providers, setProviders] = useState(INTERNET_PROVIDERS);
   useEffect(() => {
@@ -521,7 +438,6 @@ export function InternetComp({ color = '#8b5cf6' }) {
   );
 }
 
-// ── RC AUTO (con esclusione Prima Assicurazioni dalla lista) ──
 export function RCAutoComp({ color = '#ec4899' }) {
   const [garanzie, setGaranzie] = useState([]);
   const toggle = (g) => setGaranzie((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
@@ -557,13 +473,13 @@ export function RCAutoComp({ color = '#ec4899' }) {
   return (
     <div className="comp-container">
       <StyleInjector />
-      <h2 className="comp-title">Comparatore RC Auto {isLive ? <span style={{fontSize: 14, color: '#10b981'}}>● Live</span> : null}</h2>
+      <h2 className="comp-title">Comparatore RC Auto {isLive && <span style={{fontSize: 14, color: '#10b981'}}>● Live</span>}</h2>
       <div className="comp-controls glass-panel" style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Aggiungi garanzie accessorie (Stima):</p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {[{ id: 'furto', l: 'Furto/Incendio' }, { id: 'kasko', l: 'Kasko' }, { id: 'cristalli', l: 'Cristalli' }, { id: 'assistenza', l: 'Assistenza' }].map(g => (
             <button key={g.id} onClick={() => toggle(g.id)} className={`filter-btn ${garanzie.includes(g.id) ? 'active' : ''}`} style={{'--active-bg': color}}>
-              {garanzie.includes(g.id) ? '✓ ' : ''} {g.l}
+              {garanzie.includes(g.id) && '✓ '} {g.l}
             </button>
           ))}
         </div>
@@ -595,12 +511,10 @@ export function RCAutoComp({ color = '#ec4899' }) {
   );
 }
 
-// ── VECCHI COMPONENTI (FALLBACK) ──
 export function EnergiaComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
 export function GasComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
 export function GenericComp({ color }) { return <div className="glass-panel" style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 44, marginBottom: 14 }}>🚀</div><h3 style={{ color: '#0f172a', fontSize: 20, fontWeight: 800, marginBottom: 8 }}>In Arrivo</h3><p style={{ color: '#64748b', fontSize: 15 }}>Stiamo applicando il nuovo design premium a questa sezione.</p></div>; }
 
-// ── STILI GLOBALI (AGGIORNATI) ──
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
@@ -612,10 +526,8 @@ function StyleInjector() {
       .filter-btn:hover { background: #f8fafc; transform: translateY(-1px); }
       .filter-btn.active { background: var(--active-bg); color: #fff; border-color: transparent; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
       
-      /* Hover avanzato per le ProviderCard */
       .provider-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.1) !important; border-color: #cbd5e1 !important; }
       
-      /* Nuovo stile per i menu a tendina (select) */
       .custom-select {
         width: 100%;
         padding: 14px 18px;
@@ -639,11 +551,10 @@ function StyleInjector() {
         border-color: #cbd5e1;
       }
       .custom-select:focus {
-        border-color: var(--focus-color, #475569);
+        border-color: #475569;
         box-shadow: 0 0 0 3px rgba(71, 85, 105, 0.1);
       }
 
-      /* Nuovo stile per il bottone secondario */
       .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 24px; border: 1.5px solid var(--btn-color); border-radius: 12px; text-decoration: none; transition: all 0.3s ${EASE_FLUID}; white-space: nowrap; background: transparent; }
       .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px -4px var(--btn-color); }
       
