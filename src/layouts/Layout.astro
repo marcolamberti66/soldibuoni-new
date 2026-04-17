@@ -7,9 +7,13 @@ const { title, description } = Astro.props;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon-soldi.svg" />
+  
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/apple-touch-icon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  
   <meta name="description" content={description}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
@@ -17,6 +21,7 @@ const { title, description } = Astro.props;
   <meta property="og:url" content="https://soldibuoni.it">
   <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png">
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
+  
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
@@ -24,7 +29,9 @@ const { title, description } = Astro.props;
     gtag('js', new Date());
     gtag('config', 'G-H2JD077CTH');
   </script>
+  
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
   <style is:global>
     :root {
       --bg: #f8fafc;
