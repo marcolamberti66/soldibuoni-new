@@ -4,379 +4,377 @@ const { title, description } = Astro.props;
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="/apple-touch-icon.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <meta name="description" content={description}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://soldibuoni.it">
-  <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png">
-  <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
-  <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H2JD077CTH');
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <style is:global>
-    :root {
-      --bg: #f8fafc;
-      --white: #ffffff;
-      --navy-900: #0c2340;
-      --navy-800: #122d4f;
-      --navy-700: #1a3a5c;
-      --navy-50: #f0f5ff;
-      --green-600: #059669;
-      --green-400: #34d399;
-      --green-50: #ecfdf5;
-      --text-dark: #0f172a;
-      --text-body: #334155;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
-      --border: rgba(12,35,64,0.06);
-      --ease: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      background: var(--bg); 
-      color: var(--text-body); 
-      font-family: 'DM Sans', system-ui, -apple-system, sans-serif; 
-      line-height: 1.6; 
-      -webkit-font-smoothing: antialiased; 
-    }
-    a { text-decoration: none; color: inherit; }
-    ::selection { background: var(--green-600); color: #fff; }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://soldibuoni.it">
+  <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png">
+  <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H2JD077CTH');
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style is:global>
+    :root {
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --navy-900: #0c2340;
+      --navy-800: #122d4f;
+      --navy-700: #1a3a5c;
+      --navy-50: #f0f5ff;
+      --green-600: #059669;
+      --green-400: #34d399;
+      --green-50: #ecfdf5;
+      --text-dark: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --border: rgba(12,35,64,0.06);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background: var(--bg); 
+      color: var(--text-body); 
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif; 
+      line-height: 1.6; 
+      -webkit-font-smoothing: antialiased; 
+    }
+    a { text-decoration: none; color: inherit; }
+    ::selection { background: var(--green-600); color: #fff; }
+  </style>
 
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://soldibuoni.it/#website",
-          "url": "https://soldibuoni.it/",
-          "name": "Soldi Buoni",
-          "description": "La tua plancia di comando per abbattere i costi e ottimizzare le finanze personali.",
-          "inLanguage": "it-IT"
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://soldibuoni.it/#organization",
-          "name": "Soldi Buoni",
-          "alternateName": "Soldibuoni.it",
-          "url": "https://soldibuoni.it/",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://soldibuoni.it/apple-touch-icon.png"
-          }
-        }
-      ]
-    }
-  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://soldibuoni.it/#website",
+          "url": "https://soldibuoni.it/",
+          "name": "Soldi Buoni",
+          "description": "La tua plancia di comando per abbattere i costi e ottimizzare le finanze personali.",
+          "inLanguage": "it-IT"
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://soldibuoni.it/#organization",
+          "name": "Soldi Buoni",
+          "alternateName": "Soldibuoni.it",
+          "url": "https://soldibuoni.it/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://soldibuoni.it/apple-touch-icon.png"
+          }
+        }
+      ]
+    }
+  </script>
 </head>
 <body style="min-height: 100vh; display: flex; flex-direction: column;">
-  
-  <!-- NAV -->
-  <nav id="main-nav" class="site-nav">
-    <a href="/" class="logo">
-      <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
-      SoldiBuoni
-    </a>
-    
-    <div class="nav-links-desktop">
-      <a href="/#cats" class="nav-a">Le tue spese</a>
-      <a href="/#tools" class="nav-a">Strumenti</a>
-      <a href="/guida-risparmio" class="nav-a">Guide</a>
-      <a href="/quanto-spendo" class="nav-cta">Inizia da qui</a>
-    </div>
+  
+    <nav id="main-nav" class="site-nav">
+    <a href="/" class="logo">
+      <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
+      SoldiBuoni
+    </a>
+    
+    <div class="nav-links-desktop">
+      <a href="/#cats" class="nav-a">Le tue spese</a>
+      <a href="/#tools" class="nav-a">Strumenti</a>
+      <a href="/guida-risparmio" class="nav-a">Guide</a>
+      <a href="/quanto-spendo" class="nav-cta">Inizia da qui</a>
+    </div>
 
-    <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-  <!-- MOBILE MENU -->
-  <div id="mobile-menu" class="mobile-menu">
-    <div class="mobile-menu-inner">
-      <div class="mobile-section-label" style="color: var(--green-400);">⚡ STRUMENTI</div>
-      <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
-      <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
-      <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
-      <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
-      <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
-      <a href="/calcolo-stipendio" class="mobile-link">💶 Calcolo Stipendio</a>
-      <a href="/interesse-composto" class="mobile-link">📈 Interesse Composto</a>
-      <a href="/trova-bonus" class="mobile-link">🎁 Trova Bonus</a>
+    <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <div class="mobile-section-label" style="color: var(--green-400);">⚡ STRUMENTI</div>
+      <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
+      <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
+      <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
+      <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
+      <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
+      <a href="/calcolo-stipendio" class="mobile-link">💶 Calcolo Stipendio</a>
+      <a href="/interesse-composto" class="mobile-link">📈 Interesse Composto</a>
+      <a href="/trova-bonus" class="mobile-link">🎁 Trova Bonus</a>
 
-      <div class="mobile-section-label" style="color: #f59e0b; margin-top: 24px;">💸 CONFRONTA</div>
-      <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
-      <a href="/internet" class="mobile-link">📡 Offerte Internet</a>
-      <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
-      <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
-      <a href="/tfr_pensione" class="mobile-link">📊 Previdenza & TFR</a>
-      <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
-      <a href="/istruzione" class="mobile-link">🎓 Università</a>
+      <div class="mobile-section-label" style="color: #f59e0b; margin-top: 24px;">💸 CONFRONTA</div>
+      <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
+      <a href="/internet" class="mobile-link">📡 Offerte Internet</a>
+      <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+      <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
+      <a href="/tfr_pensione" class="mobile-link">📊 Previdenza & TFR</a>
+      <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
+      <a href="/istruzione" class="mobile-link">🎓 Università</a>
 
-      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📋 GESTISCI</div>
-      <a href="/bollo_revisione" class="mobile-link">🚗 Memo Scadenze Auto</a>
-    </div>
-  </div>
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📋 GESTISCI</div>
+      <a href="/bollo_revisione" class="mobile-link">🚗 Memo Scadenze Auto</a>
+    </div>
+  </div>
 
-  <main style="flex: 1;">
-    <slot />
-  </main>
+  <main style="flex: 1;">
+    <slot />
+  </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="ft-in">
-      <div class="ft-b">
-        <div class="logo" style="color: #fff; margin-bottom: 10px;">
-          <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
-          SoldiBuoni
-        </div>
-        <p>Il tuo consulente finanziario domestico. Gratuito, indipendente, sempre aggiornato.</p>
-      </div>
-      <div class="ft-c">
-        <div>
-          <h5>Aree di spesa</h5>
-          <a href="/luce-gas">Luce & Gas</a>
-          <a href="/internet">Internet</a>
-          <a href="/rc_auto">RC Auto</a>
-          <a href="/conti-correnti">Conti Correnti</a>
-          <a href="/tfr_pensione">Previdenza</a>
-        </div>
-        <div>
-          <h5>Strumenti</h5>
-          <a href="/quanto-spendo">Quanto Spendo?</a>
-          <a href="/analisi-bolletta">Analizza Bolletta</a>
-          <a href="/mutuo">Simulatore Mutui</a>
-          <a href="/trova-bonus">Trova Bonus</a>
-        </div>
-        <div>
-          <h5>Info</h5>
-          <a href="/chi-siamo">Chi Siamo</a>
-          <a href="/privacy">Privacy</a>
-        </div>
-      </div>
-    </div>
-    <div class="ft-bot">
-      <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link sono link di affiliazione.</p>
-    </div>
-  </footer>
+    <footer class="site-footer">
+    <div class="ft-in">
+      <div class="ft-b">
+        <div class="logo" style="color: #fff; margin-bottom: 10px;">
+          <img src="/apple-touch-icon.png" alt="SoldiBuoni" class="logo-m" />
+          SoldiBuoni
+        </div>
+        <p>Il tuo consulente finanziario domestico. Gratuito, indipendente, sempre aggiornato.</p>
+      </div>
+      <div class="ft-c">
+        <div>
+          <h5>Aree di spesa</h5>
+          <a href="/luce-gas">Luce & Gas</a>
+          <a href="/internet">Internet</a>
+          <a href="/rc_auto">RC Auto</a>
+          <a href="/conti-correnti">Conti Correnti</a>
+          <a href="/tfr_pensione">Previdenza</a>
+        </div>
+        <div>
+          <h5>Strumenti</h5>
+          <a href="/quanto-spendo">Quanto Spendo?</a>
+          <a href="/analisi-bolletta">Analizza Bolletta</a>
+          <a href="/mutuo">Simulatore Mutui</a>
+          <a href="/trova-bonus">Trova Bonus</a>
+        </div>
+        <div>
+          <h5>Info</h5>
+          <a href="/chi-siamo">Chi Siamo</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <p style="margin-bottom: 12px; line-height: 1.6; text-align: justify; max-width: 100%;"><strong>Disclaimer:</strong> SoldiBuoni.it fornisce contenuti a scopo puramente informativo e di educazione finanziaria. Le informazioni riportate non costituiscono consulenza finanziaria personalizzata, né raccomandazione o sollecitazione all'investimento. Le performance passate non garantiscono risultati futuri. Per decisioni di investimento, si invita a consultare un professionista abilitato o a leggere attentamente i prospetti informativi (KIID) forniti dagli emittenti.</p>
+      <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link sono link di affiliazione.</p>
+    </div>
+  </footer>
 
-  <script is:inline>
-    const toggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('mobile-menu');
-    toggle?.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-      if(menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        document.body.style.overflow = '';
-        setTimeout(() => { if(!menu.classList.contains('open')) menu.style.display = 'none' }, 400);
-      } else {
-        menu.style.display = 'block';
-        setTimeout(() => menu.classList.add('open'), 10);
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  </script>
+  <script is:inline>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle?.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      if(menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => { if(!menu.classList.contains('open')) menu.style.display = 'none' }, 400);
+      } else {
+        menu.style.display = 'block';
+        setTimeout(() => menu.classList.add('open'), 10);
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  </script>
 </body>
 </html>
 
 <style>
-  /* ══════ NAV ══════ */
-  .site-nav {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    box-shadow: 0 1px 2px rgba(12,35,64,0.03);
-  }
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 21px;
-    color: var(--navy-900);
-    display: flex;
-    align-items: center;
-    gap: 9px;
-  }
-  .logo-m {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: block;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
-  .nav-links-desktop {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .nav-a {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
-    padding: 7px 16px;
-    border-radius: 8px;
-    transition: all 0.2s;
-  }
-  .nav-a:hover {
-    color: var(--navy-900);
-    background: var(--navy-50);
-  }
-  .nav-cta {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    background: var(--green-600);
-    padding: 9px 20px;
-    border-radius: 9px;
-    transition: all 0.25s var(--ease);
-    box-shadow: 0 2px 8px rgba(5,150,105,0.2);
-  }
-  .nav-cta:hover {
-    background: #047857;
-    transform: translateY(-1px);
-  }
+  /* ══════ NAV ══════ */
+  .site-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    box-shadow: 0 1px 2px rgba(12,35,64,0.03);
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 21px;
+    color: var(--navy-900);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .logo-m {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: block;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .nav-links-desktop {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .nav-a {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-a:hover {
+    color: var(--navy-900);
+    background: var(--navy-50);
+  }
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--green-600);
+    padding: 9px 20px;
+    border-radius: 9px;
+    transition: all 0.25s var(--ease);
+    box-shadow: 0 2px 8px rgba(5,150,105,0.2);
+  }
+  .nav-cta:hover {
+    background: #047857;
+    transform: translateY(-1px);
+  }
 
-  /* ══════ MOBILE MENU ══════ */
-  .menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    z-index: 200;
-  }
-  .menu-toggle span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--navy-900);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-  }
-  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .menu-toggle.active span:nth-child(2) { opacity: 0; }
-  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  /* ══════ MOBILE MENU ══════ */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 200;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navy-900);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(248,250,252,0.97);
-    backdrop-filter: blur(16px);
-    z-index: 99;
-    overflow-y: auto;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease);
-  }
-  .mobile-menu.open { display: block; opacity: 1; }
-  .mobile-menu-inner {
-    padding: 90px 24px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .mobile-section-label {
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 16px 12px 8px;
-  }
-  .mobile-link {
-    display: block;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--navy-900);
-    padding: 14px 16px;
-    border-radius: 12px;
-    transition: background 0.2s;
-  }
-  .mobile-link:hover {
-    background: var(--navy-50);
-  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(248,250,252,0.97);
+    backdrop-filter: blur(16px);
+    z-index: 99;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .mobile-menu.open { display: block; opacity: 1; }
+  .mobile-menu-inner {
+    padding: 90px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mobile-section-label {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 16px 12px 8px;
+  }
+  .mobile-link {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy-900);
+    padding: 14px 16px;
+    border-radius: 12px;
+    transition: background 0.2s;
+  }
+  .mobile-link:hover {
+    background: var(--navy-50);
+  }
 
-  /* ══════ FOOTER ══════ */
-  .site-footer {
-    background: var(--navy-900);
-    padding: 52px 0 0;
-    color: var(--text-light);
-  }
-  .ft-in {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 32px;
-    display: flex;
-    gap: 48px;
-    flex-wrap: wrap;
-  }
-  .ft-b {
-    flex: 1.3;
-    min-width: 220px;
-  }
-  .ft-b p {
-    font-size: 12px;
-    color: rgba(148,163,184,0.65);
-    line-height: 1.7;
-    max-width: 280px;
-  }
-  .ft-c {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    flex: 2;
-  }
-  .ft-c h5 {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--green-400);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-  }
-  .ft-c a {
-    display: block;
-    font-size: 13px;
-    color: rgba(148,163,184,0.65);
-    padding: 4px 0;
-    transition: color 0.2s;
-  }
-  .ft-c a:hover { color: #fff; }
-  .ft-bot {
-    max-width: 1100px;
-    margin: 40px auto 0;
-    padding: 16px 32px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .ft-bot p {
-    font-size: 11px;
-    color: rgba(148,163,184,0.35);
-  }
+  /* ══════ FOOTER ══════ */
+  .site-footer {
+    background: var(--navy-900);
+    padding: 52px 0 0;
+    color: var(--text-light);
+  }
+  .ft-in {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .ft-b {
+    flex: 1.3;
+    min-width: 220px;
+  }
+  .ft-b p {
+    font-size: 12px;
+    color: rgba(148,163,184,0.65);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+  .ft-c {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    flex: 2;
+  }
+  .ft-c h5 {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green-400);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .ft-c a {
+    display: block;
+    font-size: 13px;
+    color: rgba(148,163,184,0.65);
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+  .ft-c a:hover { color: #fff; }
+  .ft-bot {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 16px 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .ft-bot p {
+    font-size: 11px;
+    color: rgba(148,163,184,0.35);
+  }
 
-  /* ══════ RESPONSIVE ══════ */
-  @media (max-width: 900px) {
-    .nav-links-desktop { display: none; }
-    .menu-toggle { display: flex; }
-    .site-nav { padding: 0 20px; }
-  }
+  /* ══════ RESPONSIVE ══════ */
+  @media (max-width: 900px) {
+    .nav-links-desktop { display: none; }
+    .menu-toggle { display: flex; }
+    .site-nav { padding: 0 20px; }
+  }
 </style>
