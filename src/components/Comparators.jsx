@@ -26,7 +26,7 @@ function mergeWithLinks(blobData, fallbackData) {
   return blobData.map(p => ({ ...p, link: p.link || linkMap[p.name] || null }));
 }
 
-// ── COMPONENTE RIGA NORMALE ──
+// ── COMPONENTE RIGA NORMALE (PREMIUM LAYOUT) ──
 export function ProviderRow({ p, i, color, children }) {
   const finalLink = p.link || `https://www.google.com/search?q=${encodeURIComponent(p.name + " offerta sito ufficiale")}`;
 
@@ -35,15 +35,17 @@ export function ProviderRow({ p, i, color, children }) {
       className="provider-card"
       style={{
         background: '#fff',
-        borderRadius: 24,
-        padding: '24px 28px',
+        borderRadius: 20, // Leggermente più squadrato per un look moderno
+        padding: '22px 28px',
         marginBottom: 16,
-        border: '1px solid rgba(0,0,0,0.04)',
+        border: '1px solid #e2e8f0', // Bordo più definito
+        borderLeft: `5px solid ${color}`, // L'accento colorato laterale
+        boxShadow: '0 4px 12px rgba(0,0,0,0.02)', // Ombra di base delicata
         display: 'flex',
         alignItems: 'center',
         flexWrap: 'wrap',
         gap: 16,
-        transition: `all 0.4s ${EASE_FLUID}`,
+        transition: `all 0.3s ${EASE_FLUID}`,
         animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both`,
         position: 'relative',
         zIndex: 1,
@@ -69,7 +71,7 @@ export function ProviderRow({ p, i, color, children }) {
 }
 
 // ── COMPONENTE RIGA AFFILIAZIONE (SCELTA SOLDIBUONI) ──
-export function AffiliateRow({ title, providerName, description, link, priceElement, statsElement, color }) {
+export function AffiliateRow({ title, providerName, description, link, priceElement, statsElement, color, ctaText = "Scopri l'Offerta in Evidenza →" }) {
   return (
     <div
       className="affiliate-card"
@@ -124,7 +126,7 @@ export function AffiliateRow({ title, providerName, description, link, priceElem
             className="btn-solid-premium"
             style={{ '--btn-bg': color, width: '100%' }}
           >
-            Scopri l'Offerta in Evidenza →
+            {ctaText}
           </a>
         </div>
       </div>
@@ -178,7 +180,7 @@ export function IstruzioneComp({ color = '#475569' }) {
         </div>
       </div>
       {sorted.map((u, i) => (
-        <div key={u.uni + i} className="provider-card" style={{ background: '#fff', borderRadius: 24, padding: '24px 28px', marginBottom: 16, border: '1px solid rgba(0,0,0,0.04)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both` }}>
+        <div key={u.uni + i} className="provider-card" style={{ background: '#fff', borderRadius: 20, padding: '22px 28px', marginBottom: 16, border: '1px solid #e2e8f0', borderLeft: `5px solid ${color}`, boxShadow: '0 4px 12px rgba(0,0,0,0.02)', animation: `fadeInUp 0.5s ${EASE_FLUID} ${i * 0.05}s both`, transition: `all 0.3s ${EASE_FLUID}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -364,7 +366,6 @@ export function InternetComp({ color = '#8b5cf6' }) {
     fetchPrices();
   }, []);
 
-  // Escludi Wind Tre dalla lista (è nel box affiliato)
   const sorted = [...providers]
     .filter(p => !AFFILIATE_NAMES_INTERNET.some(name => p.name.includes(name) || name.includes(p.name)))
     .sort((a, b) => a.prezzo - b.prezzo);
@@ -477,7 +478,7 @@ export function EnergiaComp({ color }) { return <div className="comp-container">
 export function GasComp({ color }) { return <div className="comp-container"><h2 className="comp-title">Vai su "Luce & Gas" dalla Homepage</h2></div>; }
 export function GenericComp({ color }) { return <div className="glass-panel" style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 44, marginBottom: 14 }}>🚀</div><h3 style={{ color: '#0f172a', fontSize: 20, fontWeight: 800, marginBottom: 8 }}>In Arrivo</h3><p style={{ color: '#64748b', fontSize: 15 }}>Stiamo applicando il nuovo design premium a questa sezione.</p></div>; }
 
-// ── STILI GLOBALI ──
+// ── STILI GLOBALI (AGGIORNATI) ──
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
@@ -488,9 +489,14 @@ function StyleInjector() {
       .filter-btn { padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(0,0,0,0.06); font-size: 14px; font-weight: 600; background: #fff; color: #64748b; cursor: pointer; transition: all 0.3s ${EASE_FLUID}; }
       .filter-btn:hover { background: #f8fafc; transform: translateY(-1px); }
       .filter-btn.active { background: var(--active-bg); color: #fff; border-color: transparent; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-      .provider-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08) !important; }
-      .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 20px; border: 2px solid var(--btn-color); border-radius: 14px; text-decoration: none; transition: all 0.3s ${EASE_FLUID}; white-space: nowrap; }
-      .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 16px -4px var(--btn-color); }
+      
+      /* Hover avanzato per le ProviderCard */
+      .provider-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.1) !important; border-color: #cbd5e1 !important; }
+      
+      /* Nuovo stile per il bottone secondario */
+      .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 24px; border: 1.5px solid var(--btn-color); border-radius: 12px; text-decoration: none; transition: all 0.3s ${EASE_FLUID}; white-space: nowrap; background: transparent; }
+      .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px -4px var(--btn-color); }
+      
       .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s ${EASE_FLUID}; box-shadow: 0 8px 20px -6px var(--btn-bg); }
       .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
       @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
