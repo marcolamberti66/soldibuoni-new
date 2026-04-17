@@ -9,9 +9,19 @@ const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 // Provider da escludere sempre (irrilevanti o duplicati)
 const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
 
+// FIX: Injector sincronizzato con il nuovo layout premium (ombre dinamiche e bottoni outline)
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
+      /* Hover avanzato per le ProviderCard */
+      .provider-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
+      .provider-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.1) !important; border-color: #cbd5e1 !important; }
+      
+      /* Nuovo stile per il bottone secondario delle alternative */
+      .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 24px; border: 1.5px solid var(--btn-color); border-radius: 12px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; background: transparent; }
+      .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px -4px var(--btn-color); }
+
+      /* Stile per i bottoni primari nei box affiliati */
       .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -6px var(--btn-bg); white-space: nowrap; }
       .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
     `}} />
