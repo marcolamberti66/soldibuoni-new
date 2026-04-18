@@ -2,31 +2,45 @@
 // DATA - SoldiBuoni.it (FULL RESTORE + SEO TOPICS + LINKS)
 // ═══════════════════════════════════════════════════════════════════
 
+export const INDICI_MERCATO = {
+  PUN: 0.115, // Media stimata recente (€/kWh)
+  PSV: 0.380, // Media stimata recente (€/Smc)
+  ultimoAggiornamento: 'Aprile 2026'
+};
+
 export let ENERGY_PROVIDERS = [
-  { name: 'Illumia Energia Lunga', tipo: 'Fisso 36 mesi', prezzo: 0.125, fisso: 6, verde: false, note: 'F0 monorario — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/luce/energia-lunga-luce/' },
-  { name: 'Illumia Luce Flex', tipo: 'Variabile (PUN+0)', prezzo: 0.125, fisso: 7, verde: false, note: 'PUN puro, zero spread — nessuna penale di recesso', link: 'https://www.illumia.it/casa/luce/luce-flex/' },
-  { name: 'Sorgenia Sunlight', tipo: 'Variabile (PUN+0,006)', prezzo: 0.131, fisso: 6.18, verde: true, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-luce-casa' },
-  { name: 'Sorgenia Smart', tipo: 'Fisso 12 mesi', prezzo: 0.159, fisso: 9.50, verde: true, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-luce-casa' },
-  { name: 'Enel Fix Web Luce', tipo: 'Fisso 36 mesi', prezzo: 0.135, fisso: 12, verde: true, note: 'Bonus 60€ in bolletta — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-luce' },
-  { name: 'Enel Flex Control', tipo: 'Variabile con tetto', prezzo: 0.147, fisso: 15, verde: false, note: 'PUN+0,022 con tetto massimo 0,174 €/kWh', link: 'https://www.enel.it/it-it/offerte-luce' },
-  { name: 'A2A Start Luce', tipo: 'Fisso 24 mesi', prezzo: 0.144, fisso: 9.50, verde: true, note: '100% green — bloccato 24 mesi, nessuna penale', link: 'https://www.a2a.it/casa/a2a-start' },
-  { name: 'A2A Smart Casa', tipo: 'Variabile 12 mesi', prezzo: 0.150, fisso: 9.50, verde: true, note: 'PUN+0,025 — 100% green, nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
-  { name: 'Hera PiùControllo Flat', tipo: 'Fisso 12 mesi', prezzo: 0.1535, fisso: 12.10, verde: false, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
+  { name: 'Illumia Energia Lunga', tipo: 'Fisso 12 mesi', prezzo: 0.1273, fisso: 5.50, verde: false, note: 'F0 monorario — penale recesso anticipato', link: 'https://www.illumia.it/casa/luce/energia-lunga-luce/' },
+  { name: 'Illumia SicurInsieme Luce', tipo: 'Variabile (PUN+0,01)', indice: 'PUN', spread: 0.01, prezzo: 0, fisso: 7, verde: false, note: 'PUN + spread — nessuna penale di recesso', link: 'https://www.illumia.it/casa/luce/luce-flex/' },
+  { name: 'Sorgenia Next Energy Sunlight', tipo: 'Variabile (PUN+0,006)', indice: 'PUN', spread: 0.006, prezzo: 0, fisso: 6.18, verde: true, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-luce-casa' },
+  { name: 'Sorgenia Next Energy Smart', tipo: 'Fisso 12 mesi', prezzo: 0.159, fisso: 10, verde: true, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-luce-casa' },
+  { name: 'Enel Fix Web Luce', tipo: 'Fisso 24 mesi', prezzo: 0.135, fisso: 12, verde: true, note: 'Bonus 60€ in bolletta — solo online, bloccato 24 mesi', link: 'https://www.enel.it/it-it/offerte-luce' },
+  { name: 'Enel Flex', tipo: 'Variabile (PUN+0,022)', indice: 'PUN', spread: 0.022, prezzo: 0, fisso: 15, verde: false, note: 'PUN+0,022 — spread fisso', link: 'https://www.enel.it/it-it/offerte-luce' },
+  { name: 'A2A Start Luce', tipo: 'Fisso 24 mesi', prezzo: 0.1426, fisso: 9.50, verde: true, note: '100% green — bloccato 24 mesi, nessuna penale', link: 'https://www.a2a.it/casa/a2a-start' },
+  { name: 'A2A Smart Casa', tipo: 'Variabile 12 mesi', indice: 'PUN', spread: 0.025, prezzo: 0, fisso: 9.50, verde: true, note: 'PUN+0,025 — 100% green, nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
+  { name: 'Hera PiùControllo Special Flat', tipo: 'Fisso 12 mesi', prezzo: 0.150, fisso: 12.10, verde: false, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
   { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.1881, fisso: 7.50, verde: true, note: 'Fixa Time Smart — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' }
 ];
 
 export let GAS_PROVIDERS = [
-  { name: 'Enel Fix Web Gas', tipo: 'Fisso 36 mesi', prezzo: 0.420, fisso: 12, note: '-30% vs listino — solo online, bloccato 36 mesi', link: 'https://www.enel.it/it-it/offerte-gas' },
-  { name: 'Illumia Gas Flex', tipo: 'Variabile (PSV+0,05)', prezzo: 0.480, fisso: 7, note: 'PSV + 0,05 €/Smc — nessuna penale di recesso', link: 'https://www.illumia.it/casa/gas/gas-flex/' },
+  { name: 'Enel Fix Web Gas', tipo: 'Fisso 24 mesi', prezzo: 0.420, fisso: 12, note: '-30% vs listino — solo online, bloccato 24 mesi', link: 'https://www.enel.it/it-it/offerte-gas' },
+  { name: 'Illumia SicurInsieme Gas', tipo: 'Variabile (PSV+0,05)', indice: 'PSV', spread: 0.05, prezzo: 0, fisso: 7, note: 'PSV + 0,05 €/Smc — nessuna penale di recesso', link: 'https://www.illumia.it/casa/gas/gas-flex/' },
   { name: 'A2A Start Gas', tipo: 'Fisso 24 mesi', prezzo: 0.540, fisso: 9.50, note: 'Bloccato 24 mesi — nessuna penale di recesso', link: 'https://www.a2a.it/casa/a2a-start' },
-  { name: 'A2A Smart Casa Gas', tipo: 'Variabile 12 mesi', prezzo: 0.550, fisso: 9.50, note: 'PSV + 0,12 €/Smc — nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
-  { name: 'Enel Flex Control Gas', tipo: 'Variabile con tetto', prezzo: 0.540, fisso: 15, note: 'PSV+0,11 con tetto massimo 0,80 €/Smc', link: 'https://www.enel.it/it-it/offerte-gas' },
-  { name: 'Sorgenia Sunlight Gas', tipo: 'Variabile (PSV+0,15)', prezzo: 0.580, fisso: 9.50, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-gas-casa' },
-  { name: 'Illumia Energia Lunga Gas', tipo: 'Fisso 36 mesi', prezzo: 0.590, fisso: 6, note: 'Bloccato 36 mesi — penale recesso max 150€/100€/50€', link: 'https://www.illumia.it/casa/gas/energia-lunga-gas/' },
-  { name: 'Hera PiùControllo Flat Gas', tipo: 'Fisso 12 mesi', prezzo: 0.599, fisso: 12, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
-  { name: 'Sorgenia Smart Gas', tipo: 'Fisso 12 mesi', prezzo: 0.800, fisso: 12, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-gas-casa' },
+  { name: 'A2A Smart Casa Gas', tipo: 'Variabile 12 mesi', indice: 'PSV', spread: 0.12, prezzo: 0, fisso: 9.50, note: 'PSV + 0,12 €/Smc — nessuna penale', link: 'https://www.a2a.it/casa/smart-casa' },
+  { name: 'Enel Flex Gas', tipo: 'Variabile (PSV+0,11)', indice: 'PSV', spread: 0.11, prezzo: 0, fisso: 15, note: 'PSV+0,11 — spread fisso', link: 'https://www.enel.it/it-it/offerte-gas' },
+  { name: 'Sorgenia Next Energy Sunlight Gas', tipo: 'Variabile (PSV+0,15)', indice: 'PSV', spread: 0.15, prezzo: 0, fisso: 9.50, note: 'Sconto benvenuto 15€ — prezzo indicizzato', link: 'https://www.sorgenia.it/offerte-gas-casa' },
+  { name: 'Illumia Energia Lunga Gas', tipo: 'Fisso 12 mesi', prezzo: 0.590, fisso: 6, note: 'Bloccato 12 mesi — penale recesso', link: 'https://www.illumia.it/casa/gas/energia-lunga-gas/' },
+  { name: 'Hera PiùControllo Special Flat Gas', tipo: 'Fisso 12 mesi', prezzo: 0.599, fisso: 12, note: 'Bonus digital 30€ — fatturazione mensile', link: 'https://heracomm.gruppohera.it/casa/offerte-luce-gas/piu-controllo-special-flat' },
+  { name: 'Sorgenia Next Energy Smart Gas', tipo: 'Fisso 12 mesi', prezzo: 0.580, fisso: 12, note: 'Sconto benvenuto 15€ — prezzo bloccato 12 mesi', link: 'https://www.sorgenia.it/offerte-gas-casa' },
   { name: 'Eni Plenitude', tipo: 'Fisso 12 mesi', prezzo: 0.7050, fisso: 7.50, note: 'Fixa Time Smart Gas — sconto 108€ dual, Polizza Zurich omaggio', link: 'https://eniplenitude.com/offerte/luce-e-gas' }
 ];
+
+// AUTOCALCOLO TARIFFE VARIABILI BASATO SU PUN/PSV
+ENERGY_PROVIDERS.forEach(p => {
+  if (p.indice === 'PUN') p.prezzo = INDICI_MERCATO.PUN + p.spread;
+});
+GAS_PROVIDERS.forEach(p => {
+  if (p.indice === 'PSV') p.prezzo = INDICI_MERCATO.PSV + p.spread;
+});
 
 export const INSURANCE_DATA = [
   { name: 'UnipolSai', rc: 380, furto: 120, kasko: 450, cristalli: 45, assistenza: 35, note: 'Leader mercato italiano', link: 'https://www.unipolsai.it/assicurazione-auto' },
