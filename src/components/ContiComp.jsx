@@ -2,22 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { CONTI_CORRENTI } from '../data.js';
 import { ProviderRow, AffiliateRow } from './Comparators.jsx';
 
-// Provider che appaiono nei box affiliati in cima — esclusi dalla lista sotto
 const AFFILIATE_IDS = ['bbva', 'hype'];
 
-// FIX: Injector sincronizzato con il nuovo layout premium (ombre dinamiche e bottoni outline)
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
-      /* Hover avanzato per le ProviderCard */
       .provider-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
       .provider-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.1) !important; border-color: #cbd5e1 !important; }
-      
-      /* Nuovo stile per il bottone secondario delle alternative */
       .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 24px; border: 1.5px solid var(--btn-color); border-radius: 12px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; background: transparent; }
       .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px -4px var(--btn-color); }
-
-      /* Stile per i bottoni primari nei box affiliati */
       .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -6px var(--btn-bg); white-space: nowrap; }
       .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
     `}} />
@@ -43,24 +36,13 @@ export function ContiComp({ color = '#10b981' }) {
     fetchConti();
   }, []);
 
-  const bbvaData = useMemo(() => {
-    return conti.find(c => c.id === 'bbva') || { rendimento: "3% annuo" };
-  }, [conti]);
-
-  const hypeData = useMemo(() => {
-    return conti.find(c => c.id === 'hype') || {};
-  }, [conti]);
-
-  // Escludi dalla lista sotto i provider che hanno il box affiliato in cima
-  const filteredConti = useMemo(() => {
-    return conti.filter(c => !AFFILIATE_IDS.includes(c.id));
-  }, [conti]);
+  const bbvaData = useMemo(() => conti.find(c => c.id === 'bbva') || { rendimento: "3% annuo" }, [conti]);
+  const filteredConti = useMemo(() => conti.filter(c => !AFFILIATE_IDS.includes(c.id)), [conti]);
 
   return (
     <div style={{ maxWidth: 840, margin: '0 auto' }}>
       <StyleInjector />
       
-      {/* 🏆 BOX AFFILIATI IN PRIMO PIANO */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 40 }}>
 
         {/* BBVA */}
@@ -79,13 +61,15 @@ export function ContiComp({ color = '#10b981' }) {
           link="https://www.financeads.net/tc.php?t=82784C5581131019T"
           color="#004481"
           statsElement={
-            <div style={{ textAlign: 'center' }}>
+            // FIX MOBILE: Aggiunto flex: 1 per espandersi paritariamente per tutta la larghezza sinistra
+            <div style={{ textAlign: 'center', flex: 1 }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Rendimento</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#004481' }}>{bbvaData.rendimento || '3% annuo'}</div>
             </div>
           }
           priceElement={
-            <div style={{ textAlign: 'center' }}>
+            // FIX MOBILE: Aggiunto flex: 1 e bordo di separazione per completare la larghezza destra
+            <div style={{ textAlign: 'center', flex: 1, borderLeft: '1px solid #f1f5f9' }}>
               <div style={{ fontSize: 11, color: '#94a3b8' }}>Canone</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#10b981' }}>GRATIS</div>
             </div>
@@ -106,7 +90,6 @@ export function ContiComp({ color = '#10b981' }) {
 
       <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20, textAlign: 'center' }}>Tutte le alternative di mercato</h3>
 
-      {/* LISTA — senza i provider già nei box affiliati */}
       {filteredConti.map((c, i) => (
         <ProviderRow key={c.id || i} p={c} i={i} color={color}>
           <div style={{ flex: 1, minWidth: 200 }}>
