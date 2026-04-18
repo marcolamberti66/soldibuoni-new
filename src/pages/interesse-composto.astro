@@ -1,13 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { InteresseComposto } from '../components/InteresseComposto.jsx';
+
+const topic = {
+  icon: '📈',
+  title: 'Interesse Composto',
+  color: '#8b5cf6'
+};
 ---
-<Layout title="Simulatore Interesse Composto | SoldiBuoni">
-  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
-    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
-      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>La Macchina del Tempo</h1>
-      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri come piccoli versamenti mensili possono trasformarsi in un capitale enorme.</p>
+
+<Layout title="Simulatore Interesse Composto | SoldiBuoni" description="Simula la crescita dei tuoi risparmi nel tempo. Scopri come piccoli versamenti mensili possono trasformarsi in un capitale enorme.">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+    
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
+      </h1>
     </div>
-    <InteresseComposto client:load color="#8b5cf6" />
-  </main>
+
+    <InteresseComposto client:load color={topic.color} />
+
+  </div>
 </Layout>

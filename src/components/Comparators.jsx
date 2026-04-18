@@ -77,7 +77,7 @@ export function IstruzioneComp({ color = '#475569' }) {
           <div style={{ flex: '1 1 240px' }}><label className="comp-label">Fascia di reddito (ISEE-U):</label><select className="custom-select" value={livello} onChange={(e) => setLivello(e.target.value)}><option value="min">ISEE Basso — No Tax Area (fino a 22k€)</option><option value="med">ISEE Medio — zona agevolata (22k€ - 30k€)</option><option value="max">ISEE Alto — contributo pieno (+30k€)</option></select></div>
         </div>
         <div style={{ marginTop: 18, padding: '14px 16px', background: `${color}0F`, borderRadius: 12, fontSize: 12, color: '#475569', lineHeight: 1.6 }}>
-          <div style={{ display: discOpen ? 'block' : '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <div style={{ display: discOpen ? 'block' : '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             La stima è <strong>altamente precisa per le fasce ISEE bassa (No Tax Area) e alta (contributo massimo)</strong>. Per la fascia agevolata (media), le università applicano da 4 a 9 scaglioni reali, quindi l'importo è una media indicativa da verificare. Nelle pubbliche, la No Tax Area paga solo ~156€ totali.
           </div>
           <button onClick={() => setDiscOpen(!discOpen)} style={{ background: 'none', border: 'none', color: '#334155', fontWeight: 800, fontSize: 12, padding: 0, marginTop: 8, cursor: 'pointer', textDecoration: 'underline' }}>{discOpen ? 'Riduci ↑' : 'Leggi tutto ↓'}</button>

@@ -99,7 +99,7 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
       <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: 16, padding: '16px 20px', marginBottom: 24, fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
         <strong>ℹ️ Nota sulle stime:</strong>
-        <div style={{ display: disclaimerOpen ? 'block' : '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginTop: 4 }}>
+        <div style={{ display: disclaimerOpen ? 'block' : '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginTop: 4 }}>
           I prezzi del comparatore qui sotto sono <strong>stime del costo annuo totale</strong> (che includono oneri di sistema, trasporto, accise e IVA simulati tramite un moltiplicatore medio). Poiché le imposte e i costi di trasporto variano in base alla tua zona e agli scaglioni esatti, usa questi dati per confrontare la convenienza tra fornitori, ma verifica il costo preciso sul sito ufficiale. <em>L'offerta in evidenza in alto, invece, ha i prezzi della componente materia prima già verificati e aggiornati manualmente.</em>
         </div>
         <button onClick={() => setDisclaimerOpen(!disclaimerOpen)} style={{ background: 'none', border: 'none', color: '#b45309', fontWeight: 800, fontSize: 12, padding: 0, marginTop: 6, cursor: 'pointer', textDecoration: 'underline' }}>

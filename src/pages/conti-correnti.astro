@@ -1,24 +1,42 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { ContiComp } from '../components/ContiComp.jsx';
+
+const topic = {
+  icon: '💳',
+  title: 'Conti Correnti',
+  color: '#10b981'
+};
 ---
 
 <Layout 
   title="Confronto Conti Correnti Online | SoldiBuoni" 
-  description="Trova il miglior conto corrente online: zero spese, con cashback o per giovani. Confronta le offerte bancarie più vantaggiose."
+  description="Trova il conto corrente online giusto per te: zero spese, con cashback o per giovani. Confronta le offerte bancarie più vantaggiose."
 >
-  <div style="max-width: 1080px; margin: 0 auto; padding: 60px 20px;">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="text-align: center; margin-bottom: 48px;">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0f172a; margin-bottom: 16px; letter-spacing: -1px;">
-        I <span style="color: #10b981;">migliori</span> conti correnti
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
       </h1>
-      <p style="font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        Scegli un conto moderno: canone zero, interessi sulla tua liquidità e gestione 100% digitale dallo smartphone.
-      </p>
     </div>
 
-    <ContiComp client:load color="#10b981" />
+    <p class="update-note">🔄 Prezzi e offerte aggiornati mensilmente · Ultimo aggiornamento: aprile 2026</p>
+
+    <ContiComp client:load color={topic.color} />
 
   </div>
 </Layout>
+
+<style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+</style>
