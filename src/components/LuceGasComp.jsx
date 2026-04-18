@@ -2,32 +2,20 @@ import React, { useState, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS, INDICI_MERCATO } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
-// Provider affiliati — esclusi dalle liste sotto
 const AFFILIATE_NAMES_LUCE = ['Reset Energia'];
 const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
-
-// Provider da escludere sempre (irrilevanti o duplicati)
 const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
 
-// COEFFICIENTI (OPZIONE B): 
-// Moltiplicatori applicati al costo della "materia prima" del fornitore per stimare la bolletta reale finita
-// (Includono stima di trasporto, oneri di sistema, accise e IVA basati su consumi residenziali tipici)
 const GROSS_UP_LUCE = 1.55; 
 const GROSS_UP_GAS = 1.45;
 
-// FIX: Injector sincronizzato con il nuovo layout premium (ombre dinamiche e bottoni outline)
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
-      /* Hover avanzato per le ProviderCard */
       .provider-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
       .provider-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.1) !important; border-color: #cbd5e1 !important; }
-      
-      /* Nuovo stile per il bottone secondario delle alternative */
       .btn-outline-premium { display: inline-block; font-size: 14px; font-weight: 700; color: var(--btn-color); padding: 10px 24px; border: 1.5px solid var(--btn-color); border-radius: 12px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; background: transparent; }
       .btn-outline-premium:hover { background: var(--btn-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px -4px var(--btn-color); }
-
-      /* Stile per i bottoni primari nei box affiliati */
       .btn-solid-premium { display: inline-block; text-align: center; font-size: 15px; font-weight: 700; color: #fff; background: var(--btn-bg); padding: 14px 24px; border-radius: 16px; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -6px var(--btn-bg); white-space: nowrap; }
       .btn-solid-premium:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -6px var(--btn-bg); filter: brightness(1.05); }
     `}} />
@@ -38,12 +26,10 @@ function isExcluded(name) {
   const lower = name.toLowerCase();
   return EXCLUDED_NAMES.some(ex => lower.includes(ex.toLowerCase()));
 }
-
 function isFissa(tipoStr) {
   const s = (tipoStr || '').toLowerCase();
   return s.includes('fisso') || s.includes('fissa') || s.includes('fix');
 }
-
 function isVariabile(tipoStr) {
   const s = (tipoStr || '').toLowerCase();
   return s.includes('variabile') || s.includes('indicizzat');
@@ -52,9 +38,9 @@ function isVariabile(tipoStr) {
 export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
   const [tipoTariffa, setTipoTariffa] = useState('fissa'); 
-
   const [consumoLuce, setConsumoLuce] = useState(2700);
   const [consumoGas, setConsumoGas] = useState(1000);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(false);
 
   const currentColor = activeTab === 'gas' ? '#dc2626' : '#d97706';
 
@@ -75,17 +61,9 @@ export function LuceGasComp({ color = '#f59e0b' }) {
   }, [consumoGas, tipoTariffa]);
 
   const tabBtnStyle = (isActive, activeColor) => ({
-    flex: 1,
-    padding: '12px 24px',
-    borderRadius: 16,
-    border: 'none',
-    fontWeight: 800,
-    fontSize: 16,
-    cursor: 'pointer',
-    transition: 'all 0.3s',
-    background: isActive ? '#fff' : 'transparent',
-    color: isActive ? activeColor : '#64748b',
-    boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.05)' : 'none'
+    flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16,
+    cursor: 'pointer', transition: 'all 0.3s', background: isActive ? '#fff' : 'transparent',
+    color: isActive ? activeColor : '#64748b', boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.05)' : 'none'
   });
 
   return (
@@ -119,96 +97,45 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
       <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20, textAlign: 'center' }}>Confronta le singole offerte</h3>
 
-      {/* DISCLAIMER STIME E COSTI */}
       <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: 16, padding: '16px 20px', marginBottom: 24, fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
-        <strong>ℹ️ Nota sulle stime:</strong> I prezzi del comparatore qui sotto sono <strong>stime del costo annuo totale</strong> (che includono oneri di sistema, trasporto, accise e IVA simulati tramite un moltiplicatore medio). Poiché le imposte e i costi di trasporto variano in base alla tua zona e agli scaglioni esatti, usa questi dati per confrontare la convenienza tra fornitori, ma verifica il costo preciso sul sito ufficiale. <em>L'offerta in evidenza in alto, invece, ha i prezzi della componente materia prima già verificati e aggiornati manualmente.</em>
-        <br/>
+        <strong>ℹ️ Nota sulle stime:</strong>
+        <div style={{ display: disclaimerOpen ? 'block' : '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginTop: 4 }}>
+          I prezzi del comparatore qui sotto sono <strong>stime del costo annuo totale</strong> (che includono oneri di sistema, trasporto, accise e IVA simulati tramite un moltiplicatore medio). Poiché le imposte e i costi di trasporto variano in base alla tua zona e agli scaglioni esatti, usa questi dati per confrontare la convenienza tra fornitori, ma verifica il costo preciso sul sito ufficiale. <em>L'offerta in evidenza in alto, invece, ha i prezzi della componente materia prima già verificati e aggiornati manualmente.</em>
+        </div>
+        <button onClick={() => setDisclaimerOpen(!disclaimerOpen)} style={{ background: 'none', border: 'none', color: '#b45309', fontWeight: 800, fontSize: 12, padding: 0, marginTop: 6, cursor: 'pointer', textDecoration: 'underline' }}>
+          {disclaimerOpen ? 'Riduci ↑' : 'Leggi tutto ↓'}
+        </button>
         <span style={{ fontSize: 11, opacity: 0.8, display: 'block', marginTop: 8 }}>Ultimo aggiornamento indici (PUN/PSV): {INDICI_MERCATO.ultimoAggiornamento}</span>
       </div>
 
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 12, gap: 4 }}>
-        <button onClick={() => setActiveTab('gas')} style={tabBtnStyle(activeTab === 'gas', '#dc2626')}>
-          🔥 Gas
-        </button>
-        <button onClick={() => setActiveTab('luce')} style={tabBtnStyle(activeTab === 'luce', '#d97706')}>
-          ⚡ Luce
-        </button>
+        <button onClick={() => setActiveTab('gas')} style={tabBtnStyle(activeTab === 'gas', '#dc2626')}>🔥 Gas</button>
+        <button onClick={() => setActiveTab('luce')} style={tabBtnStyle(activeTab === 'luce', '#d97706')}>⚡ Luce</button>
       </div>
 
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
-        <button onClick={() => setTipoTariffa('fissa')} style={tabBtnStyle(tipoTariffa === 'fissa', currentColor)}>
-          🔒 Fissa
-        </button>
-        <button onClick={() => setTipoTariffa('variabile')} style={tabBtnStyle(tipoTariffa === 'variabile', currentColor)}>
-          📈 Variabile
-        </button>
+        <button onClick={() => setTipoTariffa('fissa')} style={tabBtnStyle(tipoTariffa === 'fissa', currentColor)}>🔒 Fissa</button>
+        <button onClick={() => setTipoTariffa('variabile')} style={tabBtnStyle(tipoTariffa === 'variabile', currentColor)}>📈 Variabile</button>
       </div>
 
-      {activeTab === 'gas' && (
-        <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-          <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
-            <label style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: 12 }}>
-              Consumo annuo stimato: <span style={{ color: '#dc2626' }}>{consumoGas.toLocaleString('it-IT')} Smc</span>
-            </label>
-            <input type="range" min={200} max={2500} step={50} value={consumoGas} onChange={(e) => setConsumoGas(+e.target.value)} style={{ width: '100%', accentColor: '#dc2626', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
-          </div>
-
-          {sortedGas.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 40, color: '#64748b', background: '#fff', borderRadius: 20, border: '1px dashed rgba(0,0,0,0.08)', fontSize: 15 }}>
-              Nessuna offerta <strong>{tipoTariffa}</strong> disponibile per il gas in questo momento.
+      {(activeTab === 'gas' ? sortedGas : sortedLuce).map((p, i) => (
+        <ProviderRow key={p.name} p={p} i={i} color={activeTab === 'gas' ? "#dc2626" : "#d97706"}>
+          <div style={{ flex: 1, minWidth: 140 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
+              {i === 0 && <Badge text="MIGLIORE" color={activeTab === 'gas' ? "#dc2626" : "#d97706"} />}
             </div>
-          ) : sortedGas.map((p, i) => (
-            <ProviderRow key={p.name} p={p} i={i} color="#dc2626">
-              <div style={{ flex: 1, minWidth: 160 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-                  {i === 0 && <Badge text="MIGLIORE" color="#dc2626" />}
-                </div>
-                <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo}</span>
-              </div>
-              <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-                <div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>€/Smc</div><div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a' }}>{p.prezzo.toFixed(2)}</div></div>
-                <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Stima annua</div><div style={{ fontSize: 22, fontWeight: 800, color: '#dc2626' }}>€{Math.round(p.costoAnnuo)}</div></div>
-              </div>
-            </ProviderRow>
-          ))}
-        </div>
-      )}
-
-      {activeTab === 'luce' && (
-        <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-          <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
-            <label style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: 12 }}>
-              Consumo annuo stimato: <span style={{ color: '#d97706' }}>{consumoLuce.toLocaleString('it-IT')} kWh</span>
-            </label>
-            <input type="range" min={1000} max={6000} step={100} value={consumoLuce} onChange={(e) => setConsumoLuce(+e.target.value)} style={{ width: '100%', accentColor: '#d97706', height: 8, background: '#e2e8f0', borderRadius: 4, outline: 'none' }} />
+            <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo}</span>
           </div>
-
-          {sortedLuce.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 40, color: '#64748b', background: '#fff', borderRadius: 20, border: '1px dashed rgba(0,0,0,0.08)', fontSize: 15 }}>
-              Nessuna offerta <strong>{tipoTariffa}</strong> disponibile per la luce in questo momento.
-            </div>
-          ) : sortedLuce.map((p, i) => (
-            <ProviderRow key={p.name} p={p} i={i} color="#d97706">
-              <div style={{ flex: 1, minWidth: 160 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span style={{ fontWeight: 800, color: '#0f172a', fontSize: 16 }}>{p.name}</span>
-                  {i === 0 && <Badge text="MIGLIORE" color="#d97706" />}
-                </div>
-                <span style={{ fontSize: 13, color: '#64748b' }}>{p.tipo}</span>
-              </div>
-              <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-                <div style={{ textAlign: 'center' }}><div style={{ fontSize: 11, color: '#94a3b8' }}>€/kWh</div><div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a' }}>{p.prezzo.toFixed(3)}</div></div>
-                <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.06)', paddingLeft: 16 }}><div style={{ fontSize: 11, color: '#94a3b8' }}>Stima annua</div><div style={{ fontSize: 22, fontWeight: 800, color: '#d97706' }}>€{Math.round(p.costoAnnuo)}</div></div>
-              </div>
-            </ProviderRow>
-          ))}
-        </div>
-      )}
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-      `}}/>
+          
+          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+            <div style={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Stima annua</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: activeTab === 'gas' ? "#dc2626" : "#d97706", lineHeight: 1.1 }}>€{Math.round(p.costoAnnuo)}</div>
+            <div style={{ fontSize: 13, color: '#64748b', fontWeight: 600, marginTop: 4 }}>{p.prezzo.toFixed(activeTab === 'gas' ? 2 : 3)} €/{activeTab === 'gas' ? 'Smc' : 'kWh'}</div>
+          </div>
+        </ProviderRow>
+      ))}
+      <style dangerouslySetInnerHTML={{__html: `@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}}/>
     </div>
   );
 }
