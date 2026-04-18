@@ -60,6 +60,7 @@ import HeroContact from '../components/HeroContact.jsx';
   <section id="cats" class="cats">
     <div class="cats-inner">
       <div class="cats-header">
+        <span class="section-eyebrow section-eyebrow-light">📊 Mercati</span>
         <h2>Categorie di spesa</h2>
         <p>Per ogni categoria trovi una guida per capire il mercato, i criteri per fare la scelta giusta e uno strumento per semplificarti la vita.</p>
       </div>
@@ -119,6 +120,7 @@ import HeroContact from '../components/HeroContact.jsx';
   <section class="offers">
     <div class="offers-inner">
       <div class="offers-header">
+        <span class="section-eyebrow section-eyebrow-light">🎯 Offerte</span>
         <h2>Offerte in evidenza</h2>
         <p>Le migliori opportunità del momento selezionate per te.</p>
       </div>
@@ -162,7 +164,7 @@ import HeroContact from '../components/HeroContact.jsx';
     <div class="all-tools-glow"></div>
     <div class="all-tools-inner">
       <div class="all-tools-header">
-        <span class="tools-eyebrow">⚡ Strumenti</span>
+        <span class="section-eyebrow section-eyebrow-dark">⚡ Strumenti</span>
         <h2>Il tuo centro di controllo</h2>
         <p>10 strumenti gratuiti per calcolare, confrontare e decidere. Nessuna registrazione.</p>
       </div>
@@ -476,6 +478,28 @@ import HeroContact from '../components/HeroContact.jsx';
   .proof-l { font-size: 11px; color: var(--text-muted); font-weight: 500; }
   .proof-d { width: 1px; height: 32px; background: var(--border); }
 
+  /* ══════ EYEBROW PILL — COMUNE A TUTTE LE SEZIONI ══════ */
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 10px;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+  .section-eyebrow-light {
+    color: var(--green-600);
+    background: var(--green-50);
+    border: 1px solid rgba(5,150,105,0.18);
+  }
+  .section-eyebrow-dark {
+    color: var(--green-400);
+    background: rgba(52,211,153,0.08);
+    border: 1px solid rgba(52,211,153,0.18);
+  }
+
   /* ══════ CATEGORIE ══════ */
   .cats { padding: 48px 0 40px; }
   .cats-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
@@ -692,19 +716,6 @@ import HeroContact from '../components/HeroContact.jsx';
   }
   .all-tools-header {
     margin-bottom: 28px;
-  }
-  .tools-eyebrow {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--green-400);
-    text-transform: uppercase;
-    letter-spacing: 1.8px;
-    margin-bottom: 10px;
-    padding: 5px 12px;
-    background: rgba(52,211,153,0.08);
-    border: 1px solid rgba(52,211,153,0.18);
-    border-radius: 20px;
   }
   .all-tools-header h2 {
     font-family: 'DM Serif Display', serif;
