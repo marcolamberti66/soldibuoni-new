@@ -35,38 +35,6 @@ function isVariabile(tipoStr) {
   return s.includes('variabile') || s.includes('indicizzat');
 }
 
-// Segmented control button style
-const segBtn = (isActive, activeColor) => ({
-  padding: '8px 16px',
-  borderRadius: 9,
-  border: 'none',
-  fontWeight: 600,
-  fontSize: 13,
-  cursor: 'pointer',
-  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-  background: isActive ? '#fff' : 'transparent',
-  color: isActive ? activeColor : '#64748b',
-  boxShadow: isActive ? '0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.04)' : 'none',
-  fontFamily: 'inherit',
-  whiteSpace: 'nowrap'
-});
-
-const segTrack = {
-  display: 'inline-flex',
-  background: '#f1f5f9',
-  padding: 3,
-  borderRadius: 12,
-  gap: 2
-};
-
-const segLabel = {
-  fontSize: 11,
-  fontWeight: 700,
-  color: '#64748b',
-  letterSpacing: 1,
-  textTransform: 'uppercase'
-};
-
 export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
   const [tipoTariffa, setTipoTariffa] = useState('fissa'); 
@@ -91,6 +59,12 @@ export function LuceGasComp({ color = '#f59e0b' }) {
       .map(p => ({ ...p, costoAnnuo: (p.prezzo * consumoGas + p.fisso * 12) * GROSS_UP_GAS }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoGas, tipoTariffa]);
+
+  const tabBtnStyle = (isActive, activeColor) => ({
+    flex: 1, padding: '12px 24px', borderRadius: 16, border: 'none', fontWeight: 800, fontSize: 16,
+    cursor: 'pointer', transition: 'all 0.3s', background: isActive ? '#fff' : 'transparent',
+    color: isActive ? activeColor : '#64748b', boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.05)' : 'none'
+  });
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -134,22 +108,14 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         <span style={{ fontSize: 11, opacity: 0.8, display: 'block', marginTop: 8 }}>Ultimo aggiornamento indici (PUN/PSV): {INDICI_MERCATO.ultimoAggiornamento}</span>
       </div>
 
-      {/* ══════ FILTER BAR COMPATTA ══════ */}
-      <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={segLabel}>Energia</span>
-          <div style={segTrack}>
-            <button onClick={() => setActiveTab('gas')} style={segBtn(activeTab === 'gas', '#dc2626')}>🔥 Gas</button>
-            <button onClick={() => setActiveTab('luce')} style={segBtn(activeTab === 'luce', '#d97706')}>⚡ Luce</button>
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={segLabel}>Tipo</span>
-          <div style={segTrack}>
-            <button onClick={() => setTipoTariffa('fissa')} style={segBtn(tipoTariffa === 'fissa', currentColor)}>🔒 Fissa</button>
-            <button onClick={() => setTipoTariffa('variabile')} style={segBtn(tipoTariffa === 'variabile', currentColor)}>📈 Variabile</button>
-          </div>
-        </div>
+      <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 12, gap: 4 }}>
+        <button onClick={() => setActiveTab('gas')} style={tabBtnStyle(activeTab === 'gas', '#dc2626')}>🔥 Gas</button>
+        <button onClick={() => setActiveTab('luce')} style={tabBtnStyle(activeTab === 'luce', '#d97706')}>⚡ Luce</button>
+      </div>
+
+      <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
+        <button onClick={() => setTipoTariffa('fissa')} style={tabBtnStyle(tipoTariffa === 'fissa', currentColor)}>🔒 Fissa</button>
+        <button onClick={() => setTipoTariffa('variabile')} style={tabBtnStyle(tipoTariffa === 'variabile', currentColor)}>📈 Variabile</button>
       </div>
 
       {(activeTab === 'gas' ? sortedGas : sortedLuce).map((p, i) => (

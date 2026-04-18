@@ -103,50 +103,41 @@ const topicGas = TOPICS.gas;
 </Layout>
 
 <style>
-  /* ══════ SEGMENTED CONTROL — TAB PRINCIPALI ══════ */
+  /* ── STILI DEL MENU A TAB (Uniformato) ── */
   .tab-container {
     display: flex;
-    width: fit-content;
-    max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    margin: 0 0 36px 0;
-    background: #f1f5f9;
-    padding: 4px;
-    border-radius: 14px;
-    gap: 2px;
+    gap: 8px;
+    margin-bottom: 32px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
     position: sticky;
     top: 20px;
     z-index: 50;
-    /* Fallback glass effect se c'è scroll dietro */
-    backdrop-filter: blur(8px) saturate(1.2);
-    -webkit-backdrop-filter: blur(8px) saturate(1.2);
   }
-  .tab-container::-webkit-scrollbar { display: none; }
-  
   .tab-btn {
+    flex: 1;
     background: transparent;
     border: none;
-    padding: 10px 22px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 14px 0;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
     color: #64748b;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     font-family: inherit;
-    white-space: nowrap;
-    flex-shrink: 0;
   }
-  .tab-btn:hover:not(.active) { color: #0f172a; }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
   .tab-btn.active {
-    background: #fff;
-    color: #0f172a;
-    box-shadow: 0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.04);
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
   }
 
-  /* ══════ CARD TESTUALI (invariate) ══════ */
+  /* ── NUOVO DESIGN DELLE CARD TESTUALI ── */
   .info-card {
     background: #fff; 
     border-radius: 20px; 
@@ -188,27 +179,27 @@ const topicGas = TOPICS.gas;
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
-  @media (max-width: 500px) {
-    .tab-btn { padding: 9px 16px; font-size: 13px; }
-  }
 </style>
 
 <script>
+  // Script che gestisce la scomparsa/comparsa delle tab
   function setupTabs() {
     const buttons = document.querySelectorAll('.tab-btn');
     const contents = document.querySelectorAll('.tab-content');
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
+        // Togli l'attivo da tutti
         buttons.forEach(b => b.classList.remove('active'));
         contents.forEach(c => c.style.display = 'none');
 
+        // Metti l'attivo su quello cliccato
         btn.classList.add('active');
         const targetId = btn.getAttribute('data-target');
         document.getElementById(targetId).style.display = 'block';
       });
     });
   }
+  // Avvia lo script
   setupTabs();
 </script>
