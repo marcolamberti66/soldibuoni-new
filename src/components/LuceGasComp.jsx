@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ENERGY_PROVIDERS, GAS_PROVIDERS } from '../data.js';
+import { ENERGY_PROVIDERS, GAS_PROVIDERS, INDICI_MERCATO } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
 // Provider affiliati — esclusi dalle liste sotto
@@ -8,6 +8,12 @@ const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 
 // Provider da escludere sempre (irrilevanti o duplicati)
 const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
+
+// COEFFICIENTI (OPZIONE B): 
+// Moltiplicatori applicati al costo della "materia prima" del fornitore per stimare la bolletta reale finita
+// (Includono stima di trasporto, oneri di sistema, accise e IVA basati su consumi residenziali tipici)
+const GROSS_UP_LUCE = 1.55; 
+const GROSS_UP_GAS = 1.45;
 
 // FIX: Injector sincronizzato con il nuovo layout premium (ombre dinamiche e bottoni outline)
 function StyleInjector() {
@@ -33,13 +39,11 @@ function isExcluded(name) {
   return EXCLUDED_NAMES.some(ex => lower.includes(ex.toLowerCase()));
 }
 
-// === NUOVO: helper per classificare il tipo di tariffa dalla stringa `tipo` ===
-// Esempi gestiti: "Fisso 12 mesi", "Fisso 36 mesi", "Variabile (PUN+0)",
-// "Variabile (PSV+0,05)", "Variabile con tetto", "Variabile 12 mesi"
 function isFissa(tipoStr) {
   const s = (tipoStr || '').toLowerCase();
   return s.includes('fisso') || s.includes('fissa') || s.includes('fix');
 }
+
 function isVariabile(tipoStr) {
   const s = (tipoStr || '').toLowerCase();
   return s.includes('variabile') || s.includes('indicizzat');
@@ -47,31 +51,29 @@ function isVariabile(tipoStr) {
 
 export function LuceGasComp({ color = '#f59e0b' }) {
   const [activeTab, setActiveTab] = useState('gas');
-  const [tipoTariffa, setTipoTariffa] = useState('fissa'); // === NUOVO: filtro Fissa/Variabile ===
+  const [tipoTariffa, setTipoTariffa] = useState('fissa'); 
 
   const [consumoLuce, setConsumoLuce] = useState(2700);
   const [consumoGas, setConsumoGas] = useState(1000);
 
-  // Colore corrente in base al combustibile selezionato (usato anche dal toggle Fissa/Variabile)
   const currentColor = activeTab === 'gas' ? '#dc2626' : '#d97706';
 
   const sortedLuce = useMemo(() => {
     return ENERGY_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_LUCE.includes(p.name) && !isExcluded(p.name))
-      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo)) // === NUOVO ===
-      .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoLuce + p.fisso * 12 }))
+      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo))
+      .map(p => ({ ...p, costoAnnuo: (p.prezzo * consumoLuce + p.fisso * 12) * GROSS_UP_LUCE }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoLuce, tipoTariffa]);
 
   const sortedGas = useMemo(() => {
     return GAS_PROVIDERS
       .filter(p => !AFFILIATE_NAMES_GAS.includes(p.name) && !isExcluded(p.name))
-      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo)) // === NUOVO ===
-      .map(p => ({ ...p, costoAnnuo: p.prezzo * consumoGas + p.fisso * 12 }))
+      .filter(p => tipoTariffa === 'fissa' ? isFissa(p.tipo) : isVariabile(p.tipo))
+      .map(p => ({ ...p, costoAnnuo: (p.prezzo * consumoGas + p.fisso * 12) * GROSS_UP_GAS }))
       .sort((a, b) => a.costoAnnuo - b.costoAnnuo);
   }, [consumoGas, tipoTariffa]);
 
-  // Stile riutilizzabile per i bottoni dei toggle (Gas/Luce e Fissa/Variabile)
   const tabBtnStyle = (isActive, activeColor) => ({
     flex: 1,
     padding: '12px 24px',
@@ -90,7 +92,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
       <StyleInjector />
 
-      {/* 🏆 BOX AFFILIATO ENI PLENITUDE — SOPRA LE TAB */}
       <div style={{ marginBottom: 40 }}>
         <AffiliateRow 
           title="OFFERTA LUCE + GAS COMBINATA"
@@ -118,7 +119,13 @@ export function LuceGasComp({ color = '#f59e0b' }) {
 
       <h3 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 20, textAlign: 'center' }}>Confronta le singole offerte</h3>
 
-      {/* SELETTORE TAB — Gas / Luce (marginBottom ridotto a 12 per raggruppare visivamente con il filtro sotto) */}
+      {/* DISCLAIMER STIME E COSTI */}
+      <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: 16, padding: '16px 20px', marginBottom: 24, fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
+        <strong>ℹ️ Nota sulle stime:</strong> I prezzi del comparatore qui sotto sono <strong>stime del costo annuo totale</strong> (che includono oneri di sistema, trasporto, accise e IVA simulati tramite un moltiplicatore medio). Poiché le imposte e i costi di trasporto variano in base alla tua zona e agli scaglioni esatti, usa questi dati per confrontare la convenienza tra fornitori, ma verifica il costo preciso sul sito ufficiale. <em>L'offerta in evidenza in alto, invece, ha i prezzi della componente materia prima già verificati e aggiornati manualmente.</em>
+        <br/>
+        <span style={{ fontSize: 11, opacity: 0.8, display: 'block', marginTop: 8 }}>Ultimo aggiornamento indici (PUN/PSV): {INDICI_MERCATO.ultimoAggiornamento}</span>
+      </div>
+
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 12, gap: 4 }}>
         <button onClick={() => setActiveTab('gas')} style={tabBtnStyle(activeTab === 'gas', '#dc2626')}>
           🔥 Gas
@@ -128,8 +135,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </button>
       </div>
 
-      {/* === NUOVO: SELETTORE TIPO TARIFFA — Fissa / Variabile === */}
-      {/* Layout identico al toggle Gas/Luce. Colore attivo eredita quello del combustibile selezionato. */}
       <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 20, marginBottom: 32, gap: 4 }}>
         <button onClick={() => setTipoTariffa('fissa')} style={tabBtnStyle(tipoTariffa === 'fissa', currentColor)}>
           🔒 Fissa
@@ -139,7 +144,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </button>
       </div>
 
-      {/* VISTA GAS */}
       {activeTab === 'gas' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
@@ -171,7 +175,6 @@ export function LuceGasComp({ color = '#f59e0b' }) {
         </div>
       )}
 
-      {/* VISTA LUCE */}
       {activeTab === 'luce' && (
         <div style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(24px)', borderRadius: 24, padding: 28, border: '1px solid rgba(0,0,0,0.04)', marginBottom: 24 }}>
