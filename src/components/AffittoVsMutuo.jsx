@@ -1,15 +1,14 @@
 import React, { useState, useMemo } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
 // ═══════════════════════════════════════════════════════════
 // COSTANTI CHE POTREBBERO DOVER ESSERE AGGIORNATE NEL TEMPO
 // ═══════════════════════════════════════════════════════════
-const SPESE_NOTARIO_PRIMA = 0.02;      // ~2% del valore per prima casa
-const SPESE_NOTARIO_SECONDA = 0.10;    // ~10% per seconda casa (imposte più alte)
-const AGENZIA_COMPRAVENDITA = 0.03;    // 3% lato compratore
-const MANUTENZIONE_ANNUA = 0.01;       // 1% del valore immobile/anno
-const IMU_SECONDA_CASA = 0.0086;       // 0,86% rendita catastale ~ proxy su valore commerciale
-const INFLAZIONE_CANONE = 0.015;       // +1,5% annuo indicizzazione affitti (ISTAT)
+const SPESE_NOTARIO_PRIMA = 0.02;
+const SPESE_NOTARIO_SECONDA = 0.10;
+const AGENZIA_COMPRAVENDITA = 0.03;
+const MANUTENZIONE_ANNUA = 0.01;
+const IMU_SECONDA_CASA = 0.0086;
+const INFLAZIONE_CANONE = 0.015;
 
 export function AffittoVsMutuo({ color = '#10b981' }) {
   const [canone, setCanone] = useState(800);
@@ -20,65 +19,52 @@ export function AffittoVsMutuo({ color = '#10b981' }) {
   const [rendimentoAlt, setRendimentoAlt] = useState(4);
   const [tipoCasa, setTipoCasa] = useState('prima');
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [hoverAnno, setHoverAnno] = useState(null);
 
   const risultati = useMemo(() => {
     const capitale = prezzoCasa - anticipo;
     const n = durataMutuo * 12;
     const i = tasso / 100 / 12;
     
-    // Rata mutuo (formula francese)
     const rataMensile = i > 0 
       ? (capitale * i) / (1 - Math.pow(1 + i, -n))
       : capitale / n;
     
-    // Spese una tantum all'acquisto
     const aliqNotarile = tipoCasa === 'prima' ? SPESE_NOTARIO_PRIMA : SPESE_NOTARIO_SECONDA;
     const speseAcquisto = prezzoCasa * (aliqNotarile + AGENZIA_COMPRAVENDITA);
     
-    // IMU: solo su seconda casa
     const imuAnnua = tipoCasa === 'prima' ? 0 : prezzoCasa * IMU_SECONDA_CASA;
     const manutenzioneAnnua = prezzoCasa * MANUTENZIONE_ANNUA;
     
-    // Simulazione anno per anno
     const orizzonte = 30;
     const dati = [];
-    let equityAccumulata = anticipo; // parti con l'anticipo versato
+    let equityAccumulata = anticipo;
     let costoAffittoCumul = 0;
-    let costoMutuoCumul = speseAcquisto; // spese una tantum all'inizio
+    let costoMutuoCumul = speseAcquisto;
     let canoneAnno = canone;
     let debitoResiduo = capitale;
-    
-    // Costo opportunità: anticipo investito in alternativa
     let anticipoInvestito = anticipo;
     
     for (let anno = 1; anno <= orizzonte; anno++) {
-      // Affitto: pago canone + il mio anticipo "fittizio" cresce investito
       costoAffittoCumul += canoneAnno * 12;
       anticipoInvestito *= (1 + rendimentoAlt / 100);
       canoneAnno *= (1 + INFLAZIONE_CANONE);
       
-      // Mutuo: pago rata + IMU + manutenzione, ma costruisco equity
-      let quotaInteressiAnno = 0;
       let quotaCapitaleAnno = 0;
       
       if (anno <= durataMutuo) {
-        // Durante il mutuo
         for (let mese = 0; mese < 12; mese++) {
           const interessiMese = debitoResiduo * i;
           const capitaleMese = rataMensile - interessiMese;
-          quotaInteressiAnno += interessiMese;
           quotaCapitaleAnno += capitaleMese;
           debitoResiduo = Math.max(0, debitoResiduo - capitaleMese);
         }
         costoMutuoCumul += (rataMensile * 12) + imuAnnua + manutenzioneAnnua;
         equityAccumulata += quotaCapitaleAnno;
       } else {
-        // Mutuo finito, paghi solo IMU e manutenzione
         costoMutuoCumul += imuAnnua + manutenzioneAnnua;
       }
       
-      // Patrimonio netto affittuario = quello che ha investito l'anticipo - i canoni pagati
-      // Ma per il confronto usiamo il "costo netto" di ogni scenario
       const costoNettoAffitto = costoAffittoCumul - (anticipoInvestito - anticipo);
       const costoNettoMutuo = costoMutuoCumul - equityAccumulata;
       
@@ -89,7 +75,6 @@ export function AffittoVsMutuo({ color = '#10b981' }) {
       });
     }
     
-    // Trova break-even
     let breakEven = null;
     for (let k = 0; k < dati.length; k++) {
       if (dati[k].Acquisto < dati[k].Affitto) {
@@ -105,10 +90,45 @@ export function AffittoVsMutuo({ color = '#10b981' }) {
       manutenzioneAnnua: Math.round(manutenzioneAnnua),
       dati,
       breakEven,
-      costoFinaleAffitto: dati[dati.length - 1].Affitto,
-      costoFinaleAcquisto: dati[dati.length - 1].Acquisto,
     };
   }, [canone, prezzoCasa, anticipo, tasso, durataMutuo, rendimentoAlt, tipoCasa]);
+
+  // ════ CALCOLI PER IL GRAFICO SVG ════
+  const chart = useMemo(() => {
+    const W = 680;
+    const H = 300;
+    const PAD_L = 60;
+    const PAD_R = 20;
+    const PAD_T = 20;
+    const PAD_B = 40;
+    
+    const dati = risultati.dati;
+    const allValues = dati.flatMap(d => [d.Affitto, d.Acquisto]);
+    const minY = Math.min(...allValues, 0);
+    const maxY = Math.max(...allValues);
+    const rangeY = maxY - minY || 1;
+    const minX = 1;
+    const maxX = dati.length;
+    
+    const xScale = (anno) => PAD_L + ((anno - minX) / (maxX - minX)) * (W - PAD_L - PAD_R);
+    const yScale = (val) => PAD_T + ((maxY - val) / rangeY) * (H - PAD_T - PAD_B);
+    
+    const pathAffitto = dati.map((d, idx) => 
+      `${idx === 0 ? 'M' : 'L'} ${xScale(d.anno)} ${yScale(d.Affitto)}`
+    ).join(' ');
+    
+    const pathAcquisto = dati.map((d, idx) => 
+      `${idx === 0 ? 'M' : 'L'} ${xScale(d.anno)} ${yScale(d.Acquisto)}`
+    ).join(' ');
+    
+    // Tick asse Y: 4 valori ben distribuiti
+    const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => minY + t * rangeY);
+    
+    // Tick asse X: ogni 5 anni
+    const xTicks = [1, 5, 10, 15, 20, 25, 30];
+    
+    return { W, H, PAD_L, PAD_R, PAD_T, PAD_B, xScale, yScale, pathAffitto, pathAcquisto, yTicks, xTicks };
+  }, [risultati.dati]);
 
   const inputStyle = {
     width: '100%',
@@ -133,10 +153,16 @@ export function AffittoVsMutuo({ color = '#10b981' }) {
   };
 
   const formatEuro = (v) => `€${v.toLocaleString('it-IT')}`;
+  const formatEuroCompact = (v) => {
+    if (Math.abs(v) >= 1000) return `${Math.round(v/1000)}k`;
+    return v.toString();
+  };
 
   const verdetto = risultati.breakEven 
     ? `L'acquisto diventa più conveniente dopo ${risultati.breakEven} anni`
     : 'Nel tuo orizzonte di 30 anni, affittare resta più conveniente';
+
+  const hoverData = hoverAnno ? risultati.dati.find(d => d.anno === hoverAnno) : null;
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -261,22 +287,136 @@ export function AffittoVsMutuo({ color = '#10b981' }) {
         </div>
       </div>
 
-      {/* GRAFICO */}
+      {/* GRAFICO SVG */}
       <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 24, marginBottom: 24 }}>
         <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Costo netto cumulato</h3>
         <p style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Linea rossa: affitto (canoni pagati − rendimento dell'anticipo investito). Linea verde: acquisto (rata + spese − equity accumulata).</p>
-        <ResponsiveContainer width="100%" height={320}>
-          <LineChart data={risultati.dati} margin={{ top: 10, right: 20, left: 20, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="anno" tick={{ fontSize: 11, fill: '#64748b' }} label={{ value: 'Anni', position: 'insideBottom', offset: -5, fontSize: 11, fill: '#94a3b8' }} />
-            <YAxis tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(v) => `${Math.round(v/1000)}k`} />
-            <Tooltip formatter={(v) => formatEuro(v)} contentStyle={{ borderRadius: 12, border: '1px solid #e2e8f0', fontSize: 13 }} />
-            <Legend wrapperStyle={{ fontSize: 13, paddingTop: 10 }} />
-            {risultati.breakEven && <ReferenceLine x={risultati.breakEven} stroke={color} strokeDasharray="4 4" label={{ value: `Break-even: anno ${risultati.breakEven}`, fill: color, fontSize: 11, fontWeight: 700, position: 'top' }} />}
-            <Line type="monotone" dataKey="Affitto" stroke="#dc2626" strokeWidth={2.5} dot={false} />
-            <Line type="monotone" dataKey="Acquisto" stroke={color} strokeWidth={2.5} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
+        
+        <div style={{ position: 'relative', width: '100%' }}>
+          <svg 
+            viewBox={`0 0 ${chart.W} ${chart.H}`} 
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+            onMouseLeave={() => setHoverAnno(null)}
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width) * chart.W;
+              if (x < chart.PAD_L || x > chart.W - chart.PAD_R) {
+                setHoverAnno(null);
+                return;
+              }
+              const annoApprox = Math.round(1 + ((x - chart.PAD_L) / (chart.W - chart.PAD_L - chart.PAD_R)) * 29);
+              setHoverAnno(Math.max(1, Math.min(30, annoApprox)));
+            }}
+          >
+            {/* Griglia orizzontale */}
+            {chart.yTicks.map((v, idx) => (
+              <g key={`ygrid-${idx}`}>
+                <line 
+                  x1={chart.PAD_L} y1={chart.yScale(v)} 
+                  x2={chart.W - chart.PAD_R} y2={chart.yScale(v)} 
+                  stroke="#f1f5f9" strokeWidth="1" 
+                />
+                <text 
+                  x={chart.PAD_L - 8} y={chart.yScale(v) + 4} 
+                  fontSize="11" fill="#94a3b8" textAnchor="end"
+                >
+                  {formatEuroCompact(v)}
+                </text>
+              </g>
+            ))}
+            
+            {/* Tick asse X */}
+            {chart.xTicks.map((t, idx) => (
+              <text 
+                key={`xtick-${idx}`}
+                x={chart.xScale(t)} y={chart.H - chart.PAD_B + 18} 
+                fontSize="11" fill="#94a3b8" textAnchor="middle"
+              >
+                {t}
+              </text>
+            ))}
+            <text 
+              x={chart.W / 2} y={chart.H - 6} 
+              fontSize="11" fill="#94a3b8" textAnchor="middle" fontWeight="600"
+            >
+              Anni
+            </text>
+            
+            {/* Linea break-even */}
+            {risultati.breakEven && (
+              <g>
+                <line 
+                  x1={chart.xScale(risultati.breakEven)} y1={chart.PAD_T}
+                  x2={chart.xScale(risultati.breakEven)} y2={chart.H - chart.PAD_B}
+                  stroke={color} strokeWidth="1.5" strokeDasharray="4 4" opacity="0.6"
+                />
+                <text 
+                  x={chart.xScale(risultati.breakEven)} y={chart.PAD_T - 4}
+                  fontSize="11" fontWeight="700" fill={color} textAnchor="middle"
+                >
+                  Break-even: anno {risultati.breakEven}
+                </text>
+              </g>
+            )}
+            
+            {/* Linea Affitto */}
+            <path d={chart.pathAffitto} stroke="#dc2626" strokeWidth="2.5" fill="none" strokeLinejoin="round" />
+            
+            {/* Linea Acquisto */}
+            <path d={chart.pathAcquisto} stroke={color} strokeWidth="2.5" fill="none" strokeLinejoin="round" />
+            
+            {/* Hover indicator */}
+            {hoverData && (
+              <g>
+                <line 
+                  x1={chart.xScale(hoverAnno)} y1={chart.PAD_T}
+                  x2={chart.xScale(hoverAnno)} y2={chart.H - chart.PAD_B}
+                  stroke="#cbd5e1" strokeWidth="1"
+                />
+                <circle cx={chart.xScale(hoverAnno)} cy={chart.yScale(hoverData.Affitto)} r="4" fill="#dc2626" />
+                <circle cx={chart.xScale(hoverAnno)} cy={chart.yScale(hoverData.Acquisto)} r="4" fill={color} />
+              </g>
+            )}
+          </svg>
+          
+          {/* Tooltip esterno al SVG per leggibilità */}
+          {hoverData && (
+            <div style={{ 
+              position: 'absolute', 
+              top: 0, right: 0, 
+              background: '#fff', 
+              border: '1px solid #e2e8f0', 
+              borderRadius: 10, 
+              padding: '10px 14px', 
+              fontSize: 12,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              pointerEvents: 'none',
+              minWidth: 160
+            }}>
+              <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 6 }}>Anno {hoverAnno}</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 2 }}>
+                <span style={{ color: '#dc2626' }}>● Affitto</span>
+                <span style={{ fontWeight: 700, color: '#0f172a' }}>{formatEuro(hoverData.Affitto)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                <span style={{ color }}>● Acquisto</span>
+                <span style={{ fontWeight: 700, color: '#0f172a' }}>{formatEuro(hoverData.Acquisto)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Legenda sotto grafico */}
+        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', marginTop: 14, fontSize: 13 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#475569' }}>
+            <span style={{ width: 14, height: 2.5, background: '#dc2626', borderRadius: 2 }}></span>
+            Affitto
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#475569' }}>
+            <span style={{ width: 14, height: 2.5, background: color, borderRadius: 2 }}></span>
+            Acquisto
+          </div>
+        </div>
       </div>
 
       {/* DISCLAIMER */}
