@@ -175,17 +175,17 @@ export const TOPICS = {
       content: [
         { subtitle: "Come si forma il prezzo", text: "Il prezzo dell'energia elettrica in Italia è determinato dal PUN (Prezzo Unico Nazionale), il prezzo all'ingrosso stabilito ogni giorno sulla Borsa Elettrica (IPEX). Il PUN è influenzato dal costo del gas naturale, dalla domanda, dalla produzione rinnovabile e dalle interconnessioni con l'estero. Quando il gas costa di più, il PUN sale." },
         { subtitle: "Dal mercato all'ingrosso alla tua bolletta", text: "Il fornitore acquista energia al PUN e la rivende aggiungendo uno spread. La bolletta si compone di: materia prima energia (~40-50%), trasporto e gestione contatore (~20%), oneri di sistema (~15%) e imposte (~15-20%). Solo la componente materia prima varia tra fornitori. Confrontare il prezzo €/kWh della materia prima è la chiave." },
-        { subtitle: "Mercato libero vs. Tutela", text: "Dal 2024 il Servizio di Maggior Tutela è stato abolito per i clienti non vulnerabili. Le tariffe possono essere a prezzo fisso (bloccato per 12-24 mesi) o variabile (agganciato al PUN + spread). Il fisso protegge dai rialzi ma non beneficia dei ribassi; il variabile è più rischioso ma storicamente più economico." },
+        { subtitle: "Mercato libero vs. Tutela e il segreto dell'STG", text: "Dal 2024 il Servizio di Maggior Tutela è abolito. Chi non ha scelto è finito nel Servizio a Tutele Graduali (STG). Attualmente le tariffe STG sono imbattibili (hanno costi fissi negativi, in pratica ti 'pagano' circa 73€/anno). Se sei in STG, non cambiare fino al 2027. Nel mercato libero puoi scegliere tra fisso (protegge dai rialzi) e variabile (più economico a lungo termine)." },
         { subtitle: "Situazione attuale (2025-2026)", text: "Dopo la crisi del 2022, i prezzi si sono stabilizzati. Il PUN medio nel 2025 si è aggirato intorno a 60-80 €/MWh. La crescita delle rinnovabili contribuisce a calmierare i prezzi. Tuttavia, tensioni geopolitiche e transizione energetica continuano a generare volatilità." }
       ]
     },
     guida: {
       title: "Come scegliere il contratto energia",
       steps: [
-        { n: "1", title: "Trova la tua bolletta attuale", text: "Recupera l'ultima bolletta e individua: consumo annuo in kWh, prezzo €/kWh della componente energia, costo fisso mensile. Questi tre dati bastano per confrontare." },
+        { n: "1", title: "Trova i costi nascosti (PCV) in bolletta", text: "Recupera l'ultima bolletta e individua il consumo annuo in kWh e il costo materia prima (€/kWh). Fondamentale: cerca la voce PCV (Prezzo Commercializzazione Vendita). È il costo fisso mensile che i fornitori cercano di nascondere." },
         { n: "2", title: "Decidi fisso o variabile", text: "Prezzi bassi e prevedi rialzi → fisso. Prezzi alti o in discesa → variabile. In generale, il variabile conviene nel lungo periodo perché non incorpora il premio assicurativo del fisso." },
-        { n: "3", title: "Confronta la materia prima", text: "Non guardare il prezzo finale stimato: confronta SOLO prezzo €/kWh + costo fisso mensile. Ignora bonus una tantum che mascherano costi reali." },
-        { n: "4", title: "Verifica le condizioni", text: "Durata del vincolo, penali per recesso, modalità di rinnovo (il prezzo dopo i primi 12 mesi spesso cambia). Prediligi offerte senza vincolo." },
+        { n: "3", title: "Confronta la materia prima", text: "Non guardare il prezzo finale stimato: confronta SOLO prezzo €/kWh + costo fisso mensile (PCV). Ignora bonus una tantum che mascherano costi reali." },
+        { n: "4", title: "La trappola delle penali di recesso", text: "Da gennaio 2024, i fornitori possono applicare penali di recesso anticipato (anche 100-150€) sui contratti a prezzo fisso se cambi prima della scadenza. I contratti variabili, invece, restano liberi da penali per legge. Controlla il contratto." },
         { n: "5", title: "Attiva online e monitora", text: "L'attivazione online è più economica. Segna di ricontrollare il prezzo tra 10-11 mesi: valuta se restare o cambiare prima del rinnovo." }
       ]
     }
@@ -199,17 +199,17 @@ export const TOPICS = {
       content: [
         { subtitle: "Il prezzo del gas in Italia", text: "Il prezzo è agganciato al PSV (Punto di Scambio Virtuale), influenzato dal TTF olandese. Il gas arriva in Italia via gasdotto dall'Algeria, Azerbaijan, e come GNL via nave da USA e Qatar." },
         { subtitle: "L'impatto geopolitico", text: "La guerra in Ucraina ha rivoluzionato il mercato europeo. L'Italia importava ~40% del gas dalla Russia: oggi quasi azzerato, sostituito da GNL e nuovi gasdotti. Prezzi più alti e volatili, ma maggiore diversificazione." },
-        { subtitle: "Come si compone la bolletta", text: "Materia prima (~45%), trasporto/distribuzione (~20%), oneri di sistema (~10%), imposte (~25%). Le imposte sul gas sono pesanti: IVA al 22% (10% sui primi 480 Smc) e accise. L'unica variabile tra fornitori è il prezzo della materia prima." },
+        { subtitle: "Come si compone la bolletta", text: "Materia prima (~45%), trasporto (~20%), oneri (~10%), imposte (~25%). Le imposte sul gas sono pesanti: IVA al 22% (10% sui primi 480 Smc) e accise. L'unica voce decisa dal fornitore è la materia prima e la quota fissa (QVD)." },
         { subtitle: "Contesto attuale", text: "Nel 2025-2026 i prezzi si sono assestati su ~35-45 €/MWh al PSV. Forte stagionalità: in inverno il prezzo sale. Il piano REPowerEU spinge verso pompe di calore ed efficientamento." }
       ]
     },
     guida: {
       title: "Come scegliere il contratto gas",
       steps: [
-        { n: "1", title: "Analizza il tuo consumo", text: "Il consumo si misura in Smc. Famiglia media: 800-1200 Smc/anno. Con riscaldamento autonomo: 1200-1500. Trova il dato sulla bolletta." },
+        { n: "1", title: "Cerca la QVD in bolletta", text: "Il consumo si misura in Smc (media: 800-1200 Smc/anno). Sulla bolletta, oltre al costo al metro cubo, cerca la QVD (Quota Vendita al Dettaglio): è il costo fisso mensile del fornitore. Questi due dati bastano per confrontare." },
         { n: "2", title: "Valuta la stagionalità", text: "Se attivi un contratto fisso in estate, potresti ottenere tariffe migliori. Il gas ha forte stagionalità e i fornitori propongono offerte più aggressive nei mesi caldi." },
-        { n: "3", title: "Confronta il prezzo Smc", text: "Usa il comparatore per confrontare €/Smc e costo fisso mensile. Calcola: (consumo × prezzo/Smc) + (fisso × 12) = costo annuo reale." },
-        { n: "4", title: "Considera l'offerta dual", text: "Sconti per luce e gas insieme, ma confronta i singoli prezzi: il pacchetto a volte nasconde un prezzo alto su una componente." },
+        { n: "3", title: "Confronta il prezzo Smc", text: "Usa il comparatore per confrontare €/Smc e costo fisso mensile. Calcola: (consumo × prezzo/Smc) + (QVD × 12) = costo annuo reale." },
+        { n: "4", title: "Attenzione alle offerte dual e alle penali", text: "Sconti per luce+gas sembrano comodi, ma spesso nascondono un rincaro su una componente. Inoltre, come per la luce, i nuovi contratti gas a prezzo fisso possono prevedere penali di recesso anticipato. Analizza sempre i singoli costi." },
         { n: "5", title: "Pensa al lungo termine", text: "Se ristrutturi, valuta una pompa di calore: elimina il gas dal riscaldamento. Investimento ripagato in 5-8 anni." }
       ]
     }
