@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { ENERGY_PROVIDERS, GAS_PROVIDERS, INDICI_MERCATO } from '../data.js';
 import { ProviderRow, AffiliateRow, Badge } from './Comparators.jsx';
 
-const AFFILIATE_NAMES_LUCE = ['Reset Energia'];
+// Aggiunto 'Eni Plenitude' anche alla lista LUCE per nasconderlo da entrambi i tab
+const AFFILIATE_NAMES_LUCE = ['Reset Energia', 'Eni Plenitude'];
 const AFFILIATE_NAMES_GAS = ['Eni Plenitude'];
 const EXCLUDED_NAMES = ['NeN', 'Nen', 'NEN', 'NeN Energia'];
 
