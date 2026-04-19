@@ -59,20 +59,20 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
     setError('');
     setSubmitting(true);
 
-    // Prepara il formato esatto che si aspetta Brevo (YYYY-MM-DD)
+    const safeDate = (d) => d ? d.toISOString().split('T')[0] : undefined;
+
+    // Usiamo ESATTAMENTE le chiavi del tuo vecchio file per non rompere la tua API backend
     const scadenzePayload = {
-      SCADENZA_BOLLO: scadenzeCalcolate.bollo?.toISOString().split('T')[0],
-      SCADENZA_REVISIONE: scadenzeCalcolate.revisione?.toISOString().split('T')[0],
-      SCADENZA_TAGLIANDO: scadenzeCalcolate.tagliando?.toISOString().split('T')[0],
-      SCADENZA_GOMME_INV: scadenzeCalcolate.gommeInvernali.toISOString().split('T')[0],
-      SCADENZA_GOMME_EST: scadenzeCalcolate.gommeEstive.toISOString().split('T')[0],
+      bollo: safeDate(scadenzeCalcolate.bollo),
+      revisione: safeDate(scadenzeCalcolate.revisione),
+      tagliando: safeDate(scadenzeCalcolate.tagliando),
+      gommeInvernali: safeDate(scadenzeCalcolate.gommeInvernali),
+      gommeEstive: safeDate(scadenzeCalcolate.gommeEstive),
     };
 
-    // Rimuovi eventuali date vuote
     Object.keys(scadenzePayload).forEach(key => !scadenzePayload[key] && delete scadenzePayload[key]);
 
     try {
-      // Chiama la tua API /api/brevo in modo sicuro
       const res = await fetch('/api/brevo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -95,15 +95,15 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
     }
   };
 
-  const inputStyle = { padding: '12px 16px', borderRadius: '12px', border: '1px solid #e2e8f0', width: '100%', fontSize: '14px', outline: 'none', fontFamily: 'inherit' };
+  const inputStyle = { padding: '12px 16px', borderRadius: '12px', border: '1px solid #e2e8f0', width: '100%', fontSize: '14px', outline: 'none', fontFamily: 'inherit', color: '#0f172a' };
 
   if (success) {
     return (
       <div style={{ textAlign: 'center', padding: '40px 20px', background: '#fff', borderRadius: '24px', border: '1px solid #e2e8f0', animation: `fadeInUp 0.5s ${EASE}` }}>
         <div style={{ fontSize: '60px', marginBottom: '20px' }}>📧</div>
         <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', marginBottom: '12px' }}>Promemoria attivati!</h2>
-        <p style={{ color: '#64748b', lineHeight: '1.6' }}>Abbiamo configurato le tue date. Riceverai una email <strong>7 giorni prima</strong> di ogni scadenza.<br/>Controlla anche la cartella Spam per sicurezza.</p>
-        <button onClick={() => window.location.reload()} style={{ marginTop: 24, background: color, color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 700, cursor: 'pointer' }}>Calcola un'altra auto</button>
+        <p style={{ color: '#475569', lineHeight: '1.6' }}>Abbiamo configurato le tue date. Riceverai una email <strong>7 giorni prima</strong> di ogni scadenza.<br/>Controlla anche la cartella Spam per sicurezza.</p>
+        <button onClick={() => window.location.reload()} style={{ marginTop: 24, background: color, color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 700, cursor: 'pointer', transition: '0.2s' }}>Calcola un'altra auto</button>
       </div>
     );
   }
@@ -116,28 +116,28 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
         {step === 1 ? (
           <div style={{ animation: `fadeInUp 0.4s ${EASE}` }}>
             <h3 style={{ marginBottom: 8, fontWeight: 800, fontSize: 20, color: '#0f172a' }}>1. Configura il veicolo</h3>
-            <p style={{ color: '#64748b', fontSize: 14, marginBottom: 24 }}>Inserisci i dati base per calcolare la legge italiana.</p>
+            <p style={{ color: '#64748b', fontSize: 14, marginBottom: 24 }}>Inserisci i dati base per calcolare le scadenze legali e tecniche.</p>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1/-1' }}>
                 <label style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Immatricolazione (Libretto)</label>
                 <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-                  <select style={inputStyle} value={form.immatMese} onChange={e => setForm({...form, immatMese: e.target.value})}>
+                  <select style={{...inputStyle, flex: 1}} value={form.immatMese} onChange={e => setForm({...form, immatMese: e.target.value})}>
                     {Array.from({length:12}, (_,i)=> (i+1).toString().padStart(2,'0')).map(m => <option key={m} value={m}>Mese: {m}</option>)}
                   </select>
-                  <input type="number" placeholder="Anno (es. 2019)" style={inputStyle} value={form.immatAnno} onChange={e => setForm({...form, immatAnno: e.target.value})} />
+                  <input type="number" placeholder="Anno (es. 2019)" style={{...inputStyle, flex: 1}} value={form.immatAnno} onChange={e => setForm({...form, immatAnno: e.target.value})} />
                 </div>
               </div>
 
               {(new Date().getFullYear() - parseInt(form.immatAnno)) >= 4 && (
                 <div style={{ gridColumn: '1/-1', padding: 16, background: '#f8fafc', borderRadius: 16 }}>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Data ultima revisione (se fatta)</label>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Data ultima revisione (se già fatta)</label>
                   <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-                    <select style={inputStyle} value={form.ultimaRevMese} onChange={e => setForm({...form, ultimaRevMese: e.target.value})}>
+                    <select style={{...inputStyle, flex: 1}} value={form.ultimaRevMese} onChange={e => setForm({...form, ultimaRevMese: e.target.value})}>
                       <option value="">Mese...</option>
                       {Array.from({length:12}, (_,i)=> (i+1).toString().padStart(2,'0')).map(m => <option key={m} value={m}>{m}</option>)}
                     </select>
-                    <input type="number" placeholder="Anno" style={inputStyle} value={form.ultimaRevAnno} onChange={e => setForm({...form, ultimaRevAnno: e.target.value})} />
+                    <input type="number" placeholder="Anno" style={{...inputStyle, flex: 1}} value={form.ultimaRevAnno} onChange={e => setForm({...form, ultimaRevAnno: e.target.value})} />
                   </div>
                 </div>
               )}
