@@ -1,107 +1,64 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SaluteComp } from '../components/Comparators.jsx';
+import { SaluteComp } from '../components/SaluteComp.jsx';
 import { TOPICS } from '../data.js';
 
 const topic = TOPICS.salute;
 ---
 
-<Layout title="Assicurazione Sanitaria Integrativa | SoldiBuoni" description="Confronta le assicurazioni sanitarie private. Scopri cosa coprono e come scegliere la polizza salute giusta per te.">
-  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+<Layout title="Assicurazione Sanitaria: Conviene Davvero? Calcolatore | SoldiBuoni" description="Scopri se pagare una polizza sanitaria conviene rispetto al pagamento privato delle visite. Calcola il risparmio reale includendo franchigie e imprevisti gravi.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 32px;">
       <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
         {topic.icon}
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
-        {topic.title}
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Assicurazione <span style={`color: ${topic.color}`}>Sanitaria</span>
       </h1>
     </div>
 
-    <div class="tab-container" style={`--theme-color: ${topic.color}`}>
-      <button class="tab-btn active" data-target="tab-confronta">🏥 Confronta</button>
-      <button class="tab-btn" data-target="tab-capire">💡 Capire il mercato</button>
-      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-calcolo">🧮 Calcolatore Polizza</button>
+      <button class="tab-btn" data-target="tab-capire">📖 Capire le Franchigie</button>
     </div>
 
-    <div id="tab-confronta" class="tab-content" style="display: block;">
-      <SaluteComp client:only="react" color={topic.color} />
+    <div id="tab-calcolo" class="tab-content" style="display: block;">
+      <SaluteComp client:load />
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
-      {topic.capire.content.map((c) => (
-        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
-          <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
-          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="info-card">
+          <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il Trucco della Franchigia Alta</h3>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se una polizza costa poco ma ha 80€ di franchigia fissa, per una visita da 100€ riceverai solo 20€ di rimborso. Spesso conviene pagare dal privato e risparmiare il premio annuo.</p>
         </div>
-      ))}
-    </div>
-
-    <div id="tab-guida" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
-      <div style="display: flex; flex-direction: column; gap: 14px;">
-        {topic.guida.steps.map((s) => (
-          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
-            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
-            <div>
-              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
-              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
-            </div>
-          </div>
-        ))}
+        <div class="info-card">
+          <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Protezione vs Rimborso</h3>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Usa questo strumento per capire che la polizza non serve per 'guadagnare' sulle visite ordinarie, ma per non andare in bancarotta se devi affrontare un intervento da 20.000€.</p>
+        </div>
       </div>
     </div>
-
   </div>
 </Layout>
 
 <style>
-  .tab-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 30px;
-    background: #fff;
-    padding: 6px;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-  }
-  .tab-btn {
-    flex: 1;
-    background: transparent;
-    border: none;
-    padding: 12px 0;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #64748b;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-  .tab-btn:hover { background: #f8fafc; }
-  .tab-btn.active {
-    background: var(--theme-color);
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  .tab-content { animation: fadeIn 0.3s ease-in-out; }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .tab-container { display: flex; gap: 8px; margin-bottom: 32px; background: #fff; padding: 6px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); position: sticky; top: 20px; z-index: 50; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 14px 0; border-radius: 12px; font-size: 15px; font-weight: 700; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit;}
+  .tab-btn.active { background: #0f172a; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
+  .info-card { background: #fff; border-radius: 20px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(0,0,0,0.04); }
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <script>
   function setupTabs() {
     const buttons = document.querySelectorAll('.tab-btn');
     const contents = document.querySelectorAll('.tab-content');
-
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         buttons.forEach(b => b.classList.remove('active'));
         contents.forEach(c => c.style.display = 'none');
-
         btn.classList.add('active');
         const targetId = btn.getAttribute('data-target');
         document.getElementById(targetId).style.display = 'block';

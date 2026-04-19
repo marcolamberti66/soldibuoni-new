@@ -2,41 +2,67 @@
 import Layout from '../layouts/Layout.astro';
 import { ContiComp } from '../components/ContiComp.jsx';
 
-const topic = {
-  icon: '💳',
-  title: 'Conti Correnti',
-  color: '#10b981'
-};
+const topicColor = "#3b82f6";
 ---
 
-<Layout 
-  title="Confronto Conti Correnti Online | SoldiBuoni" 
-  description="Trova il conto corrente online giusto per te: zero spese, con cashback o per giovani. Confronta le offerte bancarie più vantaggiose."
->
-  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+<Layout title="Migliori Conti Correnti 2026: Calcola il Costo Reale | SoldiBuoni" description="Non guardare solo il canone. Calcola quanto ti costa un conto corrente in base a bonifici, prelievi e imposta di bollo, sottraendo gli interessi attivi.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
-        {topic.icon}
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 32px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topicColor}14;`}>
+        💳
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
-        {topic.title}
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Conti <span style={`color: ${topicColor}`}>Correnti & Risparmio</span>
       </h1>
     </div>
 
-    <p class="update-note">🔄 Prezzi e offerte aggiornati mensilmente · Ultimo aggiornamento: aprile 2026</p>
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-calcolo">🧮 Calcolatore Costo/Gain</button>
+      <button class="tab-btn" data-target="tab-guida">📖 Guida al Risparmio</button>
+    </div>
 
-    <ContiComp client:load color={topic.color} />
+    <div id="tab-calcolo" class="tab-content" style="display: block;">
+      <ContiComp client:load />
+    </div>
 
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="info-card">
+          <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>L'Insidia dei Bonifici Istantanei</h3>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Mentre il canone è spesso azzerato, molte banche chiedono fino a 2,50€ per un bonifico istantaneo. Se ne fai due al mese, spendi 60€ all'anno senza accorgertene.</p>
+        </div>
+        <div class="info-card">
+          <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La Soglia dei 5.000€</h3>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se la tua giacenza media annua supera i 5.000€, scatta l'imposta di bollo statale di 34,20€. Scegliere un conto che remunera il saldo ti permette di 'auto-pagare' questa tassa con gli interessi.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </Layout>
 
 <style>
-  .update-note {
-    font-size: 12px;
-    color: #94a3b8;
-    margin: 0 0 28px 0;
-    padding-left: 2px;
-    font-weight: 500;
-  }
+  .tab-container { display: flex; gap: 8px; margin-bottom: 32px; background: #fff; padding: 6px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); position: sticky; top: 20px; z-index: 50; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 14px 0; border-radius: 12px; font-size: 15px; font-weight: 700; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit;}
+  .tab-btn.active { background: #0f172a; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
+  .info-card { background: #fff; border-radius: 20px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(0,0,0,0.04); }
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 </style>
+
+<script>
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
+      });
+    });
+  }
+  setupTabs();
+</script>
