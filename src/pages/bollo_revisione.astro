@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { CalendarioAuto } from '../components/Comparators.jsx';
+import { CalendarioAuto } from '../components/CalendarioAuto.jsx';
 import { TOPICS } from '../data.js';
 
 const topic = TOPICS.bollo_revisione;
@@ -25,7 +25,7 @@ const topic = TOPICS.bollo_revisione;
     </div>
 
     <div id="tab-scadenze" class="tab-content" style="display: block;">
-      <CalendarioAuto client:only="react" color={topic.color} />
+      <CalendarioAuto client:load color={topic.color} />
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">

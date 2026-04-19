@@ -1,5 +1,5 @@
 // Netlify Scheduled Function: controlla scadenze auto e invia promemoria
-// Gira ogni giorno alle 8:00 AM (UTC), cioè 9:00 o 10:00 ora italiana
+// Gira ogni giorno alle 8:00 UTC (9:00 o 10:00 ora italiana)
 
 export default async () => {
   const API_KEY = process.env.BREVO_API_KEY;
@@ -11,7 +11,7 @@ export default async () => {
   const SENDER_EMAIL = process.env.SENDER_EMAIL || "noreply@soldibuoni.it";
   const SENDER_NAME = "Soldi Buoni";
   const CAR_LIST_ID = parseInt(process.env.BREVO_CAR_LIST_ID || "3");
-  const DAYS_BEFORE = 7; // Invia promemoria 7 giorni prima
+  const DAYS_BEFORE = 7;
 
   const headers = {
     "api-key": API_KEY,
@@ -19,10 +19,10 @@ export default async () => {
     Accept: "application/json",
   };
 
-  // Definizione scadenze con messaggi personalizzati
   const SCADENZE_CONFIG = [
     {
       attribute: "SCADENZA_BOLLO",
+      lastAlertAttribute: "ULTIMO_ALERT_BOLLO",
       label: "Bollo Auto",
       icon: "💳",
       subject: "⚠️ Il tuo bollo auto scade tra una settimana!",
@@ -36,6 +36,7 @@ export default async () => {
     },
     {
       attribute: "SCADENZA_REVISIONE",
+      lastAlertAttribute: "ULTIMO_ALERT_REVISIONE",
       label: "Revisione Veicolo",
       icon: "🔍",
       subject: "⚠️ La revisione della tua auto scade tra una settimana!",
@@ -49,6 +50,7 @@ export default async () => {
     },
     {
       attribute: "SCADENZA_TAGLIANDO",
+      lastAlertAttribute: "ULTIMO_ALERT_TAGLIANDO",
       label: "Tagliando",
       icon: "🔧",
       subject: "🔧 È ora di fare il tagliando alla tua auto",
@@ -62,6 +64,7 @@ export default async () => {
     },
     {
       attribute: "SCADENZA_GOMME_INV",
+      lastAlertAttribute: "ULTIMO_ALERT_GOMME_INV",
       label: "Cambio Gomme Invernali",
       icon: "🛞",
       subject: "🛞 Tra una settimana scatta l'obbligo gomme invernali",
@@ -75,6 +78,7 @@ export default async () => {
     },
     {
       attribute: "SCADENZA_GOMME_EST",
+      lastAlertAttribute: "ULTIMO_ALERT_GOMME_EST",
       label: "Cambio Gomme Estive",
       icon: "☀️",
       subject: "☀️ Tra una settimana finisce l'obbligo gomme invernali",
@@ -88,8 +92,10 @@ export default async () => {
     },
   ];
 
+  const todayStr = new Date().toISOString().split('T')[0];
+
   try {
-    // Recupera tutti i contatti della lista Promemoria Auto
+    // Recupera tutti i contatti con pagination
     let offset = 0;
     let allContacts = [];
     let hasMore = true;
@@ -114,8 +120,6 @@ export default async () => {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const targetDate = new Date(today);
-    targetDate.setDate(targetDate.getDate() + DAYS_BEFORE);
 
     let emailsSent = 0;
 
@@ -131,27 +135,37 @@ export default async () => {
         const scadenzaDate = new Date(dateValue);
         scadenzaDate.setHours(0, 0, 0, 0);
 
-        // Controlla se la scadenza è esattamente tra DAYS_BEFORE giorni
         const diffDays = Math.round((scadenzaDate - today) / 86400000);
         
-        if (diffDays === DAYS_BEFORE) {
-          console.log(`Invio promemoria ${scadenza.label} a ${email} (scade il ${dateValue})`);
+        // Finestra di invio: da 0 a 7 giorni prima (non dopo la scadenza)
+        if (diffDays < 0 || diffDays > DAYS_BEFORE) continue;
 
-          const formattedDate = scadenzaDate.toLocaleDateString("it-IT", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          });
+        // Deduplicazione: se ho già inviato per questa scadenza specifica, skip
+        // L'attributo memorizza la data della scadenza per cui è stato mandato l'ultimo alert
+        const lastAlertForThisDeadline = contact.attributes?.[scadenza.lastAlertAttribute];
+        if (lastAlertForThisDeadline === dateValue) {
+          continue;
+        }
 
-          await fetch("https://api.brevo.com/v3/smtp/email", {
-            method: "POST",
-            headers,
-            body: JSON.stringify({
-              sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-              to: [{ email, name: nome }],
-              subject: scadenza.subject + (targa ? ` — ${targa}` : ""),
-              htmlContent: `
+        console.log(`Invio promemoria ${scadenza.label} a ${email} (scade il ${dateValue}, mancano ${diffDays} gg)`);
+
+        const formattedDate = scadenzaDate.toLocaleDateString("it-IT", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
+        const daysText = diffDays === 0 ? "oggi" : diffDays === 1 ? "domani" : `tra ${diffDays} giorni`;
+
+        const emailRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            sender: { name: SENDER_NAME, email: SENDER_EMAIL },
+            to: [{ email, name: nome }],
+            subject: scadenza.subject + (targa ? ` — ${targa}` : ""),
+            htmlContent: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
@@ -160,7 +174,7 @@ export default async () => {
     <div style="background: ${scadenza.color}; padding: 32px; text-align: center;">
       <div style="font-size: 48px; margin-bottom: 8px;">${scadenza.icon}</div>
       <h1 style="color: #fff; font-size: 22px; margin: 0;">${scadenza.label}</h1>
-      <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0; font-size: 14px;">Scadenza tra 7 giorni</p>
+      <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0; font-size: 14px;">Scadenza ${daysText}</p>
     </div>
     <div style="padding: 32px;">
       <h2 style="color: #0f172a; font-size: 18px; margin: 0 0 16px;">Ciao ${nome}!</h2>
@@ -170,7 +184,7 @@ export default async () => {
       </p>
       <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; border: 2px solid ${scadenza.color}20;">
         <div style="font-size: 28px; font-weight: 800; color: ${scadenza.color}; margin-bottom: 4px;">${formattedDate}</div>
-        <div style="font-size: 14px; color: #64748b;">Mancano 7 giorni</div>
+        <div style="font-size: 14px; color: #64748b;">${diffDays === 0 ? 'È oggi!' : diffDays === 1 ? 'È domani' : `Mancano ${diffDays} giorni`}</div>
       </div>
       
       <h3 style="color: #0f172a; font-size: 16px; margin: 24px 0 12px;">📋 Cosa fare:</h3>
@@ -193,25 +207,40 @@ export default async () => {
   </div>
 </body>
 </html>`,
+          }),
+        });
+
+        if (emailRes.ok) {
+          // Marca come inviato: memorizzo la data della scadenza per cui ho appena mandato l'alert
+          // Così se l'utente cambia la scadenza in futuro, il nuovo alert verrà inviato
+          await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({
+              attributes: {
+                [scadenza.lastAlertAttribute]: dateValue,
+              },
             }),
           });
 
           emailsSent++;
-
-          // Pausa di 500ms tra ogni email per rispettare i rate limit di Brevo
-          await new Promise((r) => setTimeout(r, 500));
+        } else {
+          const errText = await emailRes.text();
+          console.error(`Errore invio ${scadenza.label} a ${email}:`, emailRes.status, errText);
         }
+
+        // Throttling per rispettare rate limit Brevo
+        await new Promise((r) => setTimeout(r, 500));
       }
     }
 
-    console.log(`Completato. Email promemoria inviate: ${emailsSent}`);
+    console.log(`Completato ${todayStr}. Email promemoria inviate: ${emailsSent}`);
 
   } catch (error) {
     console.error("Errore nel job promemoria:", error);
   }
 };
 
-// Esegui ogni giorno alle 8:00 UTC (9:00 o 10:00 ora italiana)
 export const config = {
   schedule: "0 8 * * *",
 };
