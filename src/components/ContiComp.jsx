@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
+const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
 export function ContiComp() {
   const [giacenzaStr, setGiacenzaStr] = useState('6000');
   const [numBonifici, setNumBonifici] = useState(2);
@@ -96,7 +98,7 @@ export function ContiComp() {
           <span style={{ fontSize: 12, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Le Analisi del Team</span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, color: '#0f172a', marginTop: 8, marginBottom: 16 }}>Le Scelte Trasparenti</h2>
           <p style={{ fontSize: 16, color: '#475569', maxWidth: 700, margin: '0 auto', lineHeight: 1.6 }}>
-            Basandoci sulla convenienza matematica dimostrata nei nostri calcolatori, abbiamo selezionato le uniche due soluzioni bancarie che azzerano veramente i costi occulti. <em>(Partnership commerciali)</em>
+            Applicando le logiche del nostro calcolatore, abbiamo selezionato due tra le migliori soluzioni bancarie sul mercato per abbattere realmente i costi operativi quotidiani e massimizzare il rendimento. <em>(Partnership commerciali)</em>
           </p>
         </div>
 
