@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { INDICI_MERCATO } from '../data.js';
 
 const PRESETS = {
@@ -72,8 +72,7 @@ export function LuceGasComp() {
   const updateOfferta = (id, field, value) => setOfferte(offerte.map(o => o.id === id ? { ...o, [field]: value } : o));
 
   const inputStyle = { width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1', borderRadius: 12, fontFamily: 'inherit', fontWeight: 600, color: '#0f172a', outline: 'none' };
-  const labelStyle = { display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4 };
-  const helperStyle = { display: 'block', fontSize: 11, color: '#94a3b8', marginTop: 4, lineHeight: 1.4 };
+  const labelStyle = { display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 4 };
   const formatEuro = (v) => `€ ${Math.max(0, v).toLocaleString('it-IT', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
 
   const eniPrezzoUnitario = tipoEnergia === 'luce' ? 0.1881 : 0.7050;
@@ -144,7 +143,6 @@ export function LuceGasComp() {
                       <input type="number" step="0.001" value={off.prezzo} onChange={(e) => updateOfferta(off.id, 'prezzo', e.target.value)} style={{ ...inputStyle, paddingRight: 60 }} />
                       <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: 13, fontWeight: 700 }}>€/{unita}</span>
                     </div>
-                    {off.tipo === 'variabile' && (<span style={{...helperStyle, color: themeColor, fontWeight: 600}}>+ {nomeIndice} di {INDICI_MERCATO.ultimoAggiornamento} ({indiceAttuale} €) inserito in automatico.</span>)}
                   </div>
 
                   <div>
@@ -153,7 +151,6 @@ export function LuceGasComp() {
                       <input type="number" value={off.fisso} onChange={(e) => updateOfferta(off.id, 'fisso', e.target.value)} style={{ ...inputStyle, paddingRight: 70 }} />
                       <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: 13, fontWeight: 700 }}>€/anno</span>
                     </div>
-                    <span style={helperStyle}>Cerca la voce PCV/QVD. Moltiplica x12 se il valore è mensile.</span>
                   </div>
 
                   <div>
@@ -163,18 +160,9 @@ export function LuceGasComp() {
                       <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#166534', fontWeight: 800 }}>- €</span>
                     </div>
                   </div>
-
-                  <div style={{ background: off.penali ? '#fef2f2' : '#f8fafc', padding: 12, borderRadius: 10, border: `1px solid ${off.penali ? '#fecaca' : '#e2e8f0'}` }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: off.penali ? '#991b1b' : '#475569', cursor: 'pointer', fontWeight: 700 }}>
-                      <input type="checkbox" checked={off.penali} onChange={(e) => updateOfferta(off.id, 'penali', e.target.checked)} style={{ width: 18, height: 18, accentColor: '#dc2626' }} />
-                      Prevede penali di recesso?
-                    </label>
-                  </div>
                 </div>
 
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: `2px dashed ${isWinner ? themeColor : '#cbd5e1'}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#64748b', marginBottom: 6 }}><span>Quota Fornitore:</span><span style={{ fontWeight: 700 }}>{formatEuro(off.calcoli.nettoFornitore)}</span></div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#64748b', marginBottom: 16 }}><span>Stima Tasse/Trasporto:</span><span style={{ fontWeight: 700 }}>+ {formatEuro(off.calcoli.quotaStatoRete)}</span></div>
                   <div style={{ textAlign: 'center', background: isWinner ? themeColor : '#f1f5f9', color: isWinner ? '#fff' : '#0f172a', padding: '16px', borderRadius: 16 }}>
                     <div style={{ fontSize: 11, textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', opacity: 0.9 }}>Costo Totale (CRAS)</div>
                     <div style={{ fontSize: 32, fontWeight: 900, lineHeight: 1.1, margin: '4px 0' }}>{formatEuro(off.calcoli.totale)}</div>
@@ -184,9 +172,6 @@ export function LuceGasComp() {
             );
           })}
         </div>
-        <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', padding: 20, borderRadius: 16, marginTop: 32, fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
-          <strong>ℹ️ Metodo di Calcolo (CRAS):</strong> I fornitori pubblicizzano solo la Materia Prima (metà bolletta). Noi vi sommiamo i Costi Fissi e applichiamo un moltiplicatore statistico nazionale (+55% Luce, +45% Gas) per simulare Trasporto, Oneri, Accise e IVA e darti la stima finale.
-        </div>
       </div>
 
       {/* SEZIONE LE ANALISI DEL TEAM */}
@@ -195,16 +180,16 @@ export function LuceGasComp() {
           <span style={{ fontSize: 12, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Le Analisi del Team</span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, color: '#0f172a', marginTop: 8, marginBottom: 16 }}>Le Scelte Trasparenti</h2>
           <p style={{ fontSize: 16, color: '#475569', maxWidth: 700, margin: '0 auto', lineHeight: 1.6 }}>
-            Tra i tanti fornitori analizzati, abbiamo selezionato l'offerta che unisce la sicurezza del prezzo bloccato a condizioni contrattuali oneste (zero penali). <em>(Partnership commerciale)</em>
+            Abbiamo selezionato un'offerta che unisce la sicurezza del prezzo bloccato a condizioni contrattuali oneste (zero penali). <em>(Partnership)</em>
           </p>
         </div>
 
-        <div style={{ background: '#fff', border: '2px solid #0f172a', borderRadius: 24, padding: '36px 40px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.15)', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
+        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '36px 40px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.05)', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
           <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#0f172a', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>★ Miglior Offerta Dual</div>
           <h3 style={{ fontSize: 26, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif" }}>Eni Plenitude — Fixa Time Smart</h3>
-          <p style={{ fontSize: 16, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Prezzo bloccato 12 mesi, zero penali e sconti reali sui costi fissi unendo luce e gas. Un'offerta estremamente solida.</p>
+          <p style={{ fontSize: 16, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Prezzo bloccato 12 mesi, zero penali e sconti reali sui costi fissi unendo luce e gas.</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, background: '#f8fafc', padding: '20px 32px', borderRadius: 16, marginBottom: 24, flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>TUO CONSUMO ({unita})</span><div style={{ fontSize: 20, fontWeight: 900, color: themeColor }}>{consumoStr}</div></div>
+            <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>TUO CONSUMO</span><div style={{ fontSize: 20, fontWeight: 900, color: themeColor }}>{consumoStr} {unita}</div></div>
             <div style={{ width: 1, background: '#cbd5e1' }}></div>
             <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>CRAS PLENITUDE</span><div style={{ fontSize: 24, fontWeight: 900, color: '#0f172a' }}>{formatEuro(eniCRAS)} <span style={{fontSize: 14, fontWeight: 700, color: '#64748b'}}>/anno</span></div></div>
           </div>
@@ -213,7 +198,6 @@ export function LuceGasComp() {
             <br />
             <a href="/recensione-eni" style={{ fontSize: 13, color: '#0f172a', fontWeight: 700, textDecoration: 'underline' }}>Leggi la nostra recensione completa →</a>
           </div>
-          <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 20, marginBottom: 0 }}><em>Trasparenza Editoriale: Questo è un link affiliato. Se attivi l'offerta, i fornitori ci riconoscono una commissione senza alcun costo aggiuntivo per te.</em></p>
         </div>
       </div>
 

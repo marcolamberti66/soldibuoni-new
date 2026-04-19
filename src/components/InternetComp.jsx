@@ -9,8 +9,8 @@ const PRESETS_STAY = [
 export function InternetComp() {
   const [permanenzaStr, setPermanenzaStr] = useState('24');
   const [offerte, setOfferte] = useState([
-    { id: 1, nome: 'Offerta "Promo"', canone: '24.90', attivazione: '39.90', rataModem: '5', durataModem: '48' },
-    { id: 2, nome: 'Alternativa Senza Vincoli', canone: '29.90', attivazione: '0', rataModem: '0', durataModem: '0' }
+    { id: 1, nome: 'Offerta "Promo" (Es. WindTre)', canone: '19.99', attivazione: '47.76', rataModem: '5.99', durataModem: '48' },
+    { id: 2, nome: 'Alternativa Libera (Es. Iliad)', canone: '24.99', attivazione: '39.99', rataModem: '0', durataModem: '0' }
   ]);
 
   const permanenza = parseInt(permanenzaStr) || 12;
@@ -57,7 +57,7 @@ export function InternetComp() {
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
         <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 34, color: '#0f172a', marginBottom: 12 }}>Costo Mensile Reale Ammortizzato</h2>
         <p style={{ fontSize: 17, color: '#64748b', maxWidth: 650, margin: '0 auto', lineHeight: 1.6 }}>
-          Non farti ingannare dal canone promozionale. Calcola quanto pagherai davvero ogni mese includendo attivazione e rate residue del modem se decidi di cambiare operatore.
+          Non farti ingannare dal canone promozionale. Calcola quanto pagherai davvero ogni mese includendo attivazione e rate residue del modem.
         </p>
       </div>
 
@@ -84,32 +84,18 @@ export function InternetComp() {
                 <input type="text" value={off.nome} onChange={(e) => updateOfferta(off.id, 'nome', e.target.value)} style={{ ...inputStyle, fontWeight: 900, fontSize: 18, border: 'none', background: 'transparent', padding: '0 0 12px 0', borderBottom: '2px solid #e2e8f0', borderRadius: 0, marginBottom: 20 }} />
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  <div>
-                    <label style={labelStyle}>Canone Mensile (€)</label>
-                    <input type="number" step="0.01" value={off.canone} onChange={(e) => updateOfferta(off.id, 'canone', e.target.value)} style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Attivazione Una Tantum (€)</label>
-                    <input type="number" step="0.01" value={off.attivazione} onChange={(e) => updateOfferta(off.id, 'attivazione', e.target.value)} style={inputStyle} />
-                  </div>
+                  <div><label style={labelStyle}>Canone Mensile (€)</label><input type="number" step="0.01" value={off.canone} onChange={(e) => updateOfferta(off.id, 'canone', e.target.value)} style={inputStyle} /></div>
+                  <div><label style={labelStyle}>Attivazione Totale Una Tantum (€)</label><input type="number" step="0.01" value={off.attivazione} onChange={(e) => updateOfferta(off.id, 'attivazione', e.target.value)} style={inputStyle} /></div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    <div>
-                      <label style={labelStyle}>Rata Modem (€/Mese)</label>
-                      <input type="number" step="0.01" value={off.rataModem} onChange={(e) => updateOfferta(off.id, 'rataModem', e.target.value)} style={inputStyle} />
-                    </div>
-                    <div>
-                      <label style={labelStyle}>Rate (N° Mesi)</label>
-                      <input type="number" value={off.durataModem} onChange={(e) => updateOfferta(off.id, 'durataModem', e.target.value)} style={inputStyle} />
-                    </div>
+                    <div><label style={labelStyle}>Rata Modem (€/Mese)</label><input type="number" step="0.01" value={off.rataModem} onChange={(e) => updateOfferta(off.id, 'rataModem', e.target.value)} style={inputStyle} /></div>
+                    <div><label style={labelStyle}>Rate (N° Mesi)</label><input type="number" value={off.durataModem} onChange={(e) => updateOfferta(off.id, 'durataModem', e.target.value)} style={inputStyle} /></div>
                   </div>
                   <span style={helperStyle}>Se te ne vai prima della scadenza delle rate, pagherai il residuo in un'unica soluzione.</span>
                 </div>
 
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: '2px dashed #cbd5e1', textAlign: 'center' }}>
                   <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Costo Mensile Reale</div>
-                  <div style={{ fontSize: 34, fontWeight: 900, color: isWinner ? '#8b5cf6' : '#0f172a', margin: '4px 0' }}>
-                    {formatEuro(off.mensileEffettivo)}
-                  </div>
+                  <div style={{ fontSize: 34, fontWeight: 900, color: isWinner ? '#8b5cf6' : '#0f172a', margin: '4px 0' }}>{formatEuro(off.mensileEffettivo)}</div>
                   <div style={{ fontSize: 11, color: '#94a3b8' }}>Ammortizzato su {permanenza} mesi</div>
                 </div>
               </div>
@@ -124,7 +110,7 @@ export function InternetComp() {
           <span style={{ fontSize: 12, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Le Analisi del Team</span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, color: '#0f172a', marginTop: 8, marginBottom: 16 }}>Le Scelte Trasparenti</h2>
           <p style={{ fontSize: 16, color: '#475569', maxWidth: 700, margin: '0 auto', lineHeight: 1.6 }}>
-            Abbiamo selezionato le migliori soluzioni Fibra e Mobile sul mercato, analizzando coperture e costi nascosti per garantirti connessioni al top. <em>(Partnership commerciali)</em>
+            Abbiamo analizzato coperture e costi nascosti per garantirti connessioni al top. <em>(Partnership commerciali)</em>
           </p>
         </div>
 
@@ -151,7 +137,7 @@ export function InternetComp() {
           <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '36px 32px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(14,165,233,0.1)', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
             <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#0ea5e9', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>📱 Miglior Offerta Mobile</div>
             <h3 style={{ fontSize: 24, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif" }}>Lyca Mobile — Portin 5G 599</h3>
-            <p style={{ fontSize: 15, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Porta il tuo numero in Lyca Mobile e ottieni una montagna di Giga in 5G a un prezzo imbattibile. Minuti illimitati e navigazione velocissima garantita su rete Vodafone.</p>
+            <p style={{ fontSize: 15, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Porta il tuo numero in Lyca Mobile e ottieni una montagna di Giga in 5G a un prezzo imbattibile. Minuti illimitati e navigazione garantita su rete Vodafone.</p>
             
             <div style={{ display: 'flex', justifyContent: 'center', gap: 24, background: '#f8fafc', padding: '16px', borderRadius: 16, marginBottom: 24, border: '1px solid #f1f5f9' }}>
               <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>PACCHETTO</span><div style={{ fontSize: 18, fontWeight: 900, color: '#0ea5e9' }}>150 GB 5G</div></div>
@@ -165,9 +151,6 @@ export function InternetComp() {
           </div>
 
         </div>
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#94a3b8', maxWidth: 600, margin: '24px auto 0' }}>
-          <em>Trasparenza Editoriale: SoldiBuoni è un progetto indipendente. I link alle offerte in questa sezione sono affiliati: se decidi di attivarli tramite noi, riceviamo una commissione che ci permette di mantenere gratuiti i nostri strumenti.</em>
-        </p>
       </div>
 
     </div>
