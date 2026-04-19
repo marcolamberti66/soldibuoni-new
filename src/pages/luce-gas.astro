@@ -10,6 +10,15 @@ const topicGas = TOPICS.gas;
 <Layout title="Calcolatore Bollette Luce e Gas | SoldiBuoni" description="Usa il nostro calcolatore indipendente per smascherare i costi nascosti delle bollette e confrontare il reale costo delle offerte luce e gas.">
   <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 32px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: linear-gradient(135deg, ${topicEnergia.color}14, ${topicGas.color}14);`}>
+        ⚡🔥
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Le tariffe <span style={`background: linear-gradient(to right, ${topicEnergia.color}, ${topicGas.color}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;`}>Luce & Gas</span>
+      </h1>
+    </div>
+
     <div class="tab-container">
       <button class="tab-btn active" data-target="tab-confronta">🧮 Calcolatore</button>
       <button class="tab-btn" data-target="tab-capire">📖 Capire il mercato</button>
