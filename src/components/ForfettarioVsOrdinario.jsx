@@ -5,7 +5,7 @@ import React, { useState, useMemo } from 'react';
 // Riferimento: Legge di Bilancio e circolari Agenzia Entrate
 // ═══════════════════════════════════════════════════════════
 
-// Scaglioni IRPEF 2024-2026 (3 scaglioni)
+// Scaglioni IRPEF 2024-2026 (3 scaglioni confermati)
 const SCAGLIONI_IRPEF = [
   { fino: 28000, aliquota: 0.23 },
   { fino: 50000, aliquota: 0.35 },
@@ -47,16 +47,22 @@ function calcolaIrpef(imponibile) {
 }
 
 export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
-  const [fatturato, setFatturato] = useState(40000);
+  const [fatturatoStr, setFatturatoStr] = useState('40000');
+  const [speseStr, setSpeseStr] = useState('3000');
+  const [anniAttivitaStr, setAnniAttivitaStr] = useState('2');
+  
   const [categoria, setCategoria] = useState('professioni');
-  const [anniAttivita, setAnniAttivita] = useState(2);
-  const [spese, setSpese] = useState(3000);
   const [haCassaPropria, setHaCassaPropria] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
 
   const catSelected = CATEGORIE_ATECO.find(c => c.id === categoria) || CATEGORIE_ATECO[0];
 
   const risultati = useMemo(() => {
+    // Parsing sicuro per evitare NaN quando si cancella il campo
+    const fatturato = parseFloat(fatturatoStr) || 0;
+    const spese = parseFloat(speseStr) || 0;
+    const anniAttivita = parseInt(anniAttivitaStr) || 0;
+
     const eligibile = fatturato <= SOGLIA_FORFETTARIO;
     const startup = anniAttivita <= ANNI_STARTUP;
     const aliquotaForf = startup ? ALIQUOTA_STARTUP : ALIQUOTA_FORFETTARIO;
@@ -64,9 +70,9 @@ export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
     // ══════ FORFETTARIO ══════
     const redditoImponibileForf = fatturato * catSelected.coeff;
     const inpsForf = haCassaPropria ? 0 : redditoImponibileForf * INPS_GESTIONE_SEPARATA;
-    // Nel forfettario l'INPS si deduce dal reddito imponibile
     const imponibileTassabileForf = Math.max(0, redditoImponibileForf - inpsForf);
     const impostaSostitutivaForf = imponibileTassabileForf * aliquotaForf;
+    // Il Netto Reale sottrae le spese vive sostenute, non quelle forfettarie
     const nettoForf = fatturato - spese - inpsForf - impostaSostitutivaForf;
     
     // ══════ ORDINARIO ══════
@@ -104,99 +110,87 @@ export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
       differenza: Math.round(differenza),
       convieneForf,
     };
-  }, [fatturato, categoria, anniAttivita, spese, haCassaPropria, catSelected]);
+  }, [fatturatoStr, categoria, anniAttivitaStr, speseStr, haCassaPropria, catSelected]);
 
   const inputStyle = {
-    width: '100%',
-    padding: '10px 14px',
-    fontSize: 14,
-    border: '1px solid #e2e8f0',
-    borderRadius: 10,
-    fontFamily: 'inherit',
-    color: '#0f172a',
-    background: '#fff',
-    outline: 'none'
+    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #e2e8f0',
+    borderRadius: 12, fontFamily: 'inherit', color: '#0f172a', background: '#fff', outline: 'none'
   };
 
   const labelStyle = {
-    display: 'block',
-    fontSize: 11,
-    fontWeight: 700,
-    color: '#64748b',
-    textTransform: 'uppercase',
-    letterSpacing: '0.8px',
-    marginBottom: 6
+    display: 'block', fontSize: 11, fontWeight: 700, color: '#64748b',
+    textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6
   };
 
-  const formatEuro = (v) => `€${Math.round(v).toLocaleString('it-IT')}`;
+  const formatEuro = (v) => `€ ${Math.round(v).toLocaleString('it-IT')}`;
 
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto' }}>
+    <div style={{ maxWidth: 800, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
       
       {/* INPUT PANEL */}
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 28, marginBottom: 24 }}>
-        <h2 style={{ fontSize: 17, fontWeight: 800, color: '#0f172a', marginBottom: 20 }}>La tua situazione</h2>
+      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '28px 24px', marginBottom: 24, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' }}>
+        <h2 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 24 }}>1. Inserisci i tuoi dati</h2>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
           
           <div>
             <label style={labelStyle}>Fatturato annuo previsto</label>
             <div style={{ position: 'relative' }}>
-              <input type="number" value={fatturato} onChange={(e) => setFatturato(Number(e.target.value) || 0)} style={{...inputStyle, paddingLeft: 28}} />
-              <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>€</span>
+              <input type="number" value={fatturatoStr} onChange={(e) => setFatturatoStr(e.target.value)} style={{...inputStyle, paddingLeft: 32, fontWeight: 700, color: color}} />
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700 }}>€</span>
             </div>
           </div>
 
           <div>
             <label style={labelStyle}>Spese deducibili stimate</label>
             <div style={{ position: 'relative' }}>
-              <input type="number" value={spese} onChange={(e) => setSpese(Number(e.target.value) || 0)} style={{...inputStyle, paddingLeft: 28}} />
-              <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>€</span>
+              <input type="number" value={speseStr} onChange={(e) => setSpeseStr(e.target.value)} style={{...inputStyle, paddingLeft: 32}} />
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700 }}>€</span>
             </div>
           </div>
 
           <div>
-            <label style={labelStyle}>Anni di attività</label>
-            <input type="number" value={anniAttivita} onChange={(e) => setAnniAttivita(Number(e.target.value) || 0)} style={inputStyle} />
+            <label style={labelStyle}>Da quanti anni hai aperto?</label>
+            <input type="number" value={anniAttivitaStr} onChange={(e) => setAnniAttivitaStr(e.target.value)} style={inputStyle} min="0" />
           </div>
 
           <div style={{ gridColumn: '1 / -1' }}>
-            <label style={labelStyle}>Categoria di attività</label>
+            <label style={labelStyle}>Categoria di attività (Codice ATECO)</label>
             <select value={categoria} onChange={(e) => setCategoria(e.target.value)} style={{...inputStyle, cursor: 'pointer'}}>
               {CATEGORIE_ATECO.map(c => (
-                <option key={c.id} value={c.id}>{c.label} (coefficiente {Math.round(c.coeff * 100)}%)</option>
+                <option key={c.id} value={c.id}>{c.label} (coeff. {Math.round(c.coeff * 100)}%)</option>
               ))}
             </select>
-            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4, paddingLeft: 2 }}>{catSelected.desc}</div>
+            <div style={{ fontSize: 12, color: '#64748b', marginTop: 6 }}>{catSelected.desc}</div>
           </div>
 
           <div style={{ gridColumn: '1 / -1' }}>
             <label style={labelStyle}>Contributi previdenziali</label>
-            <div style={{ display: 'inline-flex', background: '#f1f5f9', padding: 4, borderRadius: 12, gap: 2 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', background: '#f1f5f9', padding: 6, borderRadius: 14, gap: 4 }}>
               <button 
                 onClick={() => setHaCassaPropria(false)} 
                 style={{
-                  padding: '8px 18px', borderRadius: 9, border: 'none', fontFamily: 'inherit',
-                  fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                  flex: 1, padding: '10px 16px', borderRadius: 10, border: 'none', fontFamily: 'inherit',
+                  fontSize: 14, fontWeight: 700, cursor: 'pointer',
                   background: !haCassaPropria ? '#fff' : 'transparent',
                   color: !haCassaPropria ? color : '#64748b',
-                  boxShadow: !haCassaPropria ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                  boxShadow: !haCassaPropria ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
                   transition: 'all 0.2s'
                 }}
               >Gestione Separata INPS</button>
               <button 
                 onClick={() => setHaCassaPropria(true)} 
                 style={{
-                  padding: '8px 18px', borderRadius: 9, border: 'none', fontFamily: 'inherit',
-                  fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                  flex: 1, padding: '10px 16px', borderRadius: 10, border: 'none', fontFamily: 'inherit',
+                  fontSize: 14, fontWeight: 700, cursor: 'pointer',
                   background: haCassaPropria ? '#fff' : 'transparent',
                   color: haCassaPropria ? color : '#64748b',
-                  boxShadow: haCassaPropria ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                  boxShadow: haCassaPropria ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
                   transition: 'all 0.2s'
                 }}
-              >Cassa di categoria</button>
+              >Cassa di Categoria</button>
             </div>
-            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 6, paddingLeft: 2 }}>Se hai cassa propria (avvocati, medici, ingegneri, ecc.) seleziona "Cassa di categoria" — l'INPS non viene calcolato.</div>
+            <div style={{ fontSize: 12, color: '#64748b', marginTop: 8 }}>Se hai una cassa professionale autonoma (avvocati, medici, architetti), seleziona "Cassa di Categoria". Il calcolatore ignorerà le aliquote INPS.</div>
           </div>
 
         </div>
@@ -204,71 +198,72 @@ export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
 
       {/* ELIGIBILITÀ */}
       {!risultati.eligibile && (
-        <div style={{ background: '#fee2e2', border: '1px solid #dc2626', borderRadius: 16, padding: '14px 20px', marginBottom: 24, fontSize: 13, color: '#991b1b' }}>
-          <strong>⚠️ Fatturato oltre soglia forfettario.</strong> Con fatturato superiore a {formatEuro(SOGLIA_FORFETTARIO)} il regime forfettario non è accessibile. Il confronto mostrato è solo teorico.
+        <div style={{ background: '#fee2e2', border: '1px solid #f87171', borderRadius: 16, padding: '16px 20px', marginBottom: 24, fontSize: 14, color: '#991b1b', lineHeight: 1.5 }}>
+          <strong>⚠️ Attenzione: hai superato la soglia!</strong><br/>
+          Con un fatturato superiore a {formatEuro(SOGLIA_FORFETTARIO)} non puoi accedere al regime forfettario. Il confronto qui sotto è puramente teorico.
         </div>
       )}
 
       {/* VERDETTO */}
       <div style={{ 
         background: `linear-gradient(135deg, ${color}12, ${color}04)`, 
-        border: `1px solid ${color}40`, 
-        borderRadius: 20, 
-        padding: '24px 28px', 
+        border: `2px solid ${color}40`, 
+        borderRadius: 24, 
+        padding: '32px 24px', 
         marginBottom: 24,
         textAlign: 'center'
       }}>
-        <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 8 }}>Verdetto</div>
-        <div style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 6 }}>
+        <div style={{ fontSize: 12, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 12 }}>Il Verdetto di SoldiBuoni</div>
+        <div style={{ fontSize: 26, fontWeight: 800, color: '#0f172a', fontFamily: "'Playfair Display', serif", marginBottom: 8, lineHeight: 1.2 }}>
           {risultati.convieneForf 
-            ? `Il forfettario ti fa risparmiare ${formatEuro(Math.abs(risultati.differenza))}/anno`
-            : `L'ordinario ti fa risparmiare ${formatEuro(Math.abs(risultati.differenza))}/anno`}
+            ? `Il Forfettario ti fa risparmiare ${formatEuro(Math.abs(risultati.differenza))} netti all'anno.`
+            : `L'Ordinario ti fa risparmiare ${formatEuro(Math.abs(risultati.differenza))} netti all'anno.`}
         </div>
-        {risultati.startup && risultati.convieneForf && (
-          <div style={{ fontSize: 13, color: '#059669', fontWeight: 700 }}>
-            ✨ Stai beneficiando dell'aliquota start-up al 5% (primi 5 anni)
+        {risultati.startup && risultati.convieneForf && risultati.eligibile && (
+          <div style={{ fontSize: 14, color: '#059669', fontWeight: 700, marginTop: 12, display: 'inline-block', background: '#dcfce7', padding: '6px 14px', borderRadius: 20 }}>
+            ✨ Stai beneficiando dell'aliquota Start-up agevolata al 5%
           </div>
         )}
       </div>
 
       {/* CONFRONTO A DUE COLONNE */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
         
         {/* FORFETTARIO */}
         <div style={{ 
           background: '#fff', 
           border: risultati.convieneForf ? `2px solid ${color}` : '1px solid #e2e8f0', 
-          borderRadius: 20, 
-          padding: 24,
+          borderRadius: 24, 
+          padding: 28,
           position: 'relative'
         }}>
           {risultati.convieneForf && (
-            <div style={{ position: 'absolute', top: -10, left: 20, background: color, color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 20, letterSpacing: '0.8px' }}>
-              MIGLIORE
+            <div style={{ position: 'absolute', top: -12, left: 24, background: color, color: '#fff', fontSize: 11, fontWeight: 800, padding: '4px 12px', borderRadius: 20, letterSpacing: '0.5px' }}>
+              🥇 SCELTA MIGLIORE
             </div>
           )}
-          <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Regime Forfettario</h3>
-          <div style={{ fontSize: 11, color: '#64748b', marginBottom: 16 }}>
-            Aliquota {Math.round(risultati.aliquotaForf * 100)}% · coefficiente {Math.round(catSelected.coeff * 100)}%
+          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Regime Forfettario</h3>
+          <div style={{ fontSize: 13, color: '#64748b', marginBottom: 20 }}>
+            Tassa fissa {Math.round(risultati.aliquotaForf * 100)}% su base {Math.round(catSelected.coeff * 100)}%
           </div>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>Reddito imponibile</span>
+              <span>Base Imponibile</span>
               <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.forf.redditoImponibile)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>− Contributi INPS</span>
-              <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.forf.inps)}</span>
+              <span>Contributi INPS</span>
+              <span style={{ color: '#dc2626', fontWeight: 600 }}>− {formatEuro(risultati.forf.inps)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>− Imposta sostitutiva</span>
-              <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.forf.imposta)}</span>
+              <span>Imposta Sostitutiva</span>
+              <span style={{ color: '#dc2626', fontWeight: 600 }}>− {formatEuro(risultati.forf.imposta)}</span>
             </div>
-            <div style={{ height: 1, background: '#e2e8f0', margin: '8px 0' }}></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Netto annuo</span>
-              <span style={{ fontSize: 24, fontWeight: 800, color: risultati.convieneForf ? color : '#0f172a' }}>{formatEuro(risultati.forf.netto)}</span>
+            <div style={{ height: 1, background: '#e2e8f0', margin: '12px 0' }}></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 13, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Netto Annuo</span>
+              <span style={{ fontSize: 26, fontWeight: 800, color: risultati.convieneForf ? color : '#0f172a' }}>{formatEuro(risultati.forf.netto)}</span>
             </div>
           </div>
         </div>
@@ -277,41 +272,41 @@ export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
         <div style={{ 
           background: '#fff', 
           border: !risultati.convieneForf ? `2px solid ${color}` : '1px solid #e2e8f0', 
-          borderRadius: 20, 
-          padding: 24,
+          borderRadius: 24, 
+          padding: 28,
           position: 'relative'
         }}>
           {!risultati.convieneForf && (
-            <div style={{ position: 'absolute', top: -10, left: 20, background: color, color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 20, letterSpacing: '0.8px' }}>
-              MIGLIORE
+            <div style={{ position: 'absolute', top: -12, left: 24, background: color, color: '#fff', fontSize: 11, fontWeight: 800, padding: '4px 12px', borderRadius: 20, letterSpacing: '0.5px' }}>
+              🥇 SCELTA MIGLIORE
             </div>
           )}
-          <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Regime Ordinario</h3>
-          <div style={{ fontSize: 11, color: '#64748b', marginBottom: 16 }}>
-            IRPEF progressiva + addizionali
+          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>Regime Ordinario</h3>
+          <div style={{ fontSize: 13, color: '#64748b', marginBottom: 20 }}>
+            IRPEF a Scaglioni + Addizionali
           </div>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>Reddito imponibile</span>
+              <span>Base Imponibile (Utile)</span>
               <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.ord.reddito)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>− Contributi INPS</span>
-              <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.ord.inps)}</span>
+              <span>Contributi INPS</span>
+              <span style={{ color: '#dc2626', fontWeight: 600 }}>− {formatEuro(risultati.ord.inps)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>− IRPEF</span>
-              <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.ord.irpef)}</span>
+              <span>Totale IRPEF</span>
+              <span style={{ color: '#dc2626', fontWeight: 600 }}>− {formatEuro(risultati.ord.irpef)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
-              <span>− Add. regionale + comunale</span>
-              <span style={{ color: '#0f172a', fontWeight: 600 }}>{formatEuro(risultati.ord.addRegionale + risultati.ord.addComunale)}</span>
+              <span>Addizionali Locali</span>
+              <span style={{ color: '#dc2626', fontWeight: 600 }}>− {formatEuro(risultati.ord.addRegionale + risultati.ord.addComunale)}</span>
             </div>
-            <div style={{ height: 1, background: '#e2e8f0', margin: '8px 0' }}></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Netto annuo</span>
-              <span style={{ fontSize: 24, fontWeight: 800, color: !risultati.convieneForf ? color : '#0f172a' }}>{formatEuro(risultati.ord.netto)}</span>
+            <div style={{ height: 1, background: '#e2e8f0', margin: '12px 0' }}></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 13, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Netto Annuo</span>
+              <span style={{ fontSize: 26, fontWeight: 800, color: !risultati.convieneForf ? color : '#0f172a' }}>{formatEuro(risultati.ord.netto)}</span>
             </div>
           </div>
         </div>
@@ -319,13 +314,13 @@ export function ForfettarioVsOrdinario({ color = '#6366f1' }) {
       </div>
 
       {/* DISCLAIMER */}
-      <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: 16, padding: '16px 20px', fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
-        <strong>ℹ️ Nota sulle stime</strong>
-        <div style={{ display: disclaimerOpen ? 'block' : '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginTop: 6 }}>
-          Il calcolo usa: scaglioni IRPEF 2024-2026, addizionali medie nazionali (regionale 1,73%, comunale 0,8% — verifica quelle reali del tuo comune/regione), aliquota Gestione Separata INPS al 26,07%. Il coefficiente di redditività è semplificato per macrocategorie: il tuo codice ATECO specifico potrebbe avere un coefficiente diverso di ±5-10 punti. Non sono incluse: detrazioni per carichi di famiglia, deduzioni specifiche, rimborsi spese professionali, bonus fiscali territoriali. I risultati sono indicativi e non sostituiscono il parere di un commercialista.
+      <div style={{ backgroundColor: '#fef3c7', border: '1px solid #fcd34d', borderRadius: 16, padding: '20px', fontSize: 13, color: '#92400e', lineHeight: 1.6 }}>
+        <strong>ℹ️ Nota metodologica sui calcoli</strong>
+        <div style={{ display: disclaimerOpen ? 'block' : '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', marginTop: 8 }}>
+          Il calcolatore utilizza gli scaglioni IRPEF in vigore (23% fino a 28k, 35% fino a 50k, 43% oltre 50k) e applica un'addizionale media nazionale. Sottraiamo l'INPS Gestione Separata (26,07%) per mostrare il tuo vero potere d'acquisto finale. Tieni presente che non stiamo calcolando le tue eventuali detrazioni personali (come spese mediche, ristrutturazioni o familiari a carico), le quali sono applicabili <strong>solo</strong> nel regime ordinario e potrebbero alterare questo risultato. Consulta sempre il tuo commercialista per la scelta finale.
         </div>
-        <button onClick={() => setDisclaimerOpen(!disclaimerOpen)} style={{ background: 'none', border: 'none', color: '#b45309', fontWeight: 800, fontSize: 12, padding: 0, marginTop: 6, cursor: 'pointer', textDecoration: 'underline' }}>
-          {disclaimerOpen ? 'Riduci ↑' : 'Leggi tutto ↓'}
+        <button onClick={() => setDisclaimerOpen(!disclaimerOpen)} style={{ background: 'none', border: 'none', color: '#b45309', fontWeight: 800, fontSize: 13, padding: 0, marginTop: 8, cursor: 'pointer', textDecoration: 'underline' }}>
+          {disclaimerOpen ? 'Comprimi il testo ↑' : 'Leggi tutta la nota ↓'}
         </button>
       </div>
 
