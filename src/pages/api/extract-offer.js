@@ -4,7 +4,7 @@
 // e usa Claude per estrarre i parametri economici in formato JSON strutturato.
 //
 // VARIABILI D'AMBIENTE RICHIESTE:
-//   ANTHROPIC_API_KEY=sk-ant-...
+//   ANTHROPIC_API_KEY=inserita_su_netlify
 //
 // ASSUNZIONI:
 //   - Il sito gira con output: 'server' o 'hybrid' in astro.config.mjs
@@ -129,24 +129,5 @@ export async function POST({ request }) {
       .trim();
 
     // Pulisci eventuali fence markdown
-    const clean = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-
-    let parsed;
-    try {
-      parsed = JSON.parse(clean);
-    } catch (e) {
-      // Se il modello ha restituito qualcosa di non valido, log lato server e errore generico al client
-      console.error('JSON parse failure:', clean.slice(0, 200));
-      return new Response('Estrazione non riuscita: prova a fornire più dettagli', { status: 422 });
-    }
-
-    return new Response(JSON.stringify(parsed), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-  } catch (err) {
-    console.error('extract-offer error:', err.message);
-    return new Response('Errore interno durante l\'estrazione', { status: 500 });
-  }
-}
+    const clean = text.replace(/^
+http://googleusercontent.com/immersive_entry_chip/0
