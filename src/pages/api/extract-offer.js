@@ -44,7 +44,9 @@ function stripMarkdownFences(str) {
 
 export async function POST({ request }) {
   try {
-    var apiKey = import.meta.env.ANTHROPIC_API_KEY;
+    // process.env (non import.meta.env) perche Vite inline import.meta.env
+    // al build time, esponendo la chiave nel bundle — Netlify secrets scanner lo blocca.
+    var apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return new Response('Server non configurato (manca API key)', { status: 500 });
     }
