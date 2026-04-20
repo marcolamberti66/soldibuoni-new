@@ -6,73 +6,72 @@
 // VARIABILI D'AMBIENTE RICHIESTE:
 //   ANTHROPIC_API_KEY=inserita_su_netlify
 //
-// ASSUNZIONI:
-//   - Il sito gira con output: 'server' o 'hybrid' in astro.config.mjs
-//   - Hai installato @anthropic-ai/sdk:  npm i @anthropic-ai/sdk
-//
 // NOTA SICUREZZA:
 //   - Limita la dimensione dei file (qui: max 8 MB) per evitare abuse
-//   - Considera rate limiting per IP se il sito è pubblico (es. via Cloudflare)
+//   - Considera rate limiting per IP se il sito e pubblico (es. via Cloudflare)
 //   - Logga gli errori ma NON loggare il testo dei contratti (privacy utenti)
 
 import Anthropic from '@anthropic-ai/sdk';
 
-export const prerender = false;
+export var prerender = false;
 
-const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8 MB
-const MODEL = 'claude-haiku-4-5-20251001';
+var MAX_FILE_BYTES = 8 * 1024 * 1024; // 8 MB
 
-const SYSTEM_PROMPT = `Sei un assistente specializzato nell'estrazione di dati economici da contratti italiani di fornitura di energia elettrica e gas naturale.
+// Haiku 4.5: $1/$5 per MTok — perfetto per estrazione strutturata.
+var MODEL = 'claude-haiku-4-5-20251001';
 
-Riceverai il testo o l'immagine di una scheda economica/contratto. Devi estrarre i seguenti campi e restituire SOLO un oggetto JSON valido (nessun preambolo, nessun markdown):
+var SYSTEM_PROMPT = 'Sei un assistente specializzato nell\'estrazione di dati economici da contratti italiani di fornitura di energia elettrica e gas naturale.\n\nRiceverai il testo o l\'immagine di una scheda economica/contratto. Devi estrarre i seguenti campi e restituire SOLO un oggetto JSON valido (nessun preambolo, nessun markdown):\n\n{\n  "nome": "string oppure null - nome commerciale offerta",\n  "tipo": "fisso oppure variabile",\n  "prezzo": "number oppure null - euro/kWh per luce, euro/Smc per gas. Se variabile, e lo SPREAD su PUN/PSV (non il prezzo totale)",\n  "fisso": "number oppure null - costi fissi annui di commercializzazione in euro/anno (somma x12 se mensili)",\n  "scontoAnno": "number oppure null - sconto ricorrente annuale in euro",\n  "scontoOneShot": "number oppure null - bonus benvenuto una tantum in euro",\n  "durata": "12 o 24 o 36 o null - mesi di blocco prezzo",\n  "vincolo": "boolean oppure null - true se c\'e vincolo di permanenza con penali",\n  "note": "string oppure null - breve nota su clausole rilevanti"\n}\n\nRegole:\n- Se un valore non e chiaramente espresso, usa null. NON inventare numeri.\n- Per gli importi mensili, converti sempre in annuali (x12).\n- Se vedi piu componenti di costo fisso (PCV + commercializzazione vendita), sommali.\n- Se l\'offerta e solo dual fuel ma vedi solo una materia, restituisci i dati della materia visibile.\n- Restituisci esclusivamente JSON, senza testo prima o dopo, senza blocchi markdown.';
 
-{
-  "nome": string | null,             // nome commerciale dell'offerta (es. "Fixa Time Smart")
-  "tipo": "fisso" | "variabile",     // se il prezzo della materia è bloccato o indicizzato
-  "prezzo": number | null,           // €/kWh per luce, €/Smc per gas. Se variabile, è lo SPREAD su PUN/PSV (non il prezzo totale).
-  "fisso": number | null,            // costi fissi annui di commercializzazione, in €/anno (somma 12 mesi se mensili)
-  "scontoAnno": number | null,       // sconto ricorrente annuale in € (es. sconto bolletta annuale)
-  "scontoOneShot": number | null,    // bonus benvenuto una tantum in € (cashback, sconto primo anno)
-  "durata": 12 | 24 | 36 | null,     // mesi di blocco prezzo per offerte fisse
-  "vincolo": boolean | null,         // true se c'è vincolo di permanenza con penali
-  "note": string | null              // breve nota se ci sono clausole rilevanti che non rientrano sopra
+// Rimuove fence markdown dalla risposta del modello.
+// NON si usa regex con backtick perche esbuild li interpreta male.
+function stripMarkdownFences(str) {
+  var s = str.trim();
+  // Costruisce la stringa di 3 backtick senza scriverla come literal
+  var fence = String.fromCharCode(96, 96, 96);
+  // Rimuovi apertura (es: fence json o fence pura)
+  if (s.indexOf(fence) === 0) {
+    var firstNewline = s.indexOf('\n');
+    if (firstNewline !== -1) {
+      s = s.substring(firstNewline + 1);
+    }
+  }
+  // Rimuovi chiusura
+  if (s.lastIndexOf(fence) === s.length - fence.length && s.length >= fence.length) {
+    s = s.substring(0, s.length - fence.length);
+  }
+  return s.trim();
 }
-
-Regole:
-- Se un valore non è chiaramente espresso, usa null. NON inventare numeri.
-- Per gli importi mensili, converti sempre in annuali (×12).
-- Se vedi più componenti di costo fisso (PCV + commercializzazione vendita), sommali.
-- Se l'offerta è solo dual fuel ma vedi solo una materia, restituisci comunque i dati della materia visibile.
-- Restituisci esclusivamente JSON, senza testo prima o dopo, senza blocchi markdown.`;
 
 export async function POST({ request }) {
   try {
-    const apiKey = import.meta.env.ANTHROPIC_API_KEY;
+    var apiKey = import.meta.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return new Response('Server non configurato (manca API key)', { status: 500 });
     }
 
-    const client = new Anthropic({ apiKey });
-    const contentType = request.headers.get('content-type') || '';
+    var client = new Anthropic({ apiKey: apiKey });
+    var ct = request.headers.get('content-type') || '';
 
-    let userContent;
-    let tipoEnergia;
+    var userContent;
+    var tipoEnergia;
 
-    if (contentType.includes('application/json')) {
-      const body = await request.json();
+    if (ct.includes('application/json')) {
+      // ===== Modalita testo =====
+      var body = await request.json();
       tipoEnergia = body.tipoEnergia;
-      const text = (body.text || '').trim();
-      if (!text) return new Response('Testo vuoto', { status: 400 });
-      if (text.length > 30000) return new Response('Testo troppo lungo (max 30k caratteri)', { status: 413 });
+      var inputText = (body.text || '').trim();
+      if (!inputText) return new Response('Testo vuoto', { status: 400 });
+      if (inputText.length > 30000) return new Response('Testo troppo lungo (max 30k caratteri)', { status: 413 });
 
       userContent = [
-        { type: 'text', text: `Tipo offerta: ${tipoEnergia}\n\nTesto del contratto/scheda:\n\n${text}` }
+        { type: 'text', text: 'Tipo offerta: ' + tipoEnergia + '\n\nTesto del contratto/scheda:\n\n' + inputText }
       ];
 
-    } else if (contentType.includes('multipart/form-data')) {
-      const form = await request.formData();
+    } else if (ct.includes('multipart/form-data')) {
+      // ===== Modalita file =====
+      var form = await request.formData();
       tipoEnergia = form.get('tipoEnergia');
-      const file = form.get('file');
+      var file = form.get('file');
 
       if (!file || typeof file === 'string') {
         return new Response('File mancante', { status: 400 });
@@ -81,25 +80,25 @@ export async function POST({ request }) {
         return new Response('File troppo grande (max 8 MB)', { status: 413 });
       }
 
-      const bytes = await file.arrayBuffer();
-      const base64 = Buffer.from(bytes).toString('base64');
-      const mediaType = file.type || 'application/octet-stream';
+      var bytes = await file.arrayBuffer();
+      var base64Data = Buffer.from(bytes).toString('base64');
+      var mediaType = file.type || 'application/octet-stream';
 
       if (mediaType === 'application/pdf') {
         userContent = [
           {
             type: 'document',
-            source: { type: 'base64', media_type: 'application/pdf', data: base64 }
+            source: { type: 'base64', media_type: 'application/pdf', data: base64Data }
           },
-          { type: 'text', text: `Tipo offerta: ${tipoEnergia}. Estrai i dati economici secondo lo schema.` }
+          { type: 'text', text: 'Tipo offerta: ' + tipoEnergia + '. Estrai i dati economici secondo lo schema.' }
         ];
-      } else if (mediaType.startsWith('image/')) {
+      } else if (mediaType.indexOf('image/') === 0) {
         userContent = [
           {
             type: 'image',
-            source: { type: 'base64', media_type: mediaType, data: base64 }
+            source: { type: 'base64', media_type: mediaType, data: base64Data }
           },
-          { type: 'text', text: `Tipo offerta: ${tipoEnergia}. Estrai i dati economici secondo lo schema.` }
+          { type: 'text', text: 'Tipo offerta: ' + tipoEnergia + '. Estrai i dati economici secondo lo schema.' }
         ];
       } else {
         return new Response('Formato file non supportato (usa immagine o PDF)', { status: 400 });
@@ -108,19 +107,41 @@ export async function POST({ request }) {
       return new Response('Content-Type non supportato', { status: 400 });
     }
 
-    const response = await client.messages.create({
+    // Chiamata a Claude
+    var response = await client.messages.create({
       model: MODEL,
       max_tokens: 800,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userContent }]
     });
 
-    const text = response.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('')
-      .trim();
+    // Estrai la risposta testuale
+    var responseText = '';
+    for (var i = 0; i < response.content.length; i++) {
+      if (response.content[i].type === 'text') {
+        responseText += response.content[i].text;
+      }
+    }
+    responseText = responseText.trim();
 
     // Pulisci eventuali fence markdown
-    const clean = text.replace(/^
-http://googleusercontent.com/immersive_entry_chip/0
+    var clean = stripMarkdownFences(responseText);
+
+    var parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (e) {
+      console.error('JSON parse failure:', clean.substring(0, 200));
+      return new Response('Estrazione non riuscita: prova a fornire piu dettagli', { status: 422 });
+    }
+
+    return new Response(JSON.stringify(parsed), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (err) {
+    console.error('extract-offer error:', err.message);
+    return new Response('Errore interno durante l\'estrazione', { status: 500 });
+  }
+}
