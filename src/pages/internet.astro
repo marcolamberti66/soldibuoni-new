@@ -10,7 +10,7 @@ const topic = TOPICS.internet;
   <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
     <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 32px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14; flex-shrink: 0;`}>
         {topic.icon}
       </div>
       <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
@@ -19,9 +19,9 @@ const topic = TOPICS.internet;
     </div>
 
     <div class="tab-container">
-      <button class="tab-btn active" data-target="tab-calcolo">🧮 Calcolatore Ammortamento</button>
-      <button class="tab-btn" data-target="tab-capire">📖 Capire il mercato</button>
-      <button class="tab-btn" data-target="tab-guida">💡 Come scegliere</button>
+      <button class="tab-btn active" data-target="tab-calcolo">🧮 <span class="tab-label">Ammortamento</span></button>
+      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Il mercato</span></button>
+      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come scegliere</span></button>
     </div>
 
     <div id="tab-calcolo" class="tab-content" style="display: block;">
@@ -29,33 +29,69 @@ const topic = TOPICS.internet;
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
         <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topic.color}; margin-bottom: 24px;`}>{topic.capire.title}</h2>
-          {topic.capire.content.map((c) => (
-            <div class="info-card">
-              <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>{c.subtitle}</h3>
-              <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">{c.text}</p>
-            </div>
-          ))}
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topic.color}; margin-bottom: 24px;`}>Tecnologie e copertura</h2>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>FTTH, FTTC e FWA: cosa significano</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">FTTH (Fiber To The Home) è la vera fibra ottica: il cavo arriva direttamente in casa tua, con velocità fino a 2.5 Gbps e latenza minima. FTTC (Fiber To The Cabinet) porta la fibra fino all'armadio stradale, ma l'ultimo tratto (fino a casa) resta in rame. La velocità effettiva dipende dalla distanza dall'armadio e raramente supera i 100 Mbps. FWA (Fixed Wireless Access) usa un'antenna per collegarti via radio: utile dove non arriva la fibra, ma soggetta a interferenze e congestioni.</p>
+          </div>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La trappola del modem obbligatorio</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La delibera AGCOM 348/18/CONS garantisce il diritto di usare il proprio modem ("modem libero"). Tuttavia, molti operatori includono un modem a rate nel canone, rendendo l'offerta più economica in apparenza. Se disdici prima della scadenza delle rate (tipicamente 48 mesi), devi saldare le rate restanti in un'unica soluzione. Il nostro calcolatore tiene conto di questo costo nascosto.</p>
+          </div>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Velocità dichiarata vs velocità reale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">I "2.5 Gbps" pubblicizzati sono la velocità massima teorica in condizioni ideali. La velocità reale dipende dalla congestione della rete, dalla qualità del cablaggio interno e dal tuo router. Per la maggior parte degli usi domestici (streaming 4K, gaming, smart working), una connessione stabile da 100-200 Mbps è più che sufficiente. Verifica la velocità reale nella tua zona con il tool gratuito AGCOM "Misura Internet".</p>
+          </div>
+        </div>
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topic.color}; margin-bottom: 24px;`}>Costi e vincoli contrattuali</h2>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>I costi di attivazione</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Quasi tutte le offerte prevedono un contributo di attivazione, spesso rateizzato (es. 1,99€/mese per 24 mesi). In caso di recesso anticipato, le rate residue diventano esigibili immediatamente. Somma sempre il costo di attivazione al canone mensile per calcolare il costo reale ammortizzato, come fa il nostro calcolatore.</p>
+          </div>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Diritto di recesso e migrazione</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per legge, puoi cambiare operatore di rete fissa in qualsiasi momento con un preavviso massimo di 30 giorni (Delibera AGCOM 487/18/CONS). L'operatore può addebitarti solo i costi giustificati (rate residue del modem, contributo di migrazione massimo di circa 40€). Non sono ammesse penali aggiuntive. Se l'operatore ti ostacola, puoi segnalarlo all'AGCOM tramite la piattaforma ConciliaWeb.</p>
+          </div>
+          <div class="info-card">
+            <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Offerte mobile: cosa controllare</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per le SIM mobile, le offerte degli operatori virtuali (MVNO) come Lyca, PosteMobile, ho. si appoggiano alle reti dei grandi operatori (Vodafone, TIM, WindTre). La copertura è la stessa, ma la priorità di traffico può essere inferiore in caso di congestione. Il vantaggio: prezzi significativamente più bassi. Per il roaming UE, verifica sempre i GB inclusi, che per legge devono essere almeno una quota proporzionale al canone.</p>
+          </div>
         </div>
       </div>
     </div>
 
     <div id="tab-guida" class="tab-content" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
-        <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topic.color}; margin-bottom: 24px;`}>{topic.guida.title}</h2>
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-            {topic.guida.steps.map((s) => (
-              <div class="step-card">
-                <div class="step-number" style={`background: ${topic.color};`}>{s.n}</div>
-                <div>
-                  <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">{s.title}</h3>
-                  <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">{s.text}</p>
-                </div>
-              </div>
-            ))}
+      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topic.color}; margin-bottom: 24px;`}>Come scegliere la connessione giusta</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="step-card">
+          <div class="step-number" style={`background: ${topic.color};`}>1</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica la copertura prima di tutto</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Prima di confrontare i prezzi, verifica quale tecnologia è disponibile al tuo indirizzo. Usa il sito ufficiale dell'operatore o il portale Banda Ultra Larga del Governo per controllare se sei raggiunto da FTTH, FTTC o solo FWA. Se la fibra FTTH non è disponibile, le offerte "fibra" che vedrai pubblicizzate potrebbero essere in realtà FTTC o FWA con prestazioni inferiori.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number" style={`background: ${topic.color};`}>2</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Calcola il costo mensile reale ammortizzato</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Usa il nostro calcolatore per inserire il canone, i costi di attivazione e le rate del modem. Il costo mensile reale è sempre più alto del canone pubblicizzato. Confronta le offerte sulla base di questo valore e non del prezzo promozionale del primo anno.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number" style={`background: ${topic.color};`}>3</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Stabilisci il tuo orizzonte temporale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se cambi operatore ogni 1-2 anni, un'offerta senza modem a rate (come Iliad o Fastweb con modem proprio) può risultare più economica anche con un canone mensile più alto. Se prevedi di restare almeno 4 anni, il modem in comodato o a rate si ammortizza completamente e il canone promozionale diventa un vero risparmio.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number" style={`background: ${topic.color};`}>4</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Leggi il riepilogo contrattuale prima di firmare</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Per legge (Delibera AGCOM 252/16/CONS), l'operatore deve fornirti un documento di sintesi contrattuale standardizzato prima della firma. Controllaci: il prezzo dopo il periodo promozionale, le rate residue in caso di recesso, le eventuali variazioni unilaterali e la banda minima garantita (non la velocità "fino a").</p>
           </div>
         </div>
       </div>
@@ -65,14 +101,17 @@ const topic = TOPICS.internet;
 </Layout>
 
 <style>
-  .tab-container { display: flex; gap: 8px; margin-bottom: 32px; background: #fff; padding: 6px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); position: sticky; top: 20px; z-index: 50; }
-  .tab-btn { flex: 1; background: transparent; border: none; padding: 14px 0; border-radius: 12px; font-size: 15px; font-weight: 700; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit;}
-  .tab-btn.active { background: #0f172a; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
-  .info-card { background: #fff; border-radius: 20px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.02);}
-  .step-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid rgba(0,0,0,0.04); display: flex; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);}
-  .step-number { width: 36px; height: 36px; border-radius: 12px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0;}
+  .tab-container { display: flex; gap: 6px; margin-bottom: 32px; background: #fff; padding: 6px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); position: sticky; top: 20px; z-index: 50; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-btn { flex: 1; min-width: 0; background: transparent; border: none; padding: 12px 8px; border-radius: 12px; font-size: 14px; font-weight: 700; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit; white-space: nowrap; }
+  .tab-btn.active { background: #0f172a; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .info-card { background: #fff; border-radius: 20px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+  .step-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid rgba(0,0,0,0.04); display: flex; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+  .step-number { width: 36px; height: 36px; border-radius: 12px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
   .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 500px) {
+    .tab-btn { font-size: 13px; padding: 10px 6px; }
+  }
 </style>
 
 <script>

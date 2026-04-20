@@ -52,7 +52,7 @@ export function LuceGasComp() {
       
       {/* TOOL CALCOLATORE */}
       <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '32px 24px', marginBottom: 48, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 32, paddingBottom: 32, borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 32, paddingBottom: 32, borderBottom: '1px solid #e2e8f0' }}>
           <div>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>1. Materia</label>
             <div style={{ display: 'flex', background: '#f1f5f9', padding: 6, borderRadius: 14, gap: 4 }}>
@@ -64,7 +64,7 @@ export function LuceGasComp() {
             <label style={{ display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>2. Consumo ({unita})</label>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
               <input type="number" value={consumoStr} onChange={(e) => setConsumoStr(e.target.value)} style={{ width: 110, padding: '12px 14px', fontSize: 18, border: '1px solid #cbd5e1', borderRadius: 12, fontWeight: 600, color: themeColor }} />
-              <div style={{ display: 'flex', gap: 6 }}>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {PRESETS[tipoEnergia].map(p => (
                   <button key={p.label} onClick={() => setConsumoStr(p.val.toString())} style={{ background: consumo === p.val ? `${themeColor}15` : '#f8fafc', border: `1px solid ${consumo === p.val ? themeColor : '#e2e8f0'}`, color: consumo === p.val ? themeColor : '#475569', padding: '6px 10px', borderRadius: 8, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>{p.label}</button>
                 ))}
@@ -73,7 +73,7 @@ export function LuceGasComp() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(280px, 1fr))`, gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
           {risultati.map((off) => {
             const isWinner = off.calcoli.totale === minTotale && off.calcoli.totale > 0;
             return (
@@ -85,35 +85,40 @@ export function LuceGasComp() {
                     <button onClick={() => updateOfferta(off.id, 'tipo', 'fisso')} style={{ flex: 1, padding: '8px', border: 'none', background: off.tipo === 'fisso' ? themeColor : 'transparent', color: off.tipo === 'fisso' ? '#fff' : '#64748b', fontSize: 13, fontWeight: 800, borderRadius: 8, cursor: 'pointer' }}>Fisso</button>
                     <button onClick={() => updateOfferta(off.id, 'tipo', 'variabile')} style={{ flex: 1, padding: '8px', border: 'none', background: off.tipo === 'variabile' ? themeColor : 'transparent', color: off.tipo === 'variabile' ? '#fff' : '#64748b', fontSize: 13, fontWeight: 800, borderRadius: 8, cursor: 'pointer' }}>Variabile</button>
                   </div>
-                  <div><label style={{ fontSize: 11, fontWeight: 800, color: '#475569' }}>Prezzo/Spread (€/{unita})</label><input type="number" step="0.001" value={off.prezzo} onChange={(e) => updateOfferta(off.id, 'prezzo', e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid #cbd5e1' }} /></div>
-                  <div><label style={{ fontSize: 11, fontWeight: 800, color: '#475569' }}>Costi Fissi (€/Anno)</label><input type="number" value={off.fisso} onChange={(e) => updateOfferta(off.id, 'fisso', e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid #cbd5e1' }} /></div>
+                  <div><label style={{ fontSize: 11, fontWeight: 800, color: '#475569' }}>Prezzo/Spread (€/{unita})</label><input type="number" step="0.001" value={off.prezzo} onChange={(e) => updateOfferta(off.id, 'prezzo', e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid #cbd5e1', boxSizing: 'border-box' }} /></div>
+                  <div><label style={{ fontSize: 11, fontWeight: 800, color: '#475569' }}>Costi Fissi (€/Anno)</label><input type="number" value={off.fisso} onChange={(e) => updateOfferta(off.id, 'fisso', e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid #cbd5e1', boxSizing: 'border-box' }} /></div>
                 </div>
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: '2px dashed #cbd5e1', textAlign: 'center' }}>
-                  <div style={{ fontSize: 12, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Costo Totale (CRAS)</div>
+                  <div style={{ fontSize: 12, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Costo Totale Stimato (CRAS)</div>
                   <div style={{ fontSize: 32, fontWeight: 900, color: isWinner ? themeColor : '#0f172a', margin: '4px 0' }}>€ {Math.round(off.calcoli.totale).toLocaleString('it-IT')}</div>
                 </div>
               </div>
             );
           })}
         </div>
+
+        {/* DISCLAIMER CALCOLATORE */}
+        <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginTop: 24, lineHeight: 1.5, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto' }}>
+          <em>Nota: Il calcolo è una stima indicativa basata sui consumi inseriti e sui prezzi dichiarati. Il CRAS (Costo Reale Annuo Stimato) include una maggiorazione forfettaria per oneri di sistema, trasporto e imposte. Il costo effettivo in bolletta può variare in base alla zona geografica, alla tipologia di utenza e alle condizioni contrattuali specifiche. Questo strumento non costituisce consulenza finanziaria o energetica.</em>
+        </p>
       </div>
 
-      {/* BOX SELEZIONE DEL TEAM */}
-      <div style={{ background: '#fff', border: '2px solid #0f172a', borderRadius: 24, padding: '36px 40px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.15)', textAlign: 'center', maxWidth: 740, margin: '0 auto' }}>
+      {/* BOX SELEZIONE DEL TEAM — FULL WIDTH */}
+      <div style={{ background: '#fff', border: '2px solid #0f172a', borderRadius: 24, padding: '36px 28px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.15)', textAlign: 'center' }}>
         <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#0f172a', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>★ La Selezione del Team</div>
-        <h3 style={{ fontSize: 26, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif" }}>Eni Plenitude — Fixa Time Smart</h3>
-        <p style={{ fontSize: 16, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Prezzo bloccato 12 mesi, zero penali e sconti dual fuel. Un'offerta trasparente e solida.</p>
+        <h3 style={{ fontSize: 24, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif", marginTop: 8 }}>Eni Plenitude — Fixa Time Smart</h3>
+        <p style={{ fontSize: 15, color: '#64748b', marginBottom: 24, lineHeight: 1.6, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>Prezzo bloccato 12 mesi, zero penali e sconti dual fuel. Un'offerta trasparente e solida secondo la nostra analisi.</p>
         
         {/* CONFRONTO DINAMICO */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 32, background: '#f8fafc', padding: '20px 32px', borderRadius: 16, marginBottom: 24, flexWrap: 'wrap', border: '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, background: '#f8fafc', padding: '20px 24px', borderRadius: 16, marginBottom: 24, flexWrap: 'wrap', border: '1px solid #e2e8f0' }}>
           <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>TUO CONSUMO</span><div style={{ fontSize: 20, fontWeight: 900, color: themeColor }}>{consumoStr} {unita}</div></div>
           <div style={{ width: 1, background: '#cbd5e1' }}></div>
-          <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>CRAS PLENITUDE</span><div style={{ fontSize: 24, fontWeight: 900, color: '#0f172a' }}>€ {Math.round(eniCRAS).toLocaleString('it-IT')} /anno</div></div>
+          <div style={{ textAlign: 'center' }}><span style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>CRAS STIMATO PLENITUDE</span><div style={{ fontSize: 24, fontWeight: 900, color: '#0f172a' }}>€ {Math.round(eniCRAS).toLocaleString('it-IT')} /anno</div></div>
         </div>
 
         <a href="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored" style={{ display: 'inline-block', background: '#0f172a', color: '#fff', padding: '16px 40px', borderRadius: 12, fontWeight: 800, fontSize: 16, textDecoration: 'none', marginBottom: 12 }}>Scopri l'offerta Eni →</a>
         <br/><a href="/recensione-eni" style={{ fontSize: 13, color: '#0f172a', fontWeight: 700, textDecoration: 'underline' }}>Leggi l'analisi completa del team →</a>
-        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 20 }}><em>Trasparenza: Questo è un link affiliato. Se attivi l'offerta, riceviamo una commissione senza alcun costo per te.</em></p>
+        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 20, lineHeight: 1.5 }}><em>Trasparenza: Questa sezione contiene un link affiliato. Se attivi l'offerta tramite il nostro collegamento, riceviamo una commissione dal fornitore senza alcun costo aggiuntivo per te. I prezzi indicati sono quelli pubblicati da Eni Plenitude al momento della stesura e potrebbero subire variazioni. Ti invitiamo a verificare sempre le condizioni contrattuali aggiornate sul sito ufficiale del fornitore prima di sottoscrivere qualsiasi contratto.</em></p>
       </div>
 
     </div>

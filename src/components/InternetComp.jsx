@@ -46,7 +46,7 @@ export function InternetComp() {
     setOfferte(offerte.map(o => o.id === id ? { ...o, [field]: value } : o));
   };
 
-  const inputStyle = { width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1', borderRadius: 12, fontFamily: 'inherit', fontWeight: 600, color: '#0f172a', outline: 'none' };
+  const inputStyle = { width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1', borderRadius: 12, fontFamily: 'inherit', fontWeight: 600, color: '#0f172a', outline: 'none', boxSizing: 'border-box' };
   const labelStyle = { display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 4 };
   const helperStyle = { display: 'block', fontSize: 11, color: '#94a3b8', marginTop: 4, lineHeight: 1.4 };
   const formatEuro = (v) => `€ ${v.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
@@ -54,13 +54,6 @@ export function InternetComp() {
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif" }}>
       
-      <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 34, color: '#0f172a', marginBottom: 12 }}>Costo Mensile Reale Ammortizzato</h2>
-        <p style={{ fontSize: 17, color: '#64748b', maxWidth: 650, margin: '0 auto', lineHeight: 1.6 }}>
-          Non farti ingannare dal canone promozionale. Calcola quanto pagherai davvero ogni mese includendo attivazione e rate residue del modem.
-        </p>
-      </div>
-
       <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '32px 24px', marginBottom: 48, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' }}>
         
         <div style={{ marginBottom: 32, paddingBottom: 32, borderBottom: '1px solid #e2e8f0' }}>
@@ -74,7 +67,7 @@ export function InternetComp() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(280px, 1fr))`, gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
           {risultati.map((off) => {
             const isWinner = off.mensileEffettivo === minCosto && off.mensileEffettivo > 0;
             return (
@@ -85,16 +78,16 @@ export function InternetComp() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   <div><label style={labelStyle}>Canone Mensile (€)</label><input type="number" step="0.01" value={off.canone} onChange={(e) => updateOfferta(off.id, 'canone', e.target.value)} style={inputStyle} /></div>
-                  <div><label style={labelStyle}>Attivazione Totale Una Tantum (€)</label><input type="number" step="0.01" value={off.attivazione} onChange={(e) => updateOfferta(off.id, 'attivazione', e.target.value)} style={inputStyle} /></div>
+                  <div><label style={labelStyle}>Attivazione Una Tantum (€)</label><input type="number" step="0.01" value={off.attivazione} onChange={(e) => updateOfferta(off.id, 'attivazione', e.target.value)} style={inputStyle} /></div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     <div><label style={labelStyle}>Rata Modem (€/Mese)</label><input type="number" step="0.01" value={off.rataModem} onChange={(e) => updateOfferta(off.id, 'rataModem', e.target.value)} style={inputStyle} /></div>
                     <div><label style={labelStyle}>Rate (N° Mesi)</label><input type="number" value={off.durataModem} onChange={(e) => updateOfferta(off.id, 'durataModem', e.target.value)} style={inputStyle} /></div>
                   </div>
-                  <span style={helperStyle}>Se te ne vai prima della scadenza delle rate, pagherai il residuo in un'unica soluzione.</span>
+                  <span style={helperStyle}>Se disdici prima della scadenza delle rate, dovrai saldare il residuo in un'unica soluzione.</span>
                 </div>
 
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: '2px dashed #cbd5e1', textAlign: 'center' }}>
-                  <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Costo Mensile Reale</div>
+                  <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Costo Mensile Reale Stimato</div>
                   <div style={{ fontSize: 34, fontWeight: 900, color: isWinner ? '#8b5cf6' : '#0f172a', margin: '4px 0' }}>{formatEuro(off.mensileEffettivo)}</div>
                   <div style={{ fontSize: 11, color: '#94a3b8' }}>Ammortizzato su {permanenza} mesi</div>
                 </div>
@@ -102,55 +95,63 @@ export function InternetComp() {
             );
           })}
         </div>
+
+        {/* DISCLAIMER CALCOLATORE */}
+        <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginTop: 24, lineHeight: 1.5, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto' }}>
+          <em>Nota: Il calcolo è una stima indicativa basata sui parametri inseriti. Il costo mensile reale include l'ammortamento dell'attivazione e l'eventuale saldo residuo delle rate del modem in caso di recesso anticipato. Le condizioni contrattuali effettive possono variare. Questo strumento non costituisce consulenza contrattuale o legale.</em>
+        </p>
       </div>
 
-      {/* SEZIONE LE ANALISI DEL TEAM */}
-      <div style={{ marginTop: 80, borderTop: '1px solid #e2e8f0', paddingTop: 64, marginBottom: 40 }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Le Analisi del Team</span>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, color: '#0f172a', marginTop: 8, marginBottom: 16 }}>Le Scelte Trasparenti</h2>
-          <p style={{ fontSize: 16, color: '#475569', maxWidth: 700, margin: '0 auto', lineHeight: 1.6 }}>
-            Abbiamo analizzato coperture e costi nascosti per garantirti connessioni al top. <em>(Partnership commerciali)</em>
-          </p>
-        </div>
+      {/* SEZIONE SELEZIONE DEL TEAM — STILE UNIFICATO */}
+      <div style={{ background: '#fff', border: '2px solid #0f172a', borderRadius: 24, padding: '36px 28px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.15)' }}>
+        <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#0f172a', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>★ La Selezione del Team</div>
+        
+        <p style={{ fontSize: 15, color: '#64748b', textAlign: 'center', marginBottom: 32, marginTop: 8, lineHeight: 1.6, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
+          Abbiamo analizzato coperture e costi nascosti per selezionare le connessioni con il miglior rapporto qualità-prezzo.
+        </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
           
           {/* BOX WINDTRE FIBRA */}
-          <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '36px 32px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(249,115,22,0.1)', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#f97316', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>📡 Miglior Copertura Fibra</div>
-            <h3 style={{ fontSize: 24, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif" }}>WindTre Super Fibra</h3>
-            <p style={{ fontSize: 15, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Una delle reti più diffuse in Italia. L'offerta include la Fibra FTTH fino a 2.5 Gbps, il Modem Wi-Fi 7 di ultima generazione e Amazon Prime incluso per un anno.</p>
+          <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ background: '#f97316', color: '#fff', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', padding: '4px 12px', borderRadius: 20, display: 'inline-block', alignSelf: 'center', marginBottom: 16, letterSpacing: '0.5px' }}>📡 Miglior Copertura Fibra</div>
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', marginBottom: 10, fontFamily: "'DM Serif Display', serif" }}>WindTre Super Fibra</h3>
+            <p style={{ fontSize: 14, color: '#64748b', marginBottom: 20, lineHeight: 1.6 }}>Fibra FTTH fino a 2.5 Gbps, Modem Wi-Fi 7 incluso e Amazon Prime per 12 mesi. Una delle reti più diffuse in Italia.</p>
             
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 24, background: '#f8fafc', padding: '16px', borderRadius: 16, marginBottom: 24, border: '1px solid #f1f5f9' }}>
-              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>CANONE (1° ANNO)</span><div style={{ fontSize: 18, fontWeight: 900, color: '#f97316' }}>€ 19,99 /m</div></div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, background: '#fff', padding: '14px', borderRadius: 14, marginBottom: 20, border: '1px solid #e2e8f0', flexWrap: 'wrap' }}>
+              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>1° ANNO</span><div style={{ fontSize: 16, fontWeight: 900, color: '#f97316' }}>€ 19,99/m</div></div>
               <div style={{ width: 1, background: '#e2e8f0' }}></div>
-              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>VELOCITÀ</span><div style={{ fontSize: 18, fontWeight: 900, color: '#10b981' }}>2.5 Gbps</div></div>
+              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>VELOCITÀ</span><div style={{ fontSize: 16, fontWeight: 900, color: '#10b981' }}>2.5 Gbps</div></div>
             </div>
             <div style={{ marginTop: 'auto' }}>
-              <a href="https://www.awin1.com/cread.php?awinmid=27760&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored" style={{ display: 'block', background: '#f97316', color: '#fff', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: 15, marginBottom: 12, transition: '0.2s' }}>Scopri la Fibra WindTre →</a>
-              <a href="/recensione-windtre" style={{ fontSize: 13, color: '#f97316', fontWeight: 700, textDecoration: 'underline' }}>Leggi l'analisi dei vincoli contrattuali →</a>
+              <a href="https://www.awin1.com/cread.php?awinmid=27760&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored" style={{ display: 'block', background: '#f97316', color: '#fff', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: 15, marginBottom: 10, textDecoration: 'none' }}>Scopri la Fibra WindTre →</a>
+              <a href="/recensione-windtre" style={{ fontSize: 13, color: '#f97316', fontWeight: 700, textDecoration: 'underline' }}>Leggi l'analisi dei vincoli →</a>
             </div>
           </div>
 
           {/* BOX LYCA MOBILE */}
-          <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '36px 32px', position: 'relative', boxShadow: '0 20px 40px -12px rgba(14,165,233,0.1)', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#0ea5e9', color: '#fff', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap' }}>📱 Miglior Offerta Mobile</div>
-            <h3 style={{ fontSize: 24, fontWeight: 900, color: '#0f172a', marginBottom: 12, fontFamily: "'DM Serif Display', serif" }}>Lyca Mobile — Portin 5G 599</h3>
-            <p style={{ fontSize: 15, color: '#64748b', marginBottom: 24, lineHeight: 1.6 }}>Porta il tuo numero in Lyca Mobile e ottieni una montagna di Giga in 5G a un prezzo imbattibile. Minuti illimitati e navigazione garantita su rete Vodafone.</p>
+          <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ background: '#0ea5e9', color: '#fff', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', padding: '4px 12px', borderRadius: 20, display: 'inline-block', alignSelf: 'center', marginBottom: 16, letterSpacing: '0.5px' }}>📱 Miglior Offerta Mobile</div>
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', marginBottom: 10, fontFamily: "'DM Serif Display', serif" }}>Lyca Mobile — Portin 5G 599</h3>
+            <p style={{ fontSize: 14, color: '#64748b', marginBottom: 20, lineHeight: 1.6 }}>Porta il tuo numero e ottieni 150 GB in 5G con minuti illimitati su rete Vodafone a un prezzo competitivo.</p>
             
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 24, background: '#f8fafc', padding: '16px', borderRadius: 16, marginBottom: 24, border: '1px solid #f1f5f9' }}>
-              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>PACCHETTO</span><div style={{ fontSize: 18, fontWeight: 900, color: '#0ea5e9' }}>150 GB 5G</div></div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, background: '#fff', padding: '14px', borderRadius: 14, marginBottom: 20, border: '1px solid #e2e8f0', flexWrap: 'wrap' }}>
+              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>PACCHETTO</span><div style={{ fontSize: 16, fontWeight: 900, color: '#0ea5e9' }}>150 GB 5G</div></div>
               <div style={{ width: 1, background: '#e2e8f0' }}></div>
-              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>CANONE</span><div style={{ fontSize: 18, fontWeight: 900, color: '#10b981' }}>€ 5,99 /m</div></div>
+              <div style={{ textAlign: 'center' }}><span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8' }}>CANONE</span><div style={{ fontSize: 16, fontWeight: 900, color: '#10b981' }}>€ 5,99/m</div></div>
             </div>
             <div style={{ marginTop: 'auto' }}>
-              <a href="https://www.awin1.com/cread.php?awinmid=118793&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored" style={{ display: 'block', background: '#0ea5e9', color: '#fff', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: 15, marginBottom: 12, transition: '0.2s' }}>Attiva l'offerta Lyca Mobile →</a>
-              <a href="/recensione-lyca" style={{ fontSize: 13, color: '#0ea5e9', fontWeight: 700, textDecoration: 'underline' }}>Guarda i dettagli per viaggiare in UE →</a>
+              <a href="https://www.awin1.com/cread.php?awinmid=118793&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored" style={{ display: 'block', background: '#0ea5e9', color: '#fff', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: 15, marginBottom: 10, textDecoration: 'none' }}>Attiva Lyca Mobile →</a>
+              <a href="/recensione-lyca" style={{ fontSize: 13, color: '#0ea5e9', fontWeight: 700, textDecoration: 'underline' }}>Dettagli e roaming UE →</a>
             </div>
           </div>
 
         </div>
+
+        {/* DISCLAIMER AFFILIATI */}
+        <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginTop: 24, lineHeight: 1.5, marginBottom: 0 }}>
+          <em>Trasparenza: Questa sezione contiene link affiliati (partnership commerciali). Se attivi un servizio tramite i nostri collegamenti, riceviamo una commissione dall'operatore senza alcun costo aggiuntivo per te. I prezzi e le condizioni indicati si riferiscono a quanto pubblicato dagli operatori al momento della stesura e potrebbero subire variazioni. Verifica sempre le condizioni contrattuali aggiornate sul sito ufficiale prima di sottoscrivere.</em>
+        </p>
       </div>
 
     </div>
