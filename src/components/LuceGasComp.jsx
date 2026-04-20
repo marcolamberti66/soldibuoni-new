@@ -237,8 +237,15 @@ export function LuceGasComp() {
 
       const res = await fetch('/api/extract-offer', { method: 'POST', headers, body });
       if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || `Errore ${res.status}`);
+        let errMsg = 'Errore ' + res.status;
+        try {
+          const errData = await res.json();
+          errMsg = errData.error + (errData.detail ? ': ' + errData.detail : '');
+        } catch (_) {
+          const txt = await res.text();
+          if (txt) errMsg = txt;
+        }
+        throw new Error(errMsg);
       }
       const data = await res.json();
 
