@@ -20,9 +20,6 @@ import Anthropic from '@anthropic-ai/sdk';
 export const prerender = false;
 
 const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8 MB
-// Haiku 4.5 è più che sufficiente per estrazione strutturata e costa
-// 3× meno di Sonnet ($1/$5 per MTok vs $3/$15). Per casi più complessi
-// puoi passare a 'claude-sonnet-4-6'.
 const MODEL = 'claude-haiku-4-5-20251001';
 
 const SYSTEM_PROMPT = `Sei un assistente specializzato nell'estrazione di dati economici da contratti italiani di fornitura di energia elettrica e gas naturale.
@@ -62,7 +59,6 @@ export async function POST({ request }) {
     let tipoEnergia;
 
     if (contentType.includes('application/json')) {
-      // ===== Modalità testo =====
       const body = await request.json();
       tipoEnergia = body.tipoEnergia;
       const text = (body.text || '').trim();
@@ -74,7 +70,6 @@ export async function POST({ request }) {
       ];
 
     } else if (contentType.includes('multipart/form-data')) {
-      // ===== Modalità file =====
       const form = await request.formData();
       tipoEnergia = form.get('tipoEnergia');
       const file = form.get('file');
@@ -113,7 +108,6 @@ export async function POST({ request }) {
       return new Response('Content-Type non supportato', { status: 400 });
     }
 
-    // Chiamata a Claude
     const response = await client.messages.create({
       model: MODEL,
       max_tokens: 800,
@@ -121,7 +115,6 @@ export async function POST({ request }) {
       messages: [{ role: 'user', content: userContent }]
     });
 
-    // Estrai la risposta testuale
     const text = response.content
       .filter(b => b.type === 'text')
       .map(b => b.text)
