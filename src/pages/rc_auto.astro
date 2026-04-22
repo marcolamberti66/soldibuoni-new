@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { RCAutoComp } from '../components/Comparators.jsx';
+// IMPORTA IL NUOVO FILE DEDICATO INVECE DI COMPARATORS
+import { RCAutoComp } from '../components/RCAutoComp.jsx'; 
 import { TOPICS } from '../data.js';
 
 const topic = TOPICS.rc_auto;
 ---
+
 
 <Layout title="Assicurazione RC Auto | SoldiBuoni" description="Confronta le polizze RC auto, scopri le garanzie accessorie e risparmia sulla tua assicurazione.">
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
