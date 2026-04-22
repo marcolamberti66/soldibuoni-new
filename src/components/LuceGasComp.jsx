@@ -71,10 +71,11 @@ const ENI_OFFER = {
 // ============================================================================
 
 const COSTANTI_LUCE = {
-  trasportoFisso: 85,           // €/anno (quota fissa + quota potenza tipica 3 kW)
-  trasportoVariabile: 0.0089,   // €/kWh
-  oneriSistema: 0.0115,         // €/kWh
-  accisa: 0.0227,               // €/kWh
+  trasportoFisso: 85,           // €/anno — quota fissa + quota potenza tipica 3 kW (TD ARERA 2025)
+  trasportoVariabile: 0.0120,   // €/kWh — servizi di rete quota energia
+  oneriSistema: 0.0155,         // €/kWh — ASOS + ARIM (ARERA 2025)
+  accisa: 0.0227,               // €/kWh — applicata SOLO oltre 150 kWh/mese (1800 kWh/anno) per residenti
+  sogliaAccisa: 1800,           // kWh/anno sotto cui l'accisa non si applica (esenzione prima casa residente)
   iva: 0.10
 };
 
@@ -106,7 +107,9 @@ function calcolaCRAS({ tipo, prezzo, fisso, scontoAnno, scontoOneShot, indiceAtt
     const c = COSTANTI_LUCE;
     const trasporto = c.trasportoFisso + c.trasportoVariabile * consumo;
     const oneri = c.oneriSistema * consumo;
-    const accise = c.accisa * consumo;
+    // Accisa: esenzione sotto 1800 kWh/anno per prima casa residente
+    const consumoTassabile = Math.max(0, consumo - c.sogliaAccisa);
+    const accise = c.accisa * consumoTassabile;
     const imponibile = materiaEnergia + trasporto + oneri + accise;
     const iva = imponibile * c.iva;
     oneriEImposte = trasporto + oneri + accise + iva;
