@@ -300,7 +300,7 @@ export function RCAutoComp() {
           <div style={{ padding: '14px', background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0' }}>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
               <label style={{ fontSize: 12, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                📡 Scatola nera attiva?
+                📡 Applica sconto scatola nera?
               </label>
               <button
                 onClick={() => setScatolaAttiva(!scatolaAttiva)}
@@ -314,7 +314,7 @@ export function RCAutoComp() {
               >{scatolaAttiva ? 'Sì' : 'No'}</button>
             </div>
             <p style={{ fontSize: 11, color: '#64748b', margin: 0, lineHeight: 1.5 }}>
-              Sconto medio 10-20% sul premio. <strong>Contro:</strong> monitora la guida 24/7 e in caso di sinistro i dati possono essere usati per valutare responsabilità.
+              Inserisci comunque lo sconto scatola di ogni preventivo nei box sotto. Questo toggle decide solo se applicarlo al calcolo o meno. <strong>Contro:</strong> la telematica monitora la guida 24/7 e i dati possono essere usati in caso di sinistro.
             </p>
           </div>
 
@@ -509,7 +509,7 @@ export function RCAutoComp() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-                {/* Premio RCA base */}
+                {/* Premio RCA base + Massimale */}
                 <div style={{ padding: '12px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
                   <label style={{ fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>
                     Premio RCA base (€/anno)
@@ -519,11 +519,14 @@ export function RCAutoComp() {
                     onChange={(e) => updateOfferta(off.id, 'premioBase', e.target.value)}
                     style={{ ...miniInput, fontSize: 16, fontWeight: 800, color: '#0f172a' }}
                   />
+                  <label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginTop: 8, marginBottom: 3 }}>
+                    Massimale danni a terzi (minimo legale 7.750.000 €)
+                  </label>
                   <input
                     type="text" value={off.massimale}
                     onChange={(e) => updateOfferta(off.id, 'massimale', e.target.value)}
-                    placeholder="Massimale (es. 7.750.000)"
-                    style={{ ...miniInput, marginTop: 6, fontSize: 12, fontVariantNumeric: 'normal' }}
+                    placeholder="es. 7.750.000 oppure 15.000.000"
+                    style={{ ...miniInput, fontSize: 12, fontVariantNumeric: 'normal' }}
                   />
                 </div>
 
@@ -563,12 +566,14 @@ export function RCAutoComp() {
 
                 {/* Sconto scatola + franchigia */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                  <div style={{ opacity: scatolaAttiva ? 1 : 0.45, transition: '0.2s' }}>
-                    <label style={miniLabel}>Sconto scatola (€)</label>
+                  <div>
+                    <label style={miniLabel}>
+                      Sconto scatola (€) {!scatolaAttiva && <span style={{ fontWeight: 600, color: '#94a3b8', fontSize: 10 }}>· non attivo</span>}
+                    </label>
                     <input type="number" value={off.scontoScatola}
                       onChange={(e) => updateOfferta(off.id, 'scontoScatola', e.target.value)}
-                      style={{ ...miniInput, color: '#16a34a', fontWeight: 800 }}
-                      disabled={!scatolaAttiva} />
+                      style={{ ...miniInput, color: scatolaAttiva ? '#16a34a' : '#0f172a', fontWeight: scatolaAttiva ? 800 : 500 }}
+                    />
                   </div>
                   <div>
                     <label style={miniLabel}>Franchigia (€)</label>

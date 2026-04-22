@@ -141,11 +141,13 @@ export async function POST({ request }) {
           { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64Data } },
           { type: 'text', text: 'Estrai i dati del preventivo e chiama il tool.' }
         ];
-      } else if (mediaType.indexOf('image/') === 0) {
+      } else if (mediaType === 'image/jpeg' || mediaType === 'image/png' || mediaType === 'image/gif' || mediaType === 'image/webp') {
         userContent = [
           { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64Data } },
           { type: 'text', text: 'Estrai i dati del preventivo e chiama il tool.' }
         ];
+      } else if (mediaType.indexOf('image/') === 0) {
+        return new Response('Formato immagine non supportato (' + mediaType + '). Usa JPG, PNG, GIF o WebP. Se il file e un HEIC da iPhone, convertilo prima.', { status: 400 });
       } else {
         return new Response('Formato file non supportato (usa immagine o PDF)', { status: 400 });
       }
