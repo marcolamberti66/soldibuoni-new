@@ -34,43 +34,54 @@ function StyleInjector() {
         color: #334155; /* var(--text-body) */
         transition: border 0.2s;
         box-sizing: border-box;
+        margin-bottom: 12px;
       }
-      .hero-contact-input:focus { border-color: #059669; }
-      .hero-contact-send {
-        margin-top: 10px;
-        width: 100%;
-        background: #059669; /* var(--green-600) */
-        color: #fff;
-        border: none;
-        padding: 11px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: inherit;
-        transition: background 0.2s;
-        box-sizing: border-box;
+      .hero-contact-input:focus {
+        border-color: #3b82f6; /* var(--accent-blue) */
       }
-      .hero-contact-send:hover { background: #047857; }
       .hero-contact-row {
         display: flex;
-        gap: 8px;
+        justify-content: space-between;
         align-items: center;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
       }
       .hero-contact-email {
-        flex: 1;
         padding: 8px 12px;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
         font-size: 13px;
-        font-family: inherit;
         outline: none;
-        color: #334155;
-        transition: border 0.2s;
-        box-sizing: border-box;
+        width: 180px;
       }
-      .hero-contact-email:focus { border-color: #059669; }
+      .hero-contact-send {
+        width: 100%;
+        background: #0f172a; /* var(--navy-900) */
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        transition: transform 0.1s, background 0.2s;
+      }
+      .hero-contact-send:hover {
+        background: #1e293b;
+      }
+      .hero-contact-send:active {
+        transform: scale(0.98);
+      }
+
+      @media (max-width: 600px) {
+        .hero-contact-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+        .hero-contact-email {
+          width: 100%;
+        }
+      }
     `}} />
   );
 }
@@ -78,50 +89,42 @@ function StyleInjector() {
 export default function HeroContact() {
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!message.trim()) return;
-
     setStatus('loading');
 
     try {
-      const res = await fetch('/api/brevo', {
+      const response = await fetch('/api/send-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          action: 'contact_message', 
-          message: message,
-          email: email 
-        })
+        body: JSON.stringify({ email, message, source: 'homepage_hero' }),
       });
 
-      if (res.ok) {
+      if (response.ok) {
         setStatus('success');
         setMessage('');
         setEmail('');
       } else {
-        setStatus('error');
+        throw new Error('Errore nell\'invio');
       }
-    } catch (error) {
-      console.error("Errore di rete:", error);
+    } catch (err) {
       setStatus('error');
     }
   };
 
   if (status === 'success') {
     return (
-      <div className="hero-contact-box" style={{ textAlign: 'center', padding: '24px 20px' }}>
-        <StyleInjector />
-        <div style={{ fontSize: '28px', marginBottom: '12px' }}>✅</div>
-        <h4 style={{ margin: '0 0 8px 0', color: '#0c2340', fontSize: '16px' }}>Messaggio inviato!</h4>
-        <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>
-          Lo abbiamo ricevuto. Ti risponderemo il prima possibile.
+      <div className="hero-contact-box" style={{ textAlign: 'center', padding: '30px 20px' }}>
+        <div style={{ fontSize: '32px', marginBottom: '12px' }}>✅</div>
+        <h4 style={{ margin: '0 0 8px 0', color: '#0f172a' }}>Messaggio inviato!</h4>
+        <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 20px 0' }}>
+          Ti risponderemo all'indirizzo email indicato entro 24 ore.
         </p>
         <button 
           onClick={() => setStatus('idle')}
-          style={{ marginTop: '16px', background: 'none', border: 'none', color: '#059669', fontWeight: 600, cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}
+          style={{ background: 'none', border: 'none', color: '#3b82f6', fontWeight: '600', cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}
         >
           Scrivi un altro messaggio
         </button>
@@ -147,7 +150,7 @@ export default function HeroContact() {
       <textarea 
         className="hero-contact-input" 
         rows="2" 
-        placeholder="Es: Ho una bolletta da €180/mese, è troppo? Come posso risparmiare?"
+        placeholder="Es: Perché il costo annuo della mia bolletta è più alto di quello che mi era stato promesso?"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         disabled={status === 'loading'}
@@ -162,8 +165,8 @@ export default function HeroContact() {
         {status === 'loading' ? 'Invio in corso...' : 'Invia messaggio →'}
       </button>
       {status === 'error' && (
-        <div style={{ color: '#ef4444', fontSize: '12px', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}>
-          Oops! C'è stato un errore di rete. Riprova.
+        <div style={{ color: '#ef4444', fontSize: '12px', marginTop: '10px', textAlign: 'center' }}>
+          Si è verificato un errore. Riprova più tardi.
         </div>
       )}
     </form>
