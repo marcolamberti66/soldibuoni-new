@@ -1,62 +1,72 @@
 // src/pages/api/extract-rcauto.js
-// Estrazione dati da un preventivo RC Auto con output strutturato garantito via tool_use.
-// Struttura allineata a extract-offer.js per massima stabilita in produzione.
+// Estrazione dati preventivo RC Auto con output strutturato via tool_use.
 
 import Anthropic from '@anthropic-ai/sdk';
 
 export var prerender = false;
 
 var MAX_FILE_BYTES = 8 * 1024 * 1024;
-// NOME DEL MODELLO: Uso l'ultimo Haiku ufficiale per i tool
-var MODEL = 'claude-3-5-haiku-20241022';
+// Allineato agli altri endpoint: Haiku 4.5 - piu accurato su OCR di PDF assicurativi.
+var MODEL = 'claude-haiku-4-5-20251001';
 
-// Tool definition: lo schema qui sotto e' VINCOLANTE.
 var EXTRACTION_TOOL = {
   name: 'estrai_preventivo_rcauto',
-  description: 'Registra i dati economici estratti da un preventivo di assicurazione RC Auto.',
+  description: 'Registra i dati economici estratti da un preventivo di assicurazione RC Auto italiana.',
   input_schema: {
     type: 'object',
     properties: {
       nome: {
         type: ['string', 'null'],
-        description: 'Nome della Compagnia assicurativa (es. "Prima", "ConTe", "Allianz"). null se non trovato.'
+        description: 'Nome della Compagnia assicurativa (es. "Prima", "ConTe", "Allianz Direct", "Genertel"). null se non trovato.'
       },
       premioBase: {
         type: ['number', 'null'],
-        description: 'Costo annuale in euro della SOLA copertura RC Auto base obbligatoria. Se il preventivo non scorpora le garanzie, inserisci qui il totale.'
+        description: 'Costo annuale in euro della SOLA copertura RC Auto base obbligatoria (danni a terzi). Se il preventivo non scorpora le garanzie ma indica solo il totale, inserisci qui il totale e segnala "bassa" in confidence.'
       },
       costoFurto: {
         type: ['number', 'null'],
-        description: 'Costo annuale in euro della garanzia accessoria Furto e Incendio. 0 se inclusa gratis o non presente.'
+        description: 'Costo annuale in euro della garanzia Furto e Incendio. 0 se dichiarata inclusa gratis o non presente nel preventivo.'
       },
       costoCristalli: {
         type: ['number', 'null'],
-        description: 'Costo annuale in euro della garanzia Cristalli. 0 se non presente.'
+        description: 'Costo annuale in euro della garanzia Cristalli. 0 se non presente o inclusa.'
       },
       costoAssistenza: {
         type: ['number', 'null'],
-        description: 'Costo annuale in euro dell\'Assistenza Stradale. 0 se non presente.'
+        description: 'Costo annuale in euro dell\'Assistenza Stradale. 0 se non presente o inclusa.'
       },
       costoInfortuni: {
         type: ['number', 'null'],
-        description: 'Costo annuale in euro per Infortuni del Conducente. 0 se non presente.'
+        description: 'Costo annuale in euro per Infortuni del Conducente. 0 se non presente o inclusa.'
+      },
+      costoTutelaLegale: {
+        type: ['number', 'null'],
+        description: 'Costo annuale in euro della Tutela Legale. 0 se non presente o inclusa.'
       },
       scontoScatola: {
         type: ['number', 'null'],
-        description: 'Importo in euro dello SCONTO per installazione scatola nera/satellitare. Sempre positivo. 0 se assente.'
+        description: 'Importo in euro dello SCONTO per installazione scatola nera/telematica. Sempre positivo (es. 40). Se e espresso come percentuale (es. "sconto 15%"), usa null e segnala in note.'
       },
       franchigiaBase: {
         type: ['number', 'null'],
-        description: 'Franchigia o scoperto in euro indicato sulla RCA o sulla garanzia principale. 0 se assente.'
+        description: 'Franchigia o scoperto fisso in euro applicato sui danni a terzi o sulla garanzia furto. 0 se nessuna franchigia esplicita.'
+      },
+      massimale: {
+        type: ['string', 'null'],
+        description: 'Massimale RCA in testo (es. "7.750.000 euro", "15 milioni", "illimitato"). Copia letterale. null se non indicato.'
+      },
+      classeMerito: {
+        type: ['integer', 'null'],
+        description: 'Classe di merito (bonus-malus) indicata nel preventivo. Intero da 1 a 18. null se non indicata.'
       },
       sospendibile: {
         type: ['boolean', 'null'],
-        description: 'true se e chiaramente indicato che la polizza puo essere sospesa durante l\'anno.'
+        description: 'true SOLO se il preventivo dichiara esplicitamente che la polizza puo essere sospesa (es. "sospendibile per fermo auto"). null se non menzionato.'
       },
       confidence: {
         type: 'string',
         enum: ['alta', 'media', 'bassa'],
-        description: 'alta se i costi delle singole garanzie sono espliciti; media se alcuni sono dedotti; bassa se il preventivo e illeggibile o totale unico.'
+        description: 'alta = costi delle garanzie tutti espliciti; media = alcuni dedotti dal contesto; bassa = preventivo con solo totale unico o parzialmente illeggibile.'
       }
     },
     required: ['nome', 'premioBase', 'confidence']
@@ -64,16 +74,19 @@ var EXTRACTION_TOOL = {
 };
 
 var SYSTEM_PROMPT = [
-  'Sei un perito assicurativo che estrae dati da preventivi RC Auto italiani.',
+  'Sei un perito assicurativo italiano che estrae dati da preventivi RC Auto.',
   '',
   'REGOLE CRITICHE ANTI-ALLUCINAZIONE:',
-  '1. NON INVENTARE MAI numeri o nomi. Se un costo accessorio non è menzionato, usa 0.',
-  '2. Se un dato non è chiaro, usa null.',
-  '3. Se il preventivo ha solo un Premio Totale e non elenca i costi delle garanzie, metti quel totale in "premioBase" e 0 nel resto, segnando confidence "bassa".',
-  '4. Lo sconto per scatola nera deve essere un importo in Euro positivo (es. 30), non una percentuale.',
-  '5. Compila sempre il campo "confidence" in base a quanto il documento è chiaro.',
+  '1. NON INVENTARE MAI numeri o nomi. Se un dato non e espresso, usa null o 0 (0 se la garanzia e chiaramente assente).',
+  '2. Distingui GARANZIA INCLUSA (costo gia nel premio base, usa 0) da GARANZIA SEPARATA (ha il suo costo in euro).',
+  '3. Il "premioBase" e SOLO la RCA obbligatoria (danni a terzi). Non sommare mai le altre garanzie dentro premioBase, a meno che il preventivo mostri solo un totale senza scorporo (in tal caso metti il totale in premioBase, tutto il resto a 0, e confidence "bassa").',
+  '4. Lo sconto scatola nera deve essere un importo in EURO POSITIVO. Se nel preventivo e scritto "15% di sconto", usa null.',
+  '5. La franchigia e il valore che pagheresti in caso di sinistro. 0 se nessuna franchigia.',
+  '6. Se vedi valori contraddittori (es. due cifre diverse per lo stesso campo), usa null e segnala in confidence bassa.',
+  '7. La classe di merito e un intero da 1 (migliore) a 18 (peggiore). Se vedi "CU" seguito da un numero, e la classe universale.',
+  '8. Compila sempre "confidence" in modo onesto.',
   '',
-  'Chiama sempre il tool estrai_preventivo_rcauto con i dati estratti. Non aggiungere testo libero.'
+  'Chiama sempre il tool estrai_preventivo_rcauto con i dati estratti. Niente testo libero.'
 ].join('\n');
 
 function getApiKey() {
@@ -92,15 +105,14 @@ export async function POST({ request }) {
   if (!apiKey) {
     return new Response(JSON.stringify({
       error: 'API key non trovata',
-      detail: 'ANTHROPIC_API_KEY non configurata nelle variabili ambiente.'
+      detail: 'ANTHROPIC_API_KEY non configurata.'
     }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
   var client;
-  try {
-    client = new Anthropic({ apiKey: apiKey });
-  } catch (e) {
-    return new Response(JSON.stringify({ error: 'Errore creazione client', detail: e.message }),
+  try { client = new Anthropic({ apiKey: apiKey }); }
+  catch (e) {
+    return new Response(JSON.stringify({ error: 'Errore client', detail: e.message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
@@ -113,35 +125,29 @@ export async function POST({ request }) {
       var inputText = (body.text || '').trim();
       if (!inputText) return new Response('Testo vuoto', { status: 400 });
       if (inputText.length > 30000) return new Response('Testo troppo lungo', { status: 413 });
-
-      userContent = [{
-        type: 'text',
-        text: 'Testo del preventivo auto:\n\n' + inputText
-      }];
+      userContent = [{ type: 'text', text: 'Testo del preventivo RC Auto:\n\n' + inputText }];
     } else if (ct.includes('multipart/form-data')) {
       var form = await request.formData();
       var file = form.get('file');
-      
       if (!file || typeof file === 'string') return new Response('File mancante', { status: 400 });
       if (file.size > MAX_FILE_BYTES) return new Response('File troppo grande (max 8 MB)', { status: 413 });
 
       var bytes = await file.arrayBuffer();
       var base64Data = Buffer.from(bytes).toString('base64');
       var mediaType = file.type || 'application/octet-stream';
-      var prompt = 'Estrai i costi delle garanzie del preventivo e chiama il tool.';
 
       if (mediaType === 'application/pdf') {
         userContent = [
           { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64Data } },
-          { type: 'text', text: prompt }
+          { type: 'text', text: 'Estrai i dati del preventivo e chiama il tool.' }
         ];
       } else if (mediaType.indexOf('image/') === 0) {
         userContent = [
           { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64Data } },
-          { type: 'text', text: prompt }
+          { type: 'text', text: 'Estrai i dati del preventivo e chiama il tool.' }
         ];
       } else {
-        return new Response('Formato file non supportato', { status: 400 });
+        return new Response('Formato file non supportato (usa immagine o PDF)', { status: 400 });
       }
     } else {
       return new Response('Content-Type non supportato', { status: 400 });
@@ -180,11 +186,10 @@ export async function POST({ request }) {
   if (!toolUse) {
     return new Response(JSON.stringify({
       error: 'Estrazione fallita',
-      detail: 'Il modello non ha chiamato il tool. Riprova o fornisci piu contesto.'
+      detail: 'Il modello non ha chiamato il tool. Verifica che il documento sia un preventivo RC Auto leggibile.'
     }), { status: 422, headers: { 'Content-Type': 'application/json' } });
   }
 
-  // L'SDK parsifica in automatico, toolUse.input è già un oggetto pulito! Nessuna regex necessaria.
   return new Response(JSON.stringify(toolUse.input), {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
