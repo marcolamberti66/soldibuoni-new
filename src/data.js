@@ -1,10 +1,10 @@
 // ═══════════════════════════════════════════════════════════════════
-// DATA - SoldiBuoni.it (FULL RESTORE + SEO TOPICS + LINKS)
+// DATA - SoldiBuoni.it (VERSIONE CORAZZATA & COMPLETA)
 // ═══════════════════════════════════════════════════════════════════
 
 export const INDICI_MERCATO = {
-  PUN: 0.115, // Media stimata recente (€/kWh)
-  PSV: 0.380, // Media stimata recente (€/Smc)
+  PUN: 0.115, 
+  PSV: 0.380, 
   ultimoAggiornamento: 'Aprile 2026'
 };
 
@@ -74,124 +74,150 @@ export const UNI_DATA = [
   { id: 'luiss', name: 'LUISS Guido Carli', facolta: ['economia'], costo: '12.500€', ranking: 'Networking Aziendale', link: 'https://www.luiss.it/' }
 ];
 
-export const TOPICS = {
-  luce_gas: {
-    title: "Luce e Gas",
-    icon: "⚡",
-    color: "#f59e0b",
-    capire: {
-      title: "Cosa guardare in bolletta",
-      content: [
-        { subtitle: "Prezzo Fisso vs Variabile", text: "Il prezzo fisso ti protegge dai rincari per un periodo stabilito (12-24 mesi). Il variabile segue l'andamento del mercato (PUN per la luce, PSV per il gas) e solitamente ha costi di commercializzazione più bassi." },
-        { subtitle: "Costi di Commercializzazione", text: "È una quota fissa mensile (PCV) che paghi indipendentemente dai consumi. Per bassi consumi (seconde case), è il dato più importante da confrontare." },
-        { subtitle: "La Materia Prima", text: "Rappresenta circa il 45-60% della bolletta totale. Il resto è composto da oneri di sistema, trasporto e tasse, che sono uguali per tutti i fornitori." }
-      ]
-    },
-    guida: {
-      title: "Come cambiare fornitore",
-      steps: [
-        { n: "1", title: "Prendi l'ultima bolletta", text: "Individua il tuo consumo annuo (kWh o Smc) e i codici POD (luce) o PDR (gas)." },
-        { n: "2", title: "Confronta il costo fisso", text: "Controlla quanto paghi di quota fissa mensile; spesso i vecchi contratti hanno quote molto alte (sopra i 12€/mese)." },
-        { n: "3", title: "Sottoscrivi online", text: "Il passaggio è gratuito, non prevede interruzioni di servizio e non servono interventi al contatore." }
-      ]
-    }
+// ─────────────────────────────────────────────────────────────────────
+// DATI DELLE CATEGORIE (TOPICS)
+// ─────────────────────────────────────────────────────────────────────
+
+const luceGasData = {
+  title: "Luce e Gas",
+  icon: "⚡",
+  color: "#f59e0b",
+  capire: {
+    title: "Cosa guardare in bolletta",
+    content: [
+      { subtitle: "Prezzo Fisso vs Variabile", text: "Il prezzo fisso ti protegge dai rincari per un periodo stabilito (12-24 mesi). Il variabile segue l'andamento del mercato (PUN per la luce, PSV per il gas) e solitamente ha costi di commercializzazione più bassi." },
+      { subtitle: "Costi di Commercializzazione", text: "È una quota fissa mensile (PCV) che paghi indipendentemente dai consumi. Per bassi consumi (seconde case), è il dato più importante da confrontare." },
+      { subtitle: "La Materia Prima", text: "Rappresenta circa il 45-60% della bolletta totale. Il resto è composto da oneri di sistema, trasporto e tasse, che sono uguali per tutti i fornitori." }
+    ]
   },
-  conti_correnti: {
-    title: "Conti e Risparmio",
-    icon: "💳",
-    color: "#3b82f6",
-    capire: {
-      title: "Oltre il canone zero",
-      content: [
-        { subtitle: "Imposta di Bollo", text: "Sui conti correnti con giacenza media superiore a 5.000€ si paga lo Stato (34,20€/anno). Alcune banche lo offrono gratuitamente come promozione." },
-        { subtitle: "Interessi Attivi", text: "Oggi molti conti correnti remunerano la liquidità. Verifica se il tasso è vincolato (soldi bloccati) o libero." },
-        { subtitle: "Costi Operativi", text: "Attenzione alle commissioni sui bonifici istantanei e sui prelievi presso altre banche, che possono annullare il risparmio del canone zero." }
-      ]
-    },
-    guida: {
-      title: "Trovare il conto ideale",
-      steps: [
-        { n: "1", title: "Analizza la tua giacenza", text: "Se lasci molto denaro fermo, cerca un conto con interessi (es. BBVA). Se hai poco, punta al canone zero assoluto." },
-        { n: "2", title: "Verifica l'operatività", text: "Fai molti bonifici? Prelevi spesso? Controlla che queste voci siano incluse o abbiano costi bassi." },
-        { n: "3", title: "Valuta l'App", text: "Per un conto online, l'interfaccia dell'applicazione è lo strumento principale: leggi le recensioni sugli store." }
-      ]
-    }
-  },
-  internet: {
-    title: "Internet e Fibra",
-    icon: "🌐",
-    color: "#8b5cf6",
-    capire: {
-      title: "Verità sulla velocità",
-      content: [
-        { subtitle: "FTTH vs FTTC", text: "La FTTH arriva con la fibra fin dentro casa (fino a 10 Gbps). La FTTC usa il rame nell'ultimo tratto, limitando la velocità a 100-200 Mbps." },
-        { subtitle: "Costi di Attivazione", text: "Spesso spalmati in 24 o 48 mesi. Se recedi prima, dovrai pagare le rate residue in un'unica soluzione." },
-        { subtitle: "Il Modem", text: "Molti operatori includono il modem gratuitamente, ma in realtà è un comodato d'uso o una vendita rateizzata obbligatoria." }
-      ]
-    },
-    guida: {
-      title: "Abbonarsi senza sorprese",
-      steps: [
-        { n: "1", title: "Verifica la copertura", text: "Usa i siti ufficiali per capire se sei raggiunto dalla vera Fibra (bollino verde F) o dal rame." },
-        { n: "2", title: "Guarda il prezzo 'a regime'", text: "Non farti incantare dallo sconto per i primi 6 mesi. Calcola la spesa media sui primi 24 mesi." },
-        { n: "3", title: "Opzione 'Senza Vincoli'", text: "Alcuni operatori (es. Fastweb, Iliad) permettono di disdire senza penali o rate residue: preferiscili se non sei sicuro della permanenza." }
-      ]
-    }
-  },
-  rc_auto: {
-    title: "Assicurazione RC Auto",
-    icon: "🚗",
-    color: "#e11d48",
-    capire: {
-      title: "Capire il mercato assicurativo oggi",
-      content: [
-        {
-          subtitle: "L'illusione del Premio Base",
-          text: "Il mercato RCA è diventato iper-competitivo sul 'premio base' (la copertura obbligatoria per legge) per attirarti in vetrina. Tuttavia, le vere marginalità per le compagnie derivano dalle garanzie accessorie (Furto, Cristalli, Infortuni). Spesso un preventivo che sembra il più economico diventa il più costoso non appena aggiungi l'assistenza stradale. Ecco perché confrontare 'pacchetti chiusi' a parità di garanzie è l'unico modo per trovare il risparmio reale."
-        },
-        {
-          subtitle: "La trappola (e il vantaggio) della Scatola Nera",
-          text: "Oggi quasi tutte le compagnie offrono sconti (dal 10% al 25%) se installi il dispositivo satellitare. Il vantaggio economico è innegabile, ma attenzione al compromesso: in caso di sinistro con dinamica dubbia, i dati telemetrici (es. se andavi a 53 km/h in una zona con limite a 50) verranno usati dalla compagnia per attribuirti un concorso di colpa. Valuta se lo sconto offerto giustifica questa cessione di privacy e controllo."
-        },
-        {
-          subtitle: "Massimali minimi vs. Massimali di sicurezza",
-          text: "La legge fissa un massimale minimo (circa 6,4 milioni per i danni alle persone e 1,3 milioni per le cose). Sembrano cifre enormi, ma in caso di incidenti multipli o danni gravi a infrastrutture, possono non bastare, intaccando il tuo patrimonio personale. Alzare il massimale a 10, 20 o 50 milioni di euro costa solitamente pochissimo (spesso meno di 10-15€ annui) ed è l'investimento più intelligente che tu possa fare."
-        },
-        {
-          subtitle: "Compagnie Dirette (Online) vs. Tradizionali",
-          text: "Le compagnie online (dirette) costano mediamente il 25-30% in meno perché tagliano i costi delle agenzie fisiche e degli intermediari. Il prodotto assicurativo è identico e normato dall'IVASS. La vera differenza è operativa: in caso di sinistro, con una compagnia tradizionale hai l'agente che ti compila le scartoffie, con una diretta dovrai gestire l'apertura del sinistro tramite App o call center."
-        }
-      ]
-    },
-    guida: {
-      title: "Come configurare la polizza perfetta",
-      steps: [
-        {
-          n: "1",
-          title: "Sfrutta l'RC Familiare (ex Legge Bersani)",
-          text: "Prima di stipulare una nuova polizza, verifica sempre se puoi ereditare la Classe di Merito (CU) migliore presente nel tuo nucleo familiare (Stato di Famiglia). Oggi vale anche tra veicoli di tipo diverso (es. da Auto a Moto) e anche sui rinnovi, purché non ci siano stati sinistri con colpa negli ultimi 5 anni."
-        },
-        {
-          n: "2",
-          title: "Includi sempre la 'Rinuncia alla Rivalsa'",
-          text: "È l'opzione più importante in assoluto. Senza questa clausola, se causi un incidente con la patente scaduta da un giorno, senza revisione o con un tasso alcolemico fuori norma, l'assicurazione paga i danni ma poi 'si rivale' su di te, chiedendoti indietro i soldi (fino a mandarti in rovina). Costa pochi euro ma salva la vita finanziaria."
-        },
-        {
-          n: "3",
-          title: "Distingui tra Franchigia e Scoperto",
-          text: "Sulle garanzie accessorie (es. Furto o Atti Vandalici) le compagnie si tutelano. La 'Franchigia' è una cifra fissa che paghi tu (es. i primi 250€ del danno). Lo 'Scoperto' è invece una percentuale (es. il 10% del danno). Molte compagnie li applicano entrambi ('Scoperto 10% con minimo di 250€'). Leggi sempre questi valori prima di esultare per un premio basso."
-        },
-        {
-          n: "4",
-          title: "Valuta le coperture in base all'età dell'auto",
-          text: "Se la tua auto ha più di 6-7 anni, pagare per garanzie come 'Furto e Incendio' o 'Kasko' diventa antieconomico: in caso di danno totale, l'assicurazione ti rimborserà solo il valore commerciale del veicolo (Eurotax), che sarà ormai bassissimo. Su auto vecchie, mantieni solo Cristalli, Infortuni Conducente (copre i danni fisici a te stesso, che la RCA base non copre mai) e Assistenza Stradale."
-        },
-        {
-          n: "5",
-          title: "Pareggia i preventivi prima di decidere",
-          text: "Non confrontare mai il preventivo di una compagnia che include l'assistenza stradale con uno che ha solo la RCA base. Usa il calcolatore di questa pagina per 'costruire' pacchetti identici. Solo pareggiando le garanzie scoprirai chi è davvero il più conveniente sul mercato."
-        }
-      ]
-    }
+  guida: {
+    title: "Come cambiare fornitore",
+    steps: [
+      { n: "1", title: "Prendi l'ultima bolletta", text: "Individua il tuo consumo annuo (kWh o Smc) e i codici POD (luce) o PDR (gas)." },
+      { n: "2", title: "Confronta il costo fisso", text: "Controlla quanto paghi di quota fissa mensile; spesso i vecchi contratti hanno quote molto alte (sopra i 12€/mese)." },
+      { n: "3", title: "Sottoscrivi online", text: "Il passaggio è gratuito, non prevede interruzioni di servizio e non servono interventi al contatore." }
+    ]
   }
+};
+
+const contiCorrentiData = {
+  title: "Conti e Risparmio",
+  icon: "💳",
+  color: "#3b82f6",
+  capire: {
+    title: "Oltre il canone zero",
+    content: [
+      { subtitle: "Imposta di Bollo", text: "Sui conti correnti con giacenza media superiore a 5.000€ si paga lo Stato (34,20€/anno). Alcune banche lo offrono gratuitamente come promozione." },
+      { subtitle: "Interessi Attivi", text: "Oggi molti conti correnti remunerano la liquidità. Verifica se il tasso è vincolato (soldi bloccati) o libero." },
+      { subtitle: "Costi Operativi", text: "Attenzione alle commissioni sui bonifici istantanei e sui prelievi presso altre banche, che possono annullare il risparmio del canone zero." }
+    ]
+  },
+  guida: {
+    title: "Trovare il conto ideale",
+    steps: [
+      { n: "1", title: "Analizza la tua giacenza", text: "Se lasci molto denaro fermo, cerca un conto con interessi (es. BBVA). Se hai poco, punta al canone zero assoluto." },
+      { n: "2", title: "Verifica l'operatività", text: "Fai molti bonifici? Prelevi spesso? Controlla che queste voci siano incluse o abbiano costi bassi." },
+      { n: "3", title: "Valuta l'App", text: "Per un conto online, l'interfaccia dell'applicazione è lo strumento principale: leggi le recensioni sugli store." }
+    ]
+  }
+};
+
+const internetData = {
+  title: "Internet e Fibra",
+  icon: "🌐",
+  color: "#8b5cf6",
+  capire: {
+    title: "Verità sulla velocità",
+    content: [
+      { subtitle: "FTTH vs FTTC", text: "La FTTH arriva con la fibra fin dentro casa (fino a 10 Gbps). La FTTC usa il rame nell'ultimo tratto, limitando la velocità a 100-200 Mbps." },
+      { subtitle: "Costi di Attivazione", text: "Spesso spalmati in 24 o 48 mesi. Se recedi prima, dovrai pagare le rate residue in un'unica soluzione." },
+      { subtitle: "Il Modem", text: "Molti operatori includono il modem gratuitamente, ma in realtà è un comodato d'uso o una vendita rateizzata obbligatoria." }
+    ]
+  },
+  guida: {
+    title: "Abbonarsi senza sorprese",
+    steps: [
+      { n: "1", title: "Verifica la copertura", text: "Usa i siti ufficiali per capire se sei raggiunto dalla vera Fibra (bollino verde F) o dal rame." },
+      { n: "2", title: "Guarda il prezzo 'a regime'", text: "Non farti incantare dallo sconto per i primi 6 mesi. Calcola la spesa media sui primi 24 mesi." },
+      { n: "3", title: "Opzione 'Senza Vincoli'", text: "Alcuni operatori (es. Fastweb, Iliad) permettono di disdire senza penali o rate residue: preferiscili se non sei sicuro della permanenza." }
+    ]
+  }
+};
+
+const rcAutoData = {
+  title: "Assicurazione RC Auto",
+  icon: "🚗",
+  color: "#e11d48",
+  capire: {
+    title: "Capire il mercato assicurativo oggi",
+    content: [
+      {
+        subtitle: "L'illusione del Premio Base",
+        text: "Il mercato RCA è diventato iper-competitivo sul 'premio base' (la copertura obbligatoria per legge) per attirarti in vetrina. Tuttavia, le vere marginalità per le compagnie derivano dalle garanzie accessorie (Furto, Cristalli, Infortuni). Spesso un preventivo che sembra il più economico diventa il più costoso non appena aggiungi l'assistenza stradale. Ecco perché confrontare 'pacchetti chiusi' a parità di garanzie è l'unico modo per trovare il risparmio reale."
+      },
+      {
+        subtitle: "La trappola (e il vantaggio) della Scatola Nera",
+        text: "Oggi quasi tutte le compagnie offrono sconti (dal 10% al 25%) se installi il dispositivo satellitare. Il vantaggio economico è innegabile, ma attenzione al compromesso: in caso di sinistro con dinamica dubbia, i dati telemetrici (es. se andavi a 53 km/h in una zona con limite a 50) verranno usati dalla compagnia per attribuirti un concorso di colpa. Valuta se lo sconto offerto giustifica questa cessione di privacy e controllo."
+      },
+      {
+        subtitle: "Massimali minimi vs. Massimali di sicurezza",
+        text: "La legge fissa un massimale minimo (circa 6,4 milioni per i danni alle persone e 1,3 milioni per le cose). Sembrano cifre enormi, ma in caso di incidenti multipli o danni gravi a infrastrutture, possono non bastare. Alzare il massimale a 10, 20 o 50 milioni di euro costa solitamente pochissimo (spesso meno di 10-15€ annui) ed è l'investimento più intelligente che tu possa fare."
+      },
+      {
+        subtitle: "Compagnie Dirette (Online) vs. Tradizionali",
+        text: "Le compagnie online (dirette) costano mediamente il 25-30% in meno perché tagliano i costi delle agenzie fisiche e degli intermediari. Il prodotto assicurativo è identico e normato dall'IVASS. La vera differenza è operativa: in caso di sinistro, con una compagnia tradizionale hai l'agente che ti compila le scartoffie, con una diretta dovrai gestire l'apertura del sinistro tramite App o call center."
+      }
+    ]
+  },
+  guida: {
+    title: "Come configurare la polizza perfetta",
+    steps: [
+      {
+        n: "1",
+        title: "Sfrutta l'RC Familiare (ex Legge Bersani)",
+        text: "Prima di stipulare una nuova polizza, verifica sempre se puoi ereditare la Classe di Merito (CU) migliore presente nel tuo nucleo familiare (Stato di Famiglia). Oggi vale anche tra veicoli di tipo diverso (es. da Auto a Moto) e anche sui rinnovi, purché non ci siano stati sinistri con colpa negli ultimi 5 anni."
+      },
+      {
+        n: "2",
+        title: "Includi sempre la 'Rinuncia alla Rivalsa'",
+        text: "È l'opzione più importante in assoluto. Senza questa clausola, se causi un incidente con la patente scaduta da un giorno, senza revisione o con un tasso alcolemico fuori norma, l'assicurazione paga i danni ma poi 'si rivale' su di te, chiedendoti indietro i soldi. Costa pochi euro ma salva la vita finanziaria."
+      },
+      {
+        n: "3",
+        title: "Distingui tra Franchigia e Scoperto",
+        text: "Sulle garanzie accessorie (es. Furto o Atti Vandalici) le compagnie si tutelano. La 'Franchigia' è una cifra fissa che paghi tu (es. i primi 250€ del danno). Lo 'Scoperto' è invece una percentuale (es. il 10% del danno). Molte compagnie li applicano entrambi ('Scoperto 10% con minimo di 250€')."
+      },
+      {
+        n: "4",
+        title: "Valuta le coperture in base all'età dell'auto",
+        text: "Se la tua auto ha più di 6-7 anni, pagare per garanzie come 'Furto e Incendio' o 'Kasko' diventa antieconomico: in caso di danno totale, l'assicurazione ti rimborserà solo il valore commerciale del veicolo (Eurotax), che sarà ormai bassissimo. Mantieni solo Cristalli, Infortuni Conducente e Assistenza Stradale."
+      },
+      {
+        n: "5",
+        title: "Pareggia i preventivi prima di decidere",
+        text: "Non confrontare mai il preventivo di una compagnia che include l'assistenza stradale con uno che ha solo la RCA base. Usa il calcolatore di questa pagina per 'costruire' pacchetti identici. Solo pareggiando le garanzie scoprirai chi è davvero il più conveniente sul mercato."
+      }
+    ]
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────
+// EXPORT TOPICS (VERSIONE BULLETPROOF)
+// Mappa tutte le possibili sintassi per agganciarsi al 100% con Astro
+// ─────────────────────────────────────────────────────────────────────
+
+export const TOPICS = {
+  "luce-gas": luceGasData,
+  luce_gas: luceGasData,
+  luceGas: luceGasData,
+
+  "conti-correnti": contiCorrentiData,
+  conti_correnti: contiCorrentiData,
+  contiCorrenti: contiCorrentiData,
+
+  internet: internetData,
+
+  "rc-auto": rcAutoData,
+  rc_auto: rcAutoData,
+  rcAuto: rcAutoData
 };

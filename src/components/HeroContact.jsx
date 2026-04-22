@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-// Inietto il CSS direttamente qui per bypassare i blocchi di Astro 
-// e garantire che il design sia identico al millimetro all'originale
 function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
@@ -16,7 +14,7 @@ function StyleInjector() {
       .hero-contact-box label {
         font-size: 12px;
         font-weight: 700;
-        color: #64748b; /* var(--text-muted) */
+        color: #64748b; 
         text-transform: uppercase;
         letter-spacing: 1px;
         display: block;
@@ -30,14 +28,14 @@ function StyleInjector() {
         font-size: 14px;
         font-family: inherit;
         outline: none;
-        resize: none; /* Rimuove la barra di ridimensionamento dinamica */
-        color: #334155; /* var(--text-body) */
+        resize: none; 
+        color: #334155; 
         transition: border 0.2s;
         box-sizing: border-box;
         margin-bottom: 12px;
       }
       .hero-contact-input:focus {
-        border-color: #3b82f6; /* var(--accent-blue) */
+        border-color: #3b82f6; 
       }
       .hero-contact-row {
         display: flex;
@@ -55,7 +53,7 @@ function StyleInjector() {
       }
       .hero-contact-send {
         width: 100%;
-        background: #0f172a; /* var(--navy-900) */
+        background: #0f172a; 
         color: white;
         border: none;
         padding: 12px;
@@ -89,7 +87,7 @@ function StyleInjector() {
 export default function HeroContact() {
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [status, setStatus] = useState('idle'); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
