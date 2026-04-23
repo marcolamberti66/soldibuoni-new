@@ -1,14 +1,258 @@
 ---
 import Layout from '../layouts/Layout.astro';
-// Ecco il fix: le parentesi graffe sono obbligatorie per i named exports!
 import { AnalizzaBolletta } from '../components/AnalizzaBolletta.jsx';
+
+const color = '#059669';
 ---
 
-<Layout 
-  title="Analizza Bolletta con AI | Soldi Buoni" 
-  description="Carica il PDF della tua bolletta e scopri subito quanto potresti risparmiare grazie all'Intelligenza Artificiale."
->
-  <div style="padding: 60px 20px; background: #f8fafc; min-height: calc(100vh - 60px);">
-    <AnalizzaBolletta client:load color="#059669" />
+<Layout title="Analizza la tua Bolletta con AI | SoldiBuoni" description="Carica il PDF della tua bolletta luce o gas. L'AI estrae prezzo e consumo, li confronta con il mercato e ti dice se stai pagando troppo. Gratuito e indipendente.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
+
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        🔍
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Analizza la tua <span style={`color: ${color};`}>bolletta</span>
+      </h1>
+    </div>
+
+    <p class="update-note">🔄 Prezzi medi di mercato aggiornati ARERA · Ultimo aggiornamento: aprile 2026</p>
+
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-analizza">🔍 <span class="tab-label">Analizza</span></button>
+      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Capire la bolletta</span></button>
+      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come risparmiare</span></button>
+    </div>
+
+    <div id="tab-analizza" class="tab-content" style="display: block;">
+      <AnalizzaBolletta client:only="react" color={color} />
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Cosa c'è in una bolletta</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La materia energia: la sola voce sulla quale puoi agire</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">In una bolletta italiana di luce o gas, la componente "materia energia" (o "materia gas") rappresenta circa il 45-55% del totale. È l'unica voce che cambia a seconda del fornitore che scegli: sul mercato libero si paga quello che il fornitore chiede, sul mercato tutelato quello che ARERA stabilisce ogni trimestre. Il resto della bolletta — trasporto, oneri di sistema, imposte, IVA — è uguale per tutti i fornitori per legge. Quando confronti due offerte, quindi, l'unico numero che conta davvero è il prezzo al kWh (luce) o Smc (gas) della componente materia.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Prezzo fisso vs prezzo variabile</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Nel mercato libero hai due grandi famiglie di offerte. Il <strong>prezzo fisso</strong> è bloccato per 12 o 24 mesi: paghi sempre lo stesso prezzo al kWh/Smc a prescindere dal mercato. Il <strong>prezzo variabile</strong> segue un indice pubblico (PUN per la luce, PSV per il gas) più uno spread fisso dichiarato dal fornitore. Storicamente, il variabile con spread basso conviene nel lungo periodo, ma espone a picchi nelle fasi di crisi (vedi 2022). Il fisso è più caro mediamente perché il fornitore si fa pagare l'assicurazione contro i rialzi — ma ti dà certezza della spesa mensile.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La quota fissa mensile</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Oltre al prezzo per kWh/Smc, molti fornitori applicano una "quota fissa di commercializzazione" in euro al mese (tipicamente 6-15€/mese). Non dipende dai consumi: la paghi anche se consumi zero. Su una famiglia media che consuma 2.700 kWh/anno, una quota fissa di 10€/mese vale 120€ annui — quanto consumare 1.000 kWh in più. Quando confronti offerte con prezzo unitario simile, la quota fissa fa la differenza. Attenzione: alcune offerte "a zero canone" compensano con un prezzo materia più alto — il calcolo va fatto sul totale annuo.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il Portale Offerte ARERA: il comparatore istituzionale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se vuoi un confronto ufficiale certificato, esiste il Portale Offerte Luce e Gas gestito da ARERA (portaleofferte.it). È l'unico comparatore pubblico, gratuito e senza pubblicità previsto dalla normativa. Tutti i fornitori sono obbligati a pubblicarci le loro condizioni. Ti restituisce un elenco di offerte ordinate per spesa annua stimata sul tuo profilo di consumo. Il nostro strumento qui sopra è complementare: ti dice se la bolletta che già paghi è competitiva; il Portale ARERA ti permette di scegliere concretamente un'altra offerta tra quelle attive.</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Mercato tutelato, bonus e anomalie</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il servizio a tutele graduali e i clienti vulnerabili</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il mercato tutelato dell'energia elettrica è cessato per i non vulnerabili a luglio 2024 (per il gas nel 2024 già prima): chi non aveva scelto un fornitore libero è stato assegnato al Servizio a Tutele Graduali (STG) tramite aste pubbliche. Per i clienti vulnerabili (over 75, portatori di handicap, utenti con apparecchiature salvavita, famiglie a basso reddito con bonus sociale) il servizio tutelato continua. Se la tua bolletta riporta "condizioni economiche ARERA" o "servizio a tutele graduali", sei in uno di questi regimi: i prezzi sono calmierati ma spesso più alti delle migliori offerte libere.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il Bonus Sociale Luce e Gas</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Le famiglie con ISEE fino a 9.530€ (o fino a 20.000€ con 4+ figli a carico) hanno diritto al Bonus Sociale, uno sconto automatico sulla bolletta di luce e gas. Dal 2021 è automatico: basta avere l'ISEE aggiornato e l'INPS lo comunica ad ARERA, che applica lo sconto direttamente in bolletta senza bisogno di fare domanda. Per il 2026 lo sconto medio è circa 170€/anno per la luce e 130€/anno per il gas. Verifica la voce "Bonus sociale" nella tua bolletta: se sei in soglia ISEE ma non lo vedi, il tuo ISEE potrebbe non essere aggiornato o non trasmesso correttamente.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le voci anomale da controllare</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Quando ricevi una bolletta, vale la pena controllare tre voci potenzialmente anomale. <strong>Consumi stimati vs letti</strong>: se la bolletta si basa su stima e non sulla lettura reale, trasmetti l'autolettura prima della scadenza per evitare conguagli salati. <strong>Ricalcoli e conguagli</strong>: spesso arrivano a distanza di mesi, riferiti a periodi passati; se superano il 10% del consumo medio, verifica con il fornitore. <strong>Oneri di morosità o mora</strong>: se ti addebitano interessi di mora ma hai sempre pagato in tempo, contesta per iscritto entro 40 giorni.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Perché la tua bolletta potrebbe essere più alta della media</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se il tuo strumento di confronto segnala che paghi sopra media ma hai un contratto recente, le cause più comuni sono: il <strong>costo fisso mensile elevato</strong> (quota canone alta anche se il prezzo materia è basso), una <strong>tariffa di rete bioraria sbilanciata</strong> (consumi in fasce orarie più costose), oppure un <strong>contratto firmato durante la crisi 2022-2023</strong> con prezzi bloccati fuori mercato. Il primo controllo da fare è sempre confrontare il prezzo materia (€/kWh o €/Smc) con quello delle offerte attive oggi: se vedi 0,15€/kWh quando il mercato è a 0,10€/kWh, il tuo contratto è fuori mercato.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 10px;`}>Come agire dopo l'analisi</h2>
+      <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 28px;">
+        Hai scoperto che paghi troppo? Ecco come cambiare fornitore, evitare trappole e mettersi a posto in 30 giorni.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>1</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica il prezzo materia della tua bolletta</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Nella bolletta cerca la voce "materia energia" o "spesa per la materia energia" e dividila per i kWh (luce) o Smc (gas) consumati nel periodo. Questo è il tuo prezzo unitario reale. Confrontalo con i prezzi medi aggiornati ARERA o con il Portale Offerte. Se paghi più del 15-20% sopra la media, hai margine di risparmio concreto: tra 100 e 300€/anno per una famiglia media.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>2</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla se hai vincoli o penali di recesso</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il recesso da un contratto luce/gas è <strong>gratuito e senza penali per legge</strong> nel mercato libero (art. 1 Codice del Consumo), ma attenzione alle "promo fedeltà" con sconti condizionati alla permanenza: se esci prima dei 12/24 mesi, perdi lo sconto. Controlla nelle condizioni contrattuali se ci sono clausole di questo tipo. Il nuovo fornitore si occupa di tutto il passaggio: tu non devi disdire nulla, serve solo firmare il nuovo contratto.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>3</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Confronta offerte sul Portale Offerte ARERA</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Vai su portaleofferte.it (sito ufficiale ARERA, gratuito, senza pubblicità). Inserisci il tuo CAP, il consumo annuo (lo trovi nella tua bolletta) e il tuo profilo di utilizzo (residenziale, tipo di riscaldamento). Il portale ti restituisce un elenco di offerte ordinate per spesa annua stimata. Filtra per mercato libero e tipologia fissa/variabile. Seleziona 3-5 offerte e confronta condizioni generali, durata promo e modalità di pagamento.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>4</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Diffida delle promo "troppo belle"</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se un fornitore ti offre un prezzo 30-40% sotto la media, leggi bene la durata. Spesso le promo di benvenuto durano 12 mesi, dopo i quali il prezzo raddoppia. Chiedi sempre: "Qual è il prezzo dopo la fine della promo?" Se il contratto non lo specifica o dice "secondo le condizioni di mercato", meglio un'offerta variabile indicizzata PUN/PSV con spread basso e trasparente: meno margini di sorpresa nei successivi rinnovi.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>5</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica il diritto al Bonus Sociale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se il tuo ISEE è sotto 9.530€ (o 20.000€ con 4+ figli), hai diritto al Bonus Sociale Luce e Gas che vale circa 170€ + 130€/anno. È automatico: basta presentare la DSU aggiornata a un CAF o via portale INPS. Se il bonus è attivo, in bolletta vedi una voce specifica "Bonus sociale" come sconto. Se non la vedi ma sei in soglia, probabilmente l'ISEE non è aggiornato o non è stato trasmesso: vai su un CAF o su inps.it per ricalcolare.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>6</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Trasmetti l'autolettura ogni mese</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Dopo aver cambiato offerta, prendi l'abitudine di trasmettere l'autolettura del contatore ogni mese (app del fornitore, SMS o numero verde). Eviterai conguagli salati e manterrai il pagamento allineato ai consumi reali. Per i contatori elettronici "intelligenti" di seconda generazione (2G), la lettura è automatica e telematica, ma per i vecchi contatori tradizionali l'autolettura resta fondamentale per non pagare su stime.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </Layout>
+
+<style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
+  .tab-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn.active {
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+  }
+
+  .info-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+  }
+
+  .step-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .step-number {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; flex-shrink: 0;
+  }
+
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .tab-btn { font-size: 13px; padding: 10px 6px; }
+  }
+</style>
+
+<script>
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
+      });
+    });
+  }
+  setupTabs();
+</script>

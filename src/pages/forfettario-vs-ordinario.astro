@@ -2,41 +2,267 @@
 import Layout from '../layouts/Layout.astro';
 import { ForfettarioVsOrdinario } from '../components/ForfettarioVsOrdinario.jsx';
 
-const topic = {
-  icon: '📋',
-  title: 'Forfettario vs Ordinario',
-  color: '#6366f1'
-};
+const color = '#6366f1';
 ---
 
-<Layout 
-  title="Regime Forfettario o Ordinario: quale conviene? | SoldiBuoni" 
-  description="Calcola quale regime fiscale conviene di più alla tua partita IVA. Confronto tra forfettario al 5% o 15% e ordinario con IRPEF progressiva, addizionali e gestione separata INPS."
->
-  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
-    
+<Layout title="Regime Forfettario o Ordinario: quale conviene? | SoldiBuoni" description="Confronta netto annuo tra regime forfettario (flat tax 5% o 15%) e ordinario (IRPEF progressiva). Calcolatore 2026 aggiornato con nuove soglie e contribuzione INPS.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
+
     <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
-        {topic.icon}
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        📋
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
-        {topic.title}
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Forfettario vs <span style={`color: ${color};`}>Ordinario</span>
       </h1>
     </div>
 
-    <p class="intro-text">Simula il netto annuo della tua partita IVA nei due regimi fiscali. Il calcolo considera IRPEF progressiva, addizionali regionale e comunale medie, coefficiente di redditività e contributi INPS.</p>
+    <p class="update-note">🔄 Aliquote e soglie Legge di Bilancio 2026 · Ultimo aggiornamento: aprile 2026</p>
 
-    <ForfettarioVsOrdinario client:load color={topic.color} />
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-simula">🧮 <span class="tab-label">Simulatore</span></button>
+      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Capire il regime</span></button>
+      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come scegliere</span></button>
+    </div>
+
+    <div id="tab-simula" class="tab-content" style="display: block;">
+      <ForfettarioVsOrdinario client:only="react" color={color} />
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Il regime forfettario</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Come funziona la flat tax</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il forfettario sostituisce IRPEF, IRAP e addizionali con un'unica imposta sostitutiva del 15% (o 5% per i primi 5 anni di attività, se sei una "startup" con requisiti specifici). La base di calcolo non è il tuo utile reale ma il fatturato moltiplicato per un <strong>coefficiente di redditività</strong> (40%-86%) che dipende dal tuo codice ATECO. Le spese vere non sono deducibili: il coefficiente è il forfait di spese che la legge ti riconosce. Questo semplifica enormemente la gestione (niente IVA, nessun obbligo di contabilità ordinaria) ma ti penalizza se hai spese reali molto alte.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Soglia 85.000€ e 100.000€: attenzione a entrambe</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per restare in forfettario non devi superare <strong>85.000€ di ricavi annui</strong>. Se li superi ma resti sotto i 100.000€, rimani forfettario nell'anno corrente e passi automaticamente all'ordinario dal 1° gennaio successivo. Se <strong>superi 100.000€ anche solo di un euro</strong>, esci immediatamente dal regime nell'anno stesso: devi applicare l'IVA alle fatture successive e tassazione ordinaria sull'intero reddito dell'anno. La Legge di Bilancio 2026 ha confermato entrambe le soglie senza modifiche.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Aliquota startup 5% per 5 anni</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se apri una nuova attività dopo il 2026 hai diritto all'aliquota super-agevolata del 5% per i primi 5 anni (anno di inizio + 4 successivi), a tre condizioni: non devi aver esercitato la stessa attività nei 3 anni precedenti, l'attività non deve essere mera prosecuzione di un lavoro dipendente o autonomo svolto prima (salvo tirocinio obbligatorio), e se prosegui un'attività di terzi, il loro fatturato dell'anno prima non deve superare i limiti forfettari. Dopo il 5° anno, l'aliquota sale automaticamente al 15%.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il limite dei 35.000€ per i lavoratori dipendenti</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se hai un lavoro dipendente o una pensione, puoi aprire partita IVA forfettaria solo se nell'anno precedente il tuo reddito da lavoro dipendente/pensione <strong>non ha superato i 35.000€ lordi</strong>. La Legge di Bilancio 2026 ha confermato l'innalzamento temporaneo rispetto ai 30.000€ ordinari. Se nell'anno precedente hai guadagnato più di 35.000€ come dipendente, nel 2026 non puoi aprire o mantenere il forfettario: sei costretto a partire direttamente con il regime ordinario.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le principali cause ostative</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Non puoi accedere al forfettario (o ne sei escluso) se: hai una partecipazione di controllo in SRL che svolge attività simile alla tua; nel biennio precedente hai fatturato a un ex datore di lavoro (con qualche eccezione per i due anni successivi alla chiusura del rapporto); sostieni spese per dipendenti/collaboratori superiori a 20.000€; sei residente all'estero (salvo paesi UE). Le cause ostative sono specifiche e vanno verificate caso per caso con un commercialista prima dell'apertura partita IVA.</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Il regime ordinario</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Come funziona la tassazione progressiva</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Nel regime ordinario paghi IRPEF a scaglioni sul tuo utile reale (fatturato meno spese deducibili e contributi INPS). Gli scaglioni 2026 sono: 23% fino a 28.000€, 35% fino a 50.000€, 43% oltre 50.000€. Si aggiungono le addizionali regionale (1,2%-3,3% a seconda della regione) e comunale (0%-0,9% a seconda del comune). L'ordinario richiede una contabilità più strutturata (semplificata fino a 500.000€ di ricavi per servizi) ma ti permette di dedurre tutte le spese reali documentate e di applicare le <strong>detrazioni personali</strong>.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le detrazioni personali: il grande vantaggio dell'ordinario</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">In regime ordinario puoi portare in detrazione dall'IRPEF le spese mediche (19% oltre la franchigia di 129,11€), gli interessi del mutuo prima casa (19% fino a 4.000€/anno), le ristrutturazioni edilizie (50% in 10 anni), l'efficienza energetica (50-65%), i premi assicurativi vita e infortuni, i contributi al fondo pensione (fino a 5.164,57€ deducibili dal reddito), i carichi di famiglia, le rette universitarie per i figli, le donazioni. <strong>Tutte queste detrazioni sono perse nel forfettario</strong> (non possono essere recuperate con altri mezzi): se spendi molto su queste voci, l'ordinario può convenire nonostante l'aliquota più alta.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>L'IVA e la fatturazione</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Nel forfettario <strong>non si applica l'IVA</strong> sulle vendite (fatturi senza IVA ai clienti) ma non la puoi recuperare sugli acquisti. Nell'ordinario applichi l'IVA al 22% (o ridotta 10%/5%/4% in certi settori) e la compensi con quella pagata sugli acquisti. Se i tuoi clienti sono aziende con partita IVA, l'applicazione dell'IVA è neutra per loro (la detraggono): per te può essere un vantaggio perché la recuperi sugli acquisti strumentali. Se i tuoi clienti sono privati o consumatori finali, applicare l'IVA ti rende del 22% più caro: in questo caso il forfettario è molto più competitivo.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La contribuzione INPS</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La contribuzione INPS è identica nei due regimi e dipende dalla tua categoria: <strong>Gestione Separata</strong> (26,07% circa, per freelance senza cassa) con un minimale contributivo annuo, <strong>Cassa professionale autonoma</strong> (medici, avvocati, architetti, ingegneri, commercialisti: aliquote 5%-18% variabili), <strong>Artigiani o commercianti</strong> (contributo fisso annuo minimo circa 4.400€ + aliquota sulla quota eccedente). I nuovi iscritti alla Gestione Separata possono valutare la riduzione al 25% prevista dal 2022. Nel forfettario i contributi sono comunque deducibili dalla base di calcolo dell'imposta sostitutiva.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Quando il forfettario non conviene</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il forfettario conviene quasi sempre nei primi 5 anni per l'aliquota 5%, ma ci sono situazioni in cui l'ordinario è la scelta più intelligente anche con fatturato sotto 85.000€: <strong>spese reali elevate</strong> (se il coefficiente forfait del 40-60% è molto più basso delle tue spese vere, stai rinunciando a deduzioni); <strong>clienti esclusivamente aziende</strong> (che preferiscono fatture con IVA); <strong>grandi detrazioni personali</strong> (mutuo prima casa con interessi alti, spese mediche rilevanti, ristrutturazioni in corso); <strong>redditi da altra fonte sopra 35.000€</strong> che escludono l'accesso al forfettario.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 10px;`}>Come scegliere il regime giusto</h2>
+      <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 28px;">
+        Un percorso in 6 passi per arrivare alla scelta senza sorprese fiscali.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>1</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Calcola il tuo coefficiente di redditività reale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il coefficiente forfait riconosciuto dalla legge varia dal 40% (commercianti, ristorazione) al 86% (edilizia). Calcola il tuo coefficiente reale: dividi il tuo utile atteso (fatturato meno spese) per il fatturato. Se il tuo coefficiente reale è <strong>molto più alto</strong> del forfait (es. professionista con spese basse), il forfettario ti avvantaggia: paghi su una base tassabile inferiore al tuo utile reale. Se è <strong>molto più basso</strong> (commerciante con spese alte), il forfettario ti penalizza perché non deduce le spese vere.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>2</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Proietta lo scenario dopo 5 anni</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">L'aliquota startup del 5% è spesso il motivo principale per cui il forfettario conviene nei primi 5 anni. Al sesto anno scatta il 15%: usa il calcolatore proiettando i tuoi parametri attuali ma togliendo l'aliquota startup (metti "5 anni" o più nell'input "anni P.IVA"). Se il forfettario al 15% continua a convenire, è una scelta strategica stabile. Se invece al 15% perde competitività rispetto all'ordinario, pianifica il passaggio al 6° anno — oppure valuta subito l'ordinario per non dover cambiare contabilità in corsa.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>3</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica le cause ostative prima di aprire</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Prima di scegliere il forfettario, controlla che nessuna delle cause ostative ti escluda: fatturazione a ex datori di lavoro nei due anni successivi alla chiusura, partecipazioni di controllo in società con attività connessa, redditi da lavoro dipendente sopra 35.000€, spese per dipendenti oltre 20.000€, residenza fiscale estera (salvo UE). Questo punto è tecnico e richiede verifica professionale: un commercialista controlla in 10 minuti e ti dice con certezza se puoi accedere o no.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>4</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Considera il profilo dei tuoi clienti</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se i tuoi clienti sono <strong>consumatori privati</strong>, il forfettario ti rende più competitivo del 22% perché non applichi IVA: prezzo più basso a parità di margine. Se i tuoi clienti sono <strong>aziende con partita IVA</strong>, l'IVA dell'ordinario è neutra per loro (la detraggono) e tu guadagni la possibilità di recuperare l'IVA sugli acquisti strumentali. Se hai un mix, pesa quale quota prevale.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>5</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Calcola le detrazioni personali che perderesti</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Nel forfettario perdi tutte le detrazioni personali: fai una somma di quello che perderesti rispetto all'ordinario. Hai mutuo prima casa? Circa 760€/anno di risparmio perso. Spese mediche di 3.000€? 570€. Ristrutturazione in corso? 1.500€/anno per 10 anni. Contributi al fondo pensione per 3.000€? Se sei al 35% IRPEF, 1.050€ di deducibilità persa. Se queste voci nel tuo caso valgono più della differenza netta che il forfettario ti dà, l'ordinario è la scelta giusta.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>6</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Parla con un commercialista prima di decidere</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Una consulenza commercialista di 1-2 ore (tipicamente 80-200€) ti fa risparmiare molto di più delle migliaia di euro che una scelta sbagliata può costarti. Porta il tuo scenario lavorativo atteso (fatturato, tipo clienti, spese), chiedi di verificare cause ostative, aliquote specifiche della tua cassa professionale, detrazioni a cui hai diritto, calcolo preciso delle addizionali del tuo comune. Il calcolatore SoldiBuoni è un punto di partenza, non sostituisce la valutazione personalizzata di un professionista iscritto all'ODCEC.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </div>
 </Layout>
 
 <style>
-  .intro-text {
-    font-size: 15px;
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
+  .tab-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
     color: #64748b;
-    margin: 0 0 32px 0;
-    line-height: 1.65;
-    max-width: 640px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn.active {
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+  }
+
+  .info-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+  }
+
+  .step-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .step-number {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; flex-shrink: 0;
+  }
+
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .tab-btn { font-size: 13px; padding: 10px 6px; }
   }
 </style>
+
+<script>
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
+      });
+    });
+  }
+  setupTabs();
+</script>

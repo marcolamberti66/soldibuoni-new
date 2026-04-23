@@ -1,13 +1,263 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { TrovaBonus } from '../components/TrovaBonus.jsx';
+
+const color = '#f59e0b';
 ---
-<Layout title="Trova Bonus e Agevolazioni | SoldiBuoni">
-  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
-    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
-      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>Ottimizzatore Fiscale</h1>
-      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri in 30 secondi se stai lasciando dei soldi sul tavolo.</p>
+
+<Layout title="Trova Bonus e Agevolazioni 2026 | SoldiBuoni" description="Scopri a quali bonus statali e agevolazioni hai diritto: Assegno Unico 2026, bonus casa, bonus bollette, detrazioni fiscali. Calcolatore gratuito anonimo basato sul tuo profilo.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
+
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        🎁
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Trova <span style={`color: ${color};`}>Bonus</span> e agevolazioni
+      </h1>
     </div>
-    <TrovaBonus client:load color="#f59e0b" />
-  </main>
+
+    <p class="update-note">🔄 Importi 2026 aggiornati · Assegno Unico (circolare INPS 7/2026), bonus casa, detrazioni fiscali · Aprile 2026</p>
+
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-questionario">🎯 <span class="tab-label">Questionario</span></button>
+      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Capire ISEE e bonus</span></button>
+      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come fare domanda</span></button>
+    </div>
+
+    <div id="tab-questionario" class="tab-content" style="display: block;">
+      <TrovaBonus client:only="react" color={color} />
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>L'ISEE: la chiave di quasi tutti i bonus</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Cos'è l'ISEE e perché è così importante</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">L'ISEE (Indicatore della Situazione Economica Equivalente) è il valore che misura la situazione economica della tua famiglia tenendo conto di redditi, patrimonio e numero di componenti. È il principale parametro usato dallo Stato per stabilire chi ha diritto a bonus e agevolazioni, e con quale importo. Un ISEE più basso sblocca importi più alti per l'Assegno Unico, apre l'accesso al Bonus Sociale Luce/Gas, alla Carta Dedicata a Te, al Bonus Nido potenziato, a rette universitarie ridotte, a mutui agevolati under 36. Per questo aggiornare l'ISEE ogni gennaio è la singola azione che rende più soldi a chi ha diritto a bonus.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Come si calcola l'ISEE</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">L'ISEE prende il reddito complessivo del nucleo familiare (redditi dichiarati 2 anni prima: es. per l'ISEE 2026 si usano i redditi 2024) e aggiunge il 20% del patrimonio mobiliare (conti, titoli, investimenti al 31/12 dell'anno precedente) e immobiliare (case, terreni). Il totale viene diviso per la <strong>scala di equivalenza</strong> che cresce in base al numero dei componenti del nucleo (1 componente = 1,00, 2 componenti = 1,57, 3 = 2,04, 4 = 2,46, 5 = 2,85, e così via con maggiorazioni per figli minori, disabilità, famiglie monogenitoriali). Per questo un single con €25.000 di reddito ha un ISEE molto diverso da una famiglia di 4 persone con lo stesso reddito.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le novità ISEE 2026</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La Legge di Bilancio 2026 ha introdotto due modifiche favorevoli per le famiglie. <strong>Franchigia prima casa alzata a €91.500</strong> (da €52.500 precedente): il valore della tua abitazione principale fino a 91.500€ non conta nel calcolo dell'ISEE, e per i residenti nei capoluoghi delle città metropolitane la soglia sale a €120.000. <strong>Maggiorazione figli conviventi anticipata</strong>: prima scattava dal 3° figlio, ora scatta già dal 2° figlio in poi con +€2.500 per ogni figlio convivente. Queste modifiche possono far scendere l'ISEE di molti nuclei, sbloccando accesso a bonus prima non raggiungibili.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>ISEE corrente: quando la situazione è peggiorata</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se la tua situazione economica è peggiorata rispetto ai redditi di 2 anni fa (hai perso il lavoro, chiuso una P.IVA, subito una riduzione di orario), puoi richiedere l'<strong>ISEE Corrente</strong> che considera i redditi degli ultimi 12 mesi (o anche solo degli ultimi 2 mesi per variazioni lavorative). È lo strumento per chi ha avuto una crisi recente: permette di accedere subito ai bonus in base alla situazione attuale, non a quella di 2 anni fa. Si richiede a un CAF o tramite il portale INPS con SPID.</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>I principali bonus 2026</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Assegno Unico: da €58 a €203 al mese per figlio</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">L'Assegno Unico Universale è il principale sostegno alle famiglie con figli fino a 21 anni. Nel 2026 gli importi sono stati rivalutati del +1,4% (circolare INPS n. 7 del 30 gennaio 2026): vanno da €58,30/mese per figlio (ISEE oltre €46.582 o senza ISEE) a €203,80/mese (ISEE fino a €17.444). Si aggiungono maggiorazioni per famiglie con almeno 3 figli (+50% sulla quota base), per figli sotto i 3 anni (~+€57/mese), per il secondo percettore di reddito (+€34,10/mese se entrambi i genitori lavorano). <strong>Aggiornare l'ISEE entro il 30 giugno 2026</strong> permette di ottenere anche gli arretrati da marzo.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Bonus Sociale Luce e Gas: lo sconto automatico</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Le famiglie con ISEE fino a €9.530 (o fino a €20.000 con 4+ figli a carico) hanno diritto al Bonus Sociale Luce e Gas gestito da ARERA. Lo sconto è automatico: l'INPS comunica ad ARERA l'ISEE e il gestore applica lo sconto direttamente in bolletta. Nel 2026 il valore medio annuo è di circa €170 per l'elettricità e €130 per il gas, cumulabili. Se sei in soglia ISEE ma non vedi lo sconto, probabilmente il tuo ISEE non è aggiornato o è inferiore di poco alla soglia: controlla il valore esatto sul tuo Certificato ISEE.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Bonus casa: ristrutturazione 50% ed ecobonus</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per chi possiede casa, i bonus edilizi più accessibili restano la <strong>detrazione ristrutturazione 50%</strong> (su spese fino a €96.000 per unità immobiliare, diluita in 10 anni) e l'<strong>Ecobonus 50-65%</strong> per efficientamento energetico (serramenti, caldaie a condensazione, coibentazione, solare termico). Entrambi non richiedono ISEE ma dipendono dalla capienza fiscale: hai bisogno di una IRPEF annua sufficiente per "assorbire" la detrazione. Il Superbonus 110% è stato progressivamente ridotto e nel 2026 opera solo per pratiche già avviate entro le scadenze specifiche. Il bonus Mutuo Prima Casa Under 36 è stato confermato per il 2026 ma con riserva finanziaria limitata (verificare disponibilità).</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le detrazioni in dichiarazione dei redditi</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">I dipendenti e pensionati possono recuperare in dichiarazione (730 o Redditi PF) una parte delle spese sostenute: <strong>spese mediche</strong> (19% sopra franchigia €129,11), <strong>interessi mutuo prima casa</strong> (19% fino a €4.000), <strong>fondo pensione</strong> (deducibile fino a €5.164,57/anno — risparmio fiscale fino al 43%), <strong>assicurazioni vita e infortuni</strong>, <strong>sport bambini</strong> (19% fino a €210), <strong>rette asilo</strong> (19% fino a €632), <strong>rette università</strong>. Conservare le ricevute è essenziale: una famiglia media recupera tipicamente €500-2.000/anno se le compila tutte.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Bonus a graduatoria (risorse limitate)</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Alcuni bonus hanno fondi limitati e seguono graduatorie o ordine cronologico di domanda, quindi averne diritto non significa riceverli. Tra questi: <strong>Carta Dedicata a Te</strong> (assegnazione automatica a graduatoria comunale per ISEE bassi), <strong>Bonus Nido potenziato</strong> (tetto massimo annuale), <strong>Mutuo Prima Casa Under 36</strong> (riserva Consap), <strong>bandi regionali</strong> (varia per regione). Per questi, presentare domanda appena il bando si apre è fondamentale: chi arriva tardi spesso trova i fondi esauriti anche se pienamente in soglia.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 10px;`}>Come fare domanda: percorso in 6 passi</h2>
+      <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 28px;">
+        Da "ho scoperto di avere diritto a un bonus" a "l'ho effettivamente incassato" in 30 giorni.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>1</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Attiva SPID o CIE (se non li hai)</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Praticamente tutti i bonus si richiedono online con identità digitale: SPID (Sistema Pubblico di Identità Digitale) o CIE (Carta di Identità Elettronica con PIN). Lo SPID si attiva gratuitamente scegliendo un Identity Provider (Poste, Aruba, InfoCert, Lepida, Register): richiede documento di identità, tessera sanitaria e una video-identificazione o riconoscimento in ufficio postale. È la porta d'ingresso al sito dell'INPS, dell'Agenzia delle Entrate, di inps.it, di impresa.gov.it. Senza SPID devi andare fisicamente agli sportelli.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>2</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Aggiorna l'ISEE di gennaio</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">L'ISEE scade il 31 dicembre di ogni anno. Per continuare a ricevere Assegno Unico, Bonus Sociale Luce/Gas e altri bonus ISEE-dipendenti nella misura corretta, aggiorna la DSU (Dichiarazione Sostitutiva Unica) all'inizio di gennaio. Puoi farlo gratuitamente in 3 modi: (a) online sul portale INPS con SPID compilando tu stesso la DSU precompilata (serve raccogliere saldi e giacenze media di tutti i conti al 31/12 dell'anno precedente), (b) gratuitamente presso un CAF (porti i documenti e lo fanno loro), (c) presso un patronato sindacale. Tempistica: dall'1 gennaio e comunque entro il 28 febbraio per non rischiare di ricevere importi al minimo da marzo.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>3</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Presenta domanda per i bonus non automatici</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Alcuni bonus sono automatici (Bonus Sociale Luce/Gas, Carta Dedicata a Te): basta avere l'ISEE aggiornato e scattano da soli. Altri richiedono domanda esplicita: <strong>Assegno Unico</strong> (una sola domanda una-tantum su inps.it, poi continua per tutta la durata del diritto), <strong>Bonus Nido</strong> (domanda annuale con allegato fatture o attestazioni di pagamento retta), <strong>agevolazioni Under 36 casa</strong> (si attivano in sede di rogito), <strong>bandi regionali</strong> (variabili per regione e periodo). Per ogni bonus, il sito ufficiale indicato nella scheda ha le istruzioni esatte.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>4</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Conserva le ricevute per le detrazioni</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Le detrazioni in dichiarazione dei redditi valgono solo se dimostri di aver sostenuto la spesa. Crea una cartella fisica o digitale dove conservi: fatture mediche e farmaceutiche, ricevute di pagamento del mutuo, attestazioni di versamento al fondo pensione, fatture di ristrutturazione con bonifico parlante (con causale specifica e codice fiscale/IBAN del beneficiario), ricevute sport e rette scolastiche. L'Agenzia delle Entrate può chiedere i documenti giustificativi fino a 5 anni dopo: la conservazione è obbligatoria.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>5</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Usa il CAF o il patronato (gratis)</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">CAF (Centri di Assistenza Fiscale) e patronati sindacali offrono gratuitamente l'assistenza per quasi tutte le pratiche: ISEE, 730 precompilato, domande Assegno Unico, Reddito di Cittadinanza, pratiche INPS. Sono gratuiti perché convenzionati con lo Stato e il loro costo viene rimborsato dalla Pubblica Amministrazione. Trovi il CAF più vicino sul sito dei sindacati (CGIL, CISL, UIL, Acli, UGL) o sul motore di ricerca del Ministero del Lavoro. Sono particolarmente utili se non sei a tuo agio con portali online complessi o se la tua situazione familiare è articolata.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>6</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla bandi regionali e comunali</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Oltre ai bonus nazionali esistono centinaia di bandi regionali e comunali: contributi affitti per studenti, voucher per attività sportiva, bonus matrimonio, bonus nascita comunali, borse di studio, incentivi mobilità sostenibile. Spesso passano inosservati perché comunicati solo sul sito del Comune o della Regione. Controlla periodicamente: sezione "bandi" o "contributi" del sito del tuo Comune, sezione "bandi famiglia" o "servizi sociali" della tua Regione, siti universitari per studenti. Molti bandi scadono velocemente: iscriviti alle newsletter del Comune e della Regione se disponibili.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </Layout>
+
+<style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
+  .tab-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn.active {
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+  }
+
+  .info-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+  }
+
+  .step-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .step-number {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; flex-shrink: 0;
+  }
+
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .tab-btn { font-size: 13px; padding: 10px 6px; }
+  }
+</style>
+
+<script>
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
+      });
+    });
+  }
+  setupTabs();
+</script>
