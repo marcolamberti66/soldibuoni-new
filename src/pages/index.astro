@@ -74,6 +74,7 @@ import HeroContact from '../components/HeroContact.jsx';
         <h2>Categorie di spesa</h2>
         <p>Per ogni categoria trovi una guida per capire il mercato, i criteri per fare la scelta giusta e uno strumento per semplificarti la vita.</p>
       </div>
+
       <div class="cats-grid">
         <a href="/luce-gas" class="cat-card" style="--cat-color:#f59e0b">
           <span class="cat-arrow">↗</span>
@@ -443,35 +444,36 @@ import HeroContact from '../components/HeroContact.jsx';
     justify-content: center;
   }
   .popular-tools h3 {
-    font-size: 13px;
+    font-size: 15px; /* Aumentato da 13px */
     font-weight: 700;
     color: var(--green-400);
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    margin-bottom: 10px;
+    margin-bottom: 16px; /* Aumentato da 10px per spingere i link */
+    text-align: center; /* Centrato come richiesto */
   }
   .pop-tool {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 0;
+    gap: 12px; /* Aumentato da 10px */
+    padding: 12px 0; /* Aumentato da 8px per occupare più spazio verticale */
     border-bottom: 1px solid rgba(255,255,255,0.06);
     transition: all 0.2s;
   }
   .pop-tool:last-child { border-bottom: none; }
   .pop-tool:hover { padding-left: 4px; }
   .pop-tool-icon {
-    width: 30px;
-    height: 30px;
+    width: 36px; /* Aumentato da 30px */
+    height: 36px; /* Aumentato da 30px */
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 16px; /* Aumentato da 14px */
     flex-shrink: 0;
   }
   .pop-tool-name {
-    font-size: 13px;
+    font-size: 15px; /* Aumentato da 13px */
     font-weight: 600;
     color: rgba(255,255,255,0.85);
     flex: 1;
@@ -566,7 +568,8 @@ import HeroContact from '../components/HeroContact.jsx';
   .cat-card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0; left: 0;
+    right: 0;
     height: 3px;
     background: var(--cat-color);
     transform: scaleX(0);
@@ -995,8 +998,6 @@ import HeroContact from '../components/HeroContact.jsx';
 
   @media (max-width: 500px) {
     .proof-d { display: none; }
-
-    /* Categorie a coppie di 2 anche su mobile piccolo */
     .cats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .cat-card { padding: 20px 12px 16px; }
     .cat-icon { width: 44px; height: 44px; font-size: 20px; margin-bottom: 10px; }
@@ -1004,7 +1005,6 @@ import HeroContact from '../components/HeroContact.jsx';
     .cat-card p { font-size: 11px; }
     .cat-card .cat-arrow { top: 8px; right: 10px; font-size: 12px; }
 
-    /* Strumenti: hero compatto + griglia 2 col */
     .tool-hero { padding: 18px; }
     .tool-hero-main { gap: 14px; }
     .tool-hero-icon { width: 52px; height: 52px; font-size: 24px; }
