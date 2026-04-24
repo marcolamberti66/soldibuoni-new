@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function NewsletterSignup({ variant }) {
+export default function NewsletterSignup({ variant, prefilledInterests }) {
   const [email, setEmail] = useState('');
   const [nome, setNome] = useState('');
   const [interessi, setInteressi] = useState(['energia', 'gas']);
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
-  const [showPrefs, setShowPrefs] = useState(false);
+  const [showPrefs, setShowPrefs] = useState(variant === 'landing');
+
+  // Supporta interessi pre-selezionati via prop (es. da URL params /quanto-spendo)
+  useEffect(() => {
+    if (prefilledInterests && Array.isArray(prefilledInterests) && prefilledInterests.length > 0) {
+      setInteressi(prefilledInterests);
+      setShowPrefs(true);
+    }
+  }, [prefilledInterests]);
 
   const toggleInteresse = (id) => {
     setInteressi(prev =>
@@ -46,21 +54,27 @@ export default function NewsletterSignup({ variant }) {
   if (status === 'success') {
     return (
       <div style={{
-        background: '#f0fdf4', borderRadius: 16, padding: '28px 24px',
+        background: '#f0fdf4', borderRadius: 16, padding: '32px 24px',
         border: '1px solid #bbf7d0', textAlign: 'center',
       }}>
-        <div style={{ fontSize: 40, marginBottom: 10 }}>✅</div>
-        <p style={{ fontSize: 16, fontWeight: 700, color: '#166534', marginBottom: 6 }}>
+        <div style={{ fontSize: 48, marginBottom: 14 }}>✅</div>
+        <p style={{
+          fontSize: 20, fontWeight: 800, color: '#166534', marginBottom: 8,
+          fontFamily: "'Playfair Display', serif"
+        }}>
           Iscrizione confermata!
         </p>
-        <p style={{ fontSize: 14, color: '#166534' }}>
-          Ogni mese riceverai un report personalizzato con le migliori offerte e i consigli per risparmiare.
+        <p style={{ fontSize: 14, color: '#166534', lineHeight: 1.6, maxWidth: 460, margin: '0 auto' }}>
+          Grazie per esserti iscritto. Riceverai il primo Report Risparmio Mensile entro le prossime 4 settimane,
+          con contenuti calibrati sui tuoi interessi selezionati. Controlla lo spam se non arriva.
         </p>
       </div>
     );
   }
 
-  // Versione compatta per homepage/footer
+  // ==========================================================================
+  // VARIANT: COMPACT (homepage/footer)
+  // ==========================================================================
   if (variant === 'compact') {
     return (
       <div style={{
@@ -118,7 +132,150 @@ export default function NewsletterSignup({ variant }) {
     );
   }
 
-  // Versione completa con preferenze
+  // ==========================================================================
+  // VARIANT: LANDING (pagina dedicata /report-risparmio)
+  // Preferenze sempre visibili, accetta prefilledInterests
+  // ==========================================================================
+  if (variant === 'landing') {
+    return (
+      <div style={{
+        background: '#fff', borderRadius: 24, padding: '36px 32px',
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 20px 40px -10px rgba(0,0,0,0.06)',
+      }}>
+
+        {prefilledInterests && prefilledInterests.length > 0 && (
+          <div style={{
+            background: '#dbeafe', border: '1px solid #93c5fd',
+            borderRadius: 12, padding: '12px 16px', marginBottom: 20,
+            fontSize: 13, color: '#1e40af'
+          }}>
+            ✨ <strong>Abbiamo pre-selezionato i temi</strong> in base alle tue aree di risparmio principali. Puoi modificarli qui sotto.
+          </div>
+        )}
+
+        <h2 style={{
+          fontSize: 24, fontWeight: 800, color: '#0f172a',
+          margin: '0 0 8px',
+          fontFamily: "'Playfair Display', serif",
+          letterSpacing: '-0.01em'
+        }}>
+          Iscriviti al Report Risparmio
+        </h2>
+        <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 24px', lineHeight: 1.6 }}>
+          Una sola email al mese con le analisi che servono davvero. Gratuito, senza spam, cancellabile in un click.
+        </p>
+
+        {/* Email + nome */}
+        <div style={{ marginBottom: 20 }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            La tua email *
+          </label>
+          <input
+            type="email"
+            placeholder="tuonome@esempio.it"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              width: '100%', padding: '14px 16px', borderRadius: 12,
+              border: '1px solid #cbd5e1', fontSize: 15, fontFamily: 'inherit',
+              outline: 'none', background: '#fff', boxSizing: 'border-box',
+              fontWeight: 500
+            }}
+          />
+        </div>
+
+        <div style={{ marginBottom: 24 }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Nome (facoltativo)
+          </label>
+          <input
+            type="text"
+            placeholder="Come vuoi essere chiamato"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            style={{
+              width: '100%', padding: '14px 16px', borderRadius: 12,
+              border: '1px solid #cbd5e1', fontSize: 15, fontFamily: 'inherit',
+              outline: 'none', background: '#fff', boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        {/* Preferenze sempre visibili in landing */}
+        <div style={{ marginBottom: 24 }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            I temi che ti interessano di più
+          </label>
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: 8,
+          }}>
+            {categorie.map(c => {
+              const active = interessi.includes(c.id);
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => toggleInteresse(c.id)}
+                  style={{
+                    padding: '12px 10px', borderRadius: 12,
+                    border: active ? '2px solid #3b82f6' : '1px solid #cbd5e1',
+                    fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                    background: active ? '#dbeafe' : '#fff',
+                    color: active ? '#1e40af' : '#64748b',
+                    transition: 'all 0.2s',
+                    textAlign: 'center',
+                    lineHeight: 1.3
+                  }}
+                >
+                  <div style={{ fontSize: 20, marginBottom: 2 }}>{c.icon}</div>
+                  <div>{c.label}</div>
+                </button>
+              );
+            })}
+          </div>
+          <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 10 }}>
+            Selezionane quanti vuoi. Il report conterrà sezioni dedicate agli argomenti che hai scelto.
+          </p>
+        </div>
+
+        <button
+          onClick={handleSubmit}
+          disabled={status === 'loading' || !email}
+          style={{
+            width: '100%', padding: '16px', borderRadius: 14, border: 'none',
+            fontSize: 16, fontWeight: 800,
+            cursor: (status === 'loading' || !email) ? 'not-allowed' : 'pointer',
+            fontFamily: 'inherit',
+            background: (status === 'loading' || !email)
+              ? '#94a3b8'
+              : '#3b82f6',
+            color: '#fff',
+            boxShadow: status === 'loading' ? 'none' : '0 10px 24px -6px rgba(59,130,246,0.5)',
+          }}
+        >
+          {status === 'loading' ? '⏳ Iscrizione in corso...' : '📬 Iscriviti gratis al Report Mensile'}
+        </button>
+
+        {status === 'error' && (
+          <p style={{ fontSize: 13, color: '#dc2626', marginTop: 12, textAlign: 'center' }}>
+            ⚠️ Errore nell'iscrizione. Controlla l'email e riprova tra qualche secondo.
+          </p>
+        )}
+
+        <div style={{
+          marginTop: 16, padding: '12px 16px', background: '#f8fafc',
+          borderRadius: 10, fontSize: 11, color: '#64748b', lineHeight: 1.5
+        }}>
+          🔒 Iscrivendoti accetti l'invio di 1 email al mese. Non condividiamo la tua email con terzi. Puoi cancellarti in qualsiasi momento con un click (link in ogni email).
+        </div>
+
+      </div>
+    );
+  }
+
+  // ==========================================================================
+  // VARIANT: DEFAULT (versione completa con preferenze nascoste)
+  // ==========================================================================
   return (
     <div style={{
       background: '#fff', borderRadius: 16, padding: '28px 24px',

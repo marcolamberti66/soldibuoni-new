@@ -1,0 +1,282 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.jsx';
+
+const color = '#3b82f6';
+
+// Parsing URL per pre-selezionare interessi (es. ?interessi=gas,internet,mutuo)
+const url = new URL(Astro.request.url);
+const interessiParam = url.searchParams.get('interessi');
+const validInterests = ['energia', 'gas', 'internet', 'rc_auto', 'mutuo', 'universita'];
+const prefilledInterests = interessiParam
+  ? interessiParam.split(',').map(s => s.trim()).filter(s => validInterests.includes(s))
+  : [];
+---
+
+<Layout title="Report Risparmio Mensile: iscrizione gratuita | SoldiBuoni" description="Un'email al mese con i prezzi aggiornati di luce, gas, internet, RC auto e mutui. Analisi indipendente, zero spam, gratuito. Dal team SoldiBuoni.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
+
+    {/* HERO */}
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        📬
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Il <span style={`color: ${color};`}>Report Risparmio</span> Mensile
+      </h1>
+    </div>
+
+    <p style="font-size: 16px; color: #475569; line-height: 1.7; margin: 0 0 8px; max-width: 680px;">
+      <strong>Una sola email al mese</strong>. Ogni mese raccogliamo prezzi aggiornati, le 3 offerte migliori del momento e una scelta pratica consigliata. Nessun clickbait, nessuna urgenza fittizia, zero pubblicità mascherata.
+    </p>
+    <p class="update-note">🔄 Frequenza: 1 email al mese · Prima edizione entro 4 settimane dall'iscrizione</p>
+
+    {/* MOCKUP VISUALE — cosa troverai nel report */}
+    <div style="background: #fff; border-radius: 24px; padding: 32px 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04); margin-bottom: 32px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+        <span style={`font-size: 11px; font-weight: 800; color: ${color}; background: ${color}15; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em;`}>
+          Anteprima report
+        </span>
+      </div>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 800; color: #0f172a; margin: 10px 0 6px; letter-spacing: -0.01em;">
+        Ecco cosa arriva nella tua inbox
+      </h2>
+      <p style="font-size: 13px; color: #64748b; margin: 0 0 24px; line-height: 1.6;">
+        Quattro sezioni brevi, sempre uguali nella struttura (così sai dove guardare), sempre diverse nei contenuti.
+      </p>
+
+      {/* Mock block 1 */}
+      <div class="mock-block">
+        <div class="mock-label">📊 Il numero del mese</div>
+        <div class="mock-title">PUN medio aprile in calo sotto i 110 €/MWh</div>
+        <div class="mock-body">Per la prima volta in 18 mesi il prezzo unico nazionale torna sotto soglia. Chi rinnova il contratto luce ora può spuntare tariffe fisse fino a 0,09 €/kWh per 12 mesi...</div>
+      </div>
+
+      {/* Mock block 2 */}
+      <div class="mock-block">
+        <div class="mock-label">🎯 Le 3 offerte migliori</div>
+        <div class="mock-title">Gas fisso sotto €0,30/Smc, internet FTTH da €21,90</div>
+        <div class="mock-body">Tre tariffe del momento con condizioni che rispettano chi legge: niente vincolo 24 mesi, niente spese occulte di disattivazione. #ADV su alcune...</div>
+      </div>
+
+      {/* Mock block 3 */}
+      <div class="mock-block">
+        <div class="mock-label">🔍 Il cambio che consiglio</div>
+        <div class="mock-title">Se hai il variabile da meno di 5 anni, considera la surroga</div>
+        <div class="mock-body">L'IRS 20y è sceso al 2,10%. Con spread negoziato a 0,7% puoi ottenere un fisso al 2,80%: sotto il tuo attuale variabile. Ecco come ragionarci in 3 domande...</div>
+      </div>
+
+      {/* Mock block 4 */}
+      <div class="mock-block">
+        <div class="mock-label">🧰 Il tool del mese</div>
+        <div class="mock-title">Calcolatore Stipendio: verifica cambi con nuova IRPEF 33%</div>
+        <div class="mock-body">Da gennaio 2026 l'aliquota intermedia scende al 33%. Se guadagni €35-45k il netto mensile cresce di €15-25. Il tool calcola il tuo cambio esatto...</div>
+      </div>
+    </div>
+
+    {/* FORM ISCRIZIONE — protagonista */}
+    <div style="margin-bottom: 40px;">
+      <NewsletterSignup client:load variant="landing" prefilledInterests={prefilledInterests} />
+    </div>
+
+    {/* COSA TROVI PER CATEGORIA */}
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 8px; letter-spacing: -0.01em;">
+      Cosa trovi per ogni categoria
+    </h2>
+    <p style="font-size: 13px; color: #64748b; margin: 0 0 20px; line-height: 1.6;">
+      Seleziona nel form sopra i temi che ti interessano. Ogni mese riceverai una sezione dedicata a ciascuno.
+    </p>
+
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">⚡</div>
+        <div class="cat-title">Luce</div>
+        <p class="cat-body">Variazione PUN mensile, spread medio offerte mercato libero, migliori tariffe fisse e indicizzate, alert su rinnovi sopra la media.</p>
+      </div>
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🔥</div>
+        <div class="cat-title">Gas</div>
+        <p class="cat-body">Andamento PSV, tariffe tutela graduale, offerte fisse 12/24 mesi sotto 0,30 €/Smc, consigli in base alla fascia climatica.</p>
+      </div>
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">📡</div>
+        <div class="cat-title">Internet</div>
+        <p class="cat-body">Fibra FTTH sotto €25/mese, FWA per zone non coperte, promo attivazione gratuita, alert su aumenti contrattuali unilaterali.</p>
+      </div>
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🚗</div>
+        <div class="cat-title">RC Auto</div>
+        <p class="cat-body">Premio medio ANIA per regione, preventivi da 8+ compagnie, sconti per chilometraggio basso e scatola nera, tempistiche disdetta.</p>
+      </div>
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🏠</div>
+        <div class="cat-title">Mutuo</div>
+        <p class="cat-body">IRS ed Euribor aggiornati, spread medio banche, soglie di convenienza per surroga, aggiornamenti Fondo Garanzia Under 36.</p>
+      </div>
+      <div class="cat-card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🎓</div>
+        <div class="cat-title">Università</div>
+        <p class="cat-body">Scadenze ISEE universitario, confronto rette pubbliche/private, borse di studio regionali, agevolazioni alloggi e trasporti.</p>
+      </div>
+    </div>
+
+    {/* FAQ */}
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 800; color: #0f172a; margin: 40px 0 8px; letter-spacing: -0.01em;">
+      Domande frequenti
+    </h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Quanto costa?</div>
+        <div class="faq-a">Gratuito. Nessun abbonamento, nessun costo nascosto, niente "free trial" che poi si converte. La newsletter è l'unico modo che abbiamo per restare in contatto con chi apprezza SoldiBuoni, non abbiamo intenzione di monetizzarla.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Quante email riceverò?</div>
+        <div class="faq-a">Una sola al mese, tipicamente il primo martedì o giovedì. Zero email promozionali aggiuntive, zero "offerte speciali esclusive per te", zero sequenze di onboarding a 5 step. Una email, una volta al mese.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Chi scrive il Report?</div>
+        <div class="faq-a">Il team di SoldiBuoni. Le analisi si basano su fonti pubbliche (ARERA per l'energia, Banca d'Italia per i mutui, ANIA per RC auto, AGCOM per internet) e sul monitoraggio continuo delle offerte commerciali sul mercato italiano.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Posso cancellarmi quando voglio?</div>
+        <div class="faq-a">Sì. In ogni email c'è un link "Cancella iscrizione" in fondo: un click e sei fuori. Nessuna domanda, nessuna pagina con "sei sicuro?", nessun ritardo di elaborazione. Rispettiamo il tempo e la scelta di chi riceve.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Riceverò pubblicità o link affiliate?</div>
+        <div class="faq-a">Alcuni link possono essere affiliate: significa che se tu clicchi e stipuli un contratto, SoldiBuoni riceve una piccola commissione dal partner. Questi link sono sempre contrassegnati con #ADV e il prezzo per te è identico. Non raccomandiamo mai offerte solo perché hanno affiliate: il criterio è sempre il vantaggio reale per chi legge.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Cosa fate con la mia email?</div>
+        <div class="faq-a">La usiamo esclusivamente per inviare il Report Risparmio Mensile. Non la rivendiamo, non la condividiamo con terzi, non la passiamo a partner. È conservata su server europei con provider GDPR-compliant. Puoi richiedere cancellazione totale o export dei tuoi dati in qualsiasi momento scrivendoci.</div>
+      </div>
+
+    </div>
+
+    {/* TRUST SECTION */}
+    <div class="trust-box">
+      <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 10px;">
+        🔒 Privacy e sicurezza
+      </h3>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #475569; line-height: 1.7;">
+        <li><strong>Conformi GDPR</strong>: consenso esplicito, diritto di cancellazione, export dei dati</li>
+        <li><strong>Server europei</strong>: la tua email è conservata su infrastruttura UE, non attraversa fornitori extra-UE</li>
+        <li><strong>Nessuna vendita a terzi</strong>: la tua email non finisce in liste di marketing, broker dati o partner commerciali</li>
+        <li><strong>Unsubscribe immediato</strong>: un click, nessuna domanda, effetto immediato</li>
+      </ul>
+    </div>
+
+    {/* SOCIAL PROOF GENERICO */}
+    <div style="text-align: center; margin-top: 40px; padding: 24px; background: #f8fafc; border-radius: 16px;">
+      <p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.6;">
+        ✨ <strong>Unisciti a chi riceve il Report</strong> e inizia il mese informato sui prezzi che contano davvero.
+      </p>
+    </div>
+
+  </div>
+</Layout>
+
+<style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
+  .mock-block {
+    padding: 18px 20px;
+    background: #f8fafc;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border-left: 3px solid #3b82f6;
+  }
+  .mock-block:last-child { margin-bottom: 0; }
+  .mock-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .mock-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  .mock-body {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .cat-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px 20px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06);
+  }
+  .cat-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+  }
+  .cat-body {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .faq-item {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 1px solid #e2e8f0;
+  }
+  .faq-q {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .faq-a {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+  }
+
+  .trust-box {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 16px;
+  }
+</style>
