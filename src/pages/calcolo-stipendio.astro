@@ -1,13 +1,269 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { CalcolatoreStipendio } from '../components/CalcolatoreStipendio.jsx';
+
+const color = '#10b981';
 ---
-<Layout title="Calcolo Stipendio Netto Mensile | SoldiBuoni">
-  <main style={{ padding: '80px 20px', background: '#f8fafc', minHeight: '100vh' }}>
-    <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
-      <h1 style={{ fontSize: 40, fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', fontFamily: "'Playfair Display', serif" }}>Dal Lordo al Netto</h1>
-      <p style={{ fontSize: 18, color: '#64748b', margin: 0 }}>Scopri esattamente quanto ti resterà in tasca ogni mese.</p>
+
+<Layout title="Calcolo Stipendio Netto 2026: dal Lordo al Netto | SoldiBuoni" description="Calcolatore stipendio 2026 con aliquote IRPEF 23/33/43%, addizionali regionali reali, detrazioni lavoro dipendente e bonus in busta. Scopri quanto ti resta in tasca.">
+  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
+
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        💶
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
+        Dal Lordo al <span style={`color: ${color};`}>Netto</span>
+      </h1>
     </div>
-    <CalcolatoreStipendio client:load />
-  </main>
+
+    <p class="update-note">🔄 Aliquote Legge di Bilancio 2026: IRPEF 33% secondo scaglione · Massimale INPS €122.295 · Bonus integrativo in busta</p>
+
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="tab-calcolo">🧮 <span class="tab-label">Calcolatore</span></button>
+      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Capire la busta paga</span></button>
+      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come aumentare il netto</span></button>
+    </div>
+
+    <div id="tab-calcolo" class="tab-content" style="display: block;">
+      <CalcolatoreStipendio client:only="react" color={color} />
+    </div>
+
+    <div id="tab-capire" class="tab-content" style="display: none;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Come si forma il netto</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La formula in tre passaggi</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Lo stipendio netto nasce dalla RAL (Retribuzione Annua Lorda) seguendo sempre lo stesso percorso: prima si tolgono i <strong>contributi previdenziali INPS</strong> (9,19% del lordo, trattenuti direttamente dalla busta), ottenendo l'<strong>imponibile fiscale</strong>; su questo si calcola l'<strong>IRPEF a scaglioni progressivi</strong> e si sottraggono le <strong>detrazioni</strong> per lavoro dipendente e familiari a carico, ottenendo l'IRPEF netta; infine si aggiungono le <strong>addizionali regionale e comunale</strong> che dipendono da dove vivi. Il netto mensile è quanto ti resta diviso per le mensilità (12, 13 o 14). Un errore comune è pensare che "entri nell'aliquota 33%" e quindi pagare il 33% di tutto: la tassazione è progressiva per scaglioni, paghi il 33% solo sulla quota di imponibile tra €28.000 e €50.000.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>IRPEF 2026: il nuovo 33% sul secondo scaglione</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La Legge di Bilancio 2026 (L. 199/2025) ha ridotto l'aliquota IRPEF del secondo scaglione dal 35% al <strong>33%</strong>. Gli scaglioni 2026 restano tre: 23% fino a 28.000€ di imponibile fiscale, 33% tra 28.000€ e 50.000€, 43% oltre. Il beneficio è maggiore per chi guadagna tra 45.000 e 50.000 euro, con un risparmio fino a <strong>€440 annui</strong>. Per chi sta sotto i 28.000€, nulla cambia (resta al 23%). Chi supera i 200.000€ perde parte del beneficio per via della sterilizzazione delle detrazioni. La No Tax Area resta confermata a €8.500: sotto questa soglia di imponibile non si paga IRPEF.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Contributi INPS: quando scattano soglie e massimali</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Come dipendente versi il 9,19% del lordo direttamente dalla busta; il datore di lavoro ne versa altri 23,81% (che non vedi ma entra nel costo aziendale totale). Due cose cambiano oltre certe soglie: sui redditi <strong>sopra i 56.224€</strong> si aggiunge un contributo dell'1% (totale 10,19% sulla quota eccedente); sopra il <strong>massimale contributivo di 122.295€</strong> (2026) non versi più nulla, perché la pensione futura calcolata con il metodo contributivo non accresce oltre. Per questo chi guadagna molto paga percentualmente meno INPS sul totale, ma non accumula più contributi pensionistici sulla quota eccedente.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Le detrazioni per lavoro dipendente</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La detrazione per lavoro dipendente si aggiunge alle detrazioni generali e riduce l'IRPEF calcolata a scaglioni. Fino a <strong>€15.000 di imponibile</strong> la detrazione è piena, €1.955/anno. Tra 15.000€ e 28.000€ la detrazione scende linearmente ma resta robusta (da 1.955€ a circa 1.910€). Tra 28.000€ e 50.000€ decresce progressivamente. Oltre 50.000€ è zero. Questa detrazione è uno dei motivi per cui l'aliquota effettiva per redditi bassi è molto più bassa dell'aliquota marginale: un dipendente con 20.000€ di RAL paga effettivamente il 12-13% di tasse, non il 23% teorico.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Bonus integrativo in busta (ex-Renzi)</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per redditi <strong>fino a €20.000</strong> e con determinati requisiti (IRPEF lorda maggiore della detrazione), è previsto un bonus integrativo di <strong>100€ al mese in busta paga</strong> (1.200€/anno), non soggetto a IRPEF né a contribuzione INPS. Tra 15.000€ e 28.000€ il bonus decresce linearmente. Oltre 28.000€ non spetta. Per il 2026 il bonus è stato confermato dalla Legge di Bilancio con la stessa struttura, ed è visibile separatamente nella busta paga come voce "trattamento integrativo". Se sei in fascia ma non vedi il bonus, verifica che il datore di lavoro lo stia applicando o che tu non sia nella condizione di "incapienza" (IRPEF lorda inferiore alle detrazioni).</p>
+          </div>
+
+        </div>
+
+        <div>
+          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 24px;`}>Addizionali, mensilità e ore extra</h2>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Addizionale regionale e comunale: dove vivi fa la differenza</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Le Regioni italiane applicano un'<strong>addizionale IRPEF regionale</strong> con aliquote molto diverse: si va dallo <strong>1,23% di Veneto, Valle d'Aosta e Trentino</strong> al <strong>3,33% del Lazio</strong>. I Comuni aggiungono un'addizionale propria (0,1%-0,9%): Milano è allo 0,8%, Roma allo 0,9%, Firenze allo 0,2%. Su un RAL di 40.000€, la differenza tra vivere in Veneto (Treviso) e vivere a Roma può valere oltre €600/anno di addizionali in più. Le addizionali non si applicano se l'imponibile fiscale è sotto la no tax area regionale (che varia, generalmente allineata alle soglie nazionali).</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>12, 13 o 14 mensilità: quanto cambia davvero</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">A parità di RAL, il numero di mensilità <strong>non cambia il netto annuale</strong>: cambia solo come è distribuito. Con 13 mensilità ricevi 12 stipendi mensili normali + una tredicesima (di solito a dicembre); con 14 anche una quattordicesima (a luglio in molti CCNL del commercio e settori affini). La RAL è già comprensiva di tutte le mensilità: se il tuo lordo è 30.000€ e hai 13 mensilità, il tuo lordo mensile è 30.000/13 = 2.308€. La tredicesima non è "un bonus": è una retribuzione posticipata accantonata mese per mese. Quando cambi lavoro, ti viene pagata pro-quota con il TFR nel conguaglio finale.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Straordinari, premi e fringe benefit</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Lo stipendio lordo "puro" non è tutto quello che può entrare in busta. Gli <strong>straordinari</strong> (maggiorazione 15-50% a seconda del CCNL) sono tassati come gli altri redditi e contribuiscono a "spingerti" verso l'aliquota marginale superiore. I <strong>premi di produttività</strong> fino a 3.000€/anno (4.000€ se il lavoratore partecipa all'organizzazione aziendale) possono essere tassati all'<strong>1%</strong> nel 2026 (era 5%), un forte risparmio fiscale — verifica se il tuo CCNL li prevede. I <strong>fringe benefit</strong> (auto aziendale, buoni pasto fino a 8€/giorno, smart working, welfare aziendale) sono esenti fino a soglie specifiche e permettono di aumentare il "netto reale" senza alzare la RAL.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Aliquota marginale: il numero che conta di più per le decisioni</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">L'<strong>aliquota marginale</strong> è la percentuale che pagherai sul <strong>prossimo euro</strong> di aumento di stipendio: è la somma di IRPEF + addizionali + INPS (se sotto il massimale). Un dipendente Lombardo con 40.000€ di RAL ha aliquota marginale del 33% (IRPEF) + 1,73% (reg) + 0,8% (Milano) + 9,19% (INPS) = circa <strong>45%</strong>. Questo significa che di un aumento lordo di €2.000, ne vedi in busta circa €1.100. È il numero da tenere a mente quando negozi aumenti, premi, fringe benefit: spesso un benefit da €1.000 esente fiscalmente vale più di un aumento lordo di €1.500 tassato.</p>
+          </div>
+
+          <div class="info-card">
+            <h3 style={`color: ${color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il conguaglio di dicembre e la CU</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il datore di lavoro durante l'anno trattiene IRPEF stimata mese per mese come sostituto d'imposta, basandosi sulla RAL presunta. A dicembre (o a febbraio dell'anno successivo, massimo 28 febbraio) effettua il <strong>conguaglio fiscale</strong>: ricalcola l'IRPEF sull'intero anno e corregge eventuali differenze. Se il conguaglio è a credito (hai pagato troppo), te lo accredita in busta; se è a debito, te lo trattiene. Entro il <strong>16 marzo</strong> ricevi la <strong>Certificazione Unica (CU)</strong>, documento che riassume redditi, trattenute e detrazioni dell'anno precedente: serve per il 730/Redditi PF e per verificare che tutto sia corretto.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-guida" class="tab-content" style="display: none;">
+      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${color}; margin-bottom: 10px;`}>Come aumentare il netto senza cambiare lavoro</h2>
+      <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 28px;">
+        Sei strategie concrete per far entrare più soldi in tasca dalla stessa RAL.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>1</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Versa al fondo pensione: recuperi l'aliquota marginale</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">I versamenti volontari al fondo pensione sono <strong>deducibili dal reddito</strong> fino a €5.164,57/anno. Se hai aliquota marginale 33%, versare €2.000 al fondo pensione ti fa recuperare €660 di IRPEF nella dichiarazione successiva. Il netto della manovra? Versi 2.000€ ma "costi" 1.340€. Più la tua aliquota marginale è alta, più il risparmio fiscale è grande. E il capitale resta tuo, lavorerà nei mercati e verrà tassato più leggermente al pensionamento (9-15% invece di 23-43%).</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>2</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Chiedi fringe benefit invece di aumenti in busta</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se stai trattando un aumento, chiedi al datore di lavoro se una parte può essere convertita in <strong>welfare aziendale</strong>: buoni pasto (esenti fino a €8/giorno elettronici, 4€ cartacei), auto aziendale a uso promiscuo (tassazione agevolata in base alle emissioni), asili nido aziendali, rimborso trasporti, formazione, buoni acquisto Natale (esenti fino a €258,23/anno). Su un aumento di €1.500 lordo con aliquota marginale 45%, vedi €825 in busta. €1.500 di welfare esente valgono €1.500 pieni: quasi il doppio.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>3</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica i premi di produttività al 1%</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Nel 2026 l'imposta sostitutiva sui premi di produttività è scesa dal 5% all'<strong>1%</strong>. Se il tuo contratto prevede premi legati al raggiungimento di obiettivi aziendali misurabili e l'azienda ha depositato il contratto al Ministero del Lavoro, la quota di premio (fino a €3.000/anno, o €4.000 con partecipazione all'organizzazione) è tassata all'1% invece che con IRPEF ordinaria. Su un premio di €2.000, è la differenza tra €20 e €660 di tasse. Se l'azienda ancora non lo fa, puoi proporlo tramite le RSU: è un vantaggio sia per l'azienda (minori oneri) sia per i lavoratori.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>4</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Sfrutta tutte le detrazioni nel 730</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Molti dipendenti perdono €500-1.500 l'anno non portando in detrazione spese che hanno realmente sostenuto. Conserva ricevute e documenti per: <strong>spese mediche</strong> (19% oltre franchigia €129,11), <strong>interessi mutuo prima casa</strong> (19% fino a €4.000 di interessi), <strong>ristrutturazioni edilizie</strong> (50% detraibile in 10 anni), <strong>ecobonus</strong> (50-65%), <strong>assicurazioni vita e infortuni</strong>, <strong>sport bambini</strong>, <strong>rette asilo e università dei figli</strong>, <strong>donazioni</strong> a ONLUS e culto, <strong>canoni di locazione per studenti fuori sede</strong>. Il 730 precompilato INPS le include molte in automatico ma controlla: a volte vanno integrate manualmente.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>5</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Valuta il trasferimento di residenza (se puoi)</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il peso delle addizionali regionali e comunali è significativo per i redditi medio-alti. Su 50.000€ di imponibile, un dipendente a Roma paga <strong>€2.115 di addizionali</strong> (Lazio 3,33% + Roma 0,9%), mentre a Treviso (Veneto 1,23% + comune medio 0,2%) ne paga <strong>€725</strong>: una differenza di €1.390/anno. Se sei in smart working full-remote e hai flessibilità sulla residenza fiscale, questo è un elemento concreto. Attenzione: la residenza deve essere vera, non fittizia (sennò è evasione). Considera anche il Bonus Impatriati per chi rientra in Italia dall'estero dopo almeno 2 anni di lavoro fuori: tassazione agevolata del 50% dell'imponibile per 5 anni.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" style={`background: ${color}; box-shadow: 0 4px 12px ${color}40;`}>6</div>
+          <div>
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Non accettare aumenti "a cavallo" di scaglione senza calcolare</h3>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se sei vicino a una soglia di scaglione (come €28.000 o €50.000 di imponibile) un aumento lordo modesto può portarti a pagare aliquota marginale significativamente più alta sulla quota oltre soglia. Calcola il netto prima e dopo: a volte un aumento di €1.500 lordo vale €900 netti, mentre lo stesso valore in welfare aziendale ti arriverebbe integrale. Stessa logica vale per la soglia INPS di €56.224: sopra si aggiunge l'1% (il tuo contributo sale al 10,19%). Non è una ragione per rifiutare aumenti, ma per negoziare il mix lordo/welfare ottimale.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </Layout>
+
+<style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 28px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
+  .tab-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn.active {
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+  }
+
+  .info-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+  }
+
+  .step-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .step-number {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; flex-shrink: 0;
+  }
+
+  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .tab-btn { font-size: 13px; padding: 10px 6px; }
+  }
+</style>
+
+<script>
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).style.display = 'block';
+      });
+    });
+  }
+  setupTabs();
+</script>
