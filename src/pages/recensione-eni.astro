@@ -8,7 +8,7 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
   <article style="max-width: 800px; margin: 0 auto; padding: 40px 20px 60px;">
     
     <div style="margin-bottom: 48px; text-align: center;">
-      <p style="font-size: 13px; color: #f59e0b; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Recensione Indipendente</p>
+      <p style="font-size: 13px; color: #f59e0b; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Recensione Indipendente · Aprile 2026</p>
       <h1 style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 40px); color: #0f172a; line-height: 1.2; margin-bottom: 16px;">
         Eni Plenitude Fixa Time Smart: la recensione onesta (2026)
       </h1>
@@ -50,6 +50,16 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       </div>
     </div>
 
+    <div class="not-for-you">
+      <h3>Plenitude Fixa Time non è la scelta giusta se:</h3>
+      <ul>
+        <li><strong>Stai puntando sulla discesa dei prezzi.</strong> Se pensi che i mercati energetici scenderanno nei prossimi 12 mesi, un'offerta indicizzata (variabile) può rendere di più.</li>
+        <li><strong>Hai consumi molto bassi.</strong> Sotto i 1.500 kWh/anno o 800 Smc, lo sconto duale di 108€ pesa più del tuo costo materia: meglio confrontare con offerte senza quota fissa.</li>
+        <li><strong>Vuoi un prezzo PUN/PSV puro senza margini.</strong> Il prezzo bloccato è "sicurezza", non il più conveniente possibile in tutti i mesi dell'anno.</li>
+      </ul>
+      <p>In questi casi, usa il <a href="/luce-gas" style="color: #f59e0b; font-weight: 700;">nostro calcolatore</a> inserendo le offerte alternative per fare il confronto su base annua.</p>
+    </div>
+
     <div class="article-body" style="margin-top: 56px;">
 
       <h2>Perché Plenitude è la scelta sicura del 2026</h2>
@@ -66,6 +76,11 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
         <p style="font-size: 14px; color: #854d0e; margin: 0;">
           <strong>⚠️ Nota importante:</strong> I prezzi indicati (0,188 €/kWh e 0,705 €/Smc) si riferiscono alla sola componente materia prima e sono quelli pubblicati da Eni Plenitude al momento della stesura di questa analisi. Il costo totale in bolletta include anche oneri di sistema, trasporto, distribuzione e imposte. Le condizioni possono variare: verifica sempre il documento di sintesi contrattuale aggiornato sul sito ufficiale prima della sottoscrizione.
         </p>
+      </div>
+
+      <div class="verdict-box">
+        <h3>Il nostro verdetto</h3>
+        <p>Offerta solida per chi cerca prevedibilità della spesa nei prossimi 12 mesi e ha consumi medi (sopra i 2.000 kWh o 1.000 Smc). Le condizioni di uscita senza penali la rendono un'ottima soluzione "di copertura" anche per profili più cauti.</p>
       </div>
 
     </div>
@@ -86,66 +101,31 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
 <style>
   .hero-card {
-    background: #fff;
-    border: 2px solid #f59e0b;
-    border-radius: 20px;
-    padding: 32px 28px;
-    position: relative;
-    box-shadow: 0 20px 40px -12px rgba(245, 158, 11, 0.15);
+    background: #fff; border: 2px solid #f59e0b;
+    border-radius: 20px; padding: 32px 28px;
+    position: relative; box-shadow: 0 20px 40px -12px rgba(245, 158, 11, 0.15);
     text-align: center;
   }
   .hero-badge {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #f59e0b;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 6px 16px;
-    border-radius: 30px;
-    white-space: nowrap;
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: #f59e0b; color: #fff; font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 6px 16px; border-radius: 30px; white-space: nowrap;
   }
-
   .feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto 32px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-size: 15px;
-    color: #334155;
-    line-height: 1.6;
-    text-align: left;
-    max-width: 100%;
+    list-style: none; padding: 0; margin: 0 auto 32px;
+    display: inline-flex; flex-direction: column; align-items: flex-start;
+    font-size: 15px; color: #334155; line-height: 1.6;
+    text-align: left; max-width: 100%;
   }
-  .feature-list li {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .feature-list .icon {
-    flex-shrink: 0;
-    width: 24px;
-    text-align: center;
-  }
+  .feature-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; }
+  .feature-list .icon { flex-shrink: 0; width: 24px; text-align: center; }
 
   .stats-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 32px;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
-    flex-wrap: wrap;
+    display: flex; justify-content: center; align-items: center;
+    gap: 24px; margin-bottom: 32px;
+    background: #f8fafc; padding: 20px; border-radius: 16px;
+    border: 1px solid #e2e8f0; flex-wrap: wrap;
   }
   .stat { display: flex; flex-direction: column; gap: 6px; }
   .stat-label { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; }
@@ -154,34 +134,51 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
   .stat-divider { width: 1px; height: 40px; background: #cbd5e1; }
 
   .cta-btn {
-    display: inline-block;
-    color: #fff;
-    padding: 16px 36px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 16px;
-    text-decoration: none;
+    display: inline-block; color: #fff;
+    padding: 16px 36px; border-radius: 12px;
+    font-weight: 700; font-size: 16px; text-decoration: none;
   }
+
+  .not-for-you {
+    background: #fef2f2; border: 1px solid #fecaca;
+    border-radius: 16px; padding: 24px 26px; margin: 40px 0;
+  }
+  .not-for-you h3 {
+    font-size: 18px; font-weight: 800; color: #991b1b;
+    margin: 0 0 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .not-for-you h3::before { content: "⚠️"; }
+  .not-for-you ul {
+    margin: 0 0 14px; padding-left: 20px; color: #7f1d1d;
+    font-size: 14px; line-height: 1.7;
+  }
+  .not-for-you ul li { margin-bottom: 8px; }
+  .not-for-you ul li strong { color: #991b1b; }
+  .not-for-you p {
+    font-size: 13px; color: #7f1d1d; margin: 0;
+    padding-top: 14px; border-top: 1px solid #fecaca;
+  }
+
+  .verdict-box {
+    background: #f0fdf4; border-radius: 16px;
+    padding: 28px 26px; border: 1px solid #bbf7d0;
+    margin: 48px 0 0;
+  }
+  .verdict-box h3 { color: #166534; font-size: 18px; margin: 0 0 12px; font-weight: 800; }
+  .verdict-box p { color: #166534; font-size: 14px; margin: 0; line-height: 1.7; }
 
   .article-body h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    color: #0f172a;
-    margin-bottom: 12px;
-    line-height: 1.3;
+    font-size: 26px; color: #0f172a;
+    margin-bottom: 12px; line-height: 1.3;
   }
   .article-body h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: #334155;
-    margin-top: 32px;
-    margin-bottom: 8px;
+    font-size: 18px; font-weight: 700; color: #334155;
+    margin-top: 32px; margin-bottom: 8px;
   }
   .article-body p {
-    font-size: 15px;
-    color: #475569;
-    line-height: 1.8;
-    margin-bottom: 16px;
+    font-size: 15px; color: #475569;
+    line-height: 1.8; margin-bottom: 16px;
   }
 
   @media (max-width: 650px) {

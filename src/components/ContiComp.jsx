@@ -111,6 +111,64 @@ export function ContiComp() {
 
   const minBilancio = Math.min(...risultati.map(r => r.anno1.bilancio));
 
+  // ============================================================================
+  // SUGGERIMENTO CONTESTUALE — confronto con BBVA e Hype basato sui numeri reali
+  // ============================================================================
+  const suggerimento = useMemo(() => {
+    // Profilo BBVA: canone 0, tasso 3% lordo, bollo escluso, bonifici e prelievi >100€ gratis
+    const bbvaBilancio = calcolaBilancio({
+      canone: '0', bolloPagato: true,
+      tasso: '3', tassoPromo: '3', durataPromo: 0,
+      costoBonifico: '0', costoPrelievo: numPrelievi > 0 ? '0.5' : '0',
+      canoneCarta: '0', bonusBenvenuto: '0', cashbackAnnuo: giacenza < 1000 ? '50' : '0',
+      richiedeStipendio: false
+    }, giacenza, numBonifici, numPrelievi, stipendioOk, 1).bilancio;
+
+    // Profilo Hype Next: canone 2.90/mese = 34.80/anno, no interessi, prelievi gratis ITA
+    const hypeBilancio = calcolaBilancio({
+      canone: '2.90', bolloPagato: true,
+      tasso: '0', tassoPromo: '0', durataPromo: 0,
+      costoBonifico: '0', costoPrelievo: '0',
+      canoneCarta: '0', bonusBenvenuto: stipendioOk ? '20' : '0', cashbackAnnuo: '0',
+      richiedeStipendio: false
+    }, giacenza, numBonifici, numPrelievi, stipendioOk, 1).bilancio;
+
+    // Trova il bilancio peggiore tra le offerte dell'utente
+    const peggioreUtente = Math.max(...risultati.map(r => r.anno1.bilancio));
+    const miglioreUtente = minBilancio;
+
+    // Solo mostra suggerimento se BBVA o Hype sono significativamente migliori (>50€/anno)
+    const bbvaDelta = peggioreUtente - bbvaBilancio;
+    const hypeDelta = peggioreUtente - hypeBilancio;
+
+    let consiglio = null;
+    if (giacenza >= 2000 && bbvaDelta > 50 && bbvaBilancio < miglioreUtente - 30) {
+      consiglio = {
+        nome: 'BBVA Conto Online',
+        bilancio: bbvaBilancio,
+        delta: peggioreUtente - bbvaBilancio,
+        motivo: giacenza >= 5000
+          ? `Con la tua giacenza di € ${giacenza.toLocaleString('it-IT')}, gli interessi al 3% lordo (~2,22% netto) compensano il bollo statale e azzerano i costi.`
+          : `Bonifici e prelievi gratis (sopra 100€), zero canone, e gli interessi al 3% iniziano subito a maturare.`,
+        link: 'https://www.financeads.net/tc.php?t=82784C5581131019T',
+        review: '/recensione-bbva',
+        color: '#004481'
+      };
+    } else if (giacenza < 3000 && stipendioOk && hypeDelta > 30 && hypeBilancio < miglioreUtente - 20) {
+      consiglio = {
+        nome: 'Hype Next',
+        bilancio: hypeBilancio,
+        delta: peggioreUtente - hypeBilancio,
+        motivo: `Con accredito stipendio e bassa giacenza, Hype Next conviene: prelievi gratis illimitati in Italia, bonus 20€ all'apertura, gestione 100% app.`,
+        link: 'https://www.financeads.net/tc.php?t=82784C257267132T',
+        review: '/recensione-hype',
+        color: '#00AEFF'
+      };
+    }
+
+    return consiglio;
+  }, [giacenza, numBonifici, numPrelievi, stipendioOk, risultati, minBilancio]);
+
   const updateOfferta = (id, field, value) =>
     setOfferte(offerte.map(o => o.id === id ? { ...o, [field]: value } : o));
 
@@ -418,9 +476,144 @@ export function ContiComp() {
         <button onClick={aggiungiOfferta} style={{ display: 'block', margin: '0 auto 28px', background: '#fff', border: '2px dashed #cbd5e1', color: '#475569', padding: '12px 24px', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>+ Aggiungi un conto da confrontare ({offerte.length}/4)</button>
       )}
 
-      <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 48, lineHeight: 1.6, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
+      <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 28, lineHeight: 1.6, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
         <em><strong style={{ color: '#64748b' }}>Come leggo il risultato?</strong> Il numero finale (positivo = guadagno, negativo = costo) somma tutto quello che paghi alla banca in un anno (canone, carta, commissioni operazioni) e sottrae quello che la banca ti dà (interessi netti al 74% dopo tasse, cashback, bonus). Se la tua giacenza supera i 5.000€ c'è anche il bollo statale di 34,20€/anno, a meno che la banca non lo paghi per te. Non sono incluse spese rare come F24, MAV o bollettini.</em>
       </p>
+
+      {/* ==================================================================
+          BLOCCO CONTESTUALE — Suggerimento basato sui numeri inseriti
+          ================================================================== */}
+      {giacenza > 0 && (() => {
+        // BBVA simulato: canone 0, tasso 3% lordo, bonifici gratis, prelievi gratis ≥100€, bollo escluso
+        const bbvaInteressiLordi = giacenza * 0.03;
+        const bbvaInteressiNetti = bbvaInteressiLordi * 0.74;
+        const bbvaCanoneAnnuo = 0;
+        const bbvaBollo = giacenza > 5000 ? 0 : 0; // BBVA escluso
+        const bbvaCashbackPromo = giacenza > 0 ? Math.min(200 * 0.04, 8) : 0; // primo mese
+        const bbvaBilancio = bbvaCanoneAnnuo + bbvaBollo - bbvaInteressiNetti - bbvaCashbackPromo;
+
+        const miglioreAttuale = risultati.reduce((min, r) => r.anno1.bilancio < min.anno1.bilancio ? r : min, risultati[0]);
+        const differenza = miglioreAttuale.anno1.bilancio - bbvaBilancio;
+
+        const conviene = differenza > 30; // soglia minima per suggerimento
+        const profilo = giacenza < 3000 ? 'piccolo' : giacenza < 10000 ? 'medio' : 'grande';
+
+        if (!conviene) {
+          return (
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 16, padding: '18px 22px', marginBottom: 36, maxWidth: 720, margin: '0 auto 36px' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#166534', marginBottom: 6 }}>✓ Il tuo conto attuale è già competitivo</div>
+              <div style={{ fontSize: 13, color: '#166534', lineHeight: 1.6 }}>
+                Sui tuoi numeri (giacenza € {giacenza.toLocaleString('it-IT')}) il conto migliore tra quelli che hai messo a confronto è già allineato al mercato. Non vale la pena cambiare per pochi euro.
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div style={{
+            background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)',
+            border: '2px solid #10b981',
+            borderRadius: 16,
+            padding: '24px 26px',
+            marginBottom: 36,
+            maxWidth: 720,
+            margin: '0 auto 36px',
+            position: 'relative'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+              <span style={{ fontSize: 22 }}>💡</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#065f46', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Suggerimento basato sui tuoi numeri</span>
+            </div>
+
+            <div style={{ fontSize: 16, color: '#0f172a', lineHeight: 1.6, marginBottom: 14 }}>
+              Con una giacenza di <strong>€ {giacenza.toLocaleString('it-IT')}</strong>, aprire <strong>BBVA</strong> potrebbe farti guadagnare circa <strong style={{ color: '#059669', fontSize: 19 }}>+€ {Math.round(differenza).toLocaleString('it-IT')}/anno</strong> rispetto alla soluzione migliore che hai confrontato.
+            </div>
+
+            <div style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', marginBottom: 14, fontSize: 12, color: '#475569', lineHeight: 1.6 }}>
+              <strong style={{ color: '#0f172a' }}>Come abbiamo calcolato:</strong> giacenza {giacenza.toLocaleString('it-IT')}€ × 3% lordo = € {Math.round(bbvaInteressiLordi)} interessi annui, − 26% tasse = <strong>€ {Math.round(bbvaInteressiNetti)} netti</strong>. Canone €0, bonifici e prelievi (≥100€) gratis, bollo a carico della banca.
+              {profilo === 'piccolo' && <div style={{ marginTop: 6, color: '#92400e' }}>⚠️ Con giacenza sotto 3.000€ il vantaggio è limitato. Valuta se hai liquidità extra da depositare.</div>}
+            </div>
+
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <a href="/recensione-bbva" style={{
+                display: 'inline-block', padding: '10px 18px', borderRadius: 10,
+                background: '#fff', color: '#0f172a', border: '1px solid #cbd5e1',
+                fontSize: 12, fontWeight: 800, textDecoration: 'none', flex: '1 1 auto', textAlign: 'center'
+              }}>📖 Leggi prima la recensione</a>
+              <a href="https://www.financeads.net/tc.php?t=82784C5581131019T"
+                target="_blank" rel="noopener noreferrer sponsored nofollow"
+                style={{
+                  display: 'inline-block', padding: '10px 18px', borderRadius: 10,
+                  background: '#10b981', color: '#fff',
+                  fontSize: 12, fontWeight: 800, textDecoration: 'none', flex: '1 1 auto', textAlign: 'center'
+                }}>Vai a BBVA →</a>
+            </div>
+
+            <div style={{ marginTop: 12, fontSize: 10, color: '#64748b', lineHeight: 1.5 }}>
+              <span style={{ background: '#fef3c7', color: '#92400e', padding: '2px 6px', borderRadius: 3, fontWeight: 800, marginRight: 6 }}>#ADV</span>
+              Stima orientativa. Il tasso BBVA al 3% è soggetto a modifica dall'istituto. Verifica le condizioni aggiornate sul sito ufficiale prima di agire. Il link a BBVA è affiliato: SoldiBuoni riceve una commissione senza costi aggiuntivi per te.
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ==================================================================
+          BLOCCO 2.5 — SUGGERIMENTO CONTESTUALE basato sui numeri inseriti
+          ================================================================== */}
+      {suggerimento && (
+        <div style={{
+          background: 'linear-gradient(135deg, #f0f9ff 0%, #fff 60%)',
+          border: `1px solid ${suggerimento.color}30`,
+          borderRadius: 20, padding: '24px 26px',
+          marginBottom: 28,
+          position: 'relative'
+        }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: '#fff', border: `1px solid ${suggerimento.color}`,
+            color: suggerimento.color, fontSize: 11, fontWeight: 800,
+            padding: '5px 12px', borderRadius: 20, marginBottom: 14,
+            textTransform: 'uppercase', letterSpacing: '0.05em'
+          }}>
+            💡 Per il tuo profilo
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '0 0 6px', fontFamily: "'Playfair Display', serif" }}>
+              {suggerimento.bilancio < 0
+                ? <>Con <strong style={{ color: suggerimento.color }}>{suggerimento.nome}</strong> guadagneresti <strong>€ {Math.abs(Math.round(suggerimento.bilancio))}/anno</strong></>
+                : <>Con <strong style={{ color: suggerimento.color }}>{suggerimento.nome}</strong> spenderesti solo <strong>€ {Math.round(suggerimento.bilancio)}/anno</strong></>
+              }
+            </h3>
+            <p style={{ fontSize: 13, color: '#475569', margin: 0, lineHeight: 1.5 }}>
+              Risparmio stimato vs il tuo conto peggiore in lista: <strong style={{ color: '#059669' }}>€ {Math.round(suggerimento.delta)}/anno</strong>
+            </p>
+          </div>
+
+          <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, margin: '0 0 16px' }}>
+            {suggerimento.motivo}
+          </p>
+
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <a href={suggerimento.review} style={{
+              background: '#fff', color: '#0f172a',
+              border: '1px solid #cbd5e1', padding: '10px 18px', borderRadius: 10,
+              fontSize: 13, fontWeight: 700, textDecoration: 'none'
+            }}>📖 Leggi l'analisi</a>
+            <a href={suggerimento.link}
+              target="_blank" rel="noopener noreferrer sponsored nofollow"
+              style={{
+                background: suggerimento.color, color: '#fff',
+                padding: '10px 18px', borderRadius: 10,
+                fontSize: 13, fontWeight: 800, textDecoration: 'none'
+              }}>Vai al sito {suggerimento.nome.split(' ')[0]} →</a>
+          </div>
+
+          <p style={{ fontSize: 10, color: '#94a3b8', margin: '14px 0 0', lineHeight: 1.5 }}>
+            <em>Stima calcolata sui dati che hai inserito sopra (giacenza, bonifici, prelievi). Le condizioni reali possono variare: verifica sempre sul sito ufficiale prima di aprire un conto. <strong>#ADV — link affiliato</strong></em>
+          </p>
+        </div>
+      )}
 
       {/* ==================================================================
           BLOCCO 3 — AFFILIATE (riscritto per compliance)
@@ -437,9 +630,43 @@ export function ContiComp() {
           padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap'
         }}>★ La selezione del Team</div>
 
-        <p style={{ fontSize: 15, color: '#64748b', textAlign: 'center', marginBottom: 32, marginTop: 18, lineHeight: 1.6, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
-          Due conti selezionati dal nostro team — uno per massimizzare il rendimento sulla giacenza, uno per azzerare le commissioni operative.
+        <p style={{ fontSize: 15, color: '#64748b', textAlign: 'center', marginBottom: 14, marginTop: 18, lineHeight: 1.6, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
+          Due conti che monitoriamo da mesi: uno per chi vuole rendimento sulla liquidità, uno per chi vuole un secondo conto da app.
         </p>
+
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28, fontSize: 12, color: '#475569' }}>
+          <span style={{ background: '#f1f5f9', padding: '6px 12px', borderRadius: 20 }}><strong style={{ color: '#0f172a' }}>BBVA</strong> per la liquidità (3% lordo)</span>
+          <span style={{ color: '#cbd5e1' }}>·</span>
+          <span style={{ background: '#f1f5f9', padding: '6px 12px', borderRadius: 20 }}><strong style={{ color: '#0f172a' }}>Hype</strong> per l'operatività mobile</span>
+        </div>
+
+        {/* DECISION MATRIX — BBVA vs Hype */}
+        <div style={{
+          background: '#f8fafc', border: '1px solid #e2e8f0',
+          borderRadius: 14, padding: '16px 18px', marginBottom: 24
+        }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: '#0f172a', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center' }}>
+            Quale dei due scegliere?
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+            <div style={{ background: '#fff', padding: '12px 14px', borderRadius: 10, border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#004481', marginBottom: 6 }}>→ Scegli BBVA se</div>
+              <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, color: '#475569', lineHeight: 1.6 }}>
+                <li>Hai più di 3.000€ di giacenza media</li>
+                <li>Vuoi rendimento sulla liquidità</li>
+                <li>Prelievi raramente, sempre {`>`} 100€</li>
+              </ul>
+            </div>
+            <div style={{ background: '#fff', padding: '12px 14px', borderRadius: 10, border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#00AEFF', marginBottom: 6 }}>→ Scegli Hype se</div>
+              <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, color: '#475569', lineHeight: 1.6 }}>
+                <li>Hai bassa giacenza (sotto 3.000€)</li>
+                <li>Prelevi spesso piccole somme</li>
+                <li>Cerchi un secondo conto da app</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
 
@@ -483,13 +710,13 @@ export function ContiComp() {
               </div>
             </div>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionato il <strong>15 ottobre 2025</strong>
+              <strong>Aggiornato aprile 2026</strong>
             </p>
 
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
               background: '#e2e8f0', borderRadius: 12, overflow: 'hidden',
-              marginBottom: 16, border: '1px solid #e2e8f0'
+              marginBottom: 12, border: '1px solid #e2e8f0'
             }}>
               {[
                 { l: 'Canone', v: '0 €', h: true },
@@ -504,6 +731,29 @@ export function ContiComp() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
                 </div>
               ))}
+            </div>
+
+            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 11, color: '#9a3412', lineHeight: 1.6 }}>
+              <div style={{ fontWeight: 800, marginBottom: 4, color: '#7c2d12' }}>⚠ Non aprire BBVA se:</div>
+              <ul style={{ margin: 0, paddingLeft: 16 }}>
+                <li>Hai bisogno di versare contanti o assegni regolarmente</li>
+                <li>Vuoi una filiale fisica per assistenza</li>
+                <li>Prelevi spesso piccole somme (sotto 100€)</li>
+              </ul>
+            </div>
+
+            <div style={{
+              background: '#fef2f2', border: '1px solid #fecaca',
+              borderRadius: 10, padding: '10px 12px', marginBottom: 12
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#991b1b', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                ⚠️ Non per te se
+              </div>
+              <ul style={{ margin: 0, padding: '0 0 0 16px', fontSize: 12, color: '#7f1d1d', lineHeight: 1.5 }}>
+                <li>Versi spesso contanti o assegni</li>
+                <li>Prelievi piccole somme sotto i 100€</li>
+                <li>Ti serve una filiale fisica</li>
+              </ul>
             </div>
 
             <a href="/recensione-bbva" style={{
@@ -561,13 +811,13 @@ export function ContiComp() {
               </div>
             </div>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionato il <strong>15 ottobre 2025</strong> · gruppo illimity
+              <strong>Aggiornato aprile 2026</strong> · gruppo illimity
             </p>
 
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
               background: '#e2e8f0', borderRadius: 12, overflow: 'hidden',
-              marginBottom: 16, border: '1px solid #e2e8f0'
+              marginBottom: 12, border: '1px solid #e2e8f0'
             }}>
               {[
                 { l: 'Canone base', v: '0 €', h: true },
@@ -582,6 +832,15 @@ export function ContiComp() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
                 </div>
               ))}
+            </div>
+
+            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 11, color: '#9a3412', lineHeight: 1.6 }}>
+              <div style={{ fontWeight: 800, marginBottom: 4, color: '#7c2d12' }}>⚠ Hype non è per te se:</div>
+              <ul style={{ margin: 0, paddingLeft: 16 }}>
+                <li>Cerchi rendimento sulla giacenza (no interessi)</li>
+                <li>Devi ricevere assegni o versare contanti spesso</li>
+                <li>Vuoi investire seriamente (commissioni alte rispetto a broker dedicati)</li>
+              </ul>
             </div>
 
             <a href="/recensione-hype" style={{
