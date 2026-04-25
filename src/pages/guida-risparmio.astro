@@ -1,39 +1,41 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.jsx';
+
+const color = '#3b82f6';
 ---
 
-<Layout title="Come Risparmiare sulle Bollette nel 2026 — Guida Completa | SoldiBuoni" description="Guida pratica per risparmiare su bollette luce, gas, internet e acqua. 10 strategie testate con calcoli reali e strumenti gratuiti.">
-  
-  <article style="max-width: 720px; margin: 0 auto; padding: 40px 20px 60px;">
-    
-    <div style="margin-bottom: 32px;">
-      <p style="font-size: 13px; color: #059669; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Guida Completa</p>
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 36px; color: #0f172a; line-height: 1.2; margin-bottom: 12px;">
-        Come Risparmiare sulle Bollette nel 2026
-      </h1>
-      <p style="font-size: 17px; color: #64748b; line-height: 1.7;">
-        Una famiglia italiana media spende tra €2.500 e €4.000 all'anno in bollette. 
-        Eppure, con poche azioni mirate, è possibile ridurre questa cifra del 20-35%. 
-        Ecco le 10 strategie più efficaci, con calcoli reali.
-      </p>
-      <div style="display: flex; gap: 16px; margin-top: 16px; font-size: 13px; color: #94a3b8;">
-        <span>📅 Aggiornato: Marzo 2026</span>
-        <span>⏱️ 8 min di lettura</span>
+<Layout title="Guida Risparmio 2026 — Come Tagliare le Spese in 7 Capitoli | SoldiBuoni" description="Guida pratica per risparmiare su bollette luce, gas, internet, acqua e casa. Strategie testate con calcoli reali e strumenti gratuiti. Aggiornata aprile 2026.">
+
+  <article style="max-width: 720px; margin: 0 auto; padding: 36px 20px 60px;">
+
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
+        📖
       </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
+        Guida <span style={`color: ${color};`}>Risparmio</span> 2026
+      </h1>
     </div>
+
+    <p class="update-note">🔄 Aggiornata aprile 2026 · 8 min di lettura · Dati ARERA, ABI, ANIA</p>
+
+    <p style="font-size: 17px; color: #64748b; line-height: 1.7; margin: 0 0 28px;">
+      Una famiglia italiana media spende tra €2.500 e €4.000 all'anno in bollette.
+      Con poche azioni mirate, è possibile ridurre questa cifra del 20-35%.
+      Ecco il metodo completo in 7 capitoli, con calcoli reali.
+    </p>
 
     <nav style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; margin-bottom: 32px;">
       <p style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">In questa guida:</p>
       <ol style="font-size: 14px; color: #475569; line-height: 2; padding-left: 20px;">
-        <li><a href="#mercato-libero" style="color: #059669; text-decoration: none;">Capire il Mercato Libero</a></li>
-        <li><a href="#confronto-luce" style="color: #059669; text-decoration: none;">Risparmiare sulla Luce</a></li>
-        <li><a href="#confronto-gas" style="color: #059669; text-decoration: none;">Risparmiare sul Gas</a></li>
-        <li><a href="#internet" style="color: #059669; text-decoration: none;">Risparmiare su Internet</a></li>
-        <li><a href="#acqua" style="color: #059669; text-decoration: none;">Risparmiare sull'Acqua</a></li>
-        <li><a href="#bonus" style="color: #059669; text-decoration: none;">Bonus e Agevolazioni 2026</a></li>
-        <li><a href="#errori" style="color: #059669; text-decoration: none;">I 5 Errori più Comuni</a></li>
-        <li><a href="#checklist" style="color: #059669; text-decoration: none;">Checklist Operativa</a></li>
+        <li><a href="#mercato-libero" style={`color: ${color}; text-decoration: none;`}>Capire il Mercato Libero</a></li>
+        <li><a href="#confronto-luce" style={`color: ${color}; text-decoration: none;`}>Risparmiare sulla Luce</a></li>
+        <li><a href="#confronto-gas" style={`color: ${color}; text-decoration: none;`}>Risparmiare sul Gas</a></li>
+        <li><a href="#internet" style={`color: ${color}; text-decoration: none;`}>Risparmiare su Internet</a></li>
+        <li><a href="#acqua" style={`color: ${color}; text-decoration: none;`}>Risparmiare sull'Acqua</a></li>
+        <li><a href="#bonus" style={`color: ${color}; text-decoration: none;`}>Bonus e Agevolazioni 2026</a></li>
+        <li><a href="#errori" style={`color: ${color}; text-decoration: none;`}>I 5 Errori più Comuni</a></li>
       </ol>
     </nav>
 
@@ -41,87 +43,79 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
       <h2 id="mercato-libero">1. Capire il Mercato Libero dell'Energia</h2>
       <p>
-        Dal 1° luglio 2024, il mercato tutelato per l'energia elettrica è terminato per le utenze domestiche 
-        non vulnerabili. Questo significa che tutti i consumatori italiani devono scegliere un fornitore 
-        sul mercato libero. Chi non lo ha fatto è stato assegnato al "Servizio a Tutele Graduali" (STG), 
+        Dal 1° luglio 2024, il mercato tutelato per l'energia elettrica è terminato per le utenze domestiche
+        non vulnerabili. Tutti i consumatori italiani devono scegliere un fornitore
+        sul mercato libero. Chi non lo ha fatto è stato assegnato al "Servizio a Tutele Graduali" (STG),
         che ha prezzi temporanei — spesso non i più convenienti.
       </p>
       <p>
-        Per il gas, la transizione al mercato libero è avvenuta a gennaio 2025. Lo scenario è simile: 
+        Per il gas, la transizione al mercato libero è avvenuta a gennaio 2025. Lo scenario è simile:
         chi non ha scelto attivamente un fornitore potrebbe star pagando più del necessario.
       </p>
       <div style="background: #f0fdf4; border-radius: 12px; padding: 18px 22px; border: 1px solid #bbf7d0; margin: 20px 0;">
         <p style="font-size: 14px; color: #166534; margin: 0;">
-          <strong>💡 Cosa fare subito:</strong> Controlla sulla tua bolletta se sei ancora nel Servizio a 
-          Tutele Graduali. Se sì, usa il nostro <a href="/energia" style="color: #059669; font-weight: 700;">comparatore energia</a> 
+          <strong>💡 Cosa fare subito:</strong> Controlla sulla tua bolletta se sei ancora nel Servizio a
+          Tutele Graduali. Se sì, usa il nostro <a href="/luce-gas" style="color: #059669; font-weight: 700;">comparatore Luce & Gas</a>
           per trovare un'offerta migliore. Il cambio fornitore è gratuito e richiede 5 minuti.
         </p>
       </div>
 
       <h2 id="confronto-luce">2. Come Risparmiare sulla Bolletta della Luce</h2>
       <p>
-        La bolletta elettrica di una famiglia di 3 persone si aggira tra €600 e €900 all'anno, 
-        con un consumo medio di 2.700 kWh. Il prezzo della materia energia è la componente su cui 
+        La bolletta elettrica di una famiglia di 3 persone si aggira tra €600 e €900 all'anno,
+        con un consumo medio di 2.700 kWh. Il prezzo della materia energia è la componente su cui
         puoi intervenire — le altre voci (trasporto, oneri di sistema, imposte) sono uguali per tutti.
       </p>
       <h3>Prezzo fisso o variabile?</h3>
       <p>
-        Le offerte a prezzo fisso bloccano il costo del kWh per 12 o 24 mesi. Ti proteggono dagli 
-        aumenti ma non benefici dei ribassi. Le offerte variabili seguono il PUN (Prezzo Unico Nazionale) 
-        più uno spread fisso: nei periodi di prezzi bassi paghi molto meno, ma rischi di più se i prezzi 
+        Le offerte a prezzo fisso bloccano il costo del kWh per 12 o 24 mesi. Ti proteggono dagli
+        aumenti ma non benefici dei ribassi. Le offerte variabili seguono il PUN (Prezzo Unico Nazionale)
+        più uno spread fisso: nei periodi di prezzi bassi paghi molto meno, ma rischi di più se i prezzi
         salgono.
       </p>
       <p>
-        A marzo 2026, le migliori offerte fisse partono da circa €0.118/kWh, mentre le variabili 
-        migliori hanno spread di €0.006-0.009/kWh sul PUN. Con un PUN medio intorno a €0.09-0.10/kWh, 
+        Ad aprile 2026, le migliori offerte fisse partono da circa €0.09-0.11/kWh, mentre le variabili
+        migliori hanno spread di €0.006-0.009/kWh sul PUN. Con un PUN medio intorno a €0.08-0.10/kWh,
         le variabili risultano spesso più convenienti — ma serve propensione al rischio.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #059669; margin: 20px 0; text-align: center;">
+      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #f59e0b; margin: 20px 0; text-align: center;">
         <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          🔍 Confronta le offerte luce in tempo reale
+          ⚡ Confronta le offerte luce e gas
         </p>
-        <a href="/energia" style="display: inline-block; background: #059669; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
-          Vai al Comparatore Energia →
+        <a href="/luce-gas" style="display: inline-block; background: #f59e0b; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
+          Vai al Comparatore →
         </a>
       </div>
 
       <h2 id="confronto-gas">3. Come Risparmiare sulla Bolletta del Gas</h2>
       <p>
-        Il gas naturale è la voce più pesante per chi ha riscaldamento autonomo. Una famiglia al Nord 
-        Italia con riscaldamento a gas può consumare 1.200-1.800 Smc all'anno, con bollette tra 
+        Il gas naturale è la voce più pesante per chi ha riscaldamento autonomo. Una famiglia al Nord
+        Italia con riscaldamento a gas può consumare 1.200-1.800 Smc all'anno, con bollette tra
         €800 e €1.400. Al Centro e al Sud i consumi sono inferiori (600-1.000 Smc).
       </p>
       <p>
-        Il prezzo del gas segue il PSV (Punto di Scambio Virtuale). Come per la luce, esistono 
-        offerte a prezzo fisso e variabile (PSV + spread). Le migliori offerte fisse a marzo 2026 
-        partono da €0.41/Smc, mentre le variabili hanno spread da €0.02/Smc.
+        Il prezzo del gas segue il PSV (Punto di Scambio Virtuale). Come per la luce, esistono
+        offerte a prezzo fisso e variabile (PSV + spread). Le migliori offerte fisse ad aprile 2026
+        partono da €0.38-0.42/Smc, mentre le variabili hanno spread da €0.02/Smc.
       </p>
       <h3>3 consigli pratici per il gas</h3>
       <p>
-        Primo: abbassa il termostato di 1°C — risparmi circa il 6-7% sulla bolletta. 
-        Secondo: fai sfiatare i caloriferi a inizio stagione, l'aria intrappolata riduce l'efficienza 
-        del 10-15%. Terzo: se la caldaia ha più di 15 anni, la sostituzione con una a condensazione 
+        Primo: abbassa il termostato di 1°C — risparmi circa il 6-7% sulla bolletta.
+        Secondo: fai sfiatare i caloriferi a inizio stagione, l'aria intrappolata riduce l'efficienza
+        del 10-15%. Terzo: se la caldaia ha più di 15 anni, la sostituzione con una a condensazione
         si ripaga in 3-5 anni grazie al risparmio e alle detrazioni fiscali.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #EF4444; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          🔥 Confronta le offerte gas
-        </p>
-        <a href="/gas" style="display: inline-block; background: #EF4444; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
-          Vai al Comparatore Gas →
-        </a>
-      </div>
 
       <h2 id="internet">4. Come Risparmiare sulla Connessione Internet</h2>
       <p>
-        Molte famiglie pagano €30-35 al mese per la fibra, quando esistono offerte FTTH a partire 
-        da €17-20 al mese con velocità fino a 2.5 Gbps. Se il tuo contratto è stato rinnovato 
+        Molte famiglie pagano €30-35 al mese per la fibra, quando esistono offerte FTTH a partire
+        da €17-21 al mese con velocità fino a 2.5 Gbps. Se il tuo contratto è stato rinnovato
         automaticamente, quasi certamente stai pagando troppo.
       </p>
       <p>
-        I punti chiave da controllare: la velocità effettiva (FTTH vs FTTC fa una differenza enorme), 
-        la presenza di vincoli contrattuali, e i costi nascosti (modem a noleggio, attivazione). 
-        Le offerte senza vincolo sono sempre preferibili — ti permettono di cambiare in qualsiasi momento 
+        I punti chiave da controllare: la velocità effettiva (FTTH vs FTTC fa una differenza enorme),
+        la presenza di vincoli contrattuali, e i costi nascosti (modem a noleggio, attivazione).
+        Le offerte senza vincolo sono sempre preferibili — ti permettono di cambiare in qualsiasi momento
         se esce un'offerta migliore.
       </p>
       <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #8B5CF6; margin: 20px 0; text-align: center;">
@@ -135,108 +129,104 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
       <h2 id="acqua">5. Come Risparmiare sull'Acqua</h2>
       <p>
-        L'acqua è spesso sottovalutata perché la bolletta è relativamente bassa (€200-400/anno 
+        L'acqua è spesso sottovalutata perché la bolletta è relativamente bassa (€200-400/anno
         per una famiglia). Ma i margini di risparmio ci sono, soprattutto sui consumi.
       </p>
       <p>
-        Un italiano consuma in media 220 litri al giorno. Con riduttori di flusso (costo: €2-5 l'uno, 
-        si installano in 2 minuti sui rubinetti) puoi ridurre il consumo del 30-50%. 
-        Lo scarico del WC a doppio pulsante risparmia 26.000 litri all'anno rispetto allo scarico tradizionale. 
+        Un italiano consuma in media 220 litri al giorno. Con riduttori di flusso (costo: €2-5 l'uno,
+        si installano in 2 minuti sui rubinetti) puoi ridurre il consumo del 30-50%.
+        Lo scarico del WC a doppio pulsante risparmia 26.000 litri all'anno rispetto allo scarico tradizionale.
         Preferire la doccia alla vasca fa risparmiare 100-150 litri per ogni utilizzo.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #3B82F6; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          💧 Calcola il tuo consumo idrico
-        </p>
-        <a href="/acqua" style="display: inline-block; background: #3B82F6; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
-          Vai al Calcolatore Acqua →
-        </a>
-      </div>
 
       <h2 id="bonus">6. Bonus e Agevolazioni 2026</h2>
       <p>
-        Se il tuo ISEE è inferiore a €9.530 (o €20.000 con almeno 4 figli a carico), hai diritto 
-        al Bonus Sociale Elettrico e Gas. Lo sconto viene applicato automaticamente in bolletta — 
+        Se il tuo ISEE è inferiore a €9.530 (o €20.000 con almeno 4 figli a carico), hai diritto
+        al Bonus Sociale Elettrico e Gas. Lo sconto viene applicato automaticamente in bolletta —
         non devi fare domanda, basta avere un ISEE valido aggiornato.
       </p>
       <p>
-        Per l'acqua, il Bonus Idrico Integrativo è disponibile con ISEE sotto €8.265 
+        Per l'acqua, il Bonus Idrico Integrativo è disponibile con ISEE sotto €8.265
         (soglia elevata a €20.000 per famiglie con 4+ figli). Anche questo è automatico tramite ISEE.
       </p>
       <p>
-        Consiglio: anche se pensi di non averne diritto, calcola comunque il tuo ISEE al CAF (è gratis). 
-        Molte famiglie scoprono di rientrare nelle soglie senza saperlo, specialmente dopo un cambio 
+        Consiglio: anche se pensi di non averne diritto, calcola comunque il tuo ISEE al CAF (è gratis).
+        Molte famiglie scoprono di rientrare nelle soglie senza saperlo, specialmente dopo un cambio
         lavorativo o un figlio in più.
       </p>
+      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #ec4899; margin: 20px 0; text-align: center;">
+        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
+          🎁 Scopri a quali bonus hai diritto
+        </p>
+        <a href="/trova-bonus" style="display: inline-block; background: #ec4899; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
+          Vai a Trova Bonus →
+        </a>
+      </div>
 
       <h2 id="errori">7. I 5 Errori più Comuni</h2>
-      
+
       <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
         <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 1: Non confrontare mai le offerte.</strong> 
-          Il mercato cambia ogni mese. Un'offerta che era competitiva un anno fa potrebbe essere 
+          <strong>❌ Errore 1: Non confrontare mai le offerte.</strong>
+          Il mercato cambia ogni mese. Un'offerta che era competitiva un anno fa potrebbe essere
           tra le più care oggi. Bastano 10 minuti una volta all'anno.
         </p>
       </div>
       <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
         <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 2: Guardare solo il prezzo al kWh.</strong> 
-          Il costo fisso mensile può incidere molto, soprattutto con consumi bassi. 
+          <strong>❌ Errore 2: Guardare solo il prezzo al kWh.</strong>
+          Il costo fisso mensile può incidere molto, soprattutto con consumi bassi.
           Un'offerta a €0.12/kWh con €15/mese di fisso può costare più di una a €0.14/kWh con €5/mese.
         </p>
       </div>
       <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
         <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 3: Avere paura di cambiare fornitore.</strong> 
-          Il cambio è gratuito, non c'è interruzione del servizio, e puoi tornare indietro quando vuoi. 
+          <strong>❌ Errore 3: Avere paura di cambiare fornitore.</strong>
+          Il cambio è gratuito, non c'è interruzione del servizio, e puoi tornare indietro quando vuoi.
           Non ci sono penali se l'offerta non ha vincolo.
         </p>
       </div>
       <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
         <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 4: Ignorare la potenza del contatore.</strong> 
-          Se hai 4.5 kW o 6 kW ma ne usi al massimo 3, stai pagando costi fissi in più per niente. 
+          <strong>❌ Errore 4: Ignorare la potenza del contatore.</strong>
+          Se hai 4.5 kW o 6 kW ma ne usi al massimo 3, stai pagando costi fissi in più per niente.
           Chiedi al fornitore di ridurre la potenza contrattuale.
         </p>
       </div>
       <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
         <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 5: Non leggere l'autolettura.</strong> 
-          Se il distributore stima i tuoi consumi (invece di leggere il contatore), potresti pagare 
+          <strong>❌ Errore 5: Non leggere l'autolettura.</strong>
+          Se il distributore stima i tuoi consumi (invece di leggere il contatore), potresti pagare
           bollette gonfiate. Comunica l'autolettura almeno ogni 2 mesi.
         </p>
       </div>
 
-      <h2 id="checklist">8. Checklist Operativa</h2>
+      <h2>Conclusione: passa all'azione</h2>
       <p>
-        Abbiamo creato una checklist interattiva con 12 azioni concrete per risparmiare. 
-        Ogni azione ha una stima del risparmio, il tempo necessario e il link allo strumento giusto. 
-        Spunti quelle che hai completato e tieni traccia del tuo progresso.
-      </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #8b5cf6; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          ✅ Inizia la tua Checklist Risparmio
-        </p>
-        <a href="/checklist" style="display: inline-block; background: #8b5cf6; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
-          Vai alla Checklist →
-        </a>
-      </div>
-
-      <h2>Conclusione</h2>
-      <p>
-        Risparmiare sulle bollette non richiede sacrifici — richiede informazione. 
-        La maggior parte delle famiglie italiane paga centinaia di euro in più ogni anno semplicemente 
+        Risparmiare sulle bollette non richiede sacrifici — richiede informazione.
+        La maggior parte delle famiglie italiane paga centinaia di euro in più ogni anno semplicemente
         perché non ha mai confrontato le offerte o non conosce gli strumenti disponibili.
       </p>
       <p>
-        Usa i nostri comparatori gratuiti per verificare se stai pagando il giusto. 
-        Il <a href="/quanto-spendo" style="color: #059669; font-weight: 700;">calcolatore "Quanto Spendo?"</a> 
-        ti dà una panoramica completa in 60 secondi.
+        Il <a href="/quanto-spendo" style="color: #059669; font-weight: 700;">calcolatore "Quanto Spendo?"</a>
+        ti dà una panoramica completa in 2 minuti. Se preferisci un approccio strutturato, la
+        <a href="/checklist" style="color: #8b5cf6; font-weight: 700;">Checklist Salvavita</a> ti guida
+        con 12 azioni concrete, una al mese.
       </p>
 
     </div>
 
-    <div style="margin-top: 40px;">
+    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, #f5f3ff 0%, #fff 60%); border: 1px solid rgba(139,92,246,0.2); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+      <div style="flex: 1 1 280px;">
+        <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 4px;">Pronto a passare all'azione?</h4>
+        <p style="font-size: 13px; color: #64748b; margin: 0; line-height: 1.5;">12 azioni concrete con risparmio stimato, tempo richiesto e progresso tracciato.</p>
+      </div>
+      <a href="/checklist" style="padding: 12px 20px; border-radius: 12px; background: #8b5cf6; color: #fff; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; box-shadow: 0 6px 16px -4px rgba(139,92,246,0.5);">
+        Vai alla Checklist →
+      </a>
+    </div>
+
+    <div style="margin-top: 24px;">
       <NewsletterSignup client:load variant="compact" />
     </div>
 
@@ -244,6 +234,14 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
 </Layout>
 
 <style>
+  .update-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0 0 20px 0;
+    padding-left: 2px;
+    font-weight: 500;
+  }
+
   .article-body h2 {
     font-family: 'Playfair Display', serif;
     font-size: 24px;

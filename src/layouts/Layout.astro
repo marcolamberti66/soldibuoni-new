@@ -20,12 +20,22 @@ const { title, description } = Astro.props;
   <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png">
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
   
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH"></script>
   <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H2JD077CTH');
+    // Cookie consent: GA carica solo dopo accettazione
+    (function() {
+      var consent = null;
+      try { consent = localStorage.getItem('sb_cookie_consent'); } catch(e) {}
+      if (consent === 'accepted') {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-H2JD077CTH');
+      }
+    })();
   </script>
   
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -178,6 +188,56 @@ const { title, description } = Astro.props;
       <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link sono link di affiliazione.</p>
     </div>
   </footer>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner" class="cookie-banner" style="display:none;">
+    <div class="cookie-inner">
+      <div class="cookie-text">
+        <strong>🍪 Questo sito usa cookie analitici</strong>
+        <span>Usiamo Google Analytics per capire come viene usato il sito e migliorarlo. Nessun dato personale viene venduto o condiviso con terzi. <a href="/privacy" style="color: #3b82f6; text-decoration: underline;">Privacy policy</a></span>
+      </div>
+      <div class="cookie-actions">
+        <button id="cookie-reject" class="cookie-btn cookie-btn-reject">Rifiuta</button>
+        <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Accetta</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Cookie consent banner logic
+    (function() {
+      var consent = null;
+      try { consent = localStorage.getItem('sb_cookie_consent'); } catch(e) {}
+      if (consent !== 'accepted' && consent !== 'rejected') {
+        var banner = document.getElementById('cookie-banner');
+        if (banner) banner.style.display = 'block';
+      }
+
+      function loadGA() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H2JD077CTH';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-H2JD077CTH');
+      }
+
+      document.getElementById('cookie-accept')?.addEventListener('click', function() {
+        try { localStorage.setItem('sb_cookie_consent', 'accepted'); } catch(e) {}
+        document.getElementById('cookie-banner').style.display = 'none';
+        loadGA();
+      });
+
+      document.getElementById('cookie-reject')?.addEventListener('click', function() {
+        try { localStorage.setItem('sb_cookie_consent', 'rejected'); } catch(e) {}
+        document.getElementById('cookie-banner').style.display = 'none';
+      });
+    })();
+  </script>
 
   <script is:inline>
     const toggle = document.getElementById('menu-toggle');
@@ -385,5 +445,80 @@ const { title, description } = Astro.props;
     .nav-links-desktop { display: none; }
     .menu-toggle { display: flex; }
     .site-nav { padding: 0 20px; }
+  }
+
+  /* ══════ COOKIE BANNER ══════ */
+  .cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9999;
+    padding: 0 20px 20px;
+    animation: cookieSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes cookieSlide {
+    from { opacity: 0; transform: translateY(100%); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .cookie-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--navy-900);
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
+    flex-wrap: wrap;
+  }
+  .cookie-text {
+    flex: 1;
+    min-width: 240px;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cookie-text strong {
+    color: #fff;
+    font-size: 14px;
+  }
+  .cookie-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .cookie-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .cookie-btn-reject {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+  }
+  .cookie-btn-reject:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+  .cookie-btn-accept {
+    background: var(--green-600);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.3);
+  }
+  .cookie-btn-accept:hover {
+    background: #047857;
+  }
+  @media (max-width: 500px) {
+    .cookie-inner { flex-direction: column; align-items: stretch; }
+    .cookie-actions { justify-content: stretch; }
+    .cookie-btn { flex: 1; text-align: center; }
   }
 </style>
