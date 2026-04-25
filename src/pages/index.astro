@@ -133,7 +133,7 @@ import HeroContact from '../components/HeroContact.jsx';
           <h3>Conti Correnti</h3>
           <p>Zero spese, cashback e liquidità remunerata</p>
         </a>
-        <a href="/interesse-composto" class="cat-card" style="--cat-color:#3b82f6">
+        <a href="/investimenti" class="cat-card" style="--cat-color:#3b82f6">
           <span class="cat-arrow">↗</span>
           <div class="cat-icon" style="background:#dbeafe;">📈</div>
           <h3>Investimenti</h3>
@@ -265,6 +265,19 @@ import HeroContact from '../components/HeroContact.jsx';
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
+
+        <a href="/investimenti" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#3b82f6;">💼</div>
+          <div class="tool-card-body">
+            <div class="tool-card-title-row">
+              <h4>Portafogli Modello</h4>
+              <span class="tool-card-tag">Analisi</span>
+            </div>
+            <p>Simula asset allocation basate su dati storici reali</p>
+          </div>
+          <span class="tool-card-arrow">→</span>
+        </a>
+
         <a href="/trova-bonus" class="tool-card">
           <div class="tool-card-icon" style="background:rgba(236,72,153,.14); color:#f472b6;">🎁</div>
           <div class="tool-card-body">
@@ -576,12 +589,7 @@ import HeroContact from '../components/HeroContact.jsx';
   }
   .pop-tool {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: all 0.2s;
-  }
+    align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: all 0.2s; }
   .pop-tool:last-child { border-bottom: none; }
   .pop-tool:hover { padding-left: 4px;
   }
@@ -672,7 +680,7 @@ import HeroContact from '../components/HeroContact.jsx';
     flex-shrink: 0;
   }
 
-  /* ══════ EYEBROW PILL — COMUNE A TUTTE LE SEZIONI ══════ */
+  /* ══════ EYEBROW PILL ══════ */
   .section-eyebrow {
     display: inline-block;
     font-size: 11px;
