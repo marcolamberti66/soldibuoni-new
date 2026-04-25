@@ -55,15 +55,39 @@ import HeroContact from '../components/HeroContact.jsx';
     </div>
   </section>
 
-  <div class="proof">
-    <div class="proof-inner">
-      <div class="proof-item"><span class="proof-n">8</span><span class="proof-l">Aree di spesa coperte</span></div>
-      <div class="proof-d"></div>
-      <div class="proof-item"><span class="proof-n">40+</span><span class="proof-l">Provider confrontati</span></div>
-      <div class="proof-d"></div>
-      <div class="proof-item"><span class="proof-n">172</span><span class="proof-l">Fondi pensione COVIP</span></div>
-      <div class="proof-d"></div>
-      <div class="proof-item"><span class="proof-n">14</span><span class="proof-l">Strumenti gratuiti</span></div>
+  <div class="trust-strip">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <div class="trust-icon">🔒</div>
+        <div class="trust-text">
+          <span class="trust-title">Indipendente</span>
+          <span class="trust-sub">Nessun accordo con banche o assicurazioni</span>
+        </div>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <div class="trust-icon">🏛️</div>
+        <div class="trust-text">
+          <span class="trust-title">Fonti ufficiali</span>
+          <span class="trust-sub">Dati da ARERA, Banca d'Italia, ANIA e COVIP</span>
+        </div>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <div class="trust-icon">🔄</div>
+        <div class="trust-text">
+          <span class="trust-title">Aggiornato mensilmente</span>
+          <span class="trust-sub">Prezzi, tassi e offerte verificati ogni mese</span>
+        </div>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <div class="trust-icon">💶</div>
+        <div class="trust-text">
+          <span class="trust-title">100% gratuito</span>
+          <span class="trust-sub">Tutti gli strumenti, senza registrazione</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -487,30 +511,65 @@ import HeroContact from '../components/HeroContact.jsx';
   }
 
   /* ══════ PROOF BAR ══════ */
-  .proof {
+  .trust-strip {
     background: var(--white);
     border-bottom: 1px solid var(--border);
-    padding: 18px 24px;
+    padding: 0 24px;
   }
-  .proof-inner {
+  .trust-inner {
     max-width: 1100px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 36px;
-    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0;
   }
-  .proof-item { text-align: center; }
-  .proof-n {
-    display: block;
-    font-size: 22px;
+  .trust-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px;
+    transition: background 0.25s;
+  }
+  .trust-item:hover {
+    background: rgba(15,23,42,0.02);
+  }
+  .trust-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .trust-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .trust-title {
+    font-size: 14px;
     font-weight: 800;
     color: var(--navy-900);
-    font-family: 'DM Serif Display', serif;
+    letter-spacing: -0.01em;
   }
-  .proof-l { font-size: 11px; color: var(--text-muted); font-weight: 500; }
-  .proof-d { width: 1px; height: 32px; background: var(--border); }
+  .trust-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .trust-sep {
+    width: 1px;
+    background: var(--border);
+    align-self: center;
+    height: 32px;
+    flex-shrink: 0;
+  }
 
   /* ══════ EYEBROW PILL — COMUNE A TUTTE LE SEZIONI ══════ */
   .section-eyebrow {
@@ -979,6 +1038,9 @@ import HeroContact from '../components/HeroContact.jsx';
     .hero-left p { margin-bottom: 24px; }
     .hero { padding: 24px 24px 64px; min-height: auto; }
     .hero-right { margin-top: 0; }
+    .trust-inner { flex-wrap: wrap; }
+    .trust-sep { display: none; }
+    .trust-item { flex: 1 1 45%; padding: 18px 16px; }
     .cats-grid { grid-template-columns: repeat(2, 1fr); }
     .offers-grid { grid-template-columns: 1fr; }
 
@@ -995,7 +1057,9 @@ import HeroContact from '../components/HeroContact.jsx';
   }
 
   @media (max-width: 500px) {
-    .proof-d { display: none; }
+    .trust-inner { flex-wrap: wrap; }
+    .trust-item { flex: 1 1 100%; padding: 14px 18px; }
+    .trust-sep { display: none; }
     .cats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .cat-card { padding: 20px 12px 16px; }
     .cat-icon { width: 44px; height: 44px; font-size: 20px; margin-bottom: 10px; }
