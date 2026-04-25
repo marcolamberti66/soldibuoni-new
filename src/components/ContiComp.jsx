@@ -206,9 +206,19 @@ export function ContiComp() {
     <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
 
       <div style={{ ...cardBase, marginBottom: 28, padding: '36px 32px' }}>
+        <style dangerouslySetInnerHTML={{__html:`
+          .cc-profili { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+          .cc-inputs { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
+          @media(max-width:500px){
+            .cc-profili { gap:6px; }
+            .cc-profili button { padding:8px 6px !important; font-size:12px !important; }
+            .cc-inputs { grid-template-columns:1fr 1fr; gap:12px; }
+            .cc-inputs .cc-full { grid-column:1/-1; }
+          }
+        `}}/>
         <div style={{ marginBottom: 24 }}>
           <label style={labelStyle}>Profilo d'uso tipico</label>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div className="cc-profili">
             {PRESETS_PROFILO.map(p => {
               const active = giacenza === p.giacenza && numBonifici === p.bonifici && numPrelievi === p.prelievi;
               return (
@@ -217,8 +227,8 @@ export function ContiComp() {
                     background: active ? '#fff' : '#f8fafc',
                     border: active ? `1px solid ${t.primary}` : '1px solid #e2e8f0',
                     color: active ? t.primary : '#475569',
-                    padding: '10px 14px', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left', lineHeight: 1.2,
-                    boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none'
+                    padding: '10px 8px', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'center', lineHeight: 1.2,
+                    boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none', fontFamily: 'inherit'
                   }}
                 >
                   <div>{p.label}</div>
@@ -229,8 +239,8 @@ export function ContiComp() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 20 }}>
-          <div>
+        <div className="cc-inputs">
+          <div className="cc-full">
             <label style={labelStyle}>Giacenza media (€)</label>
             <input type="number" value={giacenzaStr} onChange={(e) => setGiacenzaStr(e.target.value)}
               style={{
@@ -245,12 +255,12 @@ export function ContiComp() {
             )}
           </div>
           <div>
-            <label style={labelStyle}>Bonifici istantanei / mese</label>
+            <label style={labelStyle}>Bonifici / mese</label>
             <input type="number" value={numBonifici} onChange={(e) => setNumBonifici(parseInt(e.target.value) || 0)}
               style={{ width: '100%', padding: '12px 14px', fontSize: 16, fontWeight: 700, border: '1px solid #cbd5e1', borderRadius: 12, boxSizing: 'border-box' }} />
           </div>
           <div>
-            <label style={labelStyle}>Prelievi ATM terzi / mese</label>
+            <label style={labelStyle}>Prelievi / mese</label>
             <input type="number" value={numPrelievi} onChange={(e) => setNumPrelievi(parseInt(e.target.value) || 0)}
               style={{ width: '100%', padding: '12px 14px', fontSize: 16, fontWeight: 700, border: '1px solid #cbd5e1', borderRadius: 12, boxSizing: 'border-box' }} />
           </div>
@@ -409,7 +419,7 @@ export function ContiComp() {
       )}
 
       <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 48, lineHeight: 1.6, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
-        <em>Il bilancio include canone conto, canone carta di debito, bollo statale (34,20€/anno se giacenza media {'>'} 5.000€, salvo esenzione bancaria), commissioni su operazioni e interessi netti (tassazione 26%). Non include costi accessori come F24/MAV/RAV, commissioni su operatività business o su SDD. Questo strumento è una stima indicativa e non costituisce consulenza finanziaria.</em>
+        <em><strong style={{ color: '#64748b' }}>Come leggo il risultato?</strong> Il numero finale (positivo = guadagno, negativo = costo) somma tutto quello che paghi alla banca in un anno (canone, carta, commissioni operazioni) e sottrae quello che la banca ti dà (interessi netti al 74% dopo tasse, cashback, bonus). Se la tua giacenza supera i 5.000€ c'è anche il bollo statale di 34,20€/anno, a meno che la banca non lo paghi per te. Non sono incluse spese rare come F24, MAV o bollettini.</em>
       </p>
 
       {/* ==================================================================

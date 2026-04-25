@@ -71,11 +71,10 @@ const ENI_OFFER = {
 // ============================================================================
 
 const COSTANTI_LUCE = {
-  trasportoFisso: 85,           // €/anno — quota fissa + quota potenza tipica 3 kW (TD ARERA 2025)
-  trasportoVariabile: 0.0120,   // €/kWh — servizi di rete quota energia
-  oneriSistema: 0.0155,         // €/kWh — ASOS + ARIM (ARERA 2025)
-  accisa: 0.0227,               // €/kWh — applicata SOLO oltre 150 kWh/mese (1800 kWh/anno) per residenti
-  sogliaAccisa: 1800,           // kWh/anno sotto cui l'accisa non si applica (esenzione prima casa residente)
+  trasportoFisso: 85,           // €/anno (quota fissa + quota potenza tipica 3 kW)
+  trasportoVariabile: 0.0089,   // €/kWh
+  oneriSistema: 0.0115,         // €/kWh
+  accisa: 0.0227,               // €/kWh
   iva: 0.10
 };
 
@@ -107,9 +106,7 @@ function calcolaCRAS({ tipo, prezzo, fisso, scontoAnno, scontoOneShot, indiceAtt
     const c = COSTANTI_LUCE;
     const trasporto = c.trasportoFisso + c.trasportoVariabile * consumo;
     const oneri = c.oneriSistema * consumo;
-    // Accisa: esenzione sotto 1800 kWh/anno per prima casa residente
-    const consumoTassabile = Math.max(0, consumo - c.sogliaAccisa);
-    const accise = c.accisa * consumoTassabile;
+    const accise = c.accisa * consumo;
     const imponibile = materiaEnergia + trasporto + oneri + accise;
     const iva = imponibile * c.iva;
     oneriEImposte = trasporto + oneri + accise + iva;
@@ -154,6 +151,7 @@ function calcolaCRAS({ tipo, prezzo, fisso, scontoAnno, scontoOneShot, indiceAtt
 export function LuceGasComp() {
   const [tipoEnergia, setTipoEnergia] = useState('luce');
   const [consumoStr, setConsumoStr] = useState('2700');
+  const [permanenza, setPermanenza] = useState(12);
   const [offerte, setOfferte] = useState(DEFAULT_OFFERS.luce);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiMode, setAiMode] = useState('text'); // 'text' | 'image'
@@ -178,14 +176,18 @@ export function LuceGasComp() {
   const t = THEME[tipoEnergia];
 
   const risultati = useMemo(
-    () => offerte.map(off => ({
-      ...off,
-      calcoli: calcolaCRAS({ ...off, indiceAttuale }, consumo, tipoEnergia)
-    })),
-    [offerte, consumo, tipoEnergia, indiceAttuale]
+    () => offerte.map(off => {
+      const calc = calcolaCRAS({ ...off, indiceAttuale }, consumo, tipoEnergia);
+      const anniPerm = permanenza / 12;
+      const costoTotPerm = anniPerm <= 1
+        ? calc.totale
+        : calc.totale + calc.totaleAnno2 * (anniPerm - 1);
+      return { ...off, calcoli: calc, costoTotPerm };
+    }),
+    [offerte, consumo, tipoEnergia, indiceAttuale, permanenza]
   );
 
-  const minTotale = Math.min(...risultati.map(r => r.calcoli.totale));
+  const minTotale = Math.min(...risultati.map(r => r.costoTotPerm));
 
   const updateOfferta = (id, field, value) =>
     setOfferte(offerte.map(o => o.id === id ? { ...o, [field]: value } : o));
@@ -313,12 +315,28 @@ export function LuceGasComp() {
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
 
+      <style dangerouslySetInnerHTML={{__html:`
+        .lg-top-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; }
+        .lg-consumo-box { display:flex; gap:12px; align-items:stretch; background:#f8fafc; padding:6px; border-radius:16px; border:1px solid #e2e8f0; }
+        .lg-consumo-chips { display:flex; gap:6px; flex:1; flex-wrap:wrap; align-items:center; }
+        .lg-perm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:20px; }
+        @media(max-width:500px){
+          .lg-top-grid { grid-template-columns:1fr; gap:20px; }
+          .lg-consumo-box { flex-direction:column; gap:8px; }
+          .lg-consumo-box input { width:100% !important; font-size:18px !important; }
+          .lg-consumo-chips { gap:4px; }
+          .lg-consumo-chips button { padding:6px 8px !important; font-size:11px !important; }
+          .lg-perm-grid { gap:6px; }
+          .lg-perm-grid button { padding:8px 4px !important; font-size:11px !important; }
+        }
+      `}}/>
+
       {/* ====================================================================
-          BLOCCO 1 — SELETTORI PREMIUM (materia + consumo)
+          BLOCCO 1 — SELETTORI PREMIUM (materia + consumo + permanenza)
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 28, padding: '36px 32px' }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
+        <div className="lg-top-grid">
 
           {/* MATERIA — segmented premium */}
           <div>
@@ -369,15 +387,7 @@ export function LuceGasComp() {
           {/* CONSUMO — input + chips */}
           <div>
             <label style={labelStyle}>2 · Il tuo consumo annuo ({unita})</label>
-            <div style={{
-              display: 'flex',
-              gap: 12,
-              alignItems: 'stretch',
-              background: '#f8fafc',
-              padding: 6,
-              borderRadius: 16,
-              border: '1px solid #e2e8f0'
-            }}>
+            <div className="lg-consumo-box">
               <input
                 type="number"
                 value={consumoStr}
@@ -392,10 +402,11 @@ export function LuceGasComp() {
                   color: t.primary,
                   background: '#fff',
                   outline: 'none',
-                  fontVariantNumeric: 'tabular-nums'
+                  fontVariantNumeric: 'tabular-nums',
+                  boxSizing: 'border-box'
                 }}
               />
-              <div style={{ display: 'flex', gap: 6, flex: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+              <div className="lg-consumo-chips">
                 {PRESETS[tipoEnergia].map(p => {
                   const active = consumo === p.val;
                   return (
@@ -414,7 +425,8 @@ export function LuceGasComp() {
                         textAlign: 'left',
                         transition: 'all 0.15s ease',
                         boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none',
-                        lineHeight: 1.2
+                        lineHeight: 1.2,
+                        fontFamily: 'inherit'
                       }}
                     >
                       <div>{p.label}</div>
@@ -426,6 +438,43 @@ export function LuceGasComp() {
             </div>
           </div>
 
+        </div>
+
+        {/* PERMANENZA — per quanti mesi terrai il contratto */}
+        <div style={{ marginTop: 24 }}>
+          <label style={labelStyle}>3 · Per quanto tempo terrai il contratto?</label>
+          <div className="lg-perm-grid">
+            {[
+              { val: 12, label: '1 Anno', sub: 'cambio spesso' },
+              { val: 24, label: '2 Anni', sub: 'profilo standard' },
+              { val: 36, label: '3 Anni', sub: 'fedeltà' }
+            ].map(p => {
+              const active = permanenza === p.val;
+              return (
+                <button
+                  key={p.val}
+                  onClick={() => setPermanenza(p.val)}
+                  style={{
+                    background: active ? '#fff' : '#f8fafc',
+                    border: active ? `1px solid ${t.primary}` : '1px solid #e2e8f0',
+                    color: active ? t.primary : '#475569',
+                    padding: '10px 8px',
+                    borderRadius: 12,
+                    fontWeight: 700,
+                    fontSize: 13,
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    lineHeight: 1.2,
+                    boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none',
+                    fontFamily: 'inherit'
+                  }}
+                >
+                  <div>{p.label}</div>
+                  <div style={{ fontSize: 11, opacity: 0.7, fontWeight: 600 }}>{p.sub}</div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* ============== AI EXTRACTION TOGGLE ============== */}
@@ -602,7 +651,7 @@ export function LuceGasComp() {
           ==================================================================== */}
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(${offerte.length > 2 ? '260px' : '300px'}, 1fr))`, gap: 20, marginBottom: 16 }}>
         {risultati.map((off) => {
-          const isWinner = off.calcoli.totale === minTotale && off.calcoli.totale > 0 && offerte.length > 1;
+          const isWinner = off.costoTotPerm === minTotale && off.costoTotPerm > 0 && offerte.length > 1;
           return (
             <div
               key={off.id}
@@ -798,6 +847,11 @@ export function LuceGasComp() {
                 {(parseFloat(off.scontoOneShot) || 0) > 0 && (
                   <div style={{ fontSize: 12, color: '#64748b' }}>
                     Anno 2: € {Math.round(off.calcoli.totaleAnno2).toLocaleString('it-IT')} <span style={{ opacity: 0.6 }}>(senza bonus)</span>
+                  </div>
+                )}
+                {permanenza > 12 && (
+                  <div style={{ marginTop: 8, padding: '8px 12px', background: isWinner ? `${t.primary}10` : '#f0f9ff', borderRadius: 8, fontSize: 13, fontWeight: 800, color: isWinner ? t.primary : '#0369a1' }}>
+                    Totale su {permanenza / 12} anni: € {Math.round(off.costoTotPerm).toLocaleString('it-IT')}
                   </div>
                 )}
 

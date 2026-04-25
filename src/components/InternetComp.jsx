@@ -178,7 +178,14 @@ export function InternetComp() {
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
 
-      <div style={{ ...cardBase, marginBottom: 28, padding: '36px 32px' }}>
+      <style dangerouslySetInnerHTML={{__html:`
+        @media(max-width:500px){
+          .inet-wrap input[type=number] { width:100% !important; font-size:18px !important; }
+          .inet-wrap button { padding:6px 8px !important; font-size:11px !important; }
+        }
+      `}}/>
+
+      <div className="inet-wrap" style={{ ...cardBase, marginBottom: 28, padding: '36px 32px' }}>
         <label style={labelStyle}>Per quanti mesi terrai il contratto?</label>
         <div style={{ display: 'flex', gap: 12, alignItems: 'stretch', background: '#f8fafc', padding: 6, borderRadius: 16, border: '1px solid #e2e8f0' }}>
           <input type="number" value={permanenzaStr} onChange={(e) => setPermanenzaStr(e.target.value)}

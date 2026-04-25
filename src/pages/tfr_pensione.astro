@@ -4,294 +4,95 @@ import { PensioneComp } from '../components/PensioneComp.jsx';
 import { TOPICS } from '../data.js';
 
 const topic = TOPICS.tfr_pensione;
-const topicColor = topic.color;
 ---
 
-<Layout title="TFR e Pensione Integrativa | SoldiBuoni" description="Confronta i fondi pensione aperti con i dati ufficiali COVIP, capisci il tuo vantaggio fiscale e impara come scegliere la strategia previdenziale giusta.">
-  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
-
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topicColor}14; flex-shrink: 0;`}>
-        📊
+<Layout title="TFR e Pensione Integrativa | SoldiBuoni" description="Confronta i fondi pensione, scopri come gestire il TFR e massimizza i vantaggi fiscali per il tuo futuro.">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+    
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
-        TFR & <span style={`color: ${topicColor};`}>Pensione Integrativa</span>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
       </h1>
     </div>
 
-    <p class="update-note">🔄 Dati COVIP aggiornati al 31/12/2024 · 172 comparti monitorati · Prossimo aggiornamento atteso: giugno 2026</p>
-
-    <div class="tab-container">
-      <button class="tab-btn active" data-target="tab-confronta">📊 <span class="tab-label">Classifica fondi</span></button>
-      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Il sistema previdenziale</span></button>
-      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come scegliere</span></button>
+    <div class="tab-container" style={`--theme-color: ${topic.color}`}>
+      <button class="tab-btn active" data-target="tab-confronta">📊 Confronta</button>
+      <button class="tab-btn" data-target="tab-capire">💡 Capire il mercato</button>
+      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
     </div>
 
     <div id="tab-confronta" class="tab-content" style="display: block;">
-      <PensioneComp client:only="react" color={topicColor} />
+      <PensioneComp client:only="react" color={topic.color} />
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
-
-        <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 24px;`}>TFR, fondi pensione e vantaggi fiscali</h2>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Cos'è il TFR e perché è importante</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Ogni mese, il tuo datore di lavoro accantona circa il 6,91% della tua retribuzione lorda come Trattamento di Fine Rapporto. Se lasci il TFR in azienda, si rivaluta dell'1,5% fisso più il 75% dell'inflazione annua — un rendimento storicamente nell'ordine del 2-3%. Ma hai un'alternativa: destinarlo a un fondo pensione. Non si tratta di soldi in più che devi tirare fuori dallo stipendio: è denaro che già ti spetta, e la domanda è solo dove farlo fruttare meglio.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Fondo pensione vs TFR in azienda: il confronto fiscale</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il TFR lasciato in azienda rende poco e viene tassato con l'aliquota IRPEF ordinaria (23%-43%) al momento dell'incasso. Un fondo pensione, invece, gode di una tassazione agevolata tra il 9% e il 15% che si abbassa con gli anni di permanenza (a partire dal 16° anno, per ogni anno ulteriore si sottrae lo 0,30% fino al minimo del 9%). Inoltre, se aderisci al fondo negoziale del tuo settore, il datore di lavoro è obbligato a versare un contributo aggiuntivo (1-2% della retribuzione) che altrimenti non riceveresti.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La deducibilità fiscale: il vantaggio più sottovalutato</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">I versamenti volontari al fondo pensione sono deducibili dal reddito imponibile fino a 5.164,57€ all'anno (art. 8, D.Lgs. 252/2005). Significa che lo Stato ti restituisce immediatamente una parte di ciò che versi sotto forma di minori tasse. Un lavoratore con aliquota marginale del 35% che versa 3.000€ recupera circa 1.050€ di IRPEF — un risparmio fiscale del 35% sull'importo versato, prima ancora di considerare i rendimenti del fondo. Nella sezione "Come scegliere" trovi un calcolatore per simulare il tuo beneficio fiscale.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il gap pensionistico: quanto prenderai davvero</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Con il sistema contributivo introdotto dalla riforma Dini del 1995, la pensione pubblica del lavoratore dipendente sarà verosimilmente tra il 50% e il 70% dell'ultimo stipendio. Per chi ha iniziato a lavorare dopo il 1996, per gli autonomi o per chi ha carriere discontinue, il tasso di sostituzione può scendere al 40-55%. Se oggi guadagni 1.800€ netti, la pensione pubblica potrebbe essere di 900-1.100€. Il fondo pensione serve a colmare questo gap costruendo una rendita integrativa. Prima inizi, più l'interesse composto lavora a tuo favore: cinque anni di ritardo sulla partenza possono costare il 20-30% del capitale finale.</p>
-          </div>
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      {topic.capire.content.map((c) => (
+        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+          <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
+          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
         </div>
-
-        <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 24px;`}>Tipologie di fondi e flessibilità</h2>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>I tre tipi di fondo pensione</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">I <strong>fondi negoziali</strong> (o di categoria) sono riservati ai lavoratori di specifici settori: costi bassissimi (ISC 0,1-0,3% annuo) e contributo obbligatorio del datore di lavoro. Sono quasi sempre la scelta migliore per chi ne ha diritto. I <strong>fondi aperti</strong> sono accessibili a tutti (lavoratori dipendenti, autonomi, liberi professionisti), costano di più (ISC 1-1,5%) ma offrono maggiore flessibilità. I <strong>PIP</strong> (Piani Individuali Pensionistici) sono prodotti assicurativi spesso costosi (ISC 2-3%). Tutti e tre sono vigilati dalla COVIP ma hanno strutture molto diverse: sulla stessa performance lorda, l'ISC fa la differenza tra migliaia di euro in più o in meno nel capitale finale.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>I principali fondi negoziali per categoria</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Se il tuo CCNL prevede un fondo negoziale, quasi sempre è la scelta migliore. Alcuni esempi: <strong>Cometa</strong> per i metalmeccanici, <strong>Fonte</strong> per il commercio/turismo/servizi, <strong>Cooperlavoro</strong> per le cooperative, <strong>Laborfonds</strong> per il Trentino-Alto Adige, <strong>Eurofer</strong> per le ferrovie, <strong>Previvolo</strong> per il personale di volo, <strong>Arco</strong> per legno/arredo, <strong>Fondoposte</strong> per Poste Italiane, <strong>Fondapi</strong> per le piccole-medie imprese industriali, <strong>Byblos</strong> per carta/editoria, <strong>Pegaso</strong> per servizi ambientali. Verifica sul tuo contratto collettivo o chiedi alle risorse umane se esiste un fondo dedicato alla tua categoria.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Come leggere i rendimenti COVIP</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Quando confronti i fondi, guarda i rendimenti netti su orizzonti lunghi — almeno 5 o 10 anni. Il rendimento del singolo anno può essere fuorviante: un anno eccezionale non significa che il fondo sia strutturalmente migliore. I rendimenti COVIP sono già al netto dei costi di gestione e delle imposte sul rendimento (20% sulla rivalutazione annua), quindi sono direttamente confrontabili tra fondi diversi. Un track record di 10-20 anni è un indicatore di solidità della gestione, ma ricorda: i rendimenti passati non garantiscono risultati futuri.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Anticipazioni e riscatto anticipato</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il capitale versato al fondo non è completamente bloccato fino alla pensione. La legge prevede tre casi di anticipazione (art. 11, D.Lgs. 252/2005): <strong>fino al 75%</strong> dopo 8 anni di iscrizione per acquisto/ristrutturazione prima casa o per spese sanitarie straordinarie documentate; <strong>fino al 30%</strong> in qualunque momento per altre esigenze personali (tassato al 23%). In caso di disoccupazione di lungo periodo (oltre 48 mesi), puoi riscattare il 100% del montante. Le anticipazioni vengono tassate dal 9% al 23% a seconda della causale. Questa flessibilità è un punto importante: il fondo pensione non è una "trappola" di liquidità come molti pensano.</p>
-          </div>
-        </div>
-
-      </div>
+      ))}
     </div>
 
     <div id="tab-guida" class="tab-content" style="display: none;">
-
-      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 10px;`}>Come scegliere la strategia previdenziale giusta</h2>
-      <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 28px;">
-        Un percorso in 6 passi per non lasciare soldi sul tavolo e costruire una rendita integrativa che abbia senso per il tuo profilo.
-      </p>
-
-      <!-- Mini calcolatrice risparmio IRPEF -->
-      <div style={`background: linear-gradient(135deg, ${topicColor}0A 0%, ${topicColor}05 100%); border: 2px solid ${topicColor}40; border-radius: 20px; padding: 28px 24px; margin-bottom: 32px;`}>
-        <h3 style={`color: ${topicColor}; font-size: 18px; font-weight: 900; margin: 0 0 6px; display: flex; align-items: center; gap: 8px;`}>
-          🧮 Calcolatore: il tuo risparmio IRPEF
-        </h3>
-        <p style="color: #475569; font-size: 13px; line-height: 1.6; margin: 0 0 20px;">
-          Simula il vantaggio fiscale del versamento al fondo pensione. I contributi sono deducibili fino a 5.164,57€ annui.
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
-              Reddito lordo annuo (€)
-            </label>
-            <input id="irpef-reddito" type="number" value="35000" min="0" step="1000"
-              style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 700; box-sizing: border-box; background: #fff;" />
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        {topic.guida.steps.map((s) => (
+          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+            <div>
+              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+            </div>
           </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
-              Versamento annuo al fondo (€)
-            </label>
-            <input id="irpef-versamento" type="number" value="3000" min="0" max="5164" step="100"
-              style="width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 700; box-sizing: border-box; background: #fff;" />
-          </div>
-        </div>
-
-        <div id="irpef-output" style="background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0;">
-          <!-- popolato da script -->
-        </div>
-
-        <p style="font-size: 11px; color: #64748b; line-height: 1.6; margin: 12px 0 0; font-style: italic;">
-          Stima basata sugli scaglioni IRPEF 2025: 23% fino a 28.000€, 35% da 28.001€ a 50.000€, 43% oltre 50.000€. Il calcolo è semplificato (non considera addizionali regionali/comunali, detrazioni per lavoro dipendente, carichi famigliari). Per il calcolo preciso consulta il tuo commercialista o CAF.
-        </p>
+        ))}
       </div>
-
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>1</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla se hai diritto a un fondo negoziale</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">La prima cosa da fare è verificare il tuo CCNL: quasi tutti i contratti collettivi nazionali prevedono un fondo pensione di categoria. Se ce l'hai, il datore di lavoro è obbligato a versare un contributo aggiuntivo (tipicamente 1-2% della retribuzione) a patto che anche tu versi la tua quota minima. <strong>Non aderire al fondo negoziale significa rinunciare a soldi gratis che il datore è pronto a versarti.</strong> Se sei autonomo, libero professionista o il tuo settore non ha un fondo dedicato, passa allo step 2.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>2</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Destina il TFR al fondo pensione (modulo TFR2)</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Per spostare il TFR nel fondo devi compilare il modulo TFR2 e consegnarlo al datore di lavoro entro 6 mesi dall'assunzione. Dopo quel termine si applica il meccanismo del "silenzio-assenso" verso il fondo negoziale (se esiste) o la conservazione in azienda. La scelta sul TFR <strong>futuro</strong> è irreversibile, ma quello già maturato resta dove si trova. La convenienza fiscale è netta: il TFR nel fondo viene tassato al 9-15% all'uscita, contro il 23-43% se resta in azienda. Su una carriera di 30 anni, questa sola differenza può valere decine di migliaia di euro.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>3</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Scegli il comparto in base alla tua età e orizzonte temporale</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Ogni fondo offre diversi comparti con livelli di rischio crescenti. Regola generale: più sei lontano dalla pensione, più puoi permetterti un comparto azionario, perché hai tempo per recuperare eventuali flessioni e beneficiare della crescita di lungo periodo. Se hai meno di 35 anni, le linee azionarie o bilanciate-aggressive sono tipicamente indicate per massimizzare il rendimento atteso. Tra i 35 e i 55, molti optano per un bilanciato classico. Sopra i 55, di solito ci si sposta gradualmente verso comparti prudenti per proteggere il capitale accumulato. Molti fondi offrono opzioni "life-cycle" che ribilanciano automaticamente con l'avvicinarsi della pensione. La scelta del comparto resta una decisione personale che dipende dalla tua tolleranza al rischio: valuta con attenzione.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>4</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Sfrutta al massimo la deducibilità fiscale</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Puoi dedurre dal reddito imponibile fino a 5.164,57€ all'anno di contributi volontari al fondo pensione (il TFR non rientra in questo tetto). Verifica nella tua dichiarazione dei redditi che il commercialista applichi effettivamente la deduzione, altrimenti stai pagando più tasse del dovuto. Usa il calcolatore in alto per quantificare il tuo risparmio annuo. Se il tuo reddito è nella fascia 35% o 43%, il beneficio fiscale è particolarmente significativo e può accelerare la costruzione del capitale previdenziale.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>5</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Confronta i costi con l'ISC (Indicatore Sintetico dei Costi)</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">I costi di gestione sono il nemico silenzioso del risparmio previdenziale. L'ISC è l'indicatore COVIP che riassume tutti i costi in un singolo numero percentuale. Un fondo con ISC dello 0,2% e uno al 2% sembrano simili a prima vista, ma su 30 anni di investimento la differenza è enorme: il fondo più caro restituisce circa il 25% in meno di capitale finale a parità di rendimento lordo. I fondi negoziali hanno tipicamente ISC tra 0,1% e 0,5%; i fondi aperti tra 1% e 1,5%; i PIP superano spesso il 2%. Puoi confrontare gli ISC di tutti i fondi sul sito ufficiale della COVIP (covip.it) nella sezione "Elenco fondi pensione".</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>6</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Rivedi la scelta ogni 5 anni (o a ogni cambio vita importante)</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il fondo pensione non è "set and forget". A ogni passaggio di vita importante (nuovo lavoro con CCNL diverso, cambio di reddito significativo, nascita di un figlio, avvicinamento alla pensione) vale la pena rivedere: il comparto scelto è ancora adeguato al tuo orizzonte? I costi del fondo sono ancora competitivi rispetto alle alternative? Stai sfruttando tutto il tetto di deducibilità? Il trasferimento da un fondo all'altro è possibile dopo 2 anni di adesione, senza costi fiscali. Prenditi mezz'ora ogni 5 anni per controllare: vale il suo peso in oro.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Disclaimer pagina -->
-    <div style="margin-top: 48px; padding: 24px 28px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; font-size: 12px; color: #64748b; line-height: 1.7;">
-      <div style="font-weight: 800; color: #0f172a; margin-bottom: 10px; font-size: 13px;">
-        ⚠️ Nota legale e disclaimer
-      </div>
-      <p style="margin: 0 0 10px;">
-        I contenuti di questa pagina hanno natura esclusivamente <strong>informativa e divulgativa</strong>. SoldiBuoni non è un consulente finanziario iscritto all'Albo OCF e non fornisce consulenza in materia di investimenti, pianificazione previdenziale o pianificazione fiscale personalizzata ai sensi del D.Lgs. 58/1998 (TUF) e del D.Lgs. 252/2005.
-      </p>
-      <p style="margin: 0 0 10px;">
-        I dati COVIP presentati sono pubblici e liberamente consultabili su <strong>covip.it</strong>. Il calcolatore del risparmio IRPEF è basato sugli scaglioni 2025 ed è fornito a titolo indicativo: non sostituisce il calcolo puntuale effettuato dal tuo commercialista, CAF o dal software di dichiarazione dei redditi.
-      </p>
-      <p style="margin: 0 0 10px;">
-        La scelta di un fondo pensione è una decisione di lungo periodo con conseguenze fiscali e patrimoniali rilevanti. <strong>Prima di aderire a qualsiasi fondo, consulta la Nota Informativa, la Scheda dei Costi e il Documento sul Regime Fiscale</strong> pubblicati dal fondo e vigilati dalla COVIP.
-      </p>
-      <p style="margin: 0;">
-        Per decisioni importanti rivolgiti a un <strong>consulente finanziario abilitato iscritto all'OCF</strong> (Organismo di Vigilanza e tenuta dell'Albo dei Consulenti Finanziari) o a un professionista del settore previdenziale (commercialista, consulente del lavoro).
-      </p>
     </div>
 
   </div>
 </Layout>
 
 <style>
-  .update-note {
-    font-size: 12px;
-    color: #94a3b8;
-    margin: 0 0 28px 0;
-    padding-left: 2px;
-    font-weight: 500;
-  }
-
   .tab-container {
     display: flex;
-    gap: 6px;
-    margin-bottom: 32px;
+    gap: 8px;
+    margin-bottom: 30px;
     background: #fff;
     padding: 6px;
-    border-radius: 16px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    position: sticky;
-    top: 20px;
-    z-index: 50;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
   }
   .tab-btn {
     flex: 1;
-    min-width: 0;
     background: transparent;
     border: none;
-    padding: 12px 8px;
-    border-radius: 12px;
+    padding: 12px 0;
+    border-radius: 8px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: #64748b;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s;
     font-family: inherit;
-    white-space: nowrap;
   }
-  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn:hover { background: #f8fafc; }
   .tab-btn.active {
-    background: #0f172a;
+    background: var(--theme-color);
     color: #fff;
-    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
-
-  .info-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    transition: transform 0.2s ease;
-  }
-  .info-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
-  }
-
-  .step-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    border: 1px solid rgba(0,0,0,0.04);
-    display: flex;
-    gap: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    transition: transform 0.2s ease;
-  }
-  .step-card:hover {
-    transform: translateX(4px);
-    border-color: rgba(0,0,0,0.08);
-  }
-  .step-number {
-    width: 36px; height: 36px;
-    border-radius: 12px;
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 16px; flex-shrink: 0;
-  }
-
-  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .tab-content { animation: fadeIn 0.3s ease-in-out; }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
   @media (max-width: 500px) {
-    .tab-btn { font-size: 13px; padding: 10px 6px; }
+    .tab-container { gap: 3px; padding: 4px; }
+    .tab-btn { font-size: 11px; padding: 8px 3px; white-space: normal; text-align: center; line-height: 1.2; }
   }
 </style>
 
@@ -312,92 +113,4 @@ const topicColor = topic.color;
     });
   }
   setupTabs();
-
-  // Mini calcolatrice risparmio IRPEF (client-side)
-  function calcolaIrpef() {
-    const redditoInput = document.getElementById('irpef-reddito');
-    const versamentoInput = document.getElementById('irpef-versamento');
-    const output = document.getElementById('irpef-output');
-    if (!redditoInput || !versamentoInput || !output) return;
-
-    function aliquotaMarginaleReddito(reddito) {
-      if (reddito <= 28000) return 0.23;
-      if (reddito <= 50000) return 0.35;
-      return 0.43;
-    }
-
-    // Calcola IRPEF con scaglioni a blocchi
-    function calcolaIrpefScaglioni(reddito) {
-      if (reddito <= 0) return 0;
-      let imposta = 0;
-      if (reddito <= 28000) {
-        imposta = reddito * 0.23;
-      } else if (reddito <= 50000) {
-        imposta = 28000 * 0.23 + (reddito - 28000) * 0.35;
-      } else {
-        imposta = 28000 * 0.23 + (50000 - 28000) * 0.35 + (reddito - 50000) * 0.43;
-      }
-      return imposta;
-    }
-
-    function render() {
-      const reddito = parseFloat(redditoInput.value) || 0;
-      let versamento = parseFloat(versamentoInput.value) || 0;
-
-      // Cappa a 5.164,57€ la deducibilità
-      const versamentoDeducibile = Math.min(versamento, 5164.57);
-      const eccedenza = versamento - versamentoDeducibile;
-
-      const irpefSenzaVersamento = calcolaIrpefScaglioni(reddito);
-      const redditoImponibile = Math.max(0, reddito - versamentoDeducibile);
-      const irpefConVersamento = calcolaIrpefScaglioni(redditoImponibile);
-      const risparmio = irpefSenzaVersamento - irpefConVersamento;
-      const aliquotaMarg = aliquotaMarginaleReddito(reddito) * 100;
-      const versamentoNetto = versamento - risparmio;
-      const percRisparmio = versamento > 0 ? (risparmio / versamento) * 100 : 0;
-
-      const fmt = (v) => '€ ' + Math.round(v).toLocaleString('it-IT');
-
-      let html = '';
-      html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px;">';
-
-      html += '<div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 10px;">';
-      html += '<div style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Aliquota marginale</div>';
-      html += '<div style="font-size: 22px; font-weight: 900; color: #0f172a; font-variant-numeric: tabular-nums;">' + aliquotaMarg.toFixed(0) + '%</div>';
-      html += '</div>';
-
-      html += '<div style="text-align: center; padding: 12px; background: #dcfce7; border-radius: 10px;">';
-      html += '<div style="font-size: 10px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Risparmio IRPEF</div>';
-      html += '<div style="font-size: 22px; font-weight: 900; color: #166534; font-variant-numeric: tabular-nums;">' + fmt(risparmio) + '</div>';
-      html += '<div style="font-size: 10px; color: #166534; margin-top: 2px;">' + percRisparmio.toFixed(0) + '% del versato</div>';
-      html += '</div>';
-
-      html += '<div style="text-align: center; padding: 12px; background: #f0fdfa; border-radius: 10px;">';
-      html += '<div style="font-size: 10px; font-weight: 800; color: #0f766e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Costo netto reale</div>';
-      html += '<div style="font-size: 22px; font-weight: 900; color: #0f766e; font-variant-numeric: tabular-nums;">' + fmt(versamentoNetto) + '</div>';
-      html += '</div>';
-
-      html += '</div>';
-
-      if (eccedenza > 0) {
-        html += '<div style="margin-top: 14px; padding: 10px 14px; background: #fef3c7; border-radius: 10px; font-size: 12px; color: #92400e; line-height: 1.5;">';
-        html += '⚠️ Stai versando <strong>€ ' + Math.round(eccedenza).toLocaleString('it-IT') + '</strong> oltre il tetto di deducibilità di 5.164,57€. L\'eccedenza non genera risparmio fiscale all\'entrata (ma rimane investita e tassata agevolatamente all\'uscita).';
-        html += '</div>';
-      }
-
-      if (reddito > 0 && versamento > 0) {
-        html += '<div style="margin-top: 14px; font-size: 13px; color: #475569; line-height: 1.6;">';
-        html += 'Versando <strong>' + fmt(versamento) + '</strong> al fondo pensione, lo Stato ti restituisce <strong style="color: #166534;">' + fmt(risparmio) + '</strong> come minori tasse. ';
-        html += 'Il tuo esborso reale è solo <strong>' + fmt(versamentoNetto) + '</strong>, ma nel fondo maturano i rendimenti su tutti i ' + fmt(versamento) + '.';
-        html += '</div>';
-      }
-
-      output.innerHTML = html;
-    }
-
-    redditoInput.addEventListener('input', render);
-    versamentoInput.addEventListener('input', render);
-    render();
-  }
-  calcolaIrpef();
 </script>

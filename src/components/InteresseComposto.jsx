@@ -55,15 +55,32 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
 
+      <style dangerouslySetInnerHTML={{__html:`
+        .ic-toggle-long { display:inline; }
+        .ic-toggle-short { display:none; }
+        .ic-input-card { padding:32px; }
+        .ic-input-grid { grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:28px; }
+        .ic-hero { padding:32px; }
+        .ic-hero-num { font-size:52px; }
+        @media(max-width:500px){
+          .ic-toggle-long { display:none; }
+          .ic-toggle-short { display:inline; }
+          .ic-input-card { padding:20px 16px !important; }
+          .ic-input-grid { grid-template-columns:1fr !important; gap:18px !important; }
+          .ic-hero { padding:24px 16px !important; }
+          .ic-hero-num { font-size:36px !important; }
+          .ic-toggle button { font-size:12px !important; padding:8px 6px !important; }
+        }
+      `}}/>
       {/* ====================================================================
           INPUT CARD
           ==================================================================== */}
-      <div style={{
-        background: '#fff', borderRadius: 24, padding: 32,
+      <div className="ic-input-card" style={{
+        background: '#fff', borderRadius: 24,
         border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)',
         marginBottom: 24
       }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 28 }}>
+        <div className="ic-input-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 28 }}>
 
           <div>
             <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}>
@@ -122,7 +139,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
       {/* ====================================================================
           TOGGLE NOMINALE / REALE
           ==================================================================== */}
-      <div style={{
+      <div className="ic-toggle" style={{
         display: 'flex', gap: 6, marginBottom: 14,
         background: '#f1f5f9', padding: 4, borderRadius: 12
       }}>
@@ -133,7 +150,8 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
             background: !mostraReale ? '#fff' : 'transparent',
             color: !mostraReale ? color : '#64748b',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            boxShadow: !mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none'
+            boxShadow: !mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none',
+            fontFamily: 'inherit'
           }}
         >
           💰 Valore nominale
@@ -145,17 +163,18 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
             background: mostraReale ? '#fff' : 'transparent',
             color: mostraReale ? color : '#64748b',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
-            boxShadow: mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none'
+            boxShadow: mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none',
+            fontFamily: 'inherit'
           }}
         >
-          🛒 Valore reale (post inflazione 2% + tasse 26%)
+          🛒 <span className="ic-toggle-long">Valore reale (post inflazione 2% + tasse 26%)</span><span className="ic-toggle-short">Valore reale (netto)</span>
         </button>
       </div>
 
       {/* ====================================================================
           VALORE FINALE HERO
           ==================================================================== */}
-      <div style={{
+      <div className="ic-hero" style={{
         background: '#fff', borderRadius: 24, padding: 32,
         border: '1px solid #e2e8f0', marginBottom: 24,
         boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
@@ -165,7 +184,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           fontSize: 18, fontWeight: 800, color: '#0f172a',
           textAlign: 'center', marginBottom: 4
         }}>{etichettaValore}</h3>
-        <div style={{
+        <div className="ic-hero-num" style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 52, fontWeight: 900, color,
           textAlign: 'center', marginBottom: 24,

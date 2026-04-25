@@ -1,142 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { RCAutoComp } from '../components/RCAutoComp.jsx';
+// IMPORTA IL NUOVO FILE DEDICATO INVECE DI COMPARATORS
+import { RCAutoComp } from '../components/RCAutoComp.jsx'; 
 import { TOPICS } from '../data.js';
 
 const topic = TOPICS.rc_auto;
-const topicColor = topic.color;
 ---
 
-<Layout title="Calcolatore RC Auto | SoldiBuoni" description="Confronta preventivi RC Auto con il nostro calcolatore indipendente. Capisci cosa pesa davvero sul premio, scopri le garanzie utili e smaschera le polizze troppo care.">
-  <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
 
+<Layout title="Assicurazione RC Auto | SoldiBuoni" description="Confronta le polizze RC auto, scopri le garanzie accessorie e risparmia sulla tua assicurazione.">
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+    
     <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topicColor}14; flex-shrink: 0;`}>
-        🚗
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
+        {topic.icon}
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
-        Assicurazione <span style={`color: ${topicColor};`}>RC Auto</span>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
+        {topic.title}
       </h1>
     </div>
 
-    <p class="update-note">🔄 Dati IVASS aggiornati al Q3 2025 · Media nazionale €437 · Ultima revisione: aprile 2026</p>
+    <p class="update-note">🔄 Prezzi e offerte aggiornati mensilmente · Ultimo aggiornamento: aprile 2026</p>
 
-    <div class="tab-container">
-      <button class="tab-btn active" data-target="tab-confronta">🧮 <span class="tab-label">Calcolatore</span></button>
-      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Il mercato</span></button>
-      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come scegliere</span></button>
+    <div class="tab-container" style={`--theme-color: ${topic.color}`}>
+      <button class="tab-btn active" data-target="tab-confronta">🚗 Confronta</button>
+      <button class="tab-btn" data-target="tab-capire">💡 Capire il mercato</button>
+      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
     </div>
 
     <div id="tab-confronta" class="tab-content" style="display: block;">
-      <RCAutoComp client:only="react" />
+      <RCAutoComp client:only="react" color={topic.color} />
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
-
-        <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 24px;`}>Come si forma il premio</h2>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La classe di merito: il parametro con il peso maggiore</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il sistema bonus-malus italiano assegna a ogni assicurato una classe da 1 (migliore, chi non ha mai fatto sinistri) a 18 (peggiore, chi ha dichiarato più incidenti con colpa). Ogni anno senza sinistri con colpa fai scendere la classe di una posizione; ogni sinistro con colpa te ne fa salire due. La differenza tra classe 1 e classe 14 può tradursi in un premio triplicato a parità di compagnia e veicolo. Secondo l'osservatorio Facile.it di gennaio 2026, il 70% degli automobilisti è in prima classe e gli oltre 500.000 che nel 2025 hanno dichiarato un sinistro con colpa vedranno aumenti nel 2026.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>La provincia di residenza: il secondo fattore</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">A parità di classe e veicolo, cambiare provincia di residenza può raddoppiare il premio. I dati IVASS Q3 2025 mostrano un divario di 273€ tra Aosta (la provincia più economica) e Napoli (la più cara). Province come Caserta, Napoli, Frosinone e Prato pagano strutturalmente di più per la maggiore frequenza di sinistri e per la complessità dei contenziosi. Per legge non puoi modificare la residenza per abbassare il premio, ma sapere dove sei collocato ti dice quanto è realistico aspettarti un preventivo da €400 o da €700.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>I massimali RCA: quando 7,75M€ bastano e quando no</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il massimale legale minimo per i danni a terzi è di 7,75 milioni di euro per i danni a persone e 1,3 milioni per i danni a cose. Con un sinistro grave plurimo (auto in autostrada che investe un gruppo di persone) questi importi possono non essere sufficienti. Molte compagnie offrono massimali unici da 15, 25 o anche 100 milioni di euro con sovrapprezzi contenuti (€10-30/anno). Se usi l'auto per spostamenti lunghi o autostradali, alzare il massimale è una delle scelte con il miglior rapporto rischio/costo.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il risarcimento diretto: perché scegliere una compagnia efficiente</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Dal 2007, in caso di sinistro con responsabilità altrui, è la tua compagnia a risarcirti (procedura CARD). Questo significa che la qualità del servizio post-sinistro dipende dalla TUA compagnia, non da quella del colpevole. IVASS pubblica ogni anno le statistiche sui tempi medi di liquidazione: alcune compagnie low-cost hanno tempi di oltre 90 giorni contro i 30-45 delle più efficienti. Il prezzo più basso non sempre corrisponde al servizio migliore — vale la pena consultare le recensioni e le classifiche IVASS prima di scegliere.</p>
-          </div>
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      {topic.capire.content.map((c) => (
+        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+          <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
+          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
         </div>
-
-        <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 24px;`}>Le garanzie accessorie</h2>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Furto e Incendio: quando ha senso</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Costa tipicamente tra il 30% e il 50% del premio RCA. Conviene solo se il valore commerciale residuo dell'auto è significativamente maggiore del costo annuo della garanzia moltiplicato per la durata attesa di possesso. Regola empirica: se l'auto vale meno di 4.000€, la furto/incendio quasi mai è un investimento razionale. Sopra i 10.000€, di solito sì. Attenzione agli scoperti: molte polizze coprono il furto con una franchigia del 10-20% del valore del veicolo, che in un furto totale può significare pagare di tasca propria 1.500-3.000€.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Cristalli: la garanzia con il miglior rapporto costo/utilità</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Costa 30-60€/anno. Copre la sostituzione di parabrezza, finestrini e lunotto. Un parabrezza di un'auto media costa €500-800 sostituito da specialista, in auto con sensori ADAS può arrivare a €1.200-1.500 per la ricalibrazione. Un singolo sinistro ripaga la garanzia per 10 anni. Conviene praticamente sempre, tranne per auto molto vecchie il cui parabrezza costerebbe meno del premio cumulato.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Infortuni del conducente: spesso ridondante</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La RCA copre i danni a terzi — compresi i passeggeri — ma NON il conducente in caso di sinistro con sua colpa. La garanzia infortuni del conducente costa 30-60€/anno e copre invalidità permanente e rimborsi medici al guidatore. Se hai già una polizza infortuni personale o un'assicurazione sulla vita con clausole valide in caso di incidente stradale, questa garanzia è spesso ridondante. Se non ne hai, la sua aggiunta è molto più economica di quanto costerebbe una polizza infortuni dedicata.</p>
-          </div>
-
-          <div class="info-card">
-            <h3 style={`color: ${topicColor}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Scatola nera: sconto reale ma con costi nascosti</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La telematica di bordo permette alla compagnia di monitorare chilometri percorsi, orari, stile di guida e coordinate GPS. Lo sconto medio è del 10-20% sul premio (€30-80 l'anno). Contro: la compagnia può revocare lo sconto se guidi più del previsto o in orari considerati "a rischio" (notturni). In caso di sinistro i dati registrati possono essere usati per determinare responsabilità e, in alcuni casi, per negare il risarcimento. Valuta anche il tema privacy: alcune compagnie condividono dati aggregati con partner commerciali.</p>
-          </div>
-        </div>
-
-      </div>
+      ))}
     </div>
 
     <div id="tab-guida" class="tab-content" style="display: none;">
-      <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicColor}; margin-bottom: 24px;`}>Come trovare la polizza RC Auto giusta</h2>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>1</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Recupera il tuo attestato di rischio</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">È il documento che certifica la tua classe di merito e la tua storia assicurativa degli ultimi 5 anni. Lo scarichi dall'area clienti della tua compagnia attuale o lo ricevi in automatico 30 giorni prima della scadenza. Serve a ogni nuovo preventivo: senza attestato, le compagnie ti trattano come assicurato di classe 14 (la peggiore) per gli automobilisti esperti. Se sei neopatentato, valuta la Legge Bersani: ti permette di ereditare la classe di un familiare convivente se acquisti un'auto a tuo nome.</p>
+      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        {topic.guida.steps.map((s) => (
+          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+            <div>
+              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+            </div>
           </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>2</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Confronta almeno 5 preventivi a parità di condizioni</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il confronto ha senso solo se i preventivi sono omogenei: stesso massimale (minimo 7,75M€, consigliato 15M€ per autostrada), stesse garanzie accessorie, stessa franchigia, stessa formula di guida (libera/esperta/esclusiva). Usa il nostro calcolatore attivando gli stessi toggle su tutti i preventivi — è l'unico modo per capire se una compagnia è davvero più economica o se ha semplicemente escluso una garanzia dal conteggio.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>3</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla franchigie e scoperti prima del prezzo</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Un preventivo €30 più economico può nascondere una franchigia di €500 sulla furto/incendio o uno scoperto del 15% sul valore. In caso di sinistro, l'apparente risparmio si trasforma in una spesa molto più grande del differenziale. Nel calcolatore qui sopra, il "costo atteso" tiene conto della franchigia ponderata per la probabilità di sinistro: è il dato più onesto per confrontare polizze con scoperti diversi.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>4</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Leggi i tempi di liquidazione della compagnia</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">IVASS pubblica ogni anno la classifica dei tempi medi di liquidazione dei sinistri. La differenza tra la migliore e la peggiore può essere di 60+ giorni. In caso di sinistro con colpa altrui, sei tu che chiedi il risarcimento alla tua compagnia (procedura CARD): una compagnia lenta significa settimane senza auto o senza rimborso. Il prezzo non è tutto — su sinistri gravi, il servizio post-vendita pesa più della tariffa.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>5</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Disdici con 30 giorni di anticipo via PEC</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">La polizza RC Auto è annuale e non si rinnova più tacitamente (DL Bersani 2012): scaduta, sei libero. Ma la scadenza reale è il giorno prima della data indicata in contratto — non il giorno stesso. Inizia a chiedere preventivi 30 giorni prima, scegli la nuova compagnia e attiva la polizza nuova per il giorno successivo alla scadenza della vecchia. Non serve disdire formalmente, ma se vuoi mantenere tracciabilità, invia una PEC alla vecchia compagnia. Occhio al periodo di tolleranza: molte compagnie offrono 15 giorni di "garanzia accessoria" post-scadenza, ma NON è assicurazione RCA — guidare senza RCA è un reato che costa da €866 a €3.464 di multa più sequestro del veicolo.</p>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number" style={`background: ${topicColor}; box-shadow: 0 4px 12px ${topicColor}40;`}>6</div>
-          <div>
-            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Valuta la sospensione se non usi l'auto per mesi</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Molte compagnie permettono di sospendere la RCA per periodi di fermo (es. auto in garage durante l'estate). La sospensione allunga la durata della polizza senza costi aggiuntivi: se sospendi per 2 mesi, la scadenza si sposta in avanti di 2 mesi. Non tutte le compagnie la offrono — è una delle voci da verificare quando ricevi il preventivo, specialmente se usi l'auto stagionalmente.</p>
-          </div>
-        </div>
-
+        ))}
       </div>
     </div>
 
@@ -154,85 +71,40 @@ const topicColor = topic.color;
 
   .tab-container {
     display: flex;
-    gap: 6px;
-    margin-bottom: 32px;
+    gap: 8px;
+    margin-bottom: 30px;
     background: #fff;
     padding: 6px;
-    border-radius: 16px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    position: sticky;
-    top: 20px;
-    z-index: 50;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
   }
   .tab-btn {
     flex: 1;
-    min-width: 0;
     background: transparent;
     border: none;
-    padding: 12px 8px;
-    border-radius: 12px;
+    padding: 12px 0;
+    border-radius: 8px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: #64748b;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s;
     font-family: inherit;
-    white-space: nowrap;
   }
-  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn:hover { background: #f8fafc; }
   .tab-btn.active {
-    background: #0f172a;
+    background: var(--theme-color);
     color: #fff;
-    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
-
-  .info-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    transition: transform 0.2s ease;
-  }
-  .info-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.04);
-  }
-
-  .step-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    border: 1px solid rgba(0,0,0,0.04);
-    display: flex;
-    gap: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    transition: transform 0.2s ease;
-  }
-  .step-card:hover {
-    transform: translateX(4px);
-    border-color: rgba(0,0,0,0.08);
-  }
-  .step-number {
-    width: 36px; height: 36px;
-    border-radius: 12px;
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 16px; flex-shrink: 0;
-  }
-
-  .tab-content { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .tab-content { animation: fadeIn 0.3s ease-in-out; }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
   @media (max-width: 500px) {
-    .tab-btn { font-size: 13px; padding: 10px 6px; }
+    .tab-container { gap: 3px; padding: 4px; }
+    .tab-btn { font-size: 11px; padding: 8px 3px; white-space: normal; text-align: center; line-height: 1.2; }
   }
 </style>
 
