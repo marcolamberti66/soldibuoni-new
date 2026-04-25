@@ -179,23 +179,29 @@ export function InternetComp() {
     <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
 
       <style dangerouslySetInnerHTML={{__html:`
+        .inet-perm-box { display:flex; gap:12px; align-items:stretch; background:#f8fafc; padding:6px; border-radius:16px; border:1px solid #e2e8f0; }
+        .inet-perm-input { width:120px; padding:10px 14px; font-size:20px; border:1px solid #cbd5e1; border-radius:12px; font-weight:800; background:#fff; font-variant-numeric:tabular-nums; outline:none; box-sizing:border-box; }
+        .inet-perm-chips { display:flex; gap:6px; flex:1; flex-wrap:wrap; align-items:center; }
         @media(max-width:500px){
-          .inet-wrap input[type=number] { width:100% !important; font-size:18px !important; }
-          .inet-wrap button { padding:6px 8px !important; font-size:11px !important; }
+          .inet-perm-box { flex-direction:column; gap:8px; padding:8px; }
+          .inet-perm-input { width:100% !important; font-size:18px !important; text-align:center; padding:12px 14px !important; }
+          .inet-perm-chips { display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:6px !important; }
+          .inet-perm-chips button { padding:8px 4px !important; font-size:11px !important; text-align:center !important; }
         }
       `}}/>
 
       <div className="inet-wrap" style={{ ...cardBase, marginBottom: 28, padding: '36px 32px' }}>
         <label style={labelStyle}>Per quanti mesi terrai il contratto?</label>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'stretch', background: '#f8fafc', padding: 6, borderRadius: 16, border: '1px solid #e2e8f0' }}>
+        <div className="inet-perm-box">
           <input type="number" value={permanenzaStr} onChange={(e) => setPermanenzaStr(e.target.value)}
-            style={{ width: 120, padding: '10px 14px', fontSize: 20, border: '1px solid #cbd5e1', borderRadius: 12, fontWeight: 800, color: t.primary, background: '#fff', fontVariantNumeric: 'tabular-nums', outline: 'none' }} />
-          <div style={{ display: 'flex', gap: 6, flex: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+            className="inet-perm-input"
+            style={{ color: t.primary }} />
+          <div className="inet-perm-chips">
             {PRESETS_PERMANENZA.map(p => {
               const active = permanenza === p.val;
               return (
                 <button key={p.label} onClick={() => setPermanenzaStr(p.val.toString())}
-                  style={{ background: active ? '#fff' : 'transparent', border: active ? `1px solid ${t.primary}` : '1px solid transparent', color: active ? t.primary : '#64748b', padding: '8px 14px', borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: 'pointer', textAlign: 'left', lineHeight: 1.2, boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none' }}
+                  style={{ background: active ? '#fff' : 'transparent', border: active ? `1px solid ${t.primary}` : '1px solid transparent', color: active ? t.primary : '#64748b', padding: '8px 14px', borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: 'pointer', textAlign: 'left', lineHeight: 1.2, boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none', fontFamily: 'inherit' }}
                 >
                   <div>{p.label}</div>
                   <div style={{ fontSize: 10, opacity: 0.7, fontWeight: 600 }}>{p.sub}</div>
@@ -394,7 +400,7 @@ export function InternetComp() {
               Super Fibra
             </h3>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionata il <strong>15 ottobre 2025</strong>
+              Selezionata il <strong>aprile 2026</strong>
             </p>
 
             <div style={{
@@ -461,7 +467,7 @@ export function InternetComp() {
               Portin 5G 599
             </h3>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionata il <strong>15 ottobre 2025</strong>
+              Selezionata il <strong>aprile 2026</strong>
             </p>
 
             <div style={{
