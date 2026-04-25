@@ -290,6 +290,12 @@ export function LuceGasComp() {
   );
   const eniCRAS = eniRisultato.totale;
 
+  // CRAS Plenitude per il periodo di permanenza scelto (mesi 12/24/36)
+  const eniAnniPerm = permanenza / 12;
+  const eniCRASPerm = eniAnniPerm <= 1
+    ? eniCRAS
+    : eniCRAS + eniRisultato.totaleAnno2 * (eniAnniPerm - 1);
+
   // ==========================================================================
   // STILI CONDIVISI
   // ==========================================================================
@@ -1032,11 +1038,28 @@ export function LuceGasComp() {
           </div>
           <div style={{ width: 1, background: '#cbd5e1', height: 50 }}></div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>CRAS stimato Plenitude</div>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>CRAS stimato Plenitude{permanenza > 12 ? ' (anno 1)' : ''}</div>
             <div style={{ fontSize: 26, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums', marginTop: 4 }}>
               € {Math.round(eniCRAS).toLocaleString('it-IT')}
               <span style={{ fontSize: 13, color: '#64748b', fontWeight: 700 }}> /anno</span>
             </div>
+            {permanenza > 12 && (
+              <div style={{ fontSize: 12, color: '#64748b', marginTop: 6, fontWeight: 700 }}>
+                Su {permanenza / 12} anni: <strong style={{ color: '#0f172a' }}>€ {Math.round(eniCRASPerm).toLocaleString('it-IT')}</strong>
+              </div>
+            )}
+            {risultati.length > 0 && minTotale > 0 && (() => {
+              const baseConfronto = permanenza > 12 ? eniCRASPerm : eniCRAS;
+              const delta = baseConfronto - minTotale;
+              const pct = ((delta / minTotale) * 100);
+              if (Math.abs(delta) < 5) return null;
+              const isMeglio = delta < 0;
+              return (
+                <div style={{ fontSize: 11, marginTop: 6, fontWeight: 700, color: isMeglio ? '#059669' : '#dc2626' }}>
+                  {isMeglio ? '▼' : '▲'} € {Math.abs(Math.round(delta)).toLocaleString('it-IT')} {isMeglio ? 'meno' : 'più'} dell'offerta migliore in lista ({Math.abs(pct).toFixed(0)}%)
+                </div>
+              );
+            })()}
           </div>
         </div>
 
@@ -1045,7 +1068,7 @@ export function LuceGasComp() {
 
           {/* CTA primario: ANALISI (ora più prominente) */}
           <a
-            href="/recensione-eni"
+            href="/recensione-plenitude"
             style={{
               display: 'block',
               background: '#fff',

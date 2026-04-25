@@ -88,6 +88,23 @@ export function InternetComp() {
     [offerte, permanenza]
   );
 
+  // Profilo WindTre Super Fibra (per calcolo confronto coerente)
+  const WINDTRE_PROFILE = {
+    canonePromo: '19.99',
+    durataPromo: 12,
+    canonePieno: '23.99',
+    attivazione: '47.76',     // 1.99 × 24 mesi rateizzati
+    rataModem: '5.99',
+    durataModem: 48,
+    penaleRecesso: '0'
+  };
+  const windtreCalc = useMemo(
+    () => calcolaCosti(WINDTRE_PROFILE, permanenza),
+    [permanenza]
+  );
+
+  const minTotaleUtente = risultati.length > 0 ? Math.min(...risultati.map(r => r.calc.totale)) : 0;
+
   const minMensile = Math.min(...risultati.map(r => r.calc.mensileEffettivo));
 
   const updateOfferta = (id, field, value) =>
@@ -410,7 +427,7 @@ export function InternetComp() {
             }}>
               {[
                 { l: 'Canone promo', v: '19,99 €', h: true },
-                { l: 'Canone listino', v: '26,99 €', h: false },
+                { l: 'Canone listino', v: '23,99 €', h: false },
                 { l: 'Durata promo', v: '12 mesi', h: false },
                 { l: 'Velocità', v: '2,5 Gbps', h: true },
                 { l: 'Modem', v: 'Wi-Fi 7 incluso', h: true },
@@ -421,6 +438,32 @@ export function InternetComp() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
                 </div>
               ))}
+            </div>
+
+            {/* COSTO TOTALE STIMATO PER LA TUA PERMANENZA — calcolato con stesso engine */}
+            <div style={{
+              background: '#fff7ed', border: '1px solid #fed7aa',
+              borderRadius: 12, padding: '14px 16px', marginBottom: 16, textAlign: 'center'
+            }}>
+              <div style={{ fontSize: 10, fontWeight: 800, color: '#9a3412', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+                Costo totale su {permanenza} mesi (con la tua durata)
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+                € {Math.round(windtreCalc.totale).toLocaleString('it-IT')}
+              </div>
+              <div style={{ fontSize: 11, color: '#9a3412', fontWeight: 700, marginTop: 2 }}>
+                = € {windtreCalc.mensileEffettivo.toFixed(2)}/mese effettivi
+              </div>
+              {minTotaleUtente > 0 && Math.abs(windtreCalc.totale - minTotaleUtente) > 5 && (
+                <div style={{ fontSize: 11, marginTop: 6, fontWeight: 700, color: windtreCalc.totale < minTotaleUtente ? '#059669' : '#dc2626' }}>
+                  {windtreCalc.totale < minTotaleUtente ? '▼' : '▲'} € {Math.abs(Math.round(windtreCalc.totale - minTotaleUtente)).toLocaleString('it-IT')} {windtreCalc.totale < minTotaleUtente ? 'meno' : 'più'} dell'offerta migliore tra quelle confrontate
+                </div>
+              )}
+              {windtreCalc.penaleApplicata > 0 && (
+                <div style={{ fontSize: 10, marginTop: 4, color: '#9a3412' }}>
+                  ⚠ Include € {Math.round(windtreCalc.penaleApplicata)} di rate modem residue (recesso prima dei 48 mesi)
+                </div>
+              )}
             </div>
 
             <a href="/recensione-windtre" style={{
