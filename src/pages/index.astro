@@ -9,12 +9,15 @@ import HeroContact from '../components/HeroContact.jsx';
   <section class="hero">
     <div class="hero-glow"></div>
     <div class="hero-inner">
+      
       <div class="hero-left">
-        <h1>I tuoi soldi <em>spesi bene.</em></h1>
-        <p>Smetti di pagare più del dovuto. Strumenti, comparatori e guide gratuite per tagliare le spese fisse e far fruttare i tuoi risparmi.</p>
-
-        <HeroContact client:load />
-        
+        <div>
+          <h1>I tuoi soldi <em>spesi bene.</em></h1>
+          <p>Smetti di pagare più del dovuto. Strumenti, comparatori e guide gratuite per tagliare le spese fisse e far fruttare i tuoi risparmi.</p>
+        </div>
+        <div class="hero-left-bottom">
+          <HeroContact client:load />
+        </div>
       </div>
 
       <div class="hero-right">
@@ -400,7 +403,7 @@ import HeroContact from '../components/HeroContact.jsx';
           <span class="offer-date">Aggiornato aprile 2026</span>
         </div>
 
-        <div class="offer-card offer-card-wide" style="--accent:#0ea5e9;">
+        <div class="offer-card" style="--accent:#0ea5e9;">
           <div class="offer-accent"></div>
           <div class="offer-head">
             <div class="offer-icon" style="background:#e0f2fe;">📱</div>
@@ -479,12 +482,19 @@ import HeroContact from '../components/HeroContact.jsx';
     position: relative;
     z-index: 1;
   }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .hero-left h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 42px;
+    font-size: 56px;
     color: #fff;
-    line-height: 1.15;
-    margin-bottom: 16px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
   }
   .hero-left h1 em {
     font-style: italic;
@@ -820,9 +830,6 @@ import HeroContact from '../components/HeroContact.jsx';
     transform: translateY(-3px);
     box-shadow: 0 16px 40px -8px rgba(12,35,64,0.1);
     border-color: var(--accent);
-  }
-  .offer-card-wide {
-    grid-column: 1 / -1;
   }
   .offer-accent {
     height: 3px;
@@ -1185,7 +1192,8 @@ import HeroContact from '../components/HeroContact.jsx';
   @media (max-width: 900px) {
     .hero-inner { grid-template-columns: 1fr;
     align-items: start; gap: 24px; }
-    .hero-left h1 { font-size: 30px;
+    .hero-left { gap: 32px; }
+    .hero-left h1 { font-size: 40px;
     }
     .hero-left p { margin-bottom: 24px; }
     .hero { padding: 24px 24px 64px;

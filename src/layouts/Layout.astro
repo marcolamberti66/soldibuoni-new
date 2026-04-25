@@ -20,7 +20,6 @@ const { title, description } = Astro.props;
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
   
   <script is:inline>
-    // Cookie consent: GA carica solo dopo accettazione
     (function() {
       var consent = null;
       try { consent = localStorage.getItem('sb_cookie_consent'); } catch(e) {}
@@ -105,9 +104,10 @@ const { title, description } = Astro.props;
     </a>
     
     <div class="nav-links-desktop">
-      <a href="/#cats" class="nav-a">Le tue spese</a>
+      <a href="/#cats" class="nav-a">Tariffe & Mercati</a>
       <a href="/#tools" class="nav-a">Strumenti</a>
-      <a href="/guida-risparmio" class="nav-a">Guide</a>
+      <a href="/guida-risparmio" class="nav-a">Metodo & Guide</a>
+      <a href="/chi-siamo" class="nav-a">Chi Siamo</a>
       <a href="/quanto-spendo" class="nav-cta">Inizia da qui</a>
     </div>
 
@@ -139,8 +139,9 @@ const { title, description } = Astro.props;
       <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
       <a href="/istruzione" class="mobile-link">🎓 Università</a>
 
-      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📋 GESTISCI</div>
-      <a href="/bollo_revisione" class="mobile-link">🚗 Memo Scadenze Auto</a>
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📋 AZIENDA</div>
+      <a href="/chi-siamo" class="mobile-link">Chi Siamo</a>
+      <a href="mailto:clart.mgmt@gmail.com" class="mobile-link">Contattaci</a>
     </div>
   </div>
 
@@ -155,36 +156,44 @@ const { title, description } = Astro.props;
           <img src="/apple-touch-icon.png?v=6" alt="SoldiBuoni" class="logo-m" />
           SoldiBuoni
         </div>
-        <p>Smetti di pagare più del dovuto. Gratuito, indipendente, sempre aggiornato.</p>
+        <p>I tuoi soldi spesi bene. Piattaforma indipendente di educazione finanziaria e ottimizzazione delle spese. Gratuita e sempre aggiornata.</p>
       </div>
+      
       <div class="ft-c">
         <div>
-          <h5>Aree di spesa</h5>
+          <h5>Confronta</h5>
           <a href="/luce-gas">Luce & Gas</a>
-          <a href="/internet">Internet</a>
-          <a href="/rc_auto">RC Auto</a>
-          <a href="/conti-correnti">Conti Correnti</a>
-          <a href="/tfr_pensione">Previdenza</a>
+          <a href="/internet">Internet e Fibra</a>
+          <a href="/rc_auto">Assicurazione Auto</a>
+          <a href="/conti-correnti">Conti e Carte</a>
+          <a href="/tfr_pensione">Fondi Pensione</a>
         </div>
         <div>
           <h5>Strumenti</h5>
           <a href="/quanto-spendo">Quanto Spendo?</a>
-          <a href="/analisi-bolletta">Analizza Bolletta</a>
+          <a href="/analisi-bolletta">Analizza Bollette (AI)</a>
           <a href="/mutuo">Simulatore Mutui</a>
-          <a href="/affitto-vs-mutuo">Affitto vs Mutuo</a>
-          <a href="/forfettario-vs-ordinario">Forfettario vs Ordinario</a>
-          <a href="/trova-bonus">Trova Bonus</a>
+          <a href="/interesse-composto">Interesse Composto</a>
+          <a href="/forfettario-vs-ordinario">Partita IVA</a>
         </div>
         <div>
-          <h5>Info</h5>
+          <h5>Azienda</h5>
           <a href="/chi-siamo">Chi Siamo</a>
-          <a href="/privacy">Privacy</a>
+          <a href="/guida-risparmio">Il Nostro Metodo</a>
+          <a href="mailto:clart.mgmt@gmail.com">Contattaci</a>
+        </div>
+        <div>
+          <h5>Legale</h5>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/termini">Termini e Condizioni</a>
+          <a href="#" onclick="document.getElementById('cookie-banner').style.display='block'; return false;">Gestione Cookie</a>
         </div>
       </div>
     </div>
+    
     <div class="ft-bot">
-      <p style="margin-bottom: 12px; line-height: 1.6; text-align: justify; max-width: 100%;"><strong>Disclaimer:</strong> SoldiBuoni.it fornisce contenuti a scopo puramente informativo e di educazione finanziaria. Le informazioni riportate non costituiscono consulenza finanziaria personalizzata, né raccomandazione o sollecitazione all'investimento. Le performance passate non garantiscono risultati futuri. Per decisioni di investimento, si invita a consultare un professionista abilitato o a leggere attentamente i prospetti informativi (KIID) forniti dagli emittenti.</p>
-      <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link sono link di affiliazione.</p>
+      <p style="margin-bottom: 12px; line-height: 1.6; text-align: justify; max-width: 100%;"><strong>Disclaimer legale:</strong> SoldiBuoni.it fornisce contenuti a scopo puramente informativo e di educazione finanziaria. Le informazioni riportate non costituiscono consulenza finanziaria personalizzata, né raccomandazione o sollecitazione all'investimento ai sensi del Testo Unico della Finanza (TUF). Le simulazioni e i comparatori si basano su dati di mercato elaborati dalla redazione. Per decisioni di investimento vincolanti, si invita l'utente a rivolgersi a consulenti iscritti all'Albo OCF o a leggere i prospetti informativi ufficiali.</p>
+      <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link in uscita sono gestiti tramite programmi di affiliazione che sostengono la piattaforma senza costi per l'utente finale.</p>
     </div>
   </footer>
 
@@ -202,7 +211,6 @@ const { title, description } = Astro.props;
   </div>
 
   <script is:inline>
-    // Cookie consent banner logic
     (function() {
       var consent = null;
       try { consent = localStorage.getItem('sb_cookie_consent'); } catch(e) {}
@@ -408,7 +416,7 @@ const { title, description } = Astro.props;
     display: flex;
     gap: 40px;
     flex-wrap: wrap;
-    flex: 2;
+    flex: 2.5;
   }
   .ft-c h5 {
     font-size: 10px;
