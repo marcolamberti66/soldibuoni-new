@@ -440,6 +440,52 @@ export function AnalizzaBolletta({ color = '#059669' }) {
                   <>Il tuo prezzo è in linea con la media del mercato libero. Le migliori offerte variabili sul mercato in questo momento sono circa €{formatUnit(diagnosi.ref.materiaEconomico)}/{result.tipo === 'gas' ? 'Smc' : 'kWh'}: cambiando potresti risparmiare fino a <strong>{formatEuro(diagnosi.risparmioVsEconomico)}/anno</strong>.</>
                 )}
               </div>
+
+              {/* SUGGERIMENTO CONTESTUALE PLENITUDE */}
+              {diagnosi.giudizio !== 'economico' && diagnosi.risparmioVsEconomico > 30 && (() => {
+                const prezzoPlenitude = result.tipo === 'gas' ? 0.705 : 0.188;
+                const prezzoUtente = parseFloat(result.prezzoMateria);
+                const risparmioPlenitude = Math.max(0, (prezzoUtente - prezzoPlenitude) * diagnosi.consumoAnnuo);
+                if (risparmioPlenitude < 30) return null;
+                return (
+                  <div style={{
+                    marginTop: 16,
+                    background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)',
+                    border: '2px solid #f59e0b',
+                    borderRadius: 14,
+                    padding: '20px 22px'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                      <span style={{ fontSize: 18 }}>💡</span>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Suggerimento basato sulla tua bolletta</span>
+                    </div>
+                    <div style={{ fontSize: 15, color: '#0f172a', lineHeight: 1.6, marginBottom: 12 }}>
+                      Una delle offerte che monitoriamo, <strong>Eni Plenitude Fixa Time Smart</strong>, blocca il prezzo {result.tipo === 'gas' ? 'gas a €0,705/Smc' : 'luce a €0,188/kWh'} per 12 mesi. Sul tuo consumo annuo, il risparmio stimato sarebbe di circa <strong style={{ color: '#dc2626', fontSize: 18 }}>{formatEuro(risparmioPlenitude)}/anno</strong> sulla sola componente materia.
+                    </div>
+                    <div style={{ background: '#fff', padding: '10px 12px', borderRadius: 8, fontSize: 12, color: '#64748b', lineHeight: 1.5, marginBottom: 12 }}>
+                      <strong style={{ color: '#0f172a' }}>Calcolo:</strong> ({prezzoUtente.toFixed(3)} − {prezzoPlenitude.toFixed(3)}) × {Math.round(diagnosi.consumoAnnuo).toLocaleString('it-IT')} {result.tipo === 'gas' ? 'Smc' : 'kWh'} = {formatEuro(risparmioPlenitude)}/anno
+                    </div>
+                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                      <a href="/recensione-eni" style={{
+                        display: 'inline-block', padding: '10px 16px', borderRadius: 10,
+                        background: '#fff', color: '#0f172a', border: '1px solid #cbd5e1',
+                        fontSize: 12, fontWeight: 800, textDecoration: 'none', flex: '1 1 auto', textAlign: 'center'
+                      }}>📖 Leggi la recensione</a>
+                      <a href="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530"
+                        target="_blank" rel="noopener noreferrer sponsored nofollow"
+                        style={{
+                          display: 'inline-block', padding: '10px 16px', borderRadius: 10,
+                          background: '#f59e0b', color: '#fff',
+                          fontSize: 12, fontWeight: 800, textDecoration: 'none', flex: '1 1 auto', textAlign: 'center'
+                        }}>Vai a Plenitude →</a>
+                    </div>
+                    <div style={{ marginTop: 10, fontSize: 10, color: '#92400e', lineHeight: 1.5 }}>
+                      <span style={{ background: '#fde68a', color: '#78350f', padding: '2px 6px', borderRadius: 3, fontWeight: 800, marginRight: 6 }}>#ADV</span>
+                      Stima del solo costo materia. Il totale in bolletta include anche oneri di sistema, trasporto, distribuzione e imposte (uguali per tutti i fornitori). Verifica le condizioni aggiornate sul sito ufficiale prima di sottoscrivere.
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           )}
 

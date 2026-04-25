@@ -971,22 +971,33 @@ export function LuceGasComp() {
         }}>★ La selezione del Team</div>
 
         {/* HEADER OFFERTA */}
-        <div style={{ textAlign: 'center', marginTop: 18, marginBottom: 24 }}>
-          <div style={{ fontSize: 12, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>
-            Eni Plenitude
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 18, marginBottom: 8 }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 12,
+            background: 'linear-gradient(135deg, #f59e0b 0%, #ea580c 100%)',
+            color: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 22, fontWeight: 900, fontFamily: "'DM Serif Display', serif",
+            flexShrink: 0,
+            boxShadow: '0 6px 16px -4px rgba(245, 158, 11, 0.4)'
+          }}>E</div>
+          <div style={{ textAlign: 'left' }}>
+            <div style={{
+              fontSize: 24,
+              fontWeight: 900,
+              color: '#0f172a',
+              fontFamily: "'DM Serif Display', 'Playfair Display', serif",
+              letterSpacing: '-0.01em',
+              lineHeight: 1.1
+            }}>Eni Plenitude</div>
+            <div style={{ fontSize: 14, color: '#64748b', fontWeight: 600, marginTop: 2 }}>
+              Fixa Time Smart
+            </div>
           </div>
-          <h3 style={{
-            fontSize: 28,
-            fontWeight: 900,
-            color: '#0f172a',
-            margin: 0,
-            fontFamily: "'DM Serif Display', 'Playfair Display', serif",
-            letterSpacing: '-0.01em'
-          }}>Fixa Time Smart</h3>
-          <p style={{ fontSize: 14, color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-            Selezionata dal nostro team il <strong>{ENI_OFFER.ultimoAggiornamento}</strong> nella categoria "prezzo bloccato senza vincoli"
-          </p>
         </div>
+        <p style={{ fontSize: 13, color: '#64748b', textAlign: 'center', marginTop: 10, marginBottom: 24 }}>
+          Selezionata dal nostro team il <strong>{ENI_OFFER.ultimoAggiornamento}</strong> nella categoria "prezzo bloccato senza vincoli"
+        </p>
 
         {/* SCHEDA TECNICA */}
         <div style={{
@@ -1068,7 +1079,7 @@ export function LuceGasComp() {
 
           {/* CTA primario: ANALISI (ora più prominente) */}
           <a
-            href="/recensione-plenitude"
+            href="/recensione-eni"
             style={{
               display: 'block',
               background: '#fff',
