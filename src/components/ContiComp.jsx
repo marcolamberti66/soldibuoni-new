@@ -465,12 +465,23 @@ export function ContiComp() {
               display: 'inline-block', marginBottom: 12, letterSpacing: '0.08em'
             }}>Categoria: rendimento giacenza</div>
 
-            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-              BBVA Italia
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 10,
+                background: '#004481', color: '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 18, fontWeight: 900, fontFamily: "'DM Serif Display', serif",
+                flexShrink: 0
+              }}>B</div>
+              <div>
+                <div style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', fontFamily: "'DM Serif Display', 'Playfair Display', serif", lineHeight: 1.1 }}>
+                  BBVA Italia
+                </div>
+                <div style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>
+                  Conto Online
+                </div>
+              </div>
             </div>
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', margin: '0 0 6px', fontFamily: "'DM Serif Display', 'Playfair Display', serif" }}>
-              Conto Online
-            </h3>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
               Selezionato il <strong>15 ottobre 2025</strong>
             </p>
@@ -532,14 +543,25 @@ export function ContiComp() {
               display: 'inline-block', marginBottom: 12, letterSpacing: '0.08em'
             }}>Categoria: operatività mobile</div>
 
-            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-              Hype (gruppo illimity)
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 10,
+                background: '#00AEFF', color: '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 18, fontWeight: 900, fontFamily: "'DM Serif Display', serif",
+                flexShrink: 0
+              }}>H</div>
+              <div>
+                <div style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', fontFamily: "'DM Serif Display', 'Playfair Display', serif", lineHeight: 1.1 }}>
+                  Hype
+                </div>
+                <div style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>
+                  Carta conto · 3 piani
+                </div>
+              </div>
             </div>
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', margin: '0 0 6px', fontFamily: "'DM Serif Display', 'Playfair Display', serif" }}>
-              Carta conto con 3 piani
-            </h3>
             <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionato il <strong>15 ottobre 2025</strong>
+              Selezionato il <strong>15 ottobre 2025</strong> · gruppo illimity
             </p>
 
             <div style={{
