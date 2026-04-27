@@ -1,0 +1,538 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// =====================================================================
+// LISTA STIPENDI TARGET — coda lunga delle ricerche Google su stipendio
+// netto in Italia. Ogni voce genera una pagina statica al build time.
+// =====================================================================
+export async function getStaticPaths() {
+  const stipendi = [
+    15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000,
+    30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000,
+    50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000,
+    100000, 120000, 150000
+  ];
+
+  return stipendi.map((s, idx) => ({
+    params: { lordo: `${s}-euro-lordi` },
+    props: {
+      ral: s,
+      prev: idx > 0 ? stipendi[idx - 1] : null,
+      next: idx < stipendi.length - 1 ? stipendi[idx + 1] : null,
+      tutti: stipendi
+    }
+  }));
+}
+
+// =====================================================================
+// LOGICA DI CALCOLO — basata su normativa fiscale italiana 2026
+// Riferimenti: L. 199/2025 (Legge di Bilancio 2026), art. 13 TUIR,
+// L. 335/1995 (massimale contributivo INPS).
+// =====================================================================
+function calcolaStipendio(ral) {
+  // ----- Contributi INPS dipendente -----
+  // 9,19% standard + 1% sopra €56.224 + nessun versamento sopra €122.295
+  const SOGLIA_1PCT = 56224;
+  const MASSIMALE_INPS = 122295;
+  let inps;
+  if (ral <= SOGLIA_1PCT) {
+    inps = ral * 0.0919;
+  } else if (ral <= MASSIMALE_INPS) {
+    inps = SOGLIA_1PCT * 0.0919 + (ral - SOGLIA_1PCT) * 0.1019;
+  } else {
+    inps = SOGLIA_1PCT * 0.0919 + (MASSIMALE_INPS - SOGLIA_1PCT) * 0.1019;
+  }
+
+  // ----- Imponibile fiscale -----
+  const imponibile = ral - inps;
+
+  // ----- IRPEF lorda — scaglioni 2026 (23% / 33% / 43%) -----
+  let irpefLorda = 0;
+  if (imponibile <= 8500) {
+    irpefLorda = 0; // No tax area
+  } else if (imponibile <= 28000) {
+    irpefLorda = imponibile * 0.23;
+  } else if (imponibile <= 50000) {
+    irpefLorda = 28000 * 0.23 + (imponibile - 28000) * 0.33;
+  } else {
+    irpefLorda = 28000 * 0.23 + 22000 * 0.33 + (imponibile - 50000) * 0.43;
+  }
+
+  // ----- Detrazione lavoro dipendente — art. 13 TUIR -----
+  let detrLavoro = 0;
+  if (imponibile <= 15000) {
+    detrLavoro = 1955;
+  } else if (imponibile <= 28000) {
+    detrLavoro = 1910 + 1190 * (28000 - imponibile) / 13000;
+  } else if (imponibile <= 50000) {
+    detrLavoro = 1910 * (50000 - imponibile) / 22000;
+  } else {
+    detrLavoro = 0;
+  }
+
+  // ----- IRPEF netta -----
+  const irpefNetta = Math.max(0, irpefLorda - detrLavoro);
+
+  // ----- Trattamento integrativo (Bonus 100€) -----
+  // Spetta in caso di "capienza" (IRPEF lorda > detrazione)
+  let bonus = 0;
+  if (imponibile <= 15000 && irpefLorda > detrLavoro) {
+    bonus = 1200;
+  } else if (imponibile > 15000 && imponibile <= 28000 && irpefLorda > detrLavoro) {
+    bonus = 1200 * (28000 - imponibile) / 13000;
+  }
+
+  // ----- Addizionali regionali + comunali -----
+  // Range nazionale reale: min Veneto/Trentino 1,23%+0,1% = 1,33%
+  //                        max Lazio 3,33% + 0,9% = 4,23%
+  const addMin = imponibile * 0.0133;
+  const addMax = imponibile * 0.0423;
+  const addMedia = imponibile * 0.023; // media nazionale circa 2,3%
+
+  // ----- Netto annuale (range basato su addizionali) -----
+  const nettoMassimo = ral - inps - irpefNetta - addMin + bonus;
+  const nettoMinimo = ral - inps - irpefNetta - addMax + bonus;
+  const nettoMedio = ral - inps - irpefNetta - addMedia + bonus;
+
+  return {
+    ral,
+    inps: Math.round(inps),
+    imponibile: Math.round(imponibile),
+    irpefLorda: Math.round(irpefLorda),
+    detrLavoro: Math.round(detrLavoro),
+    irpefNetta: Math.round(irpefNetta),
+    bonus: Math.round(bonus),
+    addMin: Math.round(addMin),
+    addMax: Math.round(addMax),
+    addMedia: Math.round(addMedia),
+    nettoMin: Math.round(nettoMinimo),
+    nettoMax: Math.round(nettoMassimo),
+    nettoMedio: Math.round(nettoMedio),
+    nettoMensile12: Math.round(nettoMedio / 12),
+    nettoMensile13: Math.round(nettoMedio / 13),
+    nettoMensile14: Math.round(nettoMedio / 14),
+    aliquotaEffettiva: ((ral - nettoMedio) / ral * 100).toFixed(1),
+    aliquotaMarginale: imponibile <= 28000 ? 23 : (imponibile <= 50000 ? 33 : 43)
+  };
+}
+
+// =====================================================================
+// FORMATTER
+// =====================================================================
+function fmt(n) {
+  return new Intl.NumberFormat('it-IT').format(n);
+}
+
+// =====================================================================
+// DATI DELLA PAGINA
+// =====================================================================
+const { ral, prev, next, tutti } = Astro.props;
+const calc = calcolaStipendio(ral);
+
+// Calcolo stipendi vicini per la sezione "confronto"
+const calcPrev = prev ? calcolaStipendio(prev) : null;
+const calcNext = next ? calcolaStipendio(next) : null;
+
+// SEO meta
+const ralFmt = fmt(ral);
+const titleSeo = `Stipendio netto da ${ralFmt} euro lordi 2026: quanto prendi al mese`;
+const descrSeo = `Stipendio netto da ${ralFmt} € lordi: ${fmt(calc.nettoMensile13)} € al mese (13ª) o ${fmt(calc.nettoMensile14)} € (14ª). Calcolo aggiornato 2026 con IRPEF 23/33/43%, INPS e detrazioni.`;
+const color = '#10b981';
+
+// Schema.org FAQ data
+const faqs = [
+  {
+    q: `Quanto prendo netto al mese con ${ralFmt} euro lordi all'anno?`,
+    a: `Con ${ralFmt} € lordi annui prendi circa ${fmt(calc.nettoMensile13)} € al mese se hai 13 mensilità, ${fmt(calc.nettoMensile14)} € se hai 14 mensilità, oppure ${fmt(calc.nettoMensile12)} € se hai 12 mensilità. Il netto annuale è circa ${fmt(calc.nettoMedio)} €.`
+  },
+  {
+    q: `Quanto pago di tasse con ${ralFmt} euro lordi?`,
+    a: `Su una RAL di ${ralFmt} € paghi circa ${fmt(calc.inps)} € di contributi INPS, ${fmt(calc.irpefNetta)} € di IRPEF al netto delle detrazioni e tra ${fmt(calc.addMin)} e ${fmt(calc.addMax)} € di addizionali regionale e comunale (variabili in base a Regione e Comune di residenza). L'aliquota fiscale effettiva totale è circa il ${calc.aliquotaEffettiva}%.`
+  },
+  {
+    q: `Qual è la mia aliquota IRPEF marginale con ${ralFmt} euro lordi?`,
+    a: `Con un imponibile fiscale di ${fmt(calc.imponibile)} € la tua aliquota marginale IRPEF è del ${calc.aliquotaMarginale}%. Significa che ogni euro lordo aggiuntivo viene tassato a quel tasso (più contributi INPS e addizionali). È il numero da considerare quando valuti aumenti, premi o versamenti deducibili al fondo pensione.`
+  },
+  {
+    q: `Cambia il netto se vivo in Lombardia, Lazio o Veneto?`,
+    a: `Sì, le addizionali regionali variano dall'1,23% (Veneto, Valle d'Aosta, Trentino) al 3,33% (Lazio). Anche le addizionali comunali variano: Milano è allo 0,8%, Roma allo 0,9%, Firenze allo 0,2%. Su una RAL di ${ralFmt} € la differenza tra Regione meno tassata e Regione più tassata è di circa ${fmt(calc.addMax - calc.addMin)} € all'anno.`
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
+---
+
+<Layout title={titleSeo} description={descrSeo}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="font-size: 13px; color: #64748b; margin-bottom: 18px;">
+      <a href="/" style="color: #64748b;">Home</a>
+      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
+      <a href="/calcolo-stipendio" style="color: #64748b;">Calcolo Stipendio</a>
+      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
+      <span style="color: #0f172a; font-weight: 600;">{ralFmt} € lordi</span>
+    </nav>
+
+    <!-- Header -->
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
+      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: ${color}14; flex-shrink: 0;`}>
+        💶
+      </div>
+      <h1 style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
+        Stipendio netto da <span style={`color: ${color};`}>{ralFmt} € lordi</span>
+      </h1>
+    </div>
+    <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">Calcolo aggiornato Legge di Bilancio 2026 · IRPEF 23/33/43% · INPS 9,19%</p>
+
+    <!-- BIG NUMBER CARD -->
+    <div style={`background: linear-gradient(135deg, ${color} 0%, #059669 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(16,185,129,0.25);`}>
+      <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 8px;">Il tuo netto mensile (stima nazionale)</div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px;">
+        <div>
+          <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">12 mensilità</div>
+          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile12)}</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">13 mensilità</div>
+          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile13)}</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">14 mensilità</div>
+          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile14)}</div>
+        </div>
+      </div>
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div style="font-size: 11px; opacity: 0.85;">Netto annuale</div>
+          <div style="font-size: 18px; font-weight: 700;">€ {fmt(calc.nettoMin)} – {fmt(calc.nettoMax)}</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; opacity: 0.85;">Aliquota effettiva</div>
+          <div style="font-size: 18px; font-weight: 700;">~{calc.aliquotaEffettiva}%</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; opacity: 0.85;">Aliquota marginale</div>
+          <div style="font-size: 18px; font-weight: 700;">{calc.aliquotaMarginale}%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intro testuale (unico per ogni pagina, ricco di keyword) -->
+    <p style="color: #475569; font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
+      Se hai un contratto di lavoro dipendente con una <strong>Retribuzione Annua Lorda di {ralFmt} euro</strong>, in busta paga ti restano circa <strong>{fmt(calc.nettoMensile13)} € al mese</strong> con 13 mensilità (l'ipotesi più comune per il CCNL del commercio, metalmeccanico industria, terziario), oppure <strong>{fmt(calc.nettoMensile14)} €</strong> se il tuo contratto prevede anche la quattordicesima. La cifra esatta dipende da Regione e Comune di residenza, dalle detrazioni per familiari a carico e da eventuali bonus o fringe benefit. Sotto trovi il dettaglio completo di come si arriva a questo numero, con tutte le voci di tasse e contributi calcolate sulla normativa fiscale italiana 2026.
+    </p>
+
+    <!-- BREAKDOWN -->
+    <div class="info-card" style="margin-bottom: 16px;">
+      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Dal lordo al netto: ogni voce</h2>
+
+      <div style="display: flex; flex-direction: column; gap: 0;">
+        <div class="brk-row brk-row-positive">
+          <div>
+            <div class="brk-label">Retribuzione Annua Lorda (RAL)</div>
+            <div class="brk-sub">Stipendio prima di tasse e contributi</div>
+          </div>
+          <div class="brk-value">€ {fmt(calc.ral)}</div>
+        </div>
+
+        <div class="brk-row brk-row-negative">
+          <div>
+            <div class="brk-label">– Contributi INPS dipendente</div>
+            <div class="brk-sub">9,19% del lordo {ral > 56224 ? '+ 1% sulla quota oltre €56.224' : ''}</div>
+          </div>
+          <div class="brk-value">– € {fmt(calc.inps)}</div>
+        </div>
+
+        <div class="brk-row brk-row-info">
+          <div>
+            <div class="brk-label">= Imponibile fiscale</div>
+            <div class="brk-sub">Base per il calcolo IRPEF</div>
+          </div>
+          <div class="brk-value">€ {fmt(calc.imponibile)}</div>
+        </div>
+
+        <div class="brk-row brk-row-negative">
+          <div>
+            <div class="brk-label">– IRPEF lorda</div>
+            <div class="brk-sub">Scaglioni 2026: 23% fino a 28k, 33% tra 28k–50k, 43% oltre</div>
+          </div>
+          <div class="brk-value">– € {fmt(calc.irpefLorda)}</div>
+        </div>
+
+        <div class="brk-row brk-row-positive">
+          <div>
+            <div class="brk-label">+ Detrazione lavoro dipendente</div>
+            <div class="brk-sub">Art. 13 TUIR — riduce l'IRPEF a scaglioni</div>
+          </div>
+          <div class="brk-value">+ € {fmt(calc.detrLavoro)}</div>
+        </div>
+
+        {calc.bonus > 0 && (
+          <div class="brk-row brk-row-positive">
+            <div>
+              <div class="brk-label">+ Trattamento integrativo (Bonus 100€)</div>
+              <div class="brk-sub">In busta, esente da IRPEF e contribuzione</div>
+            </div>
+            <div class="brk-value">+ € {fmt(calc.bonus)}</div>
+          </div>
+        )}
+
+        <div class="brk-row brk-row-negative">
+          <div>
+            <div class="brk-label">– Addizionali regionale + comunale</div>
+            <div class="brk-sub">Range nazionale: 1,33% (Veneto/TAA) – 4,23% (Lazio)</div>
+          </div>
+          <div class="brk-value">– € {fmt(calc.addMin)} / {fmt(calc.addMax)}</div>
+        </div>
+
+        <div class="brk-row brk-row-total">
+          <div>
+            <div class="brk-label" style="font-size: 16px;">= Netto annuale</div>
+            <div class="brk-sub">Range in base alla Regione di residenza</div>
+          </div>
+          <div class="brk-value" style={`font-size: 22px; color: ${color};`}>€ {fmt(calc.nettoMin)} – {fmt(calc.nettoMax)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA al calcolatore principale -->
+    <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
+      <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi il calcolo esatto sulla <strong>tua Regione e Comune</strong>, con detrazioni per familiari e premi?</div>
+      <a href="/calcolo-stipendio" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
+        Apri il calcolatore personalizzato →
+      </a>
+    </div>
+
+    <!-- CONFRONTO con stipendi adiacenti -->
+    {(calcPrev || calcNext) && (
+      <div class="info-card" style="margin-bottom: 16px;">
+        <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>Confronto con stipendi vicini</h2>
+        <p style="color: #64748b; font-size: 14px; margin: 0 0 18px 0;">Un piccolo aumento di RAL non sempre porta un aumento proporzionale del netto, per via degli scaglioni IRPEF.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          {calcPrev && (
+            <a href={`/calcolo-stipendio/${prev}-euro-lordi`} class="cmp-card">
+              <div class="cmp-tag">Stipendio precedente</div>
+              <div class="cmp-ral">€ {fmt(calcPrev.ral)} lordi</div>
+              <div class="cmp-net">≈ € {fmt(calcPrev.nettoMensile13)}/mese (13ª)</div>
+              <div class="cmp-diff" style="color: #ef4444;">– € {fmt(calc.nettoMedio - calcPrev.nettoMedio)}/anno netti</div>
+            </a>
+          )}
+
+          <div class="cmp-card cmp-card-current" style={`border-color: ${color}; background: ${color}08;`}>
+            <div class="cmp-tag" style={`color: ${color};`}>Stai guardando questo</div>
+            <div class="cmp-ral">€ {ralFmt} lordi</div>
+            <div class="cmp-net">≈ € {fmt(calc.nettoMensile13)}/mese (13ª)</div>
+            <div class="cmp-diff">€ {fmt(calc.nettoMedio)}/anno netti</div>
+          </div>
+
+          {calcNext && (
+            <a href={`/calcolo-stipendio/${next}-euro-lordi`} class="cmp-card">
+              <div class="cmp-tag">Stipendio successivo</div>
+              <div class="cmp-ral">€ {fmt(calcNext.ral)} lordi</div>
+              <div class="cmp-net">≈ € {fmt(calcNext.nettoMensile13)}/mese (13ª)</div>
+              <div class="cmp-diff" style="color: #10b981;">+ € {fmt(calcNext.nettoMedio - calc.nettoMedio)}/anno netti</div>
+            </a>
+          )}
+        </div>
+      </div>
+    )}
+
+    <!-- FAQ section -->
+    <div class="info-card" style="margin-bottom: 16px;">
+      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        {faqs.map(f => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Tutti gli stipendi: link interno per indicizzazione -->
+    <div class="info-card" style="margin-bottom: 16px;">
+      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 20px; margin: 0 0 14px 0;`}>Calcola altri stipendi</h2>
+      <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0;">Trova subito quanto resta in tasca con altri importi di RAL.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        {tutti.filter(s => s !== ral).map(s => (
+          <a href={`/calcolo-stipendio/${s}-euro-lordi`} class="pill-link">€ {fmt(s)}</a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Disclaimer trasparenza -->
+    <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
+      <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
+        <strong>Nota metodologica:</strong> i calcoli si basano su scaglioni IRPEF 2026 (L. 199/2025), aliquota INPS dipendente standard del 9,19%, detrazioni lavoro dipendente ex art. 13 TUIR e trattamento integrativo (bonus 100€). Le addizionali regionali e comunali sono mostrate come range nazionale reale (min 1,33% – max 4,23%): il calcolo esatto richiede di specificare Regione e Comune. Non sono incluse detrazioni per familiari a carico, premi di produttività detassati, fringe benefit o quote sindacali. Per il calcolo personalizzato, usa il <a href="/calcolo-stipendio" style="color: #92400e; text-decoration: underline;">simulatore principale</a>.
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<style>
+  .info-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+
+  .brk-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 16px;
+  }
+  .brk-row:last-child { border-bottom: none; }
+  .brk-label {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .brk-sub {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.4;
+  }
+  .brk-value {
+    font-weight: 700;
+    font-size: 16px;
+    color: #0f172a;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .brk-row-negative .brk-value { color: #ef4444; }
+  .brk-row-positive .brk-value { color: #10b981; }
+  .brk-row-info { background: #f8fafc; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
+  .brk-row-total {
+    background: #f0fdf4;
+    margin: 8px -12px 0;
+    padding: 18px 12px;
+    border-radius: 12px;
+    border-bottom: none;
+  }
+
+  .cmp-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    display: block;
+  }
+  .cmp-card:hover:not(.cmp-card-current) {
+    background: #fff;
+    border-color: #10b981;
+    transform: translateY(-2px);
+  }
+  .cmp-card-current {
+    border-width: 2px;
+  }
+  .cmp-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+  }
+  .cmp-ral {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .cmp-net {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+  .cmp-diff {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .faq-item {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 14px 18px;
+    transition: background 0.2s;
+  }
+  .faq-item[open] {
+    background: #f0fdf4;
+  }
+  .faq-item summary {
+    font-weight: 700;
+    color: #0f172a;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14px;
+    padding-right: 20px;
+    position: relative;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #94a3b8;
+    transition: transform 0.2s;
+  }
+  .faq-item[open] summary::after {
+    content: '−';
+    color: #10b981;
+  }
+  .faq-item p {
+    margin: 12px 0 0 0;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .pill-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .pill-link:hover {
+    background: #10b981;
+    border-color: #10b981;
+    color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    .brk-value { font-size: 14px; }
+    .brk-label { font-size: 13px; }
+  }
+</style>
