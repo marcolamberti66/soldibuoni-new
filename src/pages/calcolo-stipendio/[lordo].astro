@@ -1,6 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+// Forza il pre-render statico al build (compatibile sia con modalità
+// static che hybrid/server). Necessario su Netlify in modalità SSR.
+export const prerender = true;
+
 // =====================================================================
 // LISTA STIPENDI TARGET — coda lunga delle ricerche Google su stipendio
 // netto in Italia. Ogni voce genera una pagina statica al build time.
