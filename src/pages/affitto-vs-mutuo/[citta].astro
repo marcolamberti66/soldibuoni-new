@@ -1,12 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// 1. PROPS E PARAMETRI
+export const prerender = true;
+
+export function getStaticPaths() {
+  const lista = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
+  return lista.map(c => ({ params: { citta: c }, props: { slug: c } }));
+}
+
 const { slug } = Astro.props;
 
-// 2. FUNZIONI E LOGICA
+// LOGICA COMPONENTE
 const CITTA_DATA = {
-  'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose d\'Italia per l\'acquisto' },
+  'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose in Italia per l\'acquisto' },
   'roma': { nome: 'Roma', regione: 'Lazio', prezzoMq: 3300, affittoMq: 16.5, yield: 6.0, note: 'Mercato frammentato tra zone centrali e periferiche' },
   'torino': { nome: 'Torino', regione: 'Piemonte', prezzoMq: 2200, affittoMq: 11.0, yield: 6.0, note: 'Ottimo rapporto prezzo-qualità' },
   'napoli': { nome: 'Napoli', regione: 'Campania', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Mercato in crescita, prezzi moderati' },
@@ -129,16 +135,6 @@ const faqJsonLd = {
     "acceptedAnswer": { "@type": "Answer", "text": f.a }
   }))
 };
-
-// =====================================================================
-// 3. EXPORT (Rigorosamente in fondo per non spezzare l'AST parser)
-// =====================================================================
-export const prerender = true;
-
-export function getStaticPaths() {
-  const lista = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
-  return lista.map(c => ({ params: { citta: c }, props: { slug: c } }));
-}
 ---
 
 <Layout title={titleSeo} description={descrSeo}>
