@@ -4,30 +4,13 @@ import Layout from '../../layouts/Layout.astro';
 export const prerender = true;
 
 // =====================================================================
-// PAGINE PER IMPORTO AFFITTO
-// Coda lunga: "se pago X di affitto, che mutuo posso permettermi?"
+// COSTANTI E HELPER (devono essere definiti PRIMA di getStaticPaths)
 // =====================================================================
-export async function getStaticPaths() {
-  const importi = [
-    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
-    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
-  ];
-  return importi.map((a, idx) => ({
-    params: { importo: `${a}-euro` },
-    props: {
-      affitto: a,
-      prev: idx > 0 ? importi[idx-1] : null,
-      next: idx < importi.length - 1 ? importi[idx+1] : null,
-      tutti: importi
-    }
-  }));
-}
+const IMPORTI_AFFITTO = [
+  400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
+  1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
+];
 
-// =====================================================================
-// CALCOLO: dato un canone X, qual è il prezzo casa equivalente?
-// Usiamo yield medio italiano = 5% (rendita lorda annua)
-// e calcoliamo la rata mutuo equivalente con anticipo standard
-// =====================================================================
 const YIELD_ITALIA = 5.0;       // rendita lorda media Italia
 const ANTICIPO_PERC = 20;
 const TASSO_MUTUO = 3.20;
@@ -36,6 +19,9 @@ const REND_ANTICIPO = 3.0;
 const ISTAT = 1.5;
 const MANUTENZIONE = 1.0;
 const ORIZZONTE = 30;
+
+const RAL_DISPONIBILI = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
+const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
 
 function rataMensile(C, anni, tassoPerc) {
   const i = tassoPerc / 100 / 12;
@@ -74,14 +60,12 @@ function calcola(affittoMensile) {
     speseAcq: Math.round(speseAcq),
     importoMutuo: Math.round(importoMutuo),
     rata: Math.round(rata),
-    breakEven,
-    affittoTotale30: Math.round(affittoMensile * 12 * 30 * Math.pow(1.015, 15) / Math.pow(1.015, 15) * (Math.pow(1.015, 30) - 1) / (1.015 - 1) / 30 * 30) // somma affitti 30 anni con ISTAT
+    breakEven
   };
 }
 
-// Tabella stipendio necessario (riusata)
-function stimaRal(rataMensile) {
-  const nettoMensileNecessario = rataMensile / 0.30;
+function stimaRal(rataMensileVal) {
+  const nettoMensileNecessario = rataMensileVal / 0.30;
   const tabella = [
     [1100, 16500], [1330, 20000], [1526, 25000], [1723, 30000],
     [1919, 35000], [2115, 40000], [2310, 45000], [2506, 50000],
@@ -96,9 +80,9 @@ function stimaRal(rataMensile) {
       return Math.round(tabella[i][1] + ratio * (tabella[i+1][1] - tabella[i][1]));
     }
   }
+  return 0;
 }
 
-const RAL_DISPONIBILI = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
 function ralLinkPiuVicino(ralStimata) {
   let migliore = RAL_DISPONIBILI[0];
   let diff = Math.abs(ralStimata - migliore);
@@ -109,8 +93,6 @@ function ralLinkPiuVicino(ralStimata) {
   return migliore;
 }
 
-// Pagine mutuo disponibili per cross-link
-const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
 function importoMutuoPiuVicino(target) {
   let migliore = IMPORTI_MUTUO[0];
   let diff = Math.abs(target - migliore);
@@ -123,6 +105,28 @@ function importoMutuoPiuVicino(target) {
 
 function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
 
+// =====================================================================
+// getStaticPaths — eseguito al build time (DOPO le helper definitions)
+// =====================================================================
+export async function getStaticPaths() {
+  const importi = [
+    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
+    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
+  ];
+  return importi.map((a, idx) => ({
+    params: { importo: `${a}-euro` },
+    props: {
+      affitto: a,
+      prev: idx > 0 ? importi[idx-1] : null,
+      next: idx < importi.length - 1 ? importi[idx+1] : null,
+      tutti: importi
+    }
+  }));
+}
+
+// =====================================================================
+// PROPS DELLA PAGINA
+// =====================================================================
 const { affitto, prev, next, tutti } = Astro.props;
 const c = calcola(affitto);
 const ralStimata = stimaRal(c.rata);
