@@ -3,15 +3,26 @@ import Layout from '../../layouts/Layout.astro';
 
 export const prerender = true;
 
-// =====================================================================
-// COSTANTI E HELPER (devono essere definiti PRIMA di getStaticPaths)
-// =====================================================================
-const IMPORTI_AFFITTO = [
-  400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
-  1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
-];
+export async function getStaticPaths() {
+  const importi = [
+    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
+    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
+  ];
+  return importi.map((a, idx) => ({
+    params: { importo: `${a}-euro` },
+    props: {
+      affitto: a,
+      prev: idx > 0 ? importi[idx-1] : null,
+      next: idx < importi.length - 1 ? importi[idx+1] : null,
+      tutti: importi
+    }
+  }));
+}
 
-const YIELD_ITALIA = 5.0;       // rendita lorda media Italia
+// =====================================================================
+// COSTANTI
+// =====================================================================
+const YIELD_ITALIA = 5.0;
 const ANTICIPO_PERC = 20;
 const TASSO_MUTUO = 3.20;
 const DURATA_MUTUO = 25;
@@ -23,6 +34,9 @@ const ORIZZONTE = 30;
 const RAL_DISPONIBILI = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
 const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
 
+// =====================================================================
+// HELPERS
+// =====================================================================
 function rataMensile(C, anni, tassoPerc) {
   const i = tassoPerc / 100 / 12;
   const n = anni * 12;
@@ -106,26 +120,7 @@ function importoMutuoPiuVicino(target) {
 function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
 
 // =====================================================================
-// getStaticPaths — eseguito al build time (DOPO le helper definitions)
-// =====================================================================
-export async function getStaticPaths() {
-  const importi = [
-    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
-    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
-  ];
-  return importi.map((a, idx) => ({
-    params: { importo: `${a}-euro` },
-    props: {
-      affitto: a,
-      prev: idx > 0 ? importi[idx-1] : null,
-      next: idx < importi.length - 1 ? importi[idx+1] : null,
-      tutti: importi
-    }
-  }));
-}
-
-// =====================================================================
-// PROPS DELLA PAGINA
+// PROPS
 // =====================================================================
 const { affitto, prev, next, tutti } = Astro.props;
 const c = calcola(affitto);
@@ -133,7 +128,6 @@ const ralStimata = stimaRal(c.rata);
 const ralLink = ralLinkPiuVicino(ralStimata);
 const mutuoLink = importoMutuoPiuVicino(c.importoMutuo);
 
-// Verdetto
 let verdetto, verdettoColor;
 if (c.breakEven === null) {
   verdetto = `Spendere ${affitto} €/mese di affitto, in media in Italia, equivale a non poter raggiungere il pareggio con un acquisto in 30 anni.`;
@@ -187,7 +181,6 @@ const faqJsonLd = {
 
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
 
-    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" style="font-size: 13px; color: #64748b; margin-bottom: 18px;">
       <a href="/" style="color: #64748b;">Home</a>
       <span style="margin: 0 6px; color: #cbd5e1;">›</span>
@@ -206,7 +199,6 @@ const faqJsonLd = {
     </div>
     <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">Confronto basato su yield medio nazionale 5% · Tasso mutuo {TASSO_MUTUO}% · Anticipo 20%</p>
 
-    <!-- VERDETTO -->
     <div style={`background: linear-gradient(135deg, ${verdettoColor} 0%, ${verdettoColor}dd 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);`}>
       <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 12px;">⚖️ Verdetto</div>
       {c.breakEven !== null && (
@@ -222,7 +214,6 @@ const faqJsonLd = {
       <p style="font-size: 15px; line-height: 1.6; opacity: 0.95; margin: 12px 0 0 0;">{verdetto}</p>
     </div>
 
-    <!-- BIG NUMBERS -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>L'equivalente "comprato"</h2>
       <p style="color: #64748b; font-size: 14px; margin: 0 0 20px 0;">Cosa potresti acquistare con la stessa "uscita" mensile, statisticamente in Italia:</p>
@@ -250,7 +241,6 @@ const faqJsonLd = {
       </div>
     </div>
 
-    <!-- CONFRONTO DIRETTO -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Confronto diretto: Affitto vs Mutuo</h2>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
@@ -274,7 +264,6 @@ const faqJsonLd = {
       <p style="margin: 18px 0 0 0; font-size: 13px; color: #64748b; line-height: 1.6;">* Canoni cumulati con indicizzazione ISTAT al +{ISTAT}%/anno.</p>
     </div>
 
-    <!-- CROSS-LINK STRATEGICI -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Approfondimenti correlati</h2>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
@@ -291,7 +280,6 @@ const faqJsonLd = {
       </div>
     </div>
 
-    <!-- CTA simulatore -->
     <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
       <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi un calcolo <strong>personalizzato per la tua città</strong> e i tuoi parametri reali?</div>
       <a href="/affitto-vs-mutuo" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
@@ -299,7 +287,6 @@ const faqJsonLd = {
       </a>
     </div>
 
-    <!-- FAQ -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -312,7 +299,6 @@ const faqJsonLd = {
       </div>
     </div>
 
-    <!-- ALTRI IMPORTI -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 18px; margin: 0 0 14px 0;`}>Calcola con altri canoni di affitto</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -322,7 +308,6 @@ const faqJsonLd = {
       </div>
     </div>
 
-    <!-- Disclaimer -->
     <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
       <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
         <strong>Nota metodologica:</strong> il prezzo casa equivalente è derivato dal canone applicando lo yield medio italiano del {YIELD_ITALIA}% lordo (canone annuo / prezzo). Questo è un valore medio nazionale: nelle grandi città del Nord lo yield reale può essere più basso (4-5%, prezzi più alti a parità di canone), nel Sud e nelle città medie può essere più alto (6-7%). Per il tuo confronto città-specifico, consulta le pagine dedicate alle <a href="/affitto-vs-mutuo/milano" style="color: #92400e; text-decoration: underline;">20 città italiane principali</a> o usa il <a href="/affitto-vs-mutuo" style="color: #92400e; text-decoration: underline;">simulatore principale</a>.
