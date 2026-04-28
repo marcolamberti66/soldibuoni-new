@@ -1,94 +1,112 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// =====================================================================
-// DATI E HELPERS (Arrow functions per sicurezza AST)
-// =====================================================================
-const CITTA = {
-  'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose d\'Italia per l\'acquisto immobiliare' },
-  'roma': { nome: 'Roma', regione: 'Lazio', prezzoMq: 3300, affittoMq: 16.5, yield: 6.0, note: 'Mercato molto frammentato tra zone centrali e periferiche' },
-  'torino': { nome: 'Torino', regione: 'Piemonte', prezzoMq: 2200, affittoMq: 11.0, yield: 6.0, note: 'Tra le grandi città con miglior rapporto prezzo-qualità' },
-  'napoli': { nome: 'Napoli', regione: 'Campania', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Mercato in crescita, prezzi ancora moderati' },
-  'firenze': { nome: 'Firenze', regione: 'Toscana', prezzoMq: 4100, affittoMq: 17.0, yield: 5.0, note: 'Pressione turistica significativa sui canoni e sui prezzi' },
-  'bologna': { nome: 'Bologna', regione: 'Emilia-Romagna', prezzoMq: 3800, affittoMq: 17.5, yield: 5.5, note: 'Forte domanda studentesca sostiene i canoni di affitto' },
-  'genova': { nome: 'Genova', regione: 'Liguria', prezzoMq: 2100, affittoMq: 10.5, yield: 6.0, note: 'Tra i prezzi più bassi delle grandi città italiane' },
-  'bari': { nome: 'Bari', regione: 'Puglia', prezzoMq: 2300, affittoMq: 11.0, yield: 5.5, note: 'Mercato in crescita costante negli ultimi anni' },
-  'verona': { nome: 'Verona', regione: 'Veneto', prezzoMq: 2900, affittoMq: 12.5, yield: 5.0, note: 'Mercato stabile con buona qualità della vita' },
-  'padova': { nome: 'Padova', regione: 'Veneto', prezzoMq: 2700, affittoMq: 12.0, yield: 5.5, note: 'Polo universitario con domanda sostenuta di affitti' },
-  'brescia': { nome: 'Brescia', regione: 'Lombardia', prezzoMq: 2400, affittoMq: 11.5, yield: 5.5, note: 'Beneficia della prossimità a Milano con prezzi inferiori' },
-  'bergamo': { nome: 'Bergamo', regione: 'Lombardia', prezzoMq: 2800, affittoMq: 12.0, yield: 5.0, note: 'Mercato sostenuto dal pendolarismo verso Milano' },
-  'parma': { nome: 'Parma', regione: 'Emilia-Romagna', prezzoMq: 2500, affittoMq: 11.0, yield: 5.5, note: 'Buon equilibrio tra prezzi e qualità della vita' },
-  'modena': { nome: 'Modena', regione: 'Emilia-Romagna', prezzoMq: 2400, affittoMq: 10.5, yield: 5.5, note: 'Mercato stabile nel polo industriale emiliano' },
-  'trieste': { nome: 'Trieste', regione: 'Friuli-Venezia Giulia', prezzoMq: 2300, affittoMq: 10.5, yield: 5.5, note: 'Tra i mercati meno volatili del Nord-Est' },
-  'venezia': { nome: 'Venezia', regione: 'Veneto', prezzoMq: 4200, affittoMq: 18.0, yield: 5.0, note: 'Pressione turistica eccezionale sui prezzi del centro storico' },
-  'catania': { nome: 'Catania', regione: 'Sicilia', prezzoMq: 1700, affittoMq: 8.0, yield: 5.5, note: 'Tra i mercati immobiliari più accessibili d\'Italia' },
-  'palermo': { nome: 'Palermo', regione: 'Sicilia', prezzoMq: 1500, affittoMq: 7.5, yield: 6.0, note: 'Prezzi tra i più bassi tra i capoluoghi italiani' },
-  'cagliari': { nome: 'Cagliari', regione: 'Sardegna', prezzoMq: 2400, affittoMq: 11.0, yield: 5.5, note: 'Mercato sostenuto dalla forte domanda turistica stagionale' },
-  'pisa': { nome: 'Pisa', regione: 'Toscana', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Polo universitario con domanda continua di affitti' }
-};
+export const prerender = true;
 
-const rataMensile = (C, anni, tassoPerc) => {
-  const i = tassoPerc / 100 / 12;
-  const n = anni * 12;
-  return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
-};
+export async function getStaticPaths() {
+  const CITTA = {
+    'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose d\'Italia per l\'acquisto immobiliare' },
+    'roma': { nome: 'Roma', regione: 'Lazio', prezzoMq: 3300, affittoMq: 16.5, yield: 6.0, note: 'Mercato molto frammentato tra zone centrali e periferiche' },
+    'torino': { nome: 'Torino', regione: 'Piemonte', prezzoMq: 2200, affittoMq: 11.0, yield: 6.0, note: 'Tra le grandi città con miglior rapporto prezzo-qualità' },
+    'napoli': { nome: 'Napoli', regione: 'Campania', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Mercato in crescita, prezzi ancora moderati' },
+    'firenze': { nome: 'Firenze', regione: 'Toscana', prezzoMq: 4100, affittoMq: 17.0, yield: 5.0, note: 'Pressione turistica significativa sui canoni e sui prezzi' },
+    'bologna': { nome: 'Bologna', regione: 'Emilia-Romagna', prezzoMq: 3800, affittoMq: 17.5, yield: 5.5, note: 'Forte domanda studentesca sostiene i canoni di affitto' },
+    'genova': { nome: 'Genova', regione: 'Liguria', prezzoMq: 2100, affittoMq: 10.5, yield: 6.0, note: 'Tra i prezzi più bassi delle grandi città italiane' },
+    'bari': { nome: 'Bari', regione: 'Puglia', prezzoMq: 2300, affittoMq: 11.0, yield: 5.5, note: 'Mercato in crescita costante negli ultimi anni' },
+    'verona': { nome: 'Verona', regione: 'Veneto', prezzoMq: 2900, affittoMq: 12.5, yield: 5.0, note: 'Mercato stabile con buona qualità della vita' },
+    'padova': { nome: 'Padova', regione: 'Veneto', prezzoMq: 2700, affittoMq: 12.0, yield: 5.5, note: 'Polo universitario con domanda sostenuta di affitti' },
+    'brescia': { nome: 'Brescia', regione: 'Lombardia', prezzoMq: 2400, affittoMq: 11.5, yield: 5.5, note: 'Beneficia della prossimità a Milano con prezzi inferiori' },
+    'bergamo': { nome: 'Bergamo', regione: 'Lombardia', prezzoMq: 2800, affittoMq: 12.0, yield: 5.0, note: 'Mercato sostenuto dal pendolarismo verso Milano' },
+    'parma': { nome: 'Parma', regione: 'Emilia-Romagna', prezzoMq: 2500, affittoMq: 11.0, yield: 5.5, note: 'Buon equilibrio tra prezzi e qualità della vita' },
+    'modena': { nome: 'Modena', regione: 'Emilia-Romagna', prezzoMq: 2400, affittoMq: 10.5, yield: 5.5, note: 'Mercato stabile nel polo industriale emiliano' },
+    'trieste': { nome: 'Trieste', regione: 'Friuli-Venezia Giulia', prezzoMq: 2300, affittoMq: 10.5, yield: 5.5, note: 'Tra i mercati meno volatili del Nord-Est' },
+    'venezia': { nome: 'Venezia', regione: 'Veneto', prezzoMq: 4200, affittoMq: 18.0, yield: 5.0, note: 'Pressione turistica eccezionale sui prezzi del centro storico' },
+    'catania': { nome: 'Catania', regione: 'Sicilia', prezzoMq: 1700, affittoMq: 8.0, yield: 5.5, note: 'Tra i mercati immobiliari più accessibili d\'Italia' },
+    'palermo': { nome: 'Palermo', regione: 'Sicilia', prezzoMq: 1500, affittoMq: 7.5, yield: 6.0, note: 'Prezzi tra i più bassi tra i capoluoghi italiani' },
+    'cagliari': { nome: 'Cagliari', regione: 'Sardegna', prezzoMq: 2400, affittoMq: 11.0, yield: 5.5, note: 'Mercato sostenuto dalla forte domanda turistica stagionale' },
+    'pisa': { nome: 'Pisa', regione: 'Toscana', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Polo universitario con domanda continua di affitti' }
+  };
 
-const calcolaScenario = (prezzoTotale, affittoMensile) => {
-  const ANTICIPO_PERC = 20;
-  const TASSO_MUTUO = 3.20;
-  const DURATA_MUTUO = 25;
-  const REND_ANTICIPO = 3.0;
-  const ISTAT = 1.5;
-  const MANUTENZIONE = 1.0;
-  const ORIZZONTE = 30;
-
-  const anticipo = prezzoTotale * ANTICIPO_PERC / 100;
-  const importoMutuo = prezzoTotale - anticipo;
-  const speseAcquisto = prezzoTotale * 0.06;
-  const rata = rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO);
-
-  let costoAcquistoCum = anticipo + speseAcquisto;
-  let costoAffittoCum = 0;
-  let canoneCorrente = affittoMensile;
-  let anticipoInvestito = anticipo;
-  let breakEven = null;
-
-  for (let anno = 1; anno <= ORIZZONTE; anno++) {
-    const ratePagateNelleAnno = anno <= DURATA_MUTUO ? rata * 12 : 0;
-    const manutenzioneAnnua = prezzoTotale * MANUTENZIONE / 100;
-    costoAcquistoCum += ratePagateNelleAnno + manutenzioneAnnua;
-    costoAffittoCum += canoneCorrente * 12;
-    canoneCorrente *= (1 + ISTAT / 100);
-    anticipoInvestito *= (1 + REND_ANTICIPO / 100);
-    
-    const equityMutuo = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
-    const costoAcqNetto = costoAcquistoCum - equityMutuo - anticipo;
-    const costoAffNetto = costoAffittoCum - (anticipoInvestito - anticipo);
-
-    if (breakEven === null && costoAcqNetto < costoAffNetto) {
-      breakEven = anno;
-    }
+  function rataMensile(C, anni, tassoPerc) {
+    const i = tassoPerc / 100 / 12;
+    const n = anni * 12;
+    return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
   }
 
-  return {
-    rata: Math.round(rata),
-    importoMutuo: Math.round(importoMutuo),
-    anticipo: Math.round(anticipo),
-    speseAcquisto: Math.round(speseAcquisto),
-    breakEven
-  };
-};
+  function calcolaScenario(prezzoTotale, affittoMensile) {
+    const ANTICIPO_PERC = 20;
+    const TASSO_MUTUO = 3.20;
+    const DURATA_MUTUO = 25;
+    const REND_ANTICIPO = 3.0;
+    const ISTAT = 1.5;
+    const MANUTENZIONE = 1.0;
+    const ORIZZONTE = 30;
 
-const fmt = (n) => new Intl.NumberFormat('it-IT').format(n);
+    const anticipo = prezzoTotale * ANTICIPO_PERC / 100;
+    const importoMutuo = prezzoTotale - anticipo;
+    const speseAcquisto = prezzoTotale * 0.06;
+    const rata = rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO);
 
-// =====================================================================
-// PROPS E LOGICA
-// =====================================================================
-const { slug } = Astro.props;
-const citta = CITTA[slug];
-const prezzoTotale = citta.prezzoMq * 80;
-const affittoMensile = citta.affittoMq * 80;
-const sc = calcolaScenario(prezzoTotale, affittoMensile);
+    let costoAcquistoCum = anticipo + speseAcquisto;
+    let costoAffittoCum = 0;
+    let canoneCorrente = affittoMensile;
+    let anticipoInvestito = anticipo;
+    let breakEven = null;
+
+    for (let anno = 1; anno <= ORIZZONTE; anno++) {
+      const ratePagateNelleAnno = anno <= DURATA_MUTUO ? rata * 12 : 0;
+      const manutenzioneAnnua = prezzoTotale * MANUTENZIONE / 100;
+      costoAcquistoCum += ratePagateNelleAnno + manutenzioneAnnua;
+      costoAffittoCum += canoneCorrente * 12;
+      canoneCorrente *= (1 + ISTAT / 100);
+      anticipoInvestito *= (1 + REND_ANTICIPO / 100);
+      
+      const equityMutuo = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
+      const costoAcqNetto = costoAcquistoCum - equityMutuo - anticipo;
+      const costoAffNetto = costoAffittoCum - (anticipoInvestito - anticipo);
+
+      if (breakEven === null && costoAcqNetto < costoAffNetto) {
+        breakEven = anno;
+      }
+    }
+
+    return {
+      rata: Math.round(rata),
+      importoMutuo: Math.round(importoMutuo),
+      anticipo: Math.round(anticipo),
+      speseAcquisto: Math.round(speseAcquisto),
+      breakEven
+    };
+  }
+
+  const cittaSlugs = Object.keys(CITTA);
+  const altreCittaLista = Object.entries(CITTA).map(([s, c]) => ({ slug: s, nome: c.nome }));
+
+  return cittaSlugs.map(slug => {
+    const citta = CITTA[slug];
+    const prezzoTotale = citta.prezzoMq * 80;
+    const affittoMensile = citta.affittoMq * 80;
+    const sc = calcolaScenario(prezzoTotale, affittoMensile);
+    const altreCitta = altreCittaLista.filter(item => item.slug !== slug);
+
+    return {
+      params: { citta: slug },
+      props: {
+        citta,
+        prezzoTotale,
+        affittoMensile,
+        sc,
+        altreCitta
+      }
+    };
+  });
+}
+
+const { citta, prezzoTotale, affittoMensile, sc, altreCitta } = Astro.props;
+
+function fmt(n) {
+  return new Intl.NumberFormat('it-IT').format(n);
+}
 
 let verdetto, verdettoColor, verdettoIcon;
 if (sc.breakEven === null) {
@@ -146,18 +164,6 @@ const faqJsonLd = {
     "acceptedAnswer": { "@type": "Answer", "text": f.a }
   }))
 };
-
-const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
-
-// =====================================================================
-// EXPORTS (Sempre in fondo per impedire rotture dell'AST parser)
-// =====================================================================
-export const prerender = true;
-
-export function getStaticPaths() {
-  const citta = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
-  return citta.map(slug => ({ params: { citta: slug }, props: { slug } }));
-}
 ---
 
 <Layout title={titleSeo} description={descrSeo}>
@@ -302,8 +308,8 @@ export function getStaticPaths() {
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 20px; margin: 0 0 14px 0;`}>Affitto vs Mutuo in altre città</h2>
       <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0;">Confronta {citta.nome} con altre 19 città italiane principali:</p>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        {altreCitta.map(([s, c]) => (
-          <a href={`/affitto-vs-mutuo/${s}`} class="pill-link">{c.nome}</a>
+        {altreCitta.map((c) => (
+          <a href={`/affitto-vs-mutuo/${c.slug}`} class="pill-link">{c.nome}</a>
         ))}
       </div>
     </div>
