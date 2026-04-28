@@ -1,35 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  const importi = [
-    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
-    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
-  ];
-  return importi.map((a, idx) => ({
-    params: { importo: `${a}-euro` },
-    props: {
-      affitto: a,
-      prev: idx > 0 ? importi[idx-1] : null,
-      next: idx < importi.length - 1 ? importi[idx+1] : null,
-      tutti: importi
-    }
-  }));
-}
-
 // =====================================================================
-// HELPERS — tutte le costanti sono DENTRO le funzioni che le usano
-// (evita closure su top-level che esbuild non processa correttamente)
+// HELPERS (Arrow functions per evitare problemi di AST parsing/hoisting)
 // =====================================================================
-function rataMensile(C, anni, tassoPerc) {
+const rataMensile = (C, anni, tassoPerc) => {
   const i = tassoPerc / 100 / 12;
   const n = anni * 12;
-  return C * (i * Math.pow(1+i, n)) / (Math.pow(1+i, n) - 1);
-}
+  return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+};
 
-function calcola(affittoMensile) {
+const calcola = (affittoMensile) => {
   const YIELD_ITALIA = 5.0;
   const ANTICIPO_PERC = 20;
   const TASSO_MUTUO = 3.20;
@@ -57,9 +38,11 @@ function calcola(affittoMensile) {
     costoAffCum += canoneCorrente * 12;
     canoneCorrente *= (1 + ISTAT / 100);
     anticipoInvestito *= (1 + REND_ANTICIPO / 100);
+    
     const equity = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
     const acqNetto = costoAcqCum - equity - anticipo;
     const affNetto = costoAffCum - (anticipoInvestito - anticipo);
+    
     if (breakEven === null && acqNetto < affNetto) breakEven = anno;
   }
 
@@ -71,9 +54,9 @@ function calcola(affittoMensile) {
     rata: Math.round(rata),
     breakEven
   };
-}
+};
 
-function stimaRal(rataMensileVal) {
+const stimaRal = (rataMensileVal) => {
   const nettoMensileNecessario = rataMensileVal / 0.30;
   const tabella = [
     [1100, 16500], [1330, 20000], [1526, 25000], [1723, 30000],
@@ -81,18 +64,20 @@ function stimaRal(rataMensileVal) {
     [2700, 55000], [2891, 60000], [3270, 70000], [3647, 80000],
     [4025, 90000], [4403, 100000]
   ];
+  
   if (nettoMensileNecessario <= tabella[0][0]) return tabella[0][1];
-  if (nettoMensileNecessario >= tabella[tabella.length-1][0]) return Math.round(nettoMensileNecessario * 22.7);
+  if (nettoMensileNecessario >= tabella[tabella.length - 1][0]) return Math.round(nettoMensileNecessario * 22.7);
+  
   for (let i = 0; i < tabella.length - 1; i++) {
-    if (nettoMensileNecessario >= tabella[i][0] && nettoMensileNecessario <= tabella[i+1][0]) {
-      const ratio = (nettoMensileNecessario - tabella[i][0]) / (tabella[i+1][0] - tabella[i][0]);
-      return Math.round(tabella[i][1] + ratio * (tabella[i+1][1] - tabella[i][1]));
+    if (nettoMensileNecessario >= tabella[i][0] && nettoMensileNecessario <= tabella[i + 1][0]) {
+      const ratio = (nettoMensileNecessario - tabella[i][0]) / (tabella[i + 1][0] - tabella[i][0]);
+      return Math.round(tabella[i][1] + ratio * (tabella[i + 1][1] - tabella[i][1]));
     }
   }
   return 0;
-}
+};
 
-function ralLinkPiuVicino(ralStimata) {
+const ralLinkPiuVicino = (ralStimata) => {
   const RAL_DISPONIBILI = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
   let migliore = RAL_DISPONIBILI[0];
   let diff = Math.abs(ralStimata - migliore);
@@ -101,9 +86,9 @@ function ralLinkPiuVicino(ralStimata) {
     if (d < diff) { diff = d; migliore = r; }
   }
   return migliore;
-}
+};
 
-function importoMutuoPiuVicino(target) {
+const importoMutuoPiuVicino = (target) => {
   const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
   let migliore = IMPORTI_MUTUO[0];
   let diff = Math.abs(target - migliore);
@@ -112,12 +97,12 @@ function importoMutuoPiuVicino(target) {
     if (d < diff) { diff = d; migliore = i; }
   }
   return migliore;
-}
+};
 
-function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
+const fmt = (n) => new Intl.NumberFormat('it-IT').format(n);
 
 // =====================================================================
-// PROPS
+// LOGICA PAGINA E PROPS
 // =====================================================================
 const { affitto, prev, next, tutti } = Astro.props;
 const c = calcola(affitto);
@@ -171,6 +156,27 @@ const faqJsonLd = {
     "acceptedAnswer": { "@type": "Answer", "text": f.a }
   }))
 };
+
+// =====================================================================
+// EXPORTS (Sempre in fondo per impedire rotture dell'AST parser)
+// =====================================================================
+export const prerender = true;
+
+export function getStaticPaths() {
+  const importi = [
+    400, 450, 500, 550, 600, 650, 700, 800, 900, 1000,
+    1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000
+  ];
+  return importi.map((a, idx) => ({
+    params: { importo: `${a}-euro` },
+    props: {
+      affitto: a,
+      prev: idx > 0 ? importi[idx-1] : null,
+      next: idx < importi.length - 1 ? importi[idx+1] : null,
+      tutti: importi
+    }
+  }));
+}
 ---
 
 <Layout title={titleSeo} description={descrSeo}>
@@ -320,19 +326,16 @@ const faqJsonLd = {
   .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 6px; }
   .kpi-value { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.1; }
   .kpi-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
-
   .rate-box { background: #f8fafc; border-radius: 14px; padding: 18px; border: 1px solid rgba(0,0,0,0.04); }
   .rate-label { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; }
   .rate-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; color: #475569; gap: 8px; }
   .rate-row strong { color: #0f172a; font-size: 14px; }
   .rate-row-total { margin-top: 6px; padding-top: 10px; border-top: 1px dashed #e2e8f0; font-weight: 700; }
-
   .cross-link { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
   .cross-link:hover { background: #fff; border-color: #10b981; transform: translateY(-2px); }
   .cross-link-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; margin-bottom: 6px; }
   .cross-link-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
   .cross-link-sub { font-size: 13px; color: #475569; }
-
   .faq-item { background: #f8fafc; border-radius: 12px; padding: 14px 18px; transition: background 0.2s; }
   .faq-item[open] { background: #f0fdf4; }
   .faq-item summary { font-weight: 700; color: #0f172a; cursor: pointer; list-style: none; font-size: 14px; padding-right: 20px; position: relative; }
@@ -340,10 +343,8 @@ const faqJsonLd = {
   .faq-item summary::after { content: '+'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #94a3b8; }
   .faq-item[open] summary::after { content: '−'; color: #10b981; }
   .faq-item p { margin: 12px 0 0 0; color: #475569; font-size: 14px; line-height: 1.7; }
-
   .pill-link { display: inline-block; padding: 8px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 999px; font-size: 13px; font-weight: 600; color: #475569; text-decoration: none; transition: all 0.2s; }
   .pill-link:hover { background: #10b981; border-color: #10b981; color: #fff; }
-
   @media (max-width: 600px) {
     .rate-box { padding: 14px; }
     .rate-row { font-size: 12px; }

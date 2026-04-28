@@ -1,15 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  const citta = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
-  return citta.map(slug => ({ params: { citta: slug }, props: { slug } }));
-}
-
 // =====================================================================
-// DATI OMI Q4 2025 - Agenzia delle Entrate (fonte pubblica)
+// DATI E HELPERS (Arrow functions per sicurezza AST)
 // =====================================================================
 const CITTA = {
   'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose d\'Italia per l\'acquisto immobiliare' },
@@ -34,16 +27,13 @@ const CITTA = {
   'pisa': { nome: 'Pisa', regione: 'Toscana', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Polo universitario con domanda continua di affitti' }
 };
 
-// =====================================================================
-// HELPERS — costanti dentro le funzioni per evitare problemi esbuild
-// =====================================================================
-function rataMensile(C, anni, tassoPerc) {
+const rataMensile = (C, anni, tassoPerc) => {
   const i = tassoPerc / 100 / 12;
   const n = anni * 12;
-  return C * (i * Math.pow(1+i, n)) / (Math.pow(1+i, n) - 1);
-}
+  return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+};
 
-function calcolaScenario(prezzoTotale, affittoMensile) {
+const calcolaScenario = (prezzoTotale, affittoMensile) => {
   const ANTICIPO_PERC = 20;
   const TASSO_MUTUO = 3.20;
   const DURATA_MUTUO = 25;
@@ -67,14 +57,11 @@ function calcolaScenario(prezzoTotale, affittoMensile) {
     const ratePagateNelleAnno = anno <= DURATA_MUTUO ? rata * 12 : 0;
     const manutenzioneAnnua = prezzoTotale * MANUTENZIONE / 100;
     costoAcquistoCum += ratePagateNelleAnno + manutenzioneAnnua;
-
     costoAffittoCum += canoneCorrente * 12;
     canoneCorrente *= (1 + ISTAT / 100);
     anticipoInvestito *= (1 + REND_ANTICIPO / 100);
-
-    const equityMutuo = anno <= DURATA_MUTUO
-      ? importoMutuo * (anno / DURATA_MUTUO)
-      : importoMutuo;
+    
+    const equityMutuo = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
     const costoAcqNetto = costoAcquistoCum - equityMutuo - anticipo;
     const costoAffNetto = costoAffittoCum - (anticipoInvestito - anticipo);
 
@@ -90,16 +77,15 @@ function calcolaScenario(prezzoTotale, affittoMensile) {
     speseAcquisto: Math.round(speseAcquisto),
     breakEven
   };
-}
+};
 
-function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
+const fmt = (n) => new Intl.NumberFormat('it-IT').format(n);
 
 // =====================================================================
-// PROPS
+// PROPS E LOGICA
 // =====================================================================
 const { slug } = Astro.props;
 const citta = CITTA[slug];
-
 const prezzoTotale = citta.prezzoMq * 80;
 const affittoMensile = citta.affittoMq * 80;
 const sc = calcolaScenario(prezzoTotale, affittoMensile);
@@ -162,6 +148,16 @@ const faqJsonLd = {
 };
 
 const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
+
+// =====================================================================
+// EXPORTS (Sempre in fondo per impedire rotture dell'AST parser)
+// =====================================================================
+export const prerender = true;
+
+export function getStaticPaths() {
+  const citta = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
+  return citta.map(slug => ({ params: { citta: slug }, props: { slug } }));
+}
 ---
 
 <Layout title={titleSeo} description={descrSeo}>
@@ -323,12 +319,10 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
 
 <style>
   .info-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-
   .kpi-box { background: #f8fafc; border-radius: 14px; padding: 16px 18px; border: 1px solid rgba(0,0,0,0.04); }
   .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 6px; }
   .kpi-value { font-size: 24px; font-weight: 800; color: #0f172a; line-height: 1.1; }
   .kpi-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
-
   .brk-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f1f5f9; gap: 16px; }
   .brk-row:last-child { border-bottom: none; }
   .brk-label { font-weight: 700; color: #0f172a; font-size: 14px; margin-bottom: 2px; }
@@ -336,7 +330,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
   .brk-value { font-weight: 700; font-size: 16px; color: #0f172a; flex-shrink: 0; text-align: right; }
   .brk-row-info { background: #f8fafc; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
   .brk-row-total { background: #f0fdf4; margin: 8px -12px 0; padding: 18px 12px; border-radius: 12px; border-bottom: none; }
-
   .faq-item { background: #f8fafc; border-radius: 12px; padding: 14px 18px; transition: background 0.2s; }
   .faq-item[open] { background: #f0fdf4; }
   .faq-item summary { font-weight: 700; color: #0f172a; cursor: pointer; list-style: none; font-size: 14px; padding-right: 20px; position: relative; }
@@ -344,10 +337,8 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
   .faq-item summary::after { content: '+'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #94a3b8; }
   .faq-item[open] summary::after { content: '−'; color: #10b981; }
   .faq-item p { margin: 12px 0 0 0; color: #475569; font-size: 14px; line-height: 1.7; }
-
   .pill-link { display: inline-block; padding: 8px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 999px; font-size: 13px; font-weight: 600; color: #475569; text-decoration: none; transition: all 0.2s; }
   .pill-link:hover { background: #10b981; border-color: #10b981; color: #fff; }
-
   @media (max-width: 600px) {
     .brk-value { font-size: 14px; }
     .brk-label { font-size: 13px; }
