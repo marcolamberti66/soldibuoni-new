@@ -1,148 +1,154 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
 
 export const prerender = true;
 
 export function getStaticPaths() {
-  const arr = [400, 450, 500, 550, 600, 650, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000];
-  return arr.map(a => ({
-    params: { importo: `${a}-euro` },
-    props: { affitto: a }
-  }));
+  var arr = [400, 450, 500, 550, 600, 650, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000];
+  return arr.map(function(a) {
+    return { params: { importo: a + "-euro" }, props: { affitto: a } };
+  });
 }
 
 const { affitto } = Astro.props;
-const tutti = [400, 450, 500, 550, 600, 650, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000];
 
-// LOGICA COMPONENTE (Piatta, fuori da getStaticPaths)
-function rataMensile(C, anni, tassoPerc) {
-  const i = tassoPerc / 100 / 12;
-  const n = anni * 12;
-  return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
-}
+const ctx = (function() {
+  var YIELD_ITALIA = 5.0;
+  var ANTICIPO_PERC = 20;
+  var TASSO_MUTUO = 3.20;
+  var DURATA_MUTUO = 25;
+  var REND_ANTICIPO = 3.0;
+  var ISTAT = 1.5;
+  var MANUTENZIONE = 1.0;
+  var ORIZZONTE = 30;
 
-const YIELD_ITALIA = 5.0;
-const ANTICIPO_PERC = 20;
-const TASSO_MUTUO = 3.20;
-const DURATA_MUTUO = 25;
-const REND_ANTICIPO = 3.0;
-const ISTAT = 1.5;
-const MANUTENZIONE = 1.0;
-const ORIZZONTE = 30;
+  function rataMensile(C, anni, tassoPerc) {
+    var i = tassoPerc / 100 / 12;
+    var n = anni * 12;
+    return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+  }
 
-const prezzoTotale = Math.round((affitto * 12 * 100) / YIELD_ITALIA);
-const anticipo = Math.round(prezzoTotale * (ANTICIPO_PERC / 100));
-const importoMutuo = prezzoTotale - anticipo;
-const speseAcq = Math.round(prezzoTotale * 0.06);
-const rata = Math.round(rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO));
+  var prezzoTotale = Math.round((affitto * 12 * 100) / YIELD_ITALIA);
+  var anticipo = Math.round(prezzoTotale * (ANTICIPO_PERC / 100));
+  var importoMutuo = prezzoTotale - anticipo;
+  var speseAcq = Math.round(prezzoTotale * 0.06);
+  var rata = Math.round(rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO));
 
-let costoAcqCum = anticipo + speseAcq;
-let costoAffCum = 0;
-let canoneCorrente = affitto;
-let anticipoInvestito = anticipo;
-let breakEven = null;
+  var costoAcqCum = anticipo + speseAcq;
+  var costoAffCum = 0;
+  var canoneCorrente = affitto;
+  var anticipoInvestito = anticipo;
+  var breakEven = null;
 
-for (let anno = 1; anno <= ORIZZONTE; anno++) {
-  const ratePagateNelleAnno = anno <= DURATA_MUTUO ? rata * 12 : 0;
-  costoAcqCum += ratePagateNelleAnno + (prezzoTotale * (MANUTENZIONE / 100));
-  costoAffCum += canoneCorrente * 12;
-  canoneCorrente *= (1 + (ISTAT / 100));
-  anticipoInvestito *= (1 + (REND_ANTICIPO / 100));
-  
-  const equity = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
-  const acqNetto = costoAcqCum - equity - anticipo;
-  const affNetto = costoAffCum - (anticipoInvestito - anticipo);
-  
-  if (breakEven === null && acqNetto < affNetto) breakEven = anno;
-}
+  for (var anno = 1; anno <= ORIZZONTE; anno++) {
+    var ratePagateNelleAnno = anno <= DURATA_MUTUO ? rata * 12 : 0;
+    costoAcqCum += ratePagateNelleAnno + (prezzoTotale * (MANUTENZIONE / 100));
+    costoAffCum += canoneCorrente * 12;
+    canoneCorrente *= (1 + (ISTAT / 100));
+    anticipoInvestito *= (1 + (REND_ANTICIPO / 100));
+    
+    var equity = anno <= DURATA_MUTUO ? importoMutuo * (anno / DURATA_MUTUO) : importoMutuo;
+    var acqNetto = costoAcqCum - equity - anticipo;
+    var affNetto = costoAffCum - (anticipoInvestito - anticipo);
+    
+    if (breakEven === null && acqNetto < affNetto) breakEven = anno;
+  }
 
-const nettoMensileNecessario = rata / 0.30;
-let ralStimata = 0;
-const tabella = [
-  [1100, 16500], [1330, 20000], [1526, 25000], [1723, 30000],
-  [1919, 35000], [2115, 40000], [2310, 45000], [2506, 50000],
-  [2700, 55000], [2891, 60000], [3270, 70000], [3647, 80000],
-  [4025, 90000], [4403, 100000]
-];
-if (nettoMensileNecessario <= tabella[0][0]) ralStimata = tabella[0][1];
-else if (nettoMensileNecessario >= tabella[tabella.length - 1][0]) ralStimata = Math.round(nettoMensileNecessario * 22.7);
-else {
-  for (let i = 0; i < tabella.length - 1; i++) {
-    if (nettoMensileNecessario >= tabella[i][0] && nettoMensileNecessario <= tabella[i + 1][0]) {
-      const ratio = (nettoMensileNecessario - tabella[i][0]) / (tabella[i + 1][0] - tabella[i][0]);
-      ralStimata = Math.round(tabella[i][1] + ratio * (tabella[i + 1][1] - tabella[i][1]));
+  var nettoMensileNecessario = rata / 0.30;
+  var ralStimata = 0;
+  var tabella = [
+    [1100, 16500], [1330, 20000], [1526, 25000], [1723, 30000],
+    [1919, 35000], [2115, 40000], [2310, 45000], [2506, 50000],
+    [2700, 55000], [2891, 60000], [3270, 70000], [3647, 80000],
+    [4025, 90000], [4403, 100000]
+  ];
+  if (nettoMensileNecessario <= tabella[0][0]) ralStimata = tabella[0][1];
+  else if (nettoMensileNecessario >= tabella[tabella.length - 1][0]) ralStimata = Math.round(nettoMensileNecessario * 22.7);
+  else {
+    for (var i = 0; i < tabella.length - 1; i++) {
+      if (nettoMensileNecessario >= tabella[i][0] && nettoMensileNecessario <= tabella[i + 1][0]) {
+        var ratio = (nettoMensileNecessario - tabella[i][0]) / (tabella[i + 1][0] - tabella[i][0]);
+        ralStimata = Math.round(tabella[i][1] + ratio * (tabella[i + 1][1] - tabella[i][1]));
+      }
     }
   }
-}
 
-const RAL_DISPONIBILI = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
-let ralLink = RAL_DISPONIBILI[0];
-let diffRal = Math.abs(ralStimata - ralLink);
-for (const r of RAL_DISPONIBILI) {
-  const d = Math.abs(ralStimata - r);
-  if (d < diffRal) { diffRal = d; ralLink = r; }
-}
-
-const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
-let mutuoLink = IMPORTI_MUTUO[0];
-let diffMutuo = Math.abs(importoMutuo - mutuoLink);
-for (const i of IMPORTI_MUTUO) {
-  const d = Math.abs(importoMutuo - i);
-  if (d < diffMutuo) { diffMutuo = d; mutuoLink = i; }
-}
-
-function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
-
-let verdetto, verdettoColor;
-if (breakEven === null) {
-  verdetto = `Spendere ${affitto} €/mese di affitto, in media in Italia, equivale a non poter raggiungere il pareggio con un acquisto in 30 anni.`;
-  verdettoColor = '#dc2626';
-} else if (breakEven <= 5) {
-  verdetto = `Se paghi ${affitto} € di affitto, comprare diventa più conveniente già dopo ${breakEven} anni di permanenza.`;
-  verdettoColor = '#10b981';
-} else if (breakEven <= 10) {
-  verdetto = `Se paghi ${affitto} € di affitto, comprare conviene dopo ${breakEven} anni: orizzonte ragionevole per chi pensa di restare almeno una decade nella stessa casa.`;
-  verdettoColor = '#f59e0b';
-} else {
-  verdetto = `Spendere ${affitto} € di affitto richiede ${breakEven} anni perché l'acquisto diventi più conveniente: l'affitto è la scelta razionale a meno di intenzioni di lungo periodo.`;
-  verdettoColor = '#dc2626';
-}
-
-const titleSeo = `Affitto da ${affitto} euro al mese: meglio comprare casa? Calcolo`;
-const descrSeo = `Se paghi ${affitto} €/mese di affitto, potresti comprare una casa da circa ${fmt(prezzoTotale)} € con rata di ${fmt(rata)} €/mese. Break-even: ${breakEven ? breakEven + ' anni' : 'oltre 30 anni'}.`;
-const color = '#10b981';
-
-const faqs = [
-  {
-    q: `Se pago ${affitto} euro di affitto, che mutuo posso permettermi?`,
-    a: `Pagare ${affitto} €/mese di affitto è economicamente equivalente, in media nel mercato italiano (yield lordo 5%), a una casa del valore di circa ${fmt(prezzoTotale)} €. Per acquistarla con un anticipo del 20% (${fmt(anticipo)} €) avresti un mutuo di ${fmt(importoMutuo)} € con rata mensile di ${fmt(rata)} € a 25 anni al 3,20%. La rata sarà più alta dell'affitto (${fmt(rata - affitto)} € in più al mese) ma una parte di essa è capitale rimborsato che resta tuo.`
-  },
-  {
-    q: `Conviene di più pagare ${affitto} di affitto o ${fmt(rata)} di rata mutuo?`,
-    a: `Confrontare solo i due numeri è ingannevole. La rata mutuo include il capitale che rimborsi (e quindi resta nel tuo patrimonio), mentre l'affitto è 100% spesa. Però l'acquisto richiede ${fmt(anticipo + speseAcq)} € di liquidità iniziale (anticipo + spese), e ti carica di costi nascosti (manutenzione, IMU per seconde case, assicurazioni). Considerati tutti questi fattori, comprare diventa più conveniente dopo circa ${breakEven || 'oltre 30'} anni di permanenza nella stessa casa.`
-  },
-  {
-    q: `Quale stipendio serve per sostenere un mutuo equivalente a ${affitto} di affitto?`,
-    a: `Per la rata di ${fmt(rata)} €/mese serve un netto mensile di almeno ${fmt(Math.round(rata / 0.30))} €/mese (regola del 30%), equivalente a una RAL di circa ${fmt(ralStimata)} € lordi annui. Questa è la soglia minima richiesta dalle banche per concedere il mutuo.`
-  },
-  {
-    q: `Quanto costa in totale 30 anni di affitto da ${affitto} euro al mese?`,
-    a: `Pagando ${affitto} € al mese e ipotizzando una rivalutazione ISTAT del +1,5% annuo, dopo 30 anni avrai versato circa ${fmt(Math.round(affitto * 12 * (Math.pow(1.015, 30) - 1) / 0.015))} € in canoni. Questa cifra non considera che l'anticipo non versato per l'acquisto (${fmt(anticipo)} €), se investito al 3% annuo, varrebbe circa ${fmt(Math.round(anticipo * Math.pow(1.03, 30)))} € dopo 30 anni.`
+  var RAL_DISP = [15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000, 30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000];
+  var ralLink = RAL_DISP[0];
+  var diffRal = Math.abs(ralStimata - ralLink);
+  for (var idx1 = 0; idx1 < RAL_DISP.length; idx1++) {
+    var r = RAL_DISP[idx1];
+    var d1 = Math.abs(ralStimata - r);
+    if (d1 < diffRal) { diffRal = d1; ralLink = r; }
   }
-];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map(f => ({
-    "@type": "Question", "name": f.q,
-    "acceptedAnswer": { "@type": "Answer", "text": f.a }
-  }))
-};
+  var IMP_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
+  var mutuoLink = IMP_MUTUO[0];
+  var diffMutuo = Math.abs(importoMutuo - mutuoLink);
+  for (var idx2 = 0; idx2 < IMP_MUTUO.length; idx2++) {
+    var m = IMP_MUTUO[idx2];
+    var d2 = Math.abs(importoMutuo - m);
+    if (d2 < diffMutuo) { diffMutuo = d2; mutuoLink = m; }
+  }
+
+  function fmt(n) { return new Intl.NumberFormat("it-IT").format(n); }
+
+  var verdetto, verdettoColor;
+  if (breakEven === null) {
+    verdetto = "Spendere " + affitto + " euro/mese di affitto, in media in Italia, equivale a non poter raggiungere il pareggio con un acquisto in 30 anni.";
+    verdettoColor = "#dc2626";
+  } else if (breakEven <= 5) {
+    verdetto = "Se paghi " + affitto + " euro di affitto, comprare diventa piu conveniente gia dopo " + breakEven + " anni di permanenza.";
+    verdettoColor = "#10b981";
+  } else if (breakEven <= 10) {
+    verdetto = "Se paghi " + affitto + " euro di affitto, comprare conviene dopo " + breakEven + " anni: orizzonte ragionevole per chi pensa di restare almeno una decade nella stessa casa.";
+    verdettoColor = "#f59e0b";
+  } else {
+    verdetto = "Spendere " + affitto + " euro di affitto richiede " + breakEven + " anni perche l'acquisto diventi piu conveniente: l'affitto e la scelta razionale a meno di intenzioni di lungo periodo.";
+    verdettoColor = "#dc2626";
+  }
+
+  var titleSeo = "Affitto da " + affitto + " euro al mese: meglio comprare casa? Calcolo";
+  var descrSeo = "Se paghi " + affitto + " euro/mese di affitto, potresti comprare una casa da circa " + fmt(prezzoTotale) + " euro con rata di " + fmt(rata) + " euro/mese. Break-even: " + (breakEven ? breakEven + " anni" : "oltre 30 anni") + ".";
+  var color = "#10b981";
+
+  var faqs = [
+    {
+      q: "Se pago " + affitto + " euro di affitto, che mutuo posso permettermi?",
+      a: "Pagare " + affitto + " euro/mese di affitto equivale a una casa da circa " + fmt(prezzoTotale) + " euro. Con anticipo del 20% (" + fmt(anticipo) + " euro) avresti un mutuo di " + fmt(importoMutuo) + " euro con rata di " + fmt(rata) + " euro a 25 anni al 3,20%."
+    },
+    {
+      q: "Conviene di piu pagare " + affitto + " di affitto o " + fmt(rata) + " di rata mutuo?",
+      a: "La rata include il capitale rimborsato, l'affitto e 100% spesa. Ma l'acquisto richiede " + fmt(anticipo + speseAcq) + " euro iniziali. Comprare conviene dopo " + (breakEven || "oltre 30") + " anni."
+    },
+    {
+      q: "Quale stipendio serve per un mutuo equivalente a " + affitto + " di affitto?",
+      a: "Per la rata di " + fmt(rata) + " euro/mese serve un netto mensile di almeno " + fmt(Math.round(rata / 0.30)) + " euro/mese, equivalente a una RAL di " + fmt(ralStimata) + " euro."
+    },
+    {
+      q: "Quanto costa in totale 30 anni di affitto da " + affitto + " euro al mese?",
+      a: "Pagando " + affitto + " euro al mese (+1,5% ISTAT/anno), in 30 anni versi " + fmt(Math.round(affitto * 12 * (Math.pow(1.015, 30) - 1) / 0.015)) + " euro. L'anticipo investito al 3% varrebbe " + fmt(Math.round(anticipo * Math.pow(1.03, 30))) + " euro."
+    }
+  ];
+
+  var faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(function(f) {
+      return { "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } };
+    })
+  };
+
+  var tutti = [400, 450, 500, 550, 600, 650, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000];
+
+  return {
+    prezzoTotale: prezzoTotale, anticipo: anticipo, importoMutuo: importoMutuo, speseAcq: speseAcq, rata: rata, breakEven: breakEven, ralStimata: ralStimata, ralLink: ralLink, mutuoLink: mutuoLink, verdetto: verdetto, verdettoColor: verdettoColor, titleSeo: titleSeo, descrSeo: descrSeo, color: color, faqs: faqs, faqJsonLd: faqJsonLd, tutti: tutti, fmt: fmt
+  };
+})();
 ---
 
-<Layout title={titleSeo} description={descrSeo}>
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)}></script>
+<Layout title={ctx.titleSeo} description={ctx.descrSeo}>
+  <script type="application/ld+json" set:html={JSON.stringify(ctx.faqJsonLd)}></script>
 
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
 
@@ -154,108 +160,108 @@ const faqJsonLd = {
       <span style="color: #0f172a; font-weight: 600;">{affitto} €/mese</span>
     </nav>
 
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: ${color}14; flex-shrink: 0;`}>
+    <div style={"display: flex; align-items: center; gap: 14px; margin-bottom: 8px;"}>
+      <div style={"width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: " + ctx.color + "14; flex-shrink: 0;"}>
         🏠
       </div>
       <h1 style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
-        Affitto da <span style={`color: ${color};`}>{affitto} €/mese</span>: meglio comprare?
+        Affitto da <span style={"color: " + ctx.color + ";"}>{affitto} €/mese</span>: meglio comprare?
       </h1>
     </div>
     <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">Confronto basato su yield medio nazionale 5% · Tasso mutuo 3,20% · Anticipo 20%</p>
 
-    <div style={`background: linear-gradient(135deg, ${verdettoColor} 0%, ${verdettoColor}dd 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);`}>
+    <div style={"background: linear-gradient(135deg, " + ctx.verdettoColor + " 0%, " + ctx.verdettoColor + "dd 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);"}>
       <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 12px;">⚖️ Verdetto</div>
-      {breakEven !== null && (
+      {ctx.breakEven !== null && (
         <div style="font-family: 'Playfair Display',serif; font-size: 42px; font-weight: 800; line-height: 1.1; margin-bottom: 8px;">
-          Pareggio: <span style="text-decoration: underline;">{breakEven} anni</span>
+          Pareggio: <span style="text-decoration: underline;">{ctx.breakEven} anni</span>
         </div>
       )}
-      {breakEven === null && (
+      {ctx.breakEven === null && (
         <div style="font-family: 'Playfair Display',serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 8px;">
           Pareggio oltre 30 anni
         </div>
       )}
-      <p style="font-size: 15px; line-height: 1.6; opacity: 0.95; margin: 12px 0 0 0;">{verdetto}</p>
+      <p style="font-size: 15px; line-height: 1.6; opacity: 0.95; margin: 12px 0 0 0;">{ctx.verdetto}</p>
     </div>
 
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>L'equivalente "comprato"</h2>
+      <h2 style={"color: " + ctx.color + "; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;"}>L'equivalente "comprato"</h2>
       <p style="color: #64748b; font-size: 14px; margin: 0 0 20px 0;">Cosa potresti acquistare con la stessa "uscita" mensile, statisticamente in Italia:</p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
         <div class="kpi-box">
           <div class="kpi-label">Casa equivalente</div>
-          <div class="kpi-value">€ {fmt(prezzoTotale)}</div>
+          <div class="kpi-value">€ {ctx.fmt(ctx.prezzoTotale)}</div>
           <div class="kpi-sub">@ yield 5% lordo</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-label">Anticipo necessario</div>
-          <div class="kpi-value">€ {fmt(anticipo)}</div>
+          <div class="kpi-value">€ {ctx.fmt(ctx.anticipo)}</div>
           <div class="kpi-sub">20% del prezzo</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-label">Rata mensile</div>
-          <div class="kpi-value">€ {fmt(rata)}</div>
+          <div class="kpi-value">€ {ctx.fmt(ctx.rata)}</div>
           <div class="kpi-sub">25 anni @ 3,20%</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-label">RAL minima</div>
-          <div class="kpi-value">€ {fmt(ralStimata)}</div>
+          <div class="kpi-value">€ {ctx.fmt(ctx.ralStimata)}</div>
           <div class="kpi-sub">regola del 30%</div>
         </div>
       </div>
     </div>
 
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Confronto diretto: Affitto vs Mutuo</h2>
+      <h2 style={"color: " + ctx.color + "; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;"}>Confronto diretto: Affitto vs Mutuo</h2>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <div class="rate-box" style="border-left: 4px solid #dc2626;">
           <div class="rate-label">🏃 Resto in affitto</div>
-          <div class="rate-row"><span>Spesa mensile</span><strong>€ {fmt(affitto)}</strong></div>
+          <div class="rate-row"><span>Spesa mensile</span><strong>€ {ctx.fmt(affitto)}</strong></div>
           <div class="rate-row"><span>Liquidità iniziale</span><span>€ 0</span></div>
           <div class="rate-row"><span>Equity dopo 25 anni</span><span>€ 0</span></div>
           <div class="rate-row"><span>Anticipo investito ne diventa</span><span>—</span></div>
-          <div class="rate-row rate-row-total"><span>Tot. canoni 30 anni*</span><strong>€ {fmt(Math.round(affitto * 12 * (Math.pow(1.015, 30) - 1) / 0.015))}</strong></div>
+          <div class="rate-row rate-row-total"><span>Tot. canoni 30 anni*</span><strong>€ {ctx.fmt(Math.round(affitto * 12 * (Math.pow(1.015, 30) - 1) / 0.015))}</strong></div>
         </div>
-        <div class="rate-box" style={`border-left: 4px solid ${color};`}>
+        <div class="rate-box" style={"border-left: 4px solid " + ctx.color + ";"}>
           <div class="rate-label">🏠 Compro casa</div>
-          <div class="rate-row"><span>Rata mensile</span><strong>€ {fmt(rata)}</strong></div>
-          <div class="rate-row"><span>Liquidità iniziale</span><span>€ {fmt(anticipo + speseAcq)}</span></div>
-          <div class="rate-row"><span>Equity dopo 25 anni</span><span>€ {fmt(prezzoTotale)}</span></div>
-          <div class="rate-row"><span>Manutenzione 30 anni (~1%/yr)</span><span>€ {fmt(Math.round(prezzoTotale * 0.30))}</span></div>
-          <div class="rate-row rate-row-total"><span>Tot. esborsi 25 anni</span><strong>€ {fmt(Math.round(rata * 12 * 25 + anticipo + speseAcq))}</strong></div>
+          <div class="rate-row"><span>Rata mensile</span><strong>€ {ctx.fmt(ctx.rata)}</strong></div>
+          <div class="rate-row"><span>Liquidità iniziale</span><span>€ {ctx.fmt(ctx.anticipo + ctx.speseAcq)}</span></div>
+          <div class="rate-row"><span>Equity dopo 25 anni</span><span>€ {ctx.fmt(ctx.prezzoTotale)}</span></div>
+          <div class="rate-row"><span>Manutenzione 30 anni (~1%/yr)</span><span>€ {ctx.fmt(Math.round(ctx.prezzoTotale * 0.30))}</span></div>
+          <div class="rate-row rate-row-total"><span>Tot. esborsi 25 anni</span><strong>€ {ctx.fmt(Math.round(ctx.rata * 12 * 25 + ctx.anticipo + ctx.speseAcq))}</strong></div>
         </div>
       </div>
       <p style="margin: 18px 0 0 0; font-size: 13px; color: #64748b; line-height: 1.6;">* Canoni cumulati con indicizzazione ISTAT al +1,5%/anno.</p>
     </div>
 
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Approfondimenti correlati</h2>
+      <h2 style={"color: " + ctx.color + "; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;"}>Approfondimenti correlati</h2>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
-        <a href={`/calcolo-stipendio/${ralLink}-euro-lordi`} class="cross-link">
+        <a href={"/calcolo-stipendio/" + ctx.ralLink + "-euro-lordi"} class="cross-link">
           <div class="cross-link-tag">💶 Stipendio richiesto</div>
-          <div class="cross-link-title">Netto da {fmt(ralLink)} € lordi</div>
+          <div class="cross-link-title">Netto da {ctx.fmt(ctx.ralLink)} € lordi</div>
           <div class="cross-link-sub">Vedi quanto resta in busta paga</div>
         </a>
-        <a href={`/mutuo/${mutuoLink}-euro-25-anni`} class="cross-link">
+        <a href={"/mutuo/" + ctx.mutuoLink + "-euro-25-anni"} class="cross-link">
           <div class="cross-link-tag">🏠 Mutuo equivalente</div>
-          <div class="cross-link-title">Mutuo da {fmt(mutuoLink)} € a 25 anni</div>
+          <div class="cross-link-title">Mutuo da {ctx.fmt(ctx.mutuoLink)} € a 25 anni</div>
           <div class="cross-link-sub">Dettagli rata, interessi e ammortamento</div>
         </a>
       </div>
     </div>
 
-    <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
-      <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi un calcolo <strong>personalizzato per la tua città</strong> e i tuoi parametri reali?</div>
-      <a href="/affitto-vs-mutuo" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
+    <div style={"background: #f8fafc; border: 2px dashed " + ctx.color + "40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;"}>
+      <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi simulare con i <strong>tuoi numeri esatti</strong>?</div>
+      <a href="/affitto-vs-mutuo" style={"display: inline-block; background: " + ctx.color + "; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;"}>
         Apri il simulatore interattivo →
       </a>
     </div>
 
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
+      <h2 style={"color: " + ctx.color + "; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;"}>Domande frequenti</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
-        {faqs.map(f => (
+        {ctx.faqs.map(f => (
           <details class="faq-item">
             <summary>{f.q}</summary>
             <p>{f.a}</p>
@@ -265,17 +271,17 @@ const faqJsonLd = {
     </div>
 
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 18px; margin: 0 0 14px 0;`}>Calcola con altri canoni di affitto</h2>
+      <h2 style={"color: " + ctx.color + "; font-family: 'Playfair Display',serif; font-size: 18px; margin: 0 0 14px 0;"}>Calcola con altri canoni di affitto</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        {tutti.filter(a => a !== affitto).map(a => (
-          <a href={`/affitto-vs-mutuo/${a}-euro`} class="pill-link">€ {fmt(a)}/mese</a>
+        {ctx.tutti.filter(a => a !== affitto).map(a => (
+          <a href={"/affitto-vs-mutuo/" + a + "-euro"} class="pill-link">€ {ctx.fmt(a)}/mese</a>
         ))}
       </div>
     </div>
 
     <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
       <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
-        <strong>Nota metodologica:</strong> il prezzo casa equivalente è derivato dal canone applicando lo yield medio italiano del 5% lordo (canone annuo / prezzo). Questo è un valore medio nazionale: nelle grandi città del Nord lo yield reale può essere più basso (4-5%, prezzi più alti a parità di canone), nel Sud e nelle città medie può essere più alto (6-7%). Per il tuo confronto città-specifico, consulta le pagine dedicate alle <a href="/affitto-vs-mutuo/milano" style="color: #92400e; text-decoration: underline;">20 città italiane principali</a> o usa il <a href="/affitto-vs-mutuo" style="color: #92400e; text-decoration: underline;">simulatore principale</a>.
+        <strong>Nota metodologica:</strong> il prezzo casa equivalente è derivato dal canone applicando lo yield medio italiano del 5% lordo. Per il tuo confronto città-specifico, consulta le pagine dedicate alle <a href="/affitto-vs-mutuo/milano" style="color: #92400e; text-decoration: underline;">20 città italiane principali</a>.
       </div>
     </div>
 
