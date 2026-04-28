@@ -1,139 +1,54 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// Forza il pre-render statico al build (compatibile con SSR su Netlify).
 export const prerender = true;
 
-// =====================================================================
-// DATI OMI Q4 2025 - Agenzia delle Entrate (fonte pubblica)
-// Quotazioni medie per zona OMI Centrale/Semicentrale,
-// abitazioni civili stato normale.
-// Riferimento: https://wwwt.agenziaentrate.gov.it/geopoi_omi/index.php
-// Canoni di locazione: indagine OMI Comuni capoluogo.
-// =====================================================================
-const CITTA = {
-  'milano': {
-    nome: 'Milano', regione: 'Lombardia',
-    prezzoMq: 5400,        // semicentro Milano €/mq medio
-    affittoMq: 22.5,       // €/mq mese semicentro Milano
-    yield: 5.0,            // rendita lorda annua %
-    note: 'Tra le città più costose d\'Italia per l\'acquisto immobiliare'
-  },
-  'roma': {
-    nome: 'Roma', regione: 'Lazio',
-    prezzoMq: 3300, affittoMq: 16.5, yield: 6.0,
-    note: 'Mercato molto frammentato tra zone centrali e periferiche'
-  },
-  'torino': {
-    nome: 'Torino', regione: 'Piemonte',
-    prezzoMq: 2200, affittoMq: 11.0, yield: 6.0,
-    note: 'Tra le grandi città con miglior rapporto prezzo-qualità'
-  },
-  'napoli': {
-    nome: 'Napoli', regione: 'Campania',
-    prezzoMq: 2700, affittoMq: 12.5, yield: 5.5,
-    note: 'Mercato in crescita, prezzi ancora moderati'
-  },
-  'firenze': {
-    nome: 'Firenze', regione: 'Toscana',
-    prezzoMq: 4100, affittoMq: 17.0, yield: 5.0,
-    note: 'Pressione turistica significativa sui canoni e sui prezzi'
-  },
-  'bologna': {
-    nome: 'Bologna', regione: 'Emilia-Romagna',
-    prezzoMq: 3800, affittoMq: 17.5, yield: 5.5,
-    note: 'Forte domanda studentesca sostiene i canoni di affitto'
-  },
-  'genova': {
-    nome: 'Genova', regione: 'Liguria',
-    prezzoMq: 2100, affittoMq: 10.5, yield: 6.0,
-    note: 'Tra i prezzi più bassi delle grandi città italiane'
-  },
-  'bari': {
-    nome: 'Bari', regione: 'Puglia',
-    prezzoMq: 2300, affittoMq: 11.0, yield: 5.5,
-    note: 'Mercato in crescita costante negli ultimi anni'
-  },
-  'verona': {
-    nome: 'Verona', regione: 'Veneto',
-    prezzoMq: 2900, affittoMq: 12.5, yield: 5.0,
-    note: 'Mercato stabile con buona qualità della vita'
-  },
-  'padova': {
-    nome: 'Padova', regione: 'Veneto',
-    prezzoMq: 2700, affittoMq: 12.0, yield: 5.5,
-    note: 'Polo universitario con domanda sostenuta di affitti'
-  },
-  'brescia': {
-    nome: 'Brescia', regione: 'Lombardia',
-    prezzoMq: 2400, affittoMq: 11.5, yield: 5.5,
-    note: 'Beneficia della prossimità a Milano con prezzi inferiori'
-  },
-  'bergamo': {
-    nome: 'Bergamo', regione: 'Lombardia',
-    prezzoMq: 2800, affittoMq: 12.0, yield: 5.0,
-    note: 'Mercato sostenuto dal pendolarismo verso Milano'
-  },
-  'parma': {
-    nome: 'Parma', regione: 'Emilia-Romagna',
-    prezzoMq: 2500, affittoMq: 11.0, yield: 5.5,
-    note: 'Buon equilibrio tra prezzi e qualità della vita'
-  },
-  'modena': {
-    nome: 'Modena', regione: 'Emilia-Romagna',
-    prezzoMq: 2400, affittoMq: 10.5, yield: 5.5,
-    note: 'Mercato stabile nel polo industriale emiliano'
-  },
-  'trieste': {
-    nome: 'Trieste', regione: 'Friuli-Venezia Giulia',
-    prezzoMq: 2300, affittoMq: 10.5, yield: 5.5,
-    note: 'Tra i mercati meno volatili del Nord-Est'
-  },
-  'venezia': {
-    nome: 'Venezia', regione: 'Veneto',
-    prezzoMq: 4200, affittoMq: 18.0, yield: 5.0,
-    note: 'Pressione turistica eccezionale sui prezzi del centro storico'
-  },
-  'catania': {
-    nome: 'Catania', regione: 'Sicilia',
-    prezzoMq: 1700, affittoMq: 8.0, yield: 5.5,
-    note: 'Tra i mercati immobiliari più accessibili d\'Italia'
-  },
-  'palermo': {
-    nome: 'Palermo', regione: 'Sicilia',
-    prezzoMq: 1500, affittoMq: 7.5, yield: 6.0,
-    note: 'Prezzi tra i più bassi tra i capoluoghi italiani'
-  },
-  'cagliari': {
-    nome: 'Cagliari', regione: 'Sardegna',
-    prezzoMq: 2400, affittoMq: 11.0, yield: 5.5,
-    note: 'Mercato sostenuto dalla forte domanda turistica stagionale'
-  },
-  'pisa': {
-    nome: 'Pisa', regione: 'Toscana',
-    prezzoMq: 2700, affittoMq: 12.5, yield: 5.5,
-    note: 'Polo universitario con domanda continua di affitti'
-  }
-};
-
 export async function getStaticPaths() {
-  // Replicato qui perché getStaticPaths viene eseguito al build
   const citta = ['milano','roma','torino','napoli','firenze','bologna','genova','bari','verona','padova','brescia','bergamo','parma','modena','trieste','venezia','catania','palermo','cagliari','pisa'];
   return citta.map(slug => ({ params: { citta: slug }, props: { slug } }));
 }
 
 // =====================================================================
-// CALCOLO BREAK-EVEN — replica AffittoVsMutuo.jsx
+// DATI OMI Q4 2025 - Agenzia delle Entrate (fonte pubblica)
 // =====================================================================
-const SUPERFICIE_STD = 80;       // mq tipico bilocale-trilocale
-const ANTICIPO_PERC = 20;        // % di anticipo standard
-const TASSO_MUTUO = 3.20;        // tasso fisso medio attuale
-const DURATA_MUTUO = 25;         // anni
-const REND_ANTICIPO = 3.0;       // % rendimento alternativo (ETF/conto)
-const ISTAT = 1.5;               // % adeguamento canoni
-const MANUTENZIONE = 1.0;        // % annua del valore
-const ORIZZONTE = 30;            // anni di simulazione
+const CITTA = {
+  'milano': { nome: 'Milano', regione: 'Lombardia', prezzoMq: 5400, affittoMq: 22.5, yield: 5.0, note: 'Tra le città più costose d\'Italia per l\'acquisto immobiliare' },
+  'roma': { nome: 'Roma', regione: 'Lazio', prezzoMq: 3300, affittoMq: 16.5, yield: 6.0, note: 'Mercato molto frammentato tra zone centrali e periferiche' },
+  'torino': { nome: 'Torino', regione: 'Piemonte', prezzoMq: 2200, affittoMq: 11.0, yield: 6.0, note: 'Tra le grandi città con miglior rapporto prezzo-qualità' },
+  'napoli': { nome: 'Napoli', regione: 'Campania', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Mercato in crescita, prezzi ancora moderati' },
+  'firenze': { nome: 'Firenze', regione: 'Toscana', prezzoMq: 4100, affittoMq: 17.0, yield: 5.0, note: 'Pressione turistica significativa sui canoni e sui prezzi' },
+  'bologna': { nome: 'Bologna', regione: 'Emilia-Romagna', prezzoMq: 3800, affittoMq: 17.5, yield: 5.5, note: 'Forte domanda studentesca sostiene i canoni di affitto' },
+  'genova': { nome: 'Genova', regione: 'Liguria', prezzoMq: 2100, affittoMq: 10.5, yield: 6.0, note: 'Tra i prezzi più bassi delle grandi città italiane' },
+  'bari': { nome: 'Bari', regione: 'Puglia', prezzoMq: 2300, affittoMq: 11.0, yield: 5.5, note: 'Mercato in crescita costante negli ultimi anni' },
+  'verona': { nome: 'Verona', regione: 'Veneto', prezzoMq: 2900, affittoMq: 12.5, yield: 5.0, note: 'Mercato stabile con buona qualità della vita' },
+  'padova': { nome: 'Padova', regione: 'Veneto', prezzoMq: 2700, affittoMq: 12.0, yield: 5.5, note: 'Polo universitario con domanda sostenuta di affitti' },
+  'brescia': { nome: 'Brescia', regione: 'Lombardia', prezzoMq: 2400, affittoMq: 11.5, yield: 5.5, note: 'Beneficia della prossimità a Milano con prezzi inferiori' },
+  'bergamo': { nome: 'Bergamo', regione: 'Lombardia', prezzoMq: 2800, affittoMq: 12.0, yield: 5.0, note: 'Mercato sostenuto dal pendolarismo verso Milano' },
+  'parma': { nome: 'Parma', regione: 'Emilia-Romagna', prezzoMq: 2500, affittoMq: 11.0, yield: 5.5, note: 'Buon equilibrio tra prezzi e qualità della vita' },
+  'modena': { nome: 'Modena', regione: 'Emilia-Romagna', prezzoMq: 2400, affittoMq: 10.5, yield: 5.5, note: 'Mercato stabile nel polo industriale emiliano' },
+  'trieste': { nome: 'Trieste', regione: 'Friuli-Venezia Giulia', prezzoMq: 2300, affittoMq: 10.5, yield: 5.5, note: 'Tra i mercati meno volatili del Nord-Est' },
+  'venezia': { nome: 'Venezia', regione: 'Veneto', prezzoMq: 4200, affittoMq: 18.0, yield: 5.0, note: 'Pressione turistica eccezionale sui prezzi del centro storico' },
+  'catania': { nome: 'Catania', regione: 'Sicilia', prezzoMq: 1700, affittoMq: 8.0, yield: 5.5, note: 'Tra i mercati immobiliari più accessibili d\'Italia' },
+  'palermo': { nome: 'Palermo', regione: 'Sicilia', prezzoMq: 1500, affittoMq: 7.5, yield: 6.0, note: 'Prezzi tra i più bassi tra i capoluoghi italiani' },
+  'cagliari': { nome: 'Cagliari', regione: 'Sardegna', prezzoMq: 2400, affittoMq: 11.0, yield: 5.5, note: 'Mercato sostenuto dalla forte domanda turistica stagionale' },
+  'pisa': { nome: 'Pisa', regione: 'Toscana', prezzoMq: 2700, affittoMq: 12.5, yield: 5.5, note: 'Polo universitario con domanda continua di affitti' }
+};
 
+// =====================================================================
+// COSTANTI CALCOLO
+// =====================================================================
+const SUPERFICIE_STD = 80;
+const ANTICIPO_PERC = 20;
+const TASSO_MUTUO = 3.20;
+const DURATA_MUTUO = 25;
+const REND_ANTICIPO = 3.0;
+const ISTAT = 1.5;
+const MANUTENZIONE = 1.0;
+const ORIZZONTE = 30;
+
+// =====================================================================
+// HELPERS
+// =====================================================================
 function rataMensile(C, anni, tassoPerc) {
   const i = tassoPerc / 100 / 12;
   const n = anni * 12;
@@ -143,7 +58,7 @@ function rataMensile(C, anni, tassoPerc) {
 function calcolaScenario(prezzoTotale, affittoMensile) {
   const anticipo = prezzoTotale * ANTICIPO_PERC / 100;
   const importoMutuo = prezzoTotale - anticipo;
-  const speseAcquisto = prezzoTotale * 0.06; // notaio + agenzia + imposte
+  const speseAcquisto = prezzoTotale * 0.06;
   const rata = rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO);
 
   let costoAcquistoCum = anticipo + speseAcquisto;
@@ -177,27 +92,22 @@ function calcolaScenario(prezzoTotale, affittoMensile) {
     importoMutuo: Math.round(importoMutuo),
     anticipo: Math.round(anticipo),
     speseAcquisto: Math.round(speseAcquisto),
-    breakEven // null se non si raggiunge in 30 anni
+    breakEven
   };
 }
 
 function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
 
 // =====================================================================
-// DATI DELLA PAGINA
+// PROPS
 // =====================================================================
 const { slug } = Astro.props;
 const citta = CITTA[slug];
-
-if (!citta) {
-  return Astro.redirect('/affitto-vs-mutuo');
-}
 
 const prezzoTotale = citta.prezzoMq * SUPERFICIE_STD;
 const affittoMensile = citta.affittoMq * SUPERFICIE_STD;
 const sc = calcolaScenario(prezzoTotale, affittoMensile);
 
-// Verdict
 let verdetto, verdettoColor, verdettoIcon;
 if (sc.breakEven === null) {
   verdetto = `A ${citta.nome} l'acquisto non raggiunge il pareggio nei 30 anni di simulazione: l'affitto resta più conveniente per chi non ha un orizzonte di lunghissimo periodo.`;
@@ -217,7 +127,6 @@ if (sc.breakEven === null) {
   verdettoIcon = '🏃';
 }
 
-// SEO
 const titleSeo = `Affitto vs Mutuo a ${citta.nome}: dopo quanti anni conviene comprare`;
 const descrSeo = `${citta.nome}: 80 mq costano circa ${fmt(prezzoTotale)} € all'acquisto vs ${fmt(affittoMensile)} €/mese di affitto. Break-even: ${sc.breakEven ? sc.breakEven + ' anni' : 'oltre 30 anni'}. Calcolo trasparente con dati OMI 2025.`;
 const color = '#10b981';
@@ -256,7 +165,6 @@ const faqJsonLd = {
   }))
 };
 
-// Lista altre città per cross-link
 const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
 ---
 
@@ -265,7 +173,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
 
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
 
-    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" style="font-size: 13px; color: #64748b; margin-bottom: 18px;">
       <a href="/" style="color: #64748b;">Home</a>
       <span style="margin: 0 6px; color: #cbd5e1;">›</span>
@@ -274,7 +181,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       <span style="color: #0f172a; font-weight: 600;">{citta.nome}</span>
     </nav>
 
-    <!-- Header -->
     <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
       <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: ${color}14; flex-shrink: 0;`}>
         🏠
@@ -285,7 +191,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
     </div>
     <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">{citta.regione} · Dati OMI Agenzia delle Entrate Q4 2025</p>
 
-    <!-- VERDETTO BIG -->
     <div style={`background: linear-gradient(135deg, ${verdettoColor} 0%, ${verdettoColor}dd 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);`}>
       <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 12px;">{verdettoIcon} Verdetto basato sui dati</div>
       {sc.breakEven !== null && (
@@ -301,7 +206,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       <p style="font-size: 15px; line-height: 1.6; opacity: 0.95; margin: 12px 0 0 0;">{verdetto}</p>
     </div>
 
-    <!-- NUMERI CHIAVE -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>I numeri di {citta.nome}</h2>
       <p style="color: #64748b; font-size: 14px; margin: 0 0 20px 0;">Per un appartamento civile di 80 mq in stato normale (zona semicentrale)</p>
@@ -324,7 +228,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </div>
     </div>
 
-    <!-- SCENARIO ACQUISTO -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Scenario "Compro": tutti i numeri</h2>
       <div class="brk-row brk-row-info">
@@ -364,7 +267,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </div>
     </div>
 
-    <!-- SCENARIO AFFITTO -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Scenario "Resto in affitto"</h2>
       <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 18px 0;">
@@ -375,7 +277,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </p>
     </div>
 
-    <!-- CTA al simulatore principale -->
     <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
       <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi simulare con i <strong>tuoi numeri esatti</strong>: superficie, anticipo, durata mutuo, rendimento alternativo?</div>
       <a href="/affitto-vs-mutuo" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
@@ -383,7 +284,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </a>
     </div>
 
-    <!-- COSA RENDE QUESTA CITTÀ DIVERSA -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 12px 0;`}>Le specificità del mercato di {citta.nome}</h2>
       <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 14px 0;">{citta.note}.</p>
@@ -394,7 +294,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </ul>
     </div>
 
-    <!-- FAQ -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -407,7 +306,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </div>
     </div>
 
-    <!-- CONFRONTO ALTRE CITTÀ -->
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 20px; margin: 0 0 14px 0;`}>Affitto vs Mutuo in altre città</h2>
       <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0;">Confronta {citta.nome} con altre 19 città italiane principali:</p>
@@ -418,7 +316,6 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </div>
     </div>
 
-    <!-- Disclaimer trasparenza -->
     <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
       <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
         <strong>Nota metodologica:</strong> i prezzi al mq derivano dalle <a href="https://wwwt.agenziaentrate.gov.it/geopoi_omi/index.php" style="color: #92400e; text-decoration: underline;" target="_blank" rel="noopener">quotazioni OMI Q4 2025 dell'Agenzia delle Entrate</a> per zone semicentrali, abitazioni civili in stato normale. Il calcolo del break-even include rata mutuo (tasso fisso 3,20%, durata 25 anni, anticipo 20%), spese accessorie all'acquisto (~6%), manutenzione 1%/anno del valore, indicizzazione ISTAT 1,5%/anno dei canoni, costo opportunità dell'anticipo investito al 3% lordo. NON include: rivalutazione immobiliare attesa, vantaggi fiscali (detrazione interessi 19% prima casa), assicurazioni obbligatorie, condominio (simmetrico tra i due scenari), eventuali bonus fiscali ristrutturazione. Le zone centrali e periferiche delle stesse città possono presentare rapporti molto diversi. Per il calcolo personalizzato, usa il <a href="/affitto-vs-mutuo" style="color: #92400e; text-decoration: underline;">simulatore principale</a>.
@@ -429,112 +326,31 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
 </Layout>
 
 <style>
-  .info-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-  }
+  .info-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
 
-  .kpi-box {
-    background: #f8fafc;
-    border-radius: 14px;
-    padding: 16px 18px;
-    border: 1px solid rgba(0,0,0,0.04);
-  }
-  .kpi-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #94a3b8;
-    margin-bottom: 6px;
-  }
-  .kpi-value {
-    font-size: 24px;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.1;
-  }
-  .kpi-sub {
-    font-size: 12px;
-    color: #64748b;
-    margin-top: 4px;
-  }
+  .kpi-box { background: #f8fafc; border-radius: 14px; padding: 16px 18px; border: 1px solid rgba(0,0,0,0.04); }
+  .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 6px; }
+  .kpi-value { font-size: 24px; font-weight: 800; color: #0f172a; line-height: 1.1; }
+  .kpi-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
 
-  .brk-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid #f1f5f9;
-    gap: 16px;
-  }
+  .brk-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f1f5f9; gap: 16px; }
   .brk-row:last-child { border-bottom: none; }
   .brk-label { font-weight: 700; color: #0f172a; font-size: 14px; margin-bottom: 2px; }
   .brk-sub { font-size: 12px; color: #94a3b8; line-height: 1.4; }
   .brk-value { font-weight: 700; font-size: 16px; color: #0f172a; flex-shrink: 0; text-align: right; }
   .brk-row-info { background: #f8fafc; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
-  .brk-row-total {
-    background: #f0fdf4;
-    margin: 8px -12px 0;
-    padding: 18px 12px;
-    border-radius: 12px;
-    border-bottom: none;
-  }
+  .brk-row-total { background: #f0fdf4; margin: 8px -12px 0; padding: 18px 12px; border-radius: 12px; border-bottom: none; }
 
-  .faq-item {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 14px 18px;
-    transition: background 0.2s;
-  }
+  .faq-item { background: #f8fafc; border-radius: 12px; padding: 14px 18px; transition: background 0.2s; }
   .faq-item[open] { background: #f0fdf4; }
-  .faq-item summary {
-    font-weight: 700;
-    color: #0f172a;
-    cursor: pointer;
-    list-style: none;
-    font-size: 14px;
-    padding-right: 20px;
-    position: relative;
-  }
+  .faq-item summary { font-weight: 700; color: #0f172a; cursor: pointer; list-style: none; font-size: 14px; padding-right: 20px; position: relative; }
   .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after {
-    content: '+';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #94a3b8;
-  }
+  .faq-item summary::after { content: '+'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #94a3b8; }
   .faq-item[open] summary::after { content: '−'; color: #10b981; }
-  .faq-item p {
-    margin: 12px 0 0 0;
-    color: #475569;
-    font-size: 14px;
-    line-height: 1.7;
-  }
+  .faq-item p { margin: 12px 0 0 0; color: #475569; font-size: 14px; line-height: 1.7; }
 
-  .pill-link {
-    display: inline-block;
-    padding: 8px 14px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #475569;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .pill-link:hover {
-    background: #10b981;
-    border-color: #10b981;
-    color: #fff;
-  }
+  .pill-link { display: inline-block; padding: 8px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 999px; font-size: 13px; font-weight: 600; color: #475569; text-decoration: none; transition: all 0.2s; }
+  .pill-link:hover { background: #10b981; border-color: #10b981; color: #fff; }
 
   @media (max-width: 600px) {
     .brk-value { font-size: 14px; }
