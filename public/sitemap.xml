@@ -96,7 +96,6 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- ====== Pagine SEO programmatiche: stipendio netto per RAL ====== -->
   <url><loc>https://soldibuoni.it/calcolo-stipendio/15000-euro-lordi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/calcolo-stipendio/18000-euro-lordi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/calcolo-stipendio/20000-euro-lordi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -128,8 +127,6 @@
   <url><loc>https://soldibuoni.it/calcolo-stipendio/120000-euro-lordi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/calcolo-stipendio/150000-euro-lordi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
-
-  <!-- ====== Pagine SEO programmatiche: rate mutuo per importo × durata ====== -->
   <url><loc>https://soldibuoni.it/mutuo/50000-euro-5-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/mutuo/50000-euro-10-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/mutuo/50000-euro-15-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -310,5 +307,53 @@
   <url><loc>https://soldibuoni.it/mutuo/500000-euro-20-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/mutuo/500000-euro-25-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://soldibuoni.it/mutuo/500000-euro-30-anni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+
+  <url>
+    <loc>https://soldibuoni.it/affitto-vs-mutuo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/milano</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/roma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/torino</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/napoli</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/firenze</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/bologna</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/genova</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/bari</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/verona</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/padova</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/brescia</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/bergamo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/parma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/modena</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/trieste</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/venezia</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/catania</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/palermo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/cagliari</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/pisa</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/400-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/450-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/500-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/550-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/600-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/650-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/700-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/800-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/900-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1000-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1100-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1200-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1300-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1400-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1500-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/1700-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/2000-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/2200-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/2500-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://soldibuoni.it/affitto-vs-mutuo/3000-euro</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
 </urlset>
