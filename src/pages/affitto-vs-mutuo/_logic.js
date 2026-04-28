@@ -1,3 +1,8 @@
+// =====================================================================
+// Logica condivisa per /affitto-vs-mutuo/[slug]
+// Calcolo break-even basato su confronto PATRIMONIO NETTO dei due scenari
+// =====================================================================
+
 export const cittaList = ["milano","roma","torino","napoli","firenze","bologna","genova","bari","verona","padova","brescia","bergamo","parma","modena","trieste","venezia","catania","palermo","cagliari","pisa"];
 export const importiList = [400, 450, 500, 550, 600, 650, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1700, 2000, 2200, 2500, 3000];
 
@@ -25,14 +30,24 @@ const CITTA_DATA = {
 };
 
 export function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
+
 function rataMensile(C, anni, tassoPerc) {
   const i = tassoPerc / 100 / 12;
   const n = anni * 12;
   return C * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
 }
 
-export function elaboraDati(type, val) {
-  const YIELD_ITALIA = 5.0;
+// =====================================================================
+// CALCOLO BREAK-EVEN (CORRETTO)
+// =====================================================================
+// Confronta il PATRIMONIO NETTO di chi compra vs chi affitta nel tempo.
+// Break-even = primo anno in cui chi compra è più ricco di chi affitta.
+//
+// CHI COMPRA accumula: valore casa - debito residuo del mutuo
+// CHI AFFITTA accumula: anticipo+spese investiti al 3% + risparmi sulla
+//   rata reinvestiti (il "fondo affitto" che cresce annualmente)
+// =====================================================================
+function calcolaBreakEven(prezzoTotale, affittoMensile) {
   const ANTICIPO_PERC = 20;
   const TASSO_MUTUO = 3.20;
   const DURATA_MUTUO = 25;
@@ -40,6 +55,72 @@ export function elaboraDati(type, val) {
   const ISTAT = 1.5;
   const MANUTENZIONE = 1.0;
   const ORIZZONTE = 30;
+
+  const anticipo = prezzoTotale * (ANTICIPO_PERC / 100);
+  const importoMutuo = prezzoTotale - anticipo;
+  const speseAcq = prezzoTotale * 0.06;
+  const rataAnnua = rataMensile(importoMutuo, DURATA_MUTUO, TASSO_MUTUO) * 12;
+
+  let canoneCorrente = affittoMensile;
+  let debitoResiduo = importoMutuo;
+  // Fondo affitto: chi affitta ha questi soldi liquidi (anticipo + spese non spesi),
+  // li investe al rendimento alternativo
+  let fondoAffitto = anticipo + speseAcq;
+
+  let breakEven = null;
+  let patrimonioCompra = 0;
+  let patrimonioAffitta = 0;
+
+  for (let anno = 1; anno <= ORIZZONTE; anno++) {
+    // ----- COSTI ANNUALI di chi COMPRA -----
+    const rateAnnuali = anno <= DURATA_MUTUO ? rataAnnua : 0;
+    const manutenzione = prezzoTotale * (MANUTENZIONE / 100);
+    const costoCompraAnno = rateAnnuali + manutenzione;
+
+    // Aggiorno il debito residuo (ammortamento alla francese semplificato)
+    if (anno <= DURATA_MUTUO) {
+      const interessiAnno = debitoResiduo * (TASSO_MUTUO / 100);
+      const capitaleRimborsato = rataAnnua - interessiAnno;
+      debitoResiduo = Math.max(0, debitoResiduo - capitaleRimborsato);
+    }
+
+    // ----- COSTI ANNUALI di chi AFFITTA -----
+    const costoAffittoAnno = canoneCorrente * 12;
+    canoneCorrente *= (1 + ISTAT / 100);
+
+    // ----- IL FONDO AFFITTO CRESCE -----
+    fondoAffitto *= (1 + REND_ANTICIPO / 100);
+
+    // Se chi affitta paga meno di chi compra, investe la differenza
+    const diffCashFlow = costoAffittoAnno - costoCompraAnno;
+    if (diffCashFlow < 0) {
+      fondoAffitto += -diffCashFlow;
+    }
+
+    // ----- PATRIMONIO NETTO A FINE ANNO -----
+    // Chi compra: valore casa - debito (assumiamo prezzo immobile costante = onesti)
+    patrimonioCompra = prezzoTotale - debitoResiduo;
+    // Chi affitta: il fondo investito
+    patrimonioAffitta = fondoAffitto;
+
+    if (breakEven === null && patrimonioCompra > patrimonioAffitta) {
+      breakEven = anno;
+    }
+  }
+
+  return {
+    rata: Math.round(rataAnnua / 12),
+    importoMutuo: Math.round(importoMutuo),
+    anticipo: Math.round(anticipo),
+    speseAcq: Math.round(speseAcq),
+    breakEven,
+    patrimonioCompra30: Math.round(patrimonioCompra),
+    patrimonioAffitta30: Math.round(patrimonioAffitta)
+  };
+}
+
+export function elaboraDati(type, val) {
+  const YIELD_ITALIA = 5.0;
 
   let d = { type, val, color: "#10b981" };
 
@@ -54,29 +135,15 @@ export function elaboraDati(type, val) {
     d.tuttiImporti = importiList;
   }
 
-  d.anticipo = Math.round(d.prezzoTotale * (ANTICIPO_PERC / 100));
-  d.importoMutuo = d.prezzoTotale - d.anticipo;
-  d.speseAcq = Math.round(d.prezzoTotale * 0.06);
-  d.rata = Math.round(rataMensile(d.importoMutuo, DURATA_MUTUO, TASSO_MUTUO));
-
-  let costoAcqCum = d.anticipo + d.speseAcq;
-  let costoAffCum = 0;
-  let canoneCorrente = d.affittoMensile;
-  let anticipoInvestito = d.anticipo;
-  d.breakEven = null;
-
-  for (let anno = 1; anno <= ORIZZONTE; anno++) {
-    const ratePagate = anno <= DURATA_MUTUO ? d.rata * 12 : 0;
-    costoAcqCum += ratePagate + (d.prezzoTotale * (MANUTENZIONE / 100));
-    costoAffCum += canoneCorrente * 12;
-    canoneCorrente *= (1 + (ISTAT / 100));
-    anticipoInvestito *= (1 + (REND_ANTICIPO / 100));
-    const equity = anno <= DURATA_MUTUO ? d.importoMutuo * (anno / DURATA_MUTUO) : d.importoMutuo;
-    
-    if (d.breakEven === null && (costoAcqCum - equity - d.anticipo) < (costoAffCum - (anticipoInvestito - d.anticipo))) {
-      d.breakEven = anno;
-    }
-  }
+  // Esegui il calcolo break-even corretto
+  const calc = calcolaBreakEven(d.prezzoTotale, d.affittoMensile);
+  d.rata = calc.rata;
+  d.importoMutuo = calc.importoMutuo;
+  d.anticipo = calc.anticipo;
+  d.speseAcq = calc.speseAcq;
+  d.breakEven = calc.breakEven;
+  d.patrimonioCompra30 = calc.patrimonioCompra30;
+  d.patrimonioAffitta30 = calc.patrimonioAffitta30;
 
   if (type === 'importo') {
     const nettoMensileNecessario = d.rata / 0.30;
