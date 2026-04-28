@@ -35,19 +35,7 @@ const CITTA = {
 };
 
 // =====================================================================
-// COSTANTI CALCOLO
-// =====================================================================
-const SUPERFICIE_STD = 80;
-const ANTICIPO_PERC = 20;
-const TASSO_MUTUO = 3.20;
-const DURATA_MUTUO = 25;
-const REND_ANTICIPO = 3.0;
-const ISTAT = 1.5;
-const MANUTENZIONE = 1.0;
-const ORIZZONTE = 30;
-
-// =====================================================================
-// HELPERS
+// HELPERS — costanti dentro le funzioni per evitare problemi esbuild
 // =====================================================================
 function rataMensile(C, anni, tassoPerc) {
   const i = tassoPerc / 100 / 12;
@@ -56,6 +44,14 @@ function rataMensile(C, anni, tassoPerc) {
 }
 
 function calcolaScenario(prezzoTotale, affittoMensile) {
+  const ANTICIPO_PERC = 20;
+  const TASSO_MUTUO = 3.20;
+  const DURATA_MUTUO = 25;
+  const REND_ANTICIPO = 3.0;
+  const ISTAT = 1.5;
+  const MANUTENZIONE = 1.0;
+  const ORIZZONTE = 30;
+
   const anticipo = prezzoTotale * ANTICIPO_PERC / 100;
   const importoMutuo = prezzoTotale - anticipo;
   const speseAcquisto = prezzoTotale * 0.06;
@@ -104,8 +100,8 @@ function fmt(n) { return new Intl.NumberFormat('it-IT').format(n); }
 const { slug } = Astro.props;
 const citta = CITTA[slug];
 
-const prezzoTotale = citta.prezzoMq * SUPERFICIE_STD;
-const affittoMensile = citta.affittoMq * SUPERFICIE_STD;
+const prezzoTotale = citta.prezzoMq * 80;
+const affittoMensile = citta.affittoMq * 80;
 const sc = calcolaScenario(prezzoTotale, affittoMensile);
 
 let verdetto, verdettoColor, verdettoIcon;
@@ -260,7 +256,7 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
       </div>
       <div class="brk-row brk-row-total">
         <div>
-          <div class="brk-label" style="font-size: 16px;">Rata mensile (25 anni @ {TASSO_MUTUO}%)</div>
+          <div class="brk-label" style="font-size: 16px;">Rata mensile (25 anni @ 3,20%)</div>
           <div class="brk-sub">Mutuo a tasso fisso, ammortamento alla francese</div>
         </div>
         <div class="brk-value" style={`font-size: 22px; color: ${color};`}>€ {fmt(sc.rata)}</div>
@@ -270,10 +266,10 @@ const altreCitta = Object.entries(CITTA).filter(([s]) => s !== slug);
     <div class="info-card" style="margin-bottom: 16px;">
       <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Scenario "Resto in affitto"</h2>
       <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 18px 0;">
-        Se affitti lo stesso tipo di appartamento (80 mq civile, zona semicentro), pagheresti circa <strong>€ {fmt(affittoMensile)} al mese</strong>. Il vantaggio nascosto: i <strong>€ {fmt(sc.anticipo)}</strong> dell'anticipo restano disponibili — investiti in un ETF globale o conto deposito al {REND_ANTICIPO}% lordo annuo, dopo 10 anni varrebbero circa € {fmt(Math.round(sc.anticipo * Math.pow(1.03, 10)))}, dopo 25 anni circa € {fmt(Math.round(sc.anticipo * Math.pow(1.03, 25)))}.
+        Se affitti lo stesso tipo di appartamento (80 mq civile, zona semicentro), pagheresti circa <strong>€ {fmt(affittoMensile)} al mese</strong>. Il vantaggio nascosto: i <strong>€ {fmt(sc.anticipo)}</strong> dell'anticipo restano disponibili — investiti in un ETF globale o conto deposito al 3% lordo annuo, dopo 10 anni varrebbero circa € {fmt(Math.round(sc.anticipo * Math.pow(1.03, 10)))}, dopo 25 anni circa € {fmt(Math.round(sc.anticipo * Math.pow(1.03, 25)))}.
       </p>
       <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">
-        Il canone tipicamente si rivaluta del +{ISTAT}%/anno (indicizzazione ISTAT contrattuale). Tra 10 anni, lo stesso appartamento potrebbe costare € {fmt(Math.round(affittoMensile * Math.pow(1.015, 10)))}/mese, tra 20 anni € {fmt(Math.round(affittoMensile * Math.pow(1.015, 20)))}.
+        Il canone tipicamente si rivaluta del +1,5%/anno (indicizzazione ISTAT contrattuale). Tra 10 anni, lo stesso appartamento potrebbe costare € {fmt(Math.round(affittoMensile * Math.pow(1.015, 10)))}/mese, tra 20 anni € {fmt(Math.round(affittoMensile * Math.pow(1.015, 20)))}.
       </p>
     </div>
 
