@@ -107,10 +107,132 @@ const { title, description } = Astro.props;
     </a>
     
     <div class="nav-links-desktop">
-      <a href="/#cats" class="nav-a">Tariffe & Mercati</a>
-      <a href="/#tools" class="nav-a">Strumenti</a>
-      <a href="/guida-risparmio" class="nav-a">Metodo & Guide</a>
-      <a href="/chi-siamo" class="nav-a">Chi Siamo</a>
+
+      <div class="nav-item-mega">
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">🔥 Spese Fisse <span class="nav-caret">▾</span></button>
+        <div class="mega-panel">
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>📊 Confronta & Guide</h4>
+              <p class="mega-col-sub">Comparatore + spiegazione del mercato e criteri di scelta</p>
+              <a href="/luce-gas" class="mega-link"><span class="mega-link-ic">⚡🔥</span><span class="mega-link-tx"><strong>Luce & Gas</strong><em>Mercato libero, prezzo fisso vs variabile</em></span></a>
+              <a href="/internet" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>Internet & Fibra</strong><em>FTTH, FTTC e FWA a confronto</em></span></a>
+              <a href="/conti-correnti" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>Conti Correnti</strong><em>Canone, interessi, costi nascosti</em></span></a>
+              <a href="/rc_auto" class="mega-link"><span class="mega-link-ic">🚗</span><span class="mega-link-tx"><strong>RC Auto</strong><em>Massimali, franchigie e classi di merito</em></span></a>
+              <a href="/salute" class="mega-link"><span class="mega-link-ic">🏥</span><span class="mega-link-tx"><strong>Polizze Sanitarie</strong><em>Quando vale l'integrativa</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>⭐ Offerte Recensite</h4>
+              <p class="mega-col-sub">Analisi indipendenti redatte dal team</p>
+              <a href="/recensione-eni" class="mega-link"><span class="mega-link-ic">⚡</span><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart · Luce + Gas</em></span></a>
+              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps + Wi-Fi 7</em></span></a>
+              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-ic">📱</span><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB · Rete Vodafone</em></span></a>
+              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% lordo · Cashback 3% · 6 mesi</em></span></a>
+              <a href="/recensione-hype" class="mega-link"><span class="mega-link-ic">💰</span><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani da €0</em></span></a>
+            </div>
+            <div class="mega-col mega-col-tools">
+              <h4>🛠 Strumenti Rapidi</h4>
+              <p class="mega-col-sub">Diagnosi prima del confronto</p>
+              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-ic">🧮</span><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Profilo di spesa in 2 minuti</em></span></a>
+              <a href="/analisi-bolletta" class="mega-link mega-link-highlight"><span class="mega-link-ic">🔍</span><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Scopri se paghi troppo (AI)</em></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item-mega">
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">🏠 Casa, Auto & Famiglia <span class="nav-caret">▾</span></button>
+        <div class="mega-panel">
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>🏠 Casa & Mutuo</h4>
+              <p class="mega-col-sub">La decisione di una vita</p>
+              <a href="/mutuo" class="mega-link"><span class="mega-link-ic">🏠</span><span class="mega-link-tx"><strong>Simulatore Mutui</strong><em>Rata, ammortamento, fisso vs variabile</em></span></a>
+              <a href="/affitto-vs-mutuo" class="mega-link"><span class="mega-link-ic">⚖️</span><span class="mega-link-tx"><strong>Affitto vs Mutuo</strong><em>Il break-even tra affittare e comprare</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>🚗 Auto & Mobilità</h4>
+              <p class="mega-col-sub">Spese e scadenze sotto controllo</p>
+              <a href="/bollo_revisione" class="mega-link"><span class="mega-link-ic">🚗</span><span class="mega-link-tx"><strong>Memo Scadenze Auto</strong><em>Bollo, revisione, tagliando, gomme</em></span></a>
+              <a href="/rc_auto" class="mega-link"><span class="mega-link-ic">🛡️</span><span class="mega-link-tx"><strong>RC Auto</strong><em>Confronta polizze + guida ai massimali</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>🎓 Famiglia & Studi</h4>
+              <p class="mega-col-sub">Spese ricorrenti per chi studia</p>
+              <a href="/istruzione" class="mega-link"><span class="mega-link-ic">🎓</span><span class="mega-link-tx"><strong>Rette Universitarie</strong><em>Stima per facoltà e fascia ISEE</em></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item-mega">
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">💼 Lavoro & Tasse <span class="nav-caret">▾</span></button>
+        <div class="mega-panel mega-panel-narrow">
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>💶 Stipendi & P.IVA</h4>
+              <p class="mega-col-sub">Capisci quanto resta in tasca</p>
+              <a href="/calcolo-stipendio" class="mega-link"><span class="mega-link-ic">💶</span><span class="mega-link-tx"><strong>Stipendio Lordo/Netto</strong><em>IRPEF, detrazioni, addizionali</em></span></a>
+              <a href="/forfettario-vs-ordinario" class="mega-link"><span class="mega-link-ic">📋</span><span class="mega-link-tx"><strong>Forfettario vs Ordinario</strong><em>Quale regime conviene alla P.IVA</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>🎁 Bonus & Agevolazioni</h4>
+              <p class="mega-col-sub">Soldi che lo Stato ti deve</p>
+              <a href="/trova-bonus" class="mega-link"><span class="mega-link-ic">🎁</span><span class="mega-link-tx"><strong>Trova Bonus Fiscale</strong><em>Diagnosi delle agevolazioni a cui hai diritto</em></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item-mega">
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">📈 Investi & Pianifica <span class="nav-caret">▾</span></button>
+        <div class="mega-panel mega-panel-narrow">
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>📈 Risparmio & Investimenti</h4>
+              <p class="mega-col-sub">Far crescere quello che hai</p>
+              <a href="/investimenti" class="mega-link"><span class="mega-link-ic">💼</span><span class="mega-link-tx"><strong>Portafogli Modello</strong><em>Asset allocation su dati storici reali</em></span></a>
+              <a href="/interesse-composto" class="mega-link"><span class="mega-link-ic">📈</span><span class="mega-link-tx"><strong>Interesse Composto</strong><em>Come crescono i risparmi nel tempo</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>📊 Previdenza</h4>
+              <p class="mega-col-sub">Il futuro di lungo periodo</p>
+              <a href="/tfr_pensione" class="mega-link"><span class="mega-link-ic">📊</span><span class="mega-link-tx"><strong>Fondi Pensione & TFR</strong><em>172 comparti COVIP a confronto</em></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item-mega">
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">📖 Metodo & Guide <span class="nav-caret">▾</span></button>
+        <div class="mega-panel">
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>🧭 Inizia da qui</h4>
+              <p class="mega-col-sub">Il punto di partenza</p>
+              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-ic">🧮</span><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Diagnosi della tua situazione</em></span></a>
+              <a href="/analisi-bolletta" class="mega-link"><span class="mega-link-ic">🔍</span><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Verifica AI della tua bolletta</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>📖 Guide Educational</h4>
+              <p class="mega-col-sub">Capisci i mercati prima di decidere</p>
+              <a href="/guida-risparmio" class="mega-link mega-link-highlight"><span class="mega-link-ic">📖</span><span class="mega-link-tx"><strong>Guida Risparmio 2026</strong><em>Il metodo completo in 7 capitoli</em></span></a>
+              <a href="/checklist" class="mega-link"><span class="mega-link-ic">✅</span><span class="mega-link-tx"><strong>Checklist Salvavita</strong><em>12 azioni concrete, una al mese</em></span></a>
+            </div>
+            <div class="mega-col">
+              <h4>⭐ Tutte le Recensioni</h4>
+              <p class="mega-col-sub">Offerte analizzate dal team</p>
+              <a href="/recensione-eni" class="mega-link"><span class="mega-link-ic">⚡</span><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart</em></span></a>
+              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% interessi · 3% cashback</em></span></a>
+              <a href="/recensione-hype" class="mega-link"><span class="mega-link-ic">💰</span><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani</em></span></a>
+              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps</em></span></a>
+              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-ic">📱</span><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB</em></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="/chi-siamo" class="nav-a nav-a-secondary">Chi Siamo</a>
       <a href="/quanto-spendo" class="nav-cta">Inizia da qui</a>
     </div>
 
@@ -121,28 +243,84 @@ const { title, description } = Astro.props;
 
   <div id="mobile-menu" class="mobile-menu">
     <div class="mobile-menu-inner">
-      <div class="mobile-section-label" style="color: var(--green-400);">⚡ STRUMENTI</div>
-      <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
-      <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta</a>
-      <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
-      <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
-      <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutuo</a>
-      <a href="/affitto-vs-mutuo" class="mobile-link">🏠 Affitto vs Mutuo</a>
-      <a href="/calcolo-stipendio" class="mobile-link">💶 Calcolo Stipendio</a>
-      <a href="/forfettario-vs-ordinario" class="mobile-link">📋 Forfettario vs Ordinario</a>
-      <a href="/interesse-composto" class="mobile-link">📈 Interesse Composto</a>
-      <a href="/trova-bonus" class="mobile-link">🎁 Trova Bonus</a>
 
-      <div class="mobile-section-label" style="color: #f59e0b; margin-top: 24px;">💸 CONFRONTA</div>
-      <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
-      <a href="/internet" class="mobile-link">📡 Offerte Internet</a>
-      <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
-      <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
-      <a href="/tfr_pensione" class="mobile-link">📊 Previdenza & TFR</a>
-      <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
-      <a href="/istruzione" class="mobile-link">🎓 Università</a>
+      <a href="/quanto-spendo" class="mobile-cta">🧭 Inizia da qui — Quanto Spendo?</a>
 
-      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 24px;">📋 AZIENDA</div>
+      <details class="mobile-acc">
+        <summary><span class="mob-acc-em">🔥</span> Spese Fisse <span class="mob-acc-arr">▾</span></summary>
+        <div class="mob-acc-body">
+          <div class="mob-acc-sub">Confronta & Guide</div>
+          <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
+          <a href="/internet" class="mobile-link">📡 Internet & Fibra</a>
+          <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
+          <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+          <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
+          <div class="mob-acc-sub">Recensioni offerte</div>
+          <a href="/recensione-eni" class="mobile-link mobile-link-sm">⚡ Eni Plenitude</a>
+          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">📡 WindTre Super Fibra</a>
+          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">📱 Lyca Mobile</a>
+          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">💳 BBVA Conto Online</a>
+          <a href="/recensione-hype" class="mobile-link mobile-link-sm">💰 Hype</a>
+          <div class="mob-acc-sub">Strumenti</div>
+          <a href="/analisi-bolletta" class="mobile-link mobile-link-sm">🔍 Analizza Bolletta (AI)</a>
+        </div>
+      </details>
+
+      <details class="mobile-acc">
+        <summary><span class="mob-acc-em">🏠</span> Casa, Auto & Famiglia <span class="mob-acc-arr">▾</span></summary>
+        <div class="mob-acc-body">
+          <div class="mob-acc-sub">Casa & Mutuo</div>
+          <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutui</a>
+          <a href="/affitto-vs-mutuo" class="mobile-link">⚖️ Affitto vs Mutuo</a>
+          <div class="mob-acc-sub">Auto & Mobilità</div>
+          <a href="/bollo_revisione" class="mobile-link">🚗 Memo Scadenze Auto</a>
+          <a href="/rc_auto" class="mobile-link">🛡️ RC Auto</a>
+          <div class="mob-acc-sub">Famiglia & Studi</div>
+          <a href="/istruzione" class="mobile-link">🎓 Rette Universitarie</a>
+        </div>
+      </details>
+
+      <details class="mobile-acc">
+        <summary><span class="mob-acc-em">💼</span> Lavoro & Tasse <span class="mob-acc-arr">▾</span></summary>
+        <div class="mob-acc-body">
+          <div class="mob-acc-sub">Stipendi & P.IVA</div>
+          <a href="/calcolo-stipendio" class="mobile-link">💶 Stipendio Lordo/Netto</a>
+          <a href="/forfettario-vs-ordinario" class="mobile-link">📋 Forfettario vs Ordinario</a>
+          <div class="mob-acc-sub">Bonus & Agevolazioni</div>
+          <a href="/trova-bonus" class="mobile-link">🎁 Trova Bonus Fiscale</a>
+        </div>
+      </details>
+
+      <details class="mobile-acc">
+        <summary><span class="mob-acc-em">📈</span> Investi & Pianifica <span class="mob-acc-arr">▾</span></summary>
+        <div class="mob-acc-body">
+          <div class="mob-acc-sub">Risparmio & Investimenti</div>
+          <a href="/investimenti" class="mobile-link">💼 Portafogli Modello</a>
+          <a href="/interesse-composto" class="mobile-link">📈 Interesse Composto</a>
+          <div class="mob-acc-sub">Previdenza</div>
+          <a href="/tfr_pensione" class="mobile-link">📊 Fondi Pensione & TFR</a>
+        </div>
+      </details>
+
+      <details class="mobile-acc">
+        <summary><span class="mob-acc-em">📖</span> Metodo & Guide <span class="mob-acc-arr">▾</span></summary>
+        <div class="mob-acc-body">
+          <div class="mob-acc-sub">Inizia da qui</div>
+          <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
+          <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta (AI)</a>
+          <div class="mob-acc-sub">Guide educational</div>
+          <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
+          <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
+          <div class="mob-acc-sub">Tutte le recensioni</div>
+          <a href="/recensione-eni" class="mobile-link mobile-link-sm">⚡ Eni Plenitude</a>
+          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">💳 BBVA Conto Online</a>
+          <a href="/recensione-hype" class="mobile-link mobile-link-sm">💰 Hype</a>
+          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">📡 WindTre Super Fibra</a>
+          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">📱 Lyca Mobile</a>
+        </div>
+      </details>
+
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 16px;">📋 AZIENDA</div>
       <a href="/chi-siamo" class="mobile-link">Chi Siamo</a>
       <a href="mailto:clart.mgmt@gmail.com" class="mobile-link">Contattaci</a>
     </div>
@@ -250,6 +428,15 @@ const { title, description } = Astro.props;
   <script is:inline>
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+          menu.classList.remove('open');
+          toggle && toggle.classList.remove('active');
+          setTimeout(() => { if(!menu.classList.contains('open')) menu.style.display = 'none' }, 400);
+        }
+      });
+    }
     toggle?.addEventListener('click', () => {
       toggle.classList.toggle('active');
       if(menu.classList.contains('open')) {
@@ -448,7 +635,200 @@ const { title, description } = Astro.props;
     color: rgba(148,163,184,0.35);
   }
 
+  /* ══════ MEGA MENU DESKTOP ══════ */
+  .nav-item-mega {
+    position: static;
+  }
+  .nav-a-mega {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .nav-caret {
+    font-size: 10px;
+    opacity: 0.55;
+    transition: transform 0.25s var(--ease);
+    margin-left: 1px;
+  }
+  .nav-a-secondary {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+  .mega-panel {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 32px -12px rgba(12,35,64,0.10);
+    padding: 28px 32px 32px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
+    z-index: 99;
+  }
+  .nav-item-mega:hover > .mega-panel,
+  .nav-item-mega:focus-within > .mega-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-item-mega:hover > .nav-a-mega,
+  .nav-item-mega:focus-within > .nav-a-mega {
+    color: var(--navy-900);
+    background: var(--navy-50);
+  }
+  .nav-item-mega:hover > .nav-a-mega .nav-caret,
+  .nav-item-mega:focus-within > .nav-a-mega .nav-caret {
+    transform: rotate(180deg);
+  }
+  .mega-cols {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .mega-panel-narrow .mega-cols {
+    max-width: 760px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mega-col h4 {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green-600);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 4px;
+  }
+  .mega-col-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .mega-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 0.18s;
+    margin-bottom: 2px;
+  }
+  .mega-link:hover {
+    background: var(--navy-50);
+  }
+  .mega-link-ic {
+    flex-shrink: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    width: 22px;
+    text-align: center;
+  }
+  .mega-link-tx {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+  .mega-link-tx strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-900);
+    line-height: 1.3;
+  }
+  .mega-link-tx em {
+    font-size: 11px;
+    font-style: normal;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .mega-link-highlight {
+    background: var(--green-50);
+  }
+  .mega-link-highlight:hover {
+    background: #d1fae5;
+  }
+  .mega-link-highlight strong {
+    color: var(--green-600);
+  }
+
+  /* ══════ MOBILE ACCORDION ══════ */
+  .mobile-cta {
+    display: block;
+    background: var(--green-600);
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.25);
+  }
+  .mobile-acc {
+    background: var(--white);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .mobile-acc summary {
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy-900);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    user-select: none;
+  }
+  .mobile-acc summary::-webkit-details-marker { display: none; }
+  .mob-acc-em {
+    font-size: 18px;
+  }
+  .mob-acc-arr {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: transform 0.25s var(--ease);
+  }
+  .mobile-acc[open] .mob-acc-arr {
+    transform: rotate(180deg);
+  }
+  .mob-acc-body {
+    padding: 4px 8px 12px;
+    border-top: 1px solid var(--border);
+  }
+  .mob-acc-sub {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--green-600);
+    padding: 12px 12px 4px;
+  }
+  .mobile-link-sm {
+    font-size: 14px;
+    padding: 10px 16px;
+    color: var(--text-body);
+  }
+
   /* ══════ RESPONSIVE ══════ */
+  @media (max-width: 1180px) {
+    .nav-a, .nav-a-mega { font-size: 13px; padding: 7px 11px; }
+    .nav-a-secondary { display: none; }
+  }
   @media (max-width: 900px) {
     .nav-links-desktop { display: none; }
     .menu-toggle { display: flex; }

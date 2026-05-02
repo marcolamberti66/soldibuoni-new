@@ -94,56 +94,112 @@ import HeroContact from '../components/HeroContact.jsx';
     </div>
   </div>
 
-  <section id="cats" class="cats">
-    <div class="cats-inner">
-      <div class="cats-header">
-        <span class="section-eyebrow section-eyebrow-light">📊 Mercati</span>
-        <h2>Categorie di spesa</h2>
-        <p>Per ogni categoria trovi una guida per capire il mercato, i criteri per fare la scelta giusta e uno strumento per semplificarti la vita.</p>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SEZIONE 1: 🔥 SPESE FISSE                                        -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <span id="cats" style="display:block; position:relative; top:-64px;"></span>
+  <section id="spese-fisse" class="theme-section theme-light">
+    <div class="theme-inner">
+      <div class="theme-header">
+        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#f97316;">🔥 Spese Fisse</span>
+        <h2>Taglia le bollette ricorrenti</h2>
+        <p>Per ogni mercato trovi <strong>guida educational, comparatore e criteri di scelta</strong>: capisci come funziona prima di confrontare.</p>
       </div>
 
+      <div class="theme-subheader">
+        <span class="theme-sub-label">📊 Confronta & Capisci il mercato</span>
+      </div>
       <div class="cats-grid">
         <a href="/luce-gas" class="cat-card" style="--cat-color:#f59e0b">
           <span class="cat-arrow">↗</span>
           <div class="cat-icon" style="background:#fef3c7;">⚡🔥</div>
           <h3>Luce & Gas</h3>
-          <p>Confronta le migliori tariffe del mercato libero</p>
+          <p>Mercato libero, prezzo fisso vs variabile, CRAS</p>
         </a>
         <a href="/internet" class="cat-card" style="--cat-color:#8b5cf6">
           <span class="cat-arrow">↗</span>
           <div class="cat-icon" style="background:#ede9fe;">📡</div>
           <h3>Fibra & Internet</h3>
-          <p>FTTH, FTTC e FWA a confronto senza vincoli</p>
-        </a>
-        <a href="/rc_auto" class="cat-card" style="--cat-color:#ec4899">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fce7f3;">🚗</div>
-          <h3>RC Auto</h3>
-          <p>Preventivo rapido tra le principali compagnie</p>
-        </a>
-        <a href="/tfr_pensione" class="cat-card" style="--cat-color:#14b8a6">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#ccfbf1;">📊</div>
-          <h3>Previdenza & TFR</h3>
-          <p>172 fondi COVIP con rendimenti ufficiali</p>
+          <p>FTTH, FTTC e FWA: differenze e scelta giusta</p>
         </a>
         <a href="/conti-correnti" class="cat-card" style="--cat-color:#10b981">
           <span class="cat-arrow">↗</span>
           <div class="cat-icon" style="background:#dcfce7;">💳</div>
           <h3>Conti Correnti</h3>
-          <p>Zero spese, cashback e liquidità remunerata</p>
+          <p>Canone, interessi, costi nascosti</p>
         </a>
-        <a href="/investimenti" class="cat-card" style="--cat-color:#3b82f6">
+        <a href="/rc_auto" class="cat-card" style="--cat-color:#ec4899">
           <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#dbeafe;">📈</div>
-          <h3>Investimenti</h3>
-          <p>Simula l'interesse composto sui tuoi risparmi</p>
+          <div class="cat-icon" style="background:#fce7f3;">🚗</div>
+          <h3>RC Auto</h3>
+          <p>Massimali, franchigie e classi di merito</p>
         </a>
         <a href="/salute" class="cat-card" style="--cat-color:#ef4444">
           <span class="cat-arrow">↗</span>
           <div class="cat-icon" style="background:#fee2e2;">🏥</div>
           <h3>Polizze Sanitarie</h3>
-          <p>Integrativa dentale, oculistica e ricoveri</p>
+          <p>Quando vale davvero l'integrativa</p>
+        </a>
+      </div>
+
+      <div class="theme-subheader" style="margin-top: 36px;">
+        <span class="theme-sub-label">⭐ Offerte recensite dal team</span>
+      </div>
+      <div class="recensioni-strip">
+        <a href="/recensione-eni" class="rec-mini">
+          <span class="rec-mini-ic">⚡</span>
+          <span class="rec-mini-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart</em></span>
+        </a>
+        <a href="/recensione-windtre" class="rec-mini">
+          <span class="rec-mini-ic">📡</span>
+          <span class="rec-mini-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps</em></span>
+        </a>
+        <a href="/recensione-lyca" class="rec-mini">
+          <span class="rec-mini-ic">📱</span>
+          <span class="rec-mini-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB</em></span>
+        </a>
+        <a href="/recensione-bbva" class="rec-mini">
+          <span class="rec-mini-ic">💳</span>
+          <span class="rec-mini-tx"><strong>BBVA Conto Online</strong><em>3% interessi · 6 mesi</em></span>
+        </a>
+        <a href="/recensione-hype" class="rec-mini">
+          <span class="rec-mini-ic">💰</span>
+          <span class="rec-mini-tx"><strong>Hype</strong><em>Carta conto · 3 piani</em></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SEZIONE 2: 🏠 CASA, AUTO & FAMIGLIA                              -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="casa-auto-famiglia" class="theme-section theme-light theme-alt">
+    <div class="theme-inner">
+      <div class="theme-header">
+        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#14b8a6;">🏠 Casa, Auto & Famiglia</span>
+        <h2>Le grandi spese della vita</h2>
+        <p>Strumenti per le decisioni che pesano di più: comprare casa, gestire l'auto, pianificare lo studio.</p>
+      </div>
+
+      <div class="cats-grid">
+        <a href="/mutuo" class="cat-card" style="--cat-color:#10b981">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#dcfce7;">🏠</div>
+          <h3>Simulatore Mutui</h3>
+          <p>Rata, ammortamento, fisso vs variabile</p>
+        </a>
+        <a href="/affitto-vs-mutuo" class="cat-card" style="--cat-color:#059669">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#d1fae5;">⚖️</div>
+          <h3>Affitto vs Mutuo</h3>
+          <p>Il break-even tra affittare e comprare</p>
+        </a>
+        <a href="/bollo_revisione" class="cat-card" style="--cat-color:#ef4444">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#fee2e2;">🚗</div>
+          <h3>Memo Scadenze Auto</h3>
+          <p>Bollo, revisione, tagliando, gomme</p>
         </a>
         <a href="/istruzione" class="cat-card" style="--cat-color:#6366f1">
           <span class="cat-arrow">↗</span>
@@ -155,20 +211,92 @@ import HeroContact from '../components/HeroContact.jsx';
     </div>
   </section>
 
-  <section id="tools" class="all-tools">
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SEZIONE 3: 💼 LAVORO & TASSE                                     -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="lavoro-tasse" class="theme-section theme-light">
+    <div class="theme-inner">
+      <div class="theme-header">
+        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#8b5cf6;">💼 Lavoro & Tasse</span>
+        <h2>Busta paga e fisco</h2>
+        <p>Capisci quanto resta in tasca e <strong>quali bonus ti spettano davvero</strong>. Strumenti tarati su normativa italiana 2026.</p>
+      </div>
+
+      <div class="cats-grid">
+        <a href="/calcolo-stipendio" class="cat-card" style="--cat-color:#a5b4fc">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#e0e7ff;">💶</div>
+          <h3>Stipendio Lordo/Netto</h3>
+          <p>IRPEF, detrazioni, addizionali regionali</p>
+        </a>
+        <a href="/forfettario-vs-ordinario" class="cat-card" style="--cat-color:#818cf8">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#e0e7ff;">📋</div>
+          <h3>Forfettario vs Ordinario</h3>
+          <p>Quale regime conviene alla tua P.IVA</p>
+        </a>
+        <a href="/trova-bonus" class="cat-card" style="--cat-color:#ec4899">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#fce7f3;">🎁</div>
+          <h3>Trova Bonus Fiscale</h3>
+          <p>Diagnosi delle agevolazioni a cui hai diritto</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SEZIONE 4: 📈 INVESTI & PIANIFICA                                -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="investi" class="theme-section theme-light theme-alt">
+    <div class="theme-inner">
+      <div class="theme-header">
+        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#3b82f6;">📈 Investi & Pianifica</span>
+        <h2>Il tuo futuro finanziario</h2>
+        <p>Far crescere quello che hai. Simulazioni su <strong>dati storici reali</strong> e fondi pensione COVIP ufficiali.</p>
+      </div>
+
+      <div class="cats-grid">
+        <a href="/investimenti" class="cat-card" style="--cat-color:#3b82f6">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#dbeafe;">💼</div>
+          <h3>Portafogli Modello</h3>
+          <p>Asset allocation simulate su dati storici</p>
+        </a>
+        <a href="/interesse-composto" class="cat-card" style="--cat-color:#0ea5e9">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#e0f2fe;">📈</div>
+          <h3>Interesse Composto</h3>
+          <p>Come crescono i risparmi nel tempo</p>
+        </a>
+        <a href="/tfr_pensione" class="cat-card" style="--cat-color:#14b8a6">
+          <span class="cat-arrow">↗</span>
+          <div class="cat-icon" style="background:#ccfbf1;">📊</div>
+          <h3>Fondi Pensione & TFR</h3>
+          <p>172 comparti COVIP con rendimenti reali</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SEZIONE 5: 📖 INIZIA DA QUI & METODO  (sfondo dark)              -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <span id="tools" style="display:block; position:relative; top:-64px;"></span>
+  <section id="metodo" class="all-tools">
     <div class="all-tools-glow"></div>
     <div class="all-tools-inner">
       <div class="all-tools-header">
-        <span class="section-eyebrow section-eyebrow-dark">⚡ Strumenti</span>
-        <h2>Il tuo centro di controllo</h2>
-        <p>12 strumenti gratuiti per calcolare, confrontare e decidere. Nessuna registrazione.</p>
+        <span class="section-eyebrow section-eyebrow-dark">📖 Metodo & Guide</span>
+        <h2>Inizia da qui, poi approfondisci</h2>
+        <p>Non sai da dove cominciare? Fai la diagnosi in 2 minuti e segui il metodo SoldiBuoni.</p>
       </div>
 
       <a href="/quanto-spendo" class="tool-hero">
         <div class="tool-hero-main">
           <div class="tool-hero-icon">🧮</div>
           <div class="tool-hero-text">
-            <span class="tool-hero-badge">Più usato</span>
+            <span class="tool-hero-badge">Inizia da qui</span>
             <h3>Quanto Spendo?</h3>
             <p>Scopri il tuo profilo di spesa in 2 minuti. Capisci dove sprechi e quanto puoi risparmiare su luce, gas, internet, banca e assicurazioni.</p>
           </div>
@@ -177,6 +305,17 @@ import HeroContact from '../components/HeroContact.jsx';
       </a>
 
       <div class="tool-grid">
+        <a href="/analisi-bolletta" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(245,158,11,.14); color:#fbbf24;">🔍</div>
+          <div class="tool-card-body">
+            <div class="tool-card-title-row">
+              <h4>Analizza Bolletta</h4>
+              <span class="tool-card-tag tag-ai">AI</span>
+            </div>
+            <p>Scopri se paghi troppo luce e gas</p>
+          </div>
+          <span class="tool-card-arrow">→</span>
+        </a>
         <a href="/guida-risparmio" class="tool-card">
           <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#60a5fa;">📖</div>
           <div class="tool-card-body">
@@ -199,121 +338,65 @@ import HeroContact from '../components/HeroContact.jsx';
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
-        <a href="/analisi-bolletta" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(245,158,11,.14); color:#fbbf24;">🔍</div>
+        <a href="/recensione-eni" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(245,158,11,.14); color:#fbbf24;">⚡</div>
           <div class="tool-card-body">
             <div class="tool-card-title-row">
-              <h4>Analizza Bollette</h4>
-              <span class="tool-card-tag tag-ai">AI</span>
+              <h4>Eni Plenitude</h4>
+              <span class="tool-card-tag">Recensione</span>
             </div>
-            <p>Scopri se paghi troppo luce e gas</p>
+            <p>Fixa Time Smart · Luce + Gas a prezzo bloccato</p>
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
-        <a href="/mutuo" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(16,185,129,.14); color:#34d399;">🏠</div>
+        <a href="/recensione-bbva" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#60a5fa;">💳</div>
           <div class="tool-card-body">
             <div class="tool-card-title-row">
-              <h4>Simulatore Mutui</h4>
-              <span class="tool-card-tag">Calcolo</span>
+              <h4>BBVA Conto Online</h4>
+              <span class="tool-card-tag">Recensione</span>
             </div>
-            <p>Rata, ammortamento, fisso vs variabile</p>
+            <p>3% interessi + 3% cashback per i primi 6 mesi</p>
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
-        <a href="/affitto-vs-mutuo" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(5,150,105,.14); color:#10b981;">🏠</div>
+        <a href="/recensione-hype" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(20,184,166,.14); color:#5eead4;">💰</div>
           <div class="tool-card-body">
             <div class="tool-card-title-row">
-              <h4>Affitto vs Mutuo</h4>
-              <span class="tool-card-tag tag-new">Nuovo</span>
+              <h4>Hype</h4>
+              <span class="tool-card-tag">Recensione</span>
             </div>
-            <p>Il break-even tra affittare e comprare</p>
+            <p>Carta conto · 3 piani da €0 a €9,90/mese</p>
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
-        <a href="/calcolo-stipendio" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(99,102,241,.14); color:#a5b4fc;">💶</div>
+        <a href="/recensione-windtre" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(249,115,22,.14); color:#fb923c;">📡</div>
           <div class="tool-card-body">
             <div class="tool-card-title-row">
-              <h4>Stipendio Netto</h4>
-              <span class="tool-card-tag">Calcolo</span>
+              <h4>WindTre Super Fibra</h4>
+              <span class="tool-card-tag">Recensione</span>
             </div>
-            <p>Dal lordo al netto con IRPEF e detrazioni</p>
+            <p>FTTH 2.5 Gbps · Wi-Fi 7 · 12 mesi Prime</p>
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
-        <a href="/forfettario-vs-ordinario" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(99,102,241,.14); color:#818cf8;">📋</div>
+        <a href="/recensione-lyca" class="tool-card">
+          <div class="tool-card-icon" style="background:rgba(14,165,233,.14); color:#38bdf8;">📱</div>
           <div class="tool-card-body">
             <div class="tool-card-title-row">
-              <h4>Forfettario vs Ordinario</h4>
-              <span class="tool-card-tag tag-new">Nuovo</span>
+              <h4>Lyca Mobile</h4>
+              <span class="tool-card-tag">Recensione</span>
             </div>
-            <p>Quale regime conviene alla tua P.IVA</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/interesse-composto" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(20,184,166,.14); color:#5eead4;">📈</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Interesse Composto</h4>
-              <span class="tool-card-tag">Calcolo</span>
-            </div>
-            <p>Come crescono i tuoi risparmi nel tempo</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-
-        <a href="/investimenti" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#3b82f6;">💼</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Portafogli Modello</h4>
-              <span class="tool-card-tag">Analisi</span>
-            </div>
-            <p>Simula asset allocation basate su dati storici reali</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-
-        <a href="/trova-bonus" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(236,72,153,.14); color:#f472b6;">🎁</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Trova Bonus Fiscale</h4>
-              <span class="tool-card-tag">Diagnosi</span>
-            </div>
-            <p>Le agevolazioni a cui hai diritto</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/bollo_revisione" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(239,68,68,.14); color:#fca5a5;">🚗</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Memo Scadenze Auto</h4>
-              <span class="tool-card-tag">Gestione</span>
-            </div>
-            <p>Bollo, revisione, tagliando e gomme</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/tfr_pensione" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(45,212,191,.14); color:#5eead4;">📊</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Fondi Pensione</h4>
-              <span class="tool-card-tag">Confronto</span>
-            </div>
-            <p>172 comparti COVIP con rendimenti reali</p>
+            <p>5G · 150 GB · Rete Vodafone · €5,99/mese</p>
           </div>
           <span class="tool-card-arrow">→</span>
         </a>
       </div>
     </div>
   </section>
+
 
   <section class="offers">
     <div class="offers-inner">
@@ -700,6 +783,123 @@ import HeroContact from '../components/HeroContact.jsx';
     color: var(--green-400);
     background: rgba(52,211,153,0.08);
     border: 1px solid rgba(52,211,153,0.18);
+  }
+  /* Override colore eyebrow tramite --eb-color */
+  .section-eyebrow-light[style*="--eb-color"] {
+    color: var(--eb-color);
+    background: color-mix(in srgb, var(--eb-color) 10%, white);
+    border-color: color-mix(in srgb, var(--eb-color) 22%, white);
+  }
+
+  /* ══════ SEZIONI TEMATICHE ══════ */
+  .theme-section {
+    padding: 56px 0 48px;
+    position: relative;
+  }
+  .theme-light {
+    background: var(--bg);
+  }
+  .theme-alt {
+    background: var(--white);
+  }
+  .theme-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  .theme-header {
+    margin-bottom: 24px;
+    max-width: 720px;
+  }
+  .theme-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: var(--navy-900);
+    margin: 8px 0 8px;
+    line-height: 1.2;
+  }
+  .theme-header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .theme-header p strong {
+    color: var(--navy-900);
+    font-weight: 700;
+  }
+  .theme-subheader {
+    margin: 4px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .theme-sub-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    background: rgba(12,35,64,0.04);
+    border-radius: 6px;
+  }
+
+  /* Strip recensioni dentro le sezioni tematiche */
+  .recensioni-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .rec-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.25s var(--ease);
+    box-shadow: 0 2px 6px rgba(12,35,64,0.03);
+  }
+  .rec-mini:hover {
+    transform: translateY(-2px);
+    border-color: rgba(12,35,64,0.14);
+    box-shadow: 0 6px 14px rgba(12,35,64,0.08);
+  }
+  .rec-mini-ic {
+    flex-shrink: 0;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-50);
+    border-radius: 8px;
+  }
+  .rec-mini-tx {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+  .rec-mini-tx strong {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy-900);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rec-mini-tx em {
+    font-size: 10px;
+    font-style: normal;
+    color: var(--text-muted);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* ══════ CATEGORIE ══════ */
@@ -1215,6 +1415,9 @@ import HeroContact from '../components/HeroContact.jsx';
     .cats-grid { grid-template-columns: repeat(2, 1fr); }
     .offers-grid { grid-template-columns: 1fr;
     }
+    .recensioni-strip { grid-template-columns: repeat(2, 1fr); }
+    .theme-section { padding: 40px 0 32px; }
+    .theme-header h2 { font-size: 24px; }
 
     .all-tools { padding: 40px 0 56px; }
     .all-tools-header h2 { font-size: 24px;
@@ -1238,6 +1441,8 @@ import HeroContact from '../components/HeroContact.jsx';
     .trust-sep { display: none; }
     .cats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px;
     }
+    .recensioni-strip { grid-template-columns: 1fr; gap: 8px; }
+    .rec-mini { padding: 10px 12px; }
     .cat-card { padding: 20px 12px 16px; }
     .cat-icon { width: 44px; height: 44px;
     font-size: 20px; margin-bottom: 10px; }
