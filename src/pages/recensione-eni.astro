@@ -50,6 +50,17 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       </div>
     </div>
 
+    <div class="for-you">
+      <h3>Plenitude Fixa Time è la scelta giusta se:</h3>
+      <ul>
+        <li><strong>Vuoi prevedibilità della spesa per 12 mesi.</strong> Il prezzo della materia prima è bloccato dalla firma: indipendentemente dalle oscillazioni di PUN e PSV, paghi sempre la stessa tariffa per kWh e Smc.</li>
+        <li><strong>Hai consumi medio-alti (sopra 2.000 kWh o 1.000 Smc).</strong> Su questi profili lo sconto duale di 108€ pesa relativamente poco rispetto al consumo, e il blocco prezzo protegge dai rincari invernali del gas.</li>
+        <li><strong>Attivi sia Luce che Gas.</strong> Il bonus duale di 108€ (54€ luce + 54€ gas) si dilaziona nei 12 mesi di contratto e abbassa concretamente i costi fissi annui.</li>
+        <li><strong>Cerchi flessibilità di uscita.</strong> Nessuna penale di recesso anticipato: se trovi un'offerta migliore tra 3 mesi, puoi cambiare fornitore senza costi.</li>
+        <li><strong>Vuoi energia 100% rinnovabile certificata.</strong> L'energia elettrica è coperta da Garanzie d'Origine GSE; il gas ha emissioni CO₂ compensate tramite crediti certificati.</li>
+      </ul>
+    </div>
+
     <div class="not-for-you">
       <h3>Plenitude Fixa Time non è la scelta giusta se:</h3>
       <ul>
@@ -139,9 +150,36 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     font-weight: 700; font-size: 16px; text-decoration: none;
   }
 
+  .for-you {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 40px 0 24px;
+  }
+  .for-you h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #166534;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .for-you h3::before { content: "✅"; }
+  .for-you ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #166534;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .for-you ul li { margin-bottom: 8px; }
+  .for-you ul li strong { color: #14532d; }
+
   .not-for-you {
     background: #fef2f2; border: 1px solid #fecaca;
-    border-radius: 16px; padding: 24px 26px; margin: 40px 0;
+    border-radius: 16px; padding: 24px 26px; margin: 24px 0 40px;
   }
   .not-for-you h3 {
     font-size: 18px; font-weight: 800; color: #991b1b;

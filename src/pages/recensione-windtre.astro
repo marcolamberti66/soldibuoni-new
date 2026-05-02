@@ -27,7 +27,7 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       
       <ul class="feature-list">
         <li><span class="feat-icon">✅</span><span><strong>Velocità fino a 2.5 Gbps</strong> in FTTH</span></li>
-        <li><span class="feat-icon">✅</span><span><strong>Modem Wi-Fi 7</strong> incluso nell'offerta</span></li>
+        <li><span class="feat-icon">✅</span><span><strong>Modem Wi-Fi 7</strong> incluso (in vendita abbinata 48 mesi)</span></li>
         <li><span class="feat-icon">✅</span><span><strong>Amazon Prime</strong> incluso per i primi 12 mesi</span></li>
         <li class="feat-warn"><span class="feat-icon">⚠️</span><span>Vincolo contrattuale indiretto di 48 mesi per le rate del modem</span></li>
       </ul>
@@ -49,6 +49,17 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
           Scopri i dettagli su WindTre →
         </a>
       </div>
+    </div>
+
+    <div class="for-you">
+      <h3>WindTre Super Fibra è la scelta giusta se:</h3>
+      <ul>
+        <li><strong>Hai una situazione abitativa stabile per i prossimi 4 anni.</strong> L'ammortamento del modem su 48 mesi rende l'offerta più conveniente per chi rimane nello stesso indirizzo a lungo: il vincolo non è un problema se non prevedi traslochi.</li>
+        <li><strong>Sei già cliente WindTre mobile (o stai per diventarlo).</strong> Il prezzo promo di 19,99€ il primo anno richiede convergenza con una SIM mobile WindTre: se hai già una SIM con l'operatore arancione, il vantaggio si attiva subito.</li>
+        <li><strong>Hai dispositivi compatibili con il Wi-Fi 7.</strong> Il modem incluso è di ultima generazione: per chi ha smartphone, laptop o smart TV recenti, garantisce velocità reali superiori e gestione migliore di molti dispositivi connessi.</li>
+        <li><strong>Cerchi velocità FTTH per smart working o gaming.</strong> Sui 2,5 Gbps reali (in FTTH puro su rete Open Fiber), streaming 4K, videocall multiple e download pesanti diventano stabili e fluidi senza colli di bottiglia.</li>
+        <li><strong>Vuoi servizi extra inclusi.</strong> Amazon Prime gratis per 12 mesi (incluso Prime Video con sport e UEFA Champions League) è un risparmio reale di circa 50€ sull'anno.</li>
+      </ul>
     </div>
 
     <div class="not-for-you">
@@ -142,9 +153,36 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     font-weight: 700; font-size: 16px; text-decoration: none;
   }
 
+  .for-you {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 40px 0 24px;
+  }
+  .for-you h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #166534;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .for-you h3::before { content: "✅"; }
+  .for-you ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #166534;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .for-you ul li { margin-bottom: 8px; }
+  .for-you ul li strong { color: #14532d; }
+
   .not-for-you {
     background: #fef2f2; border: 1px solid #fecaca;
-    border-radius: 16px; padding: 24px 26px; margin: 40px 0;
+    border-radius: 16px; padding: 24px 26px; margin: 24px 0 40px;
   }
   .not-for-you h3 {
     font-size: 18px; font-weight: 800; color: #991b1b;

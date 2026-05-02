@@ -506,6 +506,15 @@ export function ContiComp() {
               ))}
             </div>
 
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 12px', marginBottom: 10, fontSize: 11, color: '#166534', lineHeight: 1.6 }}>
+              <div style={{ fontWeight: 800, marginBottom: 4, color: '#14532d' }}>✓ Apri BBVA se:</div>
+              <ul style={{ margin: 0, paddingLeft: 16 }}>
+                <li>Hai una giacenza media superiore a 1.000€</li>
+                <li>Vuoi azzerare i costi bancari (canone zero per sempre)</li>
+                <li>Sei a tuo agio con una banca 100% digitale</li>
+              </ul>
+            </div>
+
             <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 11, color: '#9a3412', lineHeight: 1.6 }}>
               <div style={{ fontWeight: 800, marginBottom: 4, color: '#7c2d12' }}>⚠ Non aprire BBVA se:</div>
               <ul style={{ margin: 0, paddingLeft: 16 }}>
@@ -591,6 +600,15 @@ export function ContiComp() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
                 </div>
               ))}
+            </div>
+
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 12px', marginBottom: 10, fontSize: 11, color: '#166534', lineHeight: 1.6 }}>
+              <div style={{ fontWeight: 800, marginBottom: 4, color: '#14532d' }}>✓ Hype è per te se:</div>
+              <ul style={{ margin: 0, paddingLeft: 16 }}>
+                <li>Cerchi un'app moderna per la gestione quotidiana</li>
+                <li>Vuoi prelevare gratis senza limiti in Italia (Next a 2,90€/mese)</li>
+                <li>Viaggi spesso fuori UE e cerchi zero commissioni cambio (Premium)</li>
+              </ul>
             </div>
 
             <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 11, color: '#9a3412', lineHeight: 1.6 }}>

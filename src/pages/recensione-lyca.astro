@@ -46,6 +46,17 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
       </div>
     </div>
 
+    <div class="for-you">
+      <h3>Lyca Mobile Portin 5G è la scelta giusta se:</h3>
+      <ul>
+        <li><strong>Vuoi cambiare operatore mantenendo il tuo numero.</strong> L'offerta a 5,99€/mese è dedicata alla portabilità: ideale se vieni da TIM, Vodafone, WindTre, Iliad o altri MVNO con tariffe più alte.</li>
+        <li><strong>Cerchi tanti Giga 5G a basso costo.</strong> 150 GB al mese in 5G a meno di 6€ è uno dei migliori rapporti Giga/prezzo del mercato 2026: ideale per streaming, social, hotspot occasionale.</li>
+        <li><strong>Vuoi una copertura solida senza sorprese.</strong> Appoggiandosi alla rete Vodafone (>99% di copertura 4G in Italia), avrai un segnale stabile in città e in gran parte delle aree extraurbane.</li>
+        <li><strong>Viaggi qualche volta in UE.</strong> I 9 GB di roaming UE inclusi (in conformità al Regolamento UE 2022/612) coprono comodamente vacanze brevi e viaggi di lavoro all'interno dell'Unione.</li>
+        <li><strong>Vuoi nessun vincolo contrattuale.</strong> Puoi disattivare in qualsiasi momento senza penali: ottimo per testare un nuovo operatore senza impegno.</li>
+      </ul>
+    </div>
+
     <div class="not-for-you">
       <h3>Lyca Mobile Portin 5G non è la scelta giusta se:</h3>
       <ul>
@@ -139,9 +150,36 @@ import NewsletterSignup from '../components/NewsletterSignup.jsx';
     font-weight: 700; font-size: 16px; text-decoration: none;
   }
 
+  .for-you {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 40px 0 24px;
+  }
+  .for-you h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #166534;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .for-you h3::before { content: "✅"; }
+  .for-you ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #166534;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .for-you ul li { margin-bottom: 8px; }
+  .for-you ul li strong { color: #14532d; }
+
   .not-for-you {
     background: #fef2f2; border: 1px solid #fecaca;
-    border-radius: 16px; padding: 24px 26px; margin: 40px 0;
+    border-radius: 16px; padding: 24px 26px; margin: 24px 0 40px;
   }
   .not-for-you h3 {
     font-size: 18px; font-weight: 800; color: #991b1b;
