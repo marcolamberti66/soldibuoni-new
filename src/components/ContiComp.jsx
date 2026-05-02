@@ -486,6 +486,23 @@ export function ContiComp() {
               Aggiornato <strong>aprile 2026</strong>
             </p>
 
+            {/* Banner promo benvenuto BBVA */}
+            <div style={{
+              background: 'linear-gradient(135deg, #004481 0%, #0066b3 100%)',
+              color: '#fff', borderRadius: 12, padding: '12px 14px',
+              marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10
+            }}>
+              <span style={{ fontSize: 22, lineHeight: 1 }}>🎁</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bfdbfe', marginBottom: 2 }}>
+                  Promo benvenuto · primi 6 mesi
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, lineHeight: 1.3 }}>
+                  3% interessi sul saldo <span style={{ opacity: 0.7 }}>+</span> 3% cashback fino a 280€/mese
+                </div>
+              </div>
+            </div>
+
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
               background: '#e2e8f0', borderRadius: 12, overflow: 'hidden',
@@ -493,9 +510,9 @@ export function ContiComp() {
             }}>
               {[
                 { l: 'Canone', v: '0 €', h: true },
-                { l: 'Interessi', v: '3,00%', h: true },
-                { l: 'Bollo', v: 'Escluso', h: false },
-                { l: 'Durata promo', v: '12 mesi', h: false },
+                { l: 'Interessi promo', v: '3,00%', h: true },
+                { l: 'Cashback promo', v: '3%', h: true },
+                { l: 'Durata promo', v: '6 mesi', h: false },
                 { l: 'Operazioni', v: 'Gratis', h: true },
                 { l: 'Richiede stipendio', v: 'No', h: true }
               ].map((item, i) => (
