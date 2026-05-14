@@ -7,13 +7,13 @@ const { title, description } = Astro.props;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
-
+  
   <link rel="icon" type="image/x-icon" href="/favicon.ico?v=7" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=7" />
   <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png?v=7" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=7" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7" />
-
+  
   <meta name="description" content={description}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
@@ -21,7 +21,7 @@ const { title, description } = Astro.props;
   <meta property="og:url" content="https://soldibuoni.it">
   <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png?v=6">
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
-
+  
   <script is:inline>
     (function() {
       var consent = null;
@@ -38,91 +38,37 @@ const { title, description } = Astro.props;
       }
     })();
   </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
-
+  
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
   <style is:global>
     :root {
-      /* Palette editoriale */
-      --paper:        #f8f5ef;   /* panna caldo, sfondo principale */
-      --paper-2:      #f3efe6;   /* panna leggermente più scuro per alternanze */
-      --ink:          #0b1d33;   /* navy profondo, testo principale */
-      --ink-soft:     #1f2e44;
-      --ink-mid:      #4a5568;
-      --ink-mute:     #768094;
-      --ink-faint:    #a5adbb;
-      --line:         rgba(11,29,51,0.10);
-      --line-soft:    rgba(11,29,51,0.06);
-      --white:        #ffffff;
-      --gold:         #a07a2b;   /* accent editoriale per marker, numerazioni, dettagli */
-      --gold-soft:    rgba(160,122,43,0.10);
-      --gold-line:    rgba(160,122,43,0.30);
-      --green:        #0f7a52;   /* azione/CTA */
-      --green-dark:   #0a5d3e;
-      --green-soft:   rgba(15,122,82,0.08);
-
-      /* Compat con vecchie classi */
-      --bg:           var(--paper);
-      --navy-900:     var(--ink);
-      --navy-800:     #122d4f;
-      --navy-700:     #1a3a5c;
-      --navy-50:      #f0f5ff;
-      --green-600:    var(--green);
-      --green-400:    #34d399;
-      --green-50:     var(--green-soft);
-      --text-dark:    var(--ink);
-      --text-body:    var(--ink-soft);
-      --text-muted:   var(--ink-mute);
-      --text-light:   var(--ink-faint);
-      --border:       var(--line);
-
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --navy-900: #0c2340;
+      --navy-800: #122d4f;
+      --navy-700: #1a3a5c;
+      --navy-50: #f0f5ff;
+      --green-600: #059669;
+      --green-400: #34d399;
+      --green-50: #ecfdf5;
+      --text-dark: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --border: rgba(12,35,64,0.06);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
-      --serif: 'Fraunces', 'DM Serif Display', Georgia, serif;
-      --sans:  'Inter', system-ui, -apple-system, sans-serif;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      background: var(--paper);
-      color: var(--ink-soft);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+    body { 
+      background: var(--bg); 
+      color: var(--text-body);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif; 
+      line-height: 1.6; 
+      -webkit-font-smoothing: antialiased; 
     }
     a { text-decoration: none; color: inherit; }
-    ::selection { background: var(--ink); color: var(--paper); }
-
-    /* Tipografia editoriale d'utilità */
-    .serif { font-family: var(--serif); font-feature-settings: "ss01","ss02"; }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.4px;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .eyebrow .eyebrow-num {
-      font-family: var(--serif);
-      font-style: italic;
-      font-weight: 500;
-      font-size: 13px;
-      letter-spacing: 0;
-      color: var(--gold);
-      text-transform: none;
-    }
-    .eyebrow .eyebrow-bar {
-      width: 28px;
-      height: 1px;
-      background: var(--gold-line);
-    }
+    ::selection { background: var(--green-600); color: #fff; }
   </style>
 
   <script type="application/ld+json">
@@ -134,7 +80,7 @@ const { title, description } = Astro.props;
           "@id": "https://soldibuoni.it/#website",
           "url": "https://soldibuoni.it/",
           "name": "Soldi Buoni",
-          "description": "Strumenti, comparatori e guide indipendenti per la finanza personale italiana. Aggiornati mensilmente, gratuiti, senza registrazione.",
+          "description": "Smetti di pagare più del dovuto. Strumenti, comparatori e guide gratuite per tagliare le spese fisse e far fruttare i tuoi risparmi.",
           "inLanguage": "it-IT"
         },
         {
@@ -153,141 +99,141 @@ const { title, description } = Astro.props;
   </script>
 </head>
 <body style="min-height: 100vh; display: flex; flex-direction: column;">
-
+  
   <nav id="main-nav" class="site-nav">
     <a href="/" class="logo">
       <img src="/apple-touch-icon.png?v=6" alt="SoldiBuoni" class="logo-m" />
-      <span class="logo-tx">SoldiBuoni<span class="logo-dot">.</span></span>
+      SoldiBuoni
     </a>
-
+    
     <div class="nav-links-desktop">
 
       <div class="nav-item-mega">
-        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">Spese Fisse <span class="nav-caret">▾</span></button>
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">🔥 Spese Fisse <span class="nav-caret">▾</span></button>
         <div class="mega-panel">
           <div class="mega-cols">
             <div class="mega-col">
-              <h4><span class="mega-col-num">01</span> Confronta &amp; Guide</h4>
+              <h4>📊 Confronta & Guide</h4>
               <p class="mega-col-sub">Comparatore + spiegazione del mercato e criteri di scelta</p>
-              <a href="/luce-gas" class="mega-link"><span class="mega-link-tx"><strong>Luce &amp; Gas</strong><em>Mercato libero, prezzo fisso vs variabile</em></span></a>
-              <a href="/internet" class="mega-link"><span class="mega-link-tx"><strong>Internet &amp; Fibra</strong><em>FTTH, FTTC e FWA a confronto</em></span></a>
-              <a href="/conti-correnti" class="mega-link"><span class="mega-link-tx"><strong>Conti Correnti</strong><em>Canone, interessi, costi nascosti</em></span></a>
-              <a href="/rc_auto" class="mega-link"><span class="mega-link-tx"><strong>RC Auto</strong><em>Massimali, franchigie e classi di merito</em></span></a>
-              <a href="/salute" class="mega-link"><span class="mega-link-tx"><strong>Polizze Sanitarie</strong><em>Quando vale l'integrativa</em></span></a>
+              <a href="/luce-gas" class="mega-link"><span class="mega-link-ic">⚡🔥</span><span class="mega-link-tx"><strong>Luce & Gas</strong><em>Mercato libero, prezzo fisso vs variabile</em></span></a>
+              <a href="/internet" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>Internet & Fibra</strong><em>FTTH, FTTC e FWA a confronto</em></span></a>
+              <a href="/conti-correnti" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>Conti Correnti</strong><em>Canone, interessi, costi nascosti</em></span></a>
+              <a href="/rc_auto" class="mega-link"><span class="mega-link-ic">🚗</span><span class="mega-link-tx"><strong>RC Auto</strong><em>Massimali, franchigie e classi di merito</em></span></a>
+              <a href="/salute" class="mega-link"><span class="mega-link-ic">🏥</span><span class="mega-link-tx"><strong>Polizze Sanitarie</strong><em>Quando vale l'integrativa</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">02</span> Recensioni redazionali</h4>
-              <p class="mega-col-sub">Offerte analizzate dal team in modo indipendente</p>
-              <a href="/recensione-eni" class="mega-link"><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart · Luce + Gas</em></span></a>
-              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps + Wi-Fi 7</em></span></a>
-              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB · Rete Vodafone</em></span></a>
-              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% lordo · Cashback 3% · 6 mesi</em></span></a>
-              <a href="/recensione-hype" class="mega-link"><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani da €0</em></span></a>
+              <h4>⭐ Offerte Recensite</h4>
+              <p class="mega-col-sub">Analisi indipendenti redatte dal team</p>
+              <a href="/recensione-eni" class="mega-link"><span class="mega-link-ic">⚡</span><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart · Luce + Gas</em></span></a>
+              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps + Wi-Fi 7</em></span></a>
+              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-ic">📱</span><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB · Rete Vodafone</em></span></a>
+              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% lordo · Cashback 3% · 6 mesi</em></span></a>
+              <a href="/recensione-hype" class="mega-link"><span class="mega-link-ic">💰</span><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani da €0</em></span></a>
             </div>
             <div class="mega-col mega-col-tools">
-              <h4><span class="mega-col-num">03</span> Strumenti rapidi</h4>
+              <h4>🛠 Strumenti Rapidi</h4>
               <p class="mega-col-sub">Diagnosi prima del confronto</p>
-              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Profilo di spesa in 2 minuti</em></span></a>
-              <a href="/analisi-bolletta" class="mega-link mega-link-highlight"><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Verifica con AI (€/kWh, €/Smc)</em></span></a>
+              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-ic">🧮</span><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Profilo di spesa in 2 minuti</em></span></a>
+              <a href="/analisi-bolletta" class="mega-link mega-link-highlight"><span class="mega-link-ic">🔍</span><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Scopri se paghi troppo (AI)</em></span></a>
             </div>
           </div>
         </div>
       </div>
 
       <div class="nav-item-mega">
-        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">Casa, Auto &amp; Famiglia <span class="nav-caret">▾</span></button>
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">🏠 Casa, Auto & Famiglia <span class="nav-caret">▾</span></button>
         <div class="mega-panel">
           <div class="mega-cols">
             <div class="mega-col">
-              <h4><span class="mega-col-num">01</span> Casa &amp; Mutuo</h4>
+              <h4>🏠 Casa & Mutuo</h4>
               <p class="mega-col-sub">La decisione di una vita</p>
-              <a href="/mutuo" class="mega-link"><span class="mega-link-tx"><strong>Simulatore Mutui</strong><em>Rata, ammortamento, fisso vs variabile</em></span></a>
-              <a href="/affitto-vs-mutuo" class="mega-link"><span class="mega-link-tx"><strong>Affitto vs Mutuo</strong><em>Il break-even tra affittare e comprare</em></span></a>
+              <a href="/mutuo" class="mega-link"><span class="mega-link-ic">🏠</span><span class="mega-link-tx"><strong>Simulatore Mutui</strong><em>Rata, ammortamento, fisso vs variabile</em></span></a>
+              <a href="/affitto-vs-mutuo" class="mega-link"><span class="mega-link-ic">⚖️</span><span class="mega-link-tx"><strong>Affitto vs Mutuo</strong><em>Il break-even tra affittare e comprare</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">02</span> Auto &amp; Mobilità</h4>
+              <h4>🚗 Auto & Mobilità</h4>
               <p class="mega-col-sub">Spese e scadenze sotto controllo</p>
-              <a href="/bollo_revisione" class="mega-link"><span class="mega-link-tx"><strong>Memo Scadenze Auto</strong><em>Bollo, revisione, tagliando, gomme</em></span></a>
-              <a href="/rc_auto" class="mega-link"><span class="mega-link-tx"><strong>RC Auto</strong><em>Confronta polizze + guida ai massimali</em></span></a>
+              <a href="/bollo_revisione" class="mega-link"><span class="mega-link-ic">🚗</span><span class="mega-link-tx"><strong>Memo Scadenze Auto</strong><em>Bollo, revisione, tagliando, gomme</em></span></a>
+              <a href="/rc_auto" class="mega-link"><span class="mega-link-ic">🛡️</span><span class="mega-link-tx"><strong>RC Auto</strong><em>Confronta polizze + guida ai massimali</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">03</span> Famiglia &amp; Studi</h4>
+              <h4>🎓 Famiglia & Studi</h4>
               <p class="mega-col-sub">Spese ricorrenti per chi studia</p>
-              <a href="/istruzione" class="mega-link"><span class="mega-link-tx"><strong>Rette Universitarie</strong><em>Stima per facoltà e fascia ISEE</em></span></a>
+              <a href="/istruzione" class="mega-link"><span class="mega-link-ic">🎓</span><span class="mega-link-tx"><strong>Rette Universitarie</strong><em>Stima per facoltà e fascia ISEE</em></span></a>
             </div>
           </div>
         </div>
       </div>
 
       <div class="nav-item-mega">
-        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">Lavoro &amp; Tasse <span class="nav-caret">▾</span></button>
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">💼 Lavoro & Tasse <span class="nav-caret">▾</span></button>
         <div class="mega-panel mega-panel-narrow">
           <div class="mega-cols">
             <div class="mega-col">
-              <h4><span class="mega-col-num">01</span> Stipendi &amp; P.IVA</h4>
+              <h4>💶 Stipendi & P.IVA</h4>
               <p class="mega-col-sub">Capisci quanto resta in tasca</p>
-              <a href="/calcolo-stipendio" class="mega-link"><span class="mega-link-tx"><strong>Stipendio Lordo/Netto</strong><em>IRPEF, detrazioni, addizionali</em></span></a>
-              <a href="/forfettario-vs-ordinario" class="mega-link"><span class="mega-link-tx"><strong>Forfettario vs Ordinario</strong><em>Quale regime conviene alla P.IVA</em></span></a>
+              <a href="/calcolo-stipendio" class="mega-link"><span class="mega-link-ic">💶</span><span class="mega-link-tx"><strong>Stipendio Lordo/Netto</strong><em>IRPEF, detrazioni, addizionali</em></span></a>
+              <a href="/forfettario-vs-ordinario" class="mega-link"><span class="mega-link-ic">📋</span><span class="mega-link-tx"><strong>Forfettario vs Ordinario</strong><em>Quale regime conviene alla P.IVA</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">02</span> Bonus &amp; Agevolazioni</h4>
+              <h4>🎁 Bonus & Agevolazioni</h4>
               <p class="mega-col-sub">Soldi che lo Stato ti deve</p>
-              <a href="/trova-bonus" class="mega-link"><span class="mega-link-tx"><strong>Trova Bonus Fiscale</strong><em>Diagnosi delle agevolazioni a cui hai diritto</em></span></a>
+              <a href="/trova-bonus" class="mega-link"><span class="mega-link-ic">🎁</span><span class="mega-link-tx"><strong>Trova Bonus Fiscale</strong><em>Diagnosi delle agevolazioni a cui hai diritto</em></span></a>
             </div>
           </div>
         </div>
       </div>
 
       <div class="nav-item-mega">
-        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">Investi &amp; Pianifica <span class="nav-caret">▾</span></button>
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">📈 Investi & Pianifica <span class="nav-caret">▾</span></button>
         <div class="mega-panel mega-panel-narrow">
           <div class="mega-cols">
             <div class="mega-col">
-              <h4><span class="mega-col-num">01</span> Risparmio &amp; Investimenti</h4>
+              <h4>📈 Risparmio & Investimenti</h4>
               <p class="mega-col-sub">Far crescere quello che hai</p>
-              <a href="/investimenti" class="mega-link"><span class="mega-link-tx"><strong>Portafogli Modello</strong><em>Asset allocation su dati storici reali</em></span></a>
-              <a href="/interesse-composto" class="mega-link"><span class="mega-link-tx"><strong>Interesse Composto</strong><em>Come crescono i risparmi nel tempo</em></span></a>
+              <a href="/investimenti" class="mega-link"><span class="mega-link-ic">💼</span><span class="mega-link-tx"><strong>Portafogli Modello</strong><em>Asset allocation su dati storici reali</em></span></a>
+              <a href="/interesse-composto" class="mega-link"><span class="mega-link-ic">📈</span><span class="mega-link-tx"><strong>Interesse Composto</strong><em>Come crescono i risparmi nel tempo</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">02</span> Previdenza</h4>
+              <h4>📊 Previdenza</h4>
               <p class="mega-col-sub">Il futuro di lungo periodo</p>
-              <a href="/tfr_pensione" class="mega-link"><span class="mega-link-tx"><strong>Fondi Pensione &amp; TFR</strong><em>172 comparti COVIP a confronto</em></span></a>
+              <a href="/tfr_pensione" class="mega-link"><span class="mega-link-ic">📊</span><span class="mega-link-tx"><strong>Fondi Pensione & TFR</strong><em>172 comparti COVIP a confronto</em></span></a>
             </div>
           </div>
         </div>
       </div>
 
       <div class="nav-item-mega">
-        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">Metodo &amp; Guide <span class="nav-caret">▾</span></button>
+        <button class="nav-a nav-a-mega" aria-haspopup="true" aria-expanded="false">📖 Metodo & Guide <span class="nav-caret">▾</span></button>
         <div class="mega-panel">
           <div class="mega-cols">
             <div class="mega-col">
-              <h4><span class="mega-col-num">01</span> Inizia da qui</h4>
+              <h4>🧭 Inizia da qui</h4>
               <p class="mega-col-sub">Il punto di partenza</p>
-              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Diagnosi della tua situazione</em></span></a>
-              <a href="/analisi-bolletta" class="mega-link"><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Verifica AI della tua bolletta</em></span></a>
+              <a href="/quanto-spendo" class="mega-link mega-link-highlight"><span class="mega-link-ic">🧮</span><span class="mega-link-tx"><strong>Quanto Spendo?</strong><em>Diagnosi della tua situazione</em></span></a>
+              <a href="/analisi-bolletta" class="mega-link"><span class="mega-link-ic">🔍</span><span class="mega-link-tx"><strong>Analizza Bolletta</strong><em>Verifica AI della tua bolletta</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">02</span> Guide educational</h4>
+              <h4>📖 Guide Educational</h4>
               <p class="mega-col-sub">Capisci i mercati prima di decidere</p>
-              <a href="/guida-risparmio" class="mega-link mega-link-highlight"><span class="mega-link-tx"><strong>Guida Risparmio 2026</strong><em>Il metodo completo in 7 capitoli</em></span></a>
-              <a href="/checklist" class="mega-link"><span class="mega-link-tx"><strong>Checklist Salvavita</strong><em>12 azioni concrete, una al mese</em></span></a>
+              <a href="/guida-risparmio" class="mega-link mega-link-highlight"><span class="mega-link-ic">📖</span><span class="mega-link-tx"><strong>Guida Risparmio 2026</strong><em>Il metodo completo in 7 capitoli</em></span></a>
+              <a href="/checklist" class="mega-link"><span class="mega-link-ic">✅</span><span class="mega-link-tx"><strong>Checklist Salvavita</strong><em>12 azioni concrete, una al mese</em></span></a>
             </div>
             <div class="mega-col">
-              <h4><span class="mega-col-num">03</span> Tutte le recensioni</h4>
+              <h4>⭐ Tutte le Recensioni</h4>
               <p class="mega-col-sub">Offerte analizzate dal team</p>
-              <a href="/recensione-eni" class="mega-link"><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart</em></span></a>
-              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% interessi · 3% cashback</em></span></a>
-              <a href="/recensione-hype" class="mega-link"><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani</em></span></a>
-              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps</em></span></a>
-              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB</em></span></a>
+              <a href="/recensione-eni" class="mega-link"><span class="mega-link-ic">⚡</span><span class="mega-link-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart</em></span></a>
+              <a href="/recensione-bbva" class="mega-link"><span class="mega-link-ic">💳</span><span class="mega-link-tx"><strong>BBVA Conto Online</strong><em>3% interessi · 3% cashback</em></span></a>
+              <a href="/recensione-hype" class="mega-link"><span class="mega-link-ic">💰</span><span class="mega-link-tx"><strong>Hype</strong><em>Carta conto · 3 piani</em></span></a>
+              <a href="/recensione-windtre" class="mega-link"><span class="mega-link-ic">📡</span><span class="mega-link-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps</em></span></a>
+              <a href="/recensione-lyca" class="mega-link"><span class="mega-link-ic">📱</span><span class="mega-link-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB</em></span></a>
             </div>
           </div>
         </div>
       </div>
 
       <a href="/chi-siamo" class="nav-a nav-a-secondary">Chi Siamo</a>
-      <a href="/quanto-spendo" class="nav-cta">Inizia la diagnosi</a>
+      <a href="/quanto-spendo" class="nav-cta">Inizia da qui</a>
     </div>
 
     <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
@@ -298,83 +244,83 @@ const { title, description } = Astro.props;
   <div id="mobile-menu" class="mobile-menu">
     <div class="mobile-menu-inner">
 
-      <a href="/quanto-spendo" class="mobile-cta">Inizia la diagnosi — Quanto Spendo?</a>
+      <a href="/quanto-spendo" class="mobile-cta">🧭 Inizia da qui — Quanto Spendo?</a>
 
       <details class="mobile-acc">
-        <summary><span class="mob-acc-num">01</span> Spese Fisse <span class="mob-acc-arr">▾</span></summary>
+        <summary><span class="mob-acc-em">🔥</span> Spese Fisse <span class="mob-acc-arr">▾</span></summary>
         <div class="mob-acc-body">
-          <div class="mob-acc-sub">Confronta &amp; Guide</div>
-          <a href="/luce-gas" class="mobile-link">Luce &amp; Gas</a>
-          <a href="/internet" class="mobile-link">Internet &amp; Fibra</a>
-          <a href="/conti-correnti" class="mobile-link">Conti Correnti</a>
-          <a href="/rc_auto" class="mobile-link">RC Auto</a>
-          <a href="/salute" class="mobile-link">Polizze Sanitarie</a>
+          <div class="mob-acc-sub">Confronta & Guide</div>
+          <a href="/luce-gas" class="mobile-link">⚡🔥 Luce & Gas</a>
+          <a href="/internet" class="mobile-link">📡 Internet & Fibra</a>
+          <a href="/conti-correnti" class="mobile-link">💳 Conti Correnti</a>
+          <a href="/rc_auto" class="mobile-link">🚗 RC Auto</a>
+          <a href="/salute" class="mobile-link">🏥 Polizze Sanitarie</a>
           <div class="mob-acc-sub">Recensioni offerte</div>
-          <a href="/recensione-eni" class="mobile-link mobile-link-sm">Eni Plenitude</a>
-          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">WindTre Super Fibra</a>
-          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">Lyca Mobile</a>
-          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">BBVA Conto Online</a>
-          <a href="/recensione-hype" class="mobile-link mobile-link-sm">Hype</a>
+          <a href="/recensione-eni" class="mobile-link mobile-link-sm">⚡ Eni Plenitude</a>
+          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">📡 WindTre Super Fibra</a>
+          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">📱 Lyca Mobile</a>
+          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">💳 BBVA Conto Online</a>
+          <a href="/recensione-hype" class="mobile-link mobile-link-sm">💰 Hype</a>
           <div class="mob-acc-sub">Strumenti</div>
-          <a href="/analisi-bolletta" class="mobile-link mobile-link-sm">Analizza Bolletta (AI)</a>
+          <a href="/analisi-bolletta" class="mobile-link mobile-link-sm">🔍 Analizza Bolletta (AI)</a>
         </div>
       </details>
 
       <details class="mobile-acc">
-        <summary><span class="mob-acc-num">02</span> Casa, Auto &amp; Famiglia <span class="mob-acc-arr">▾</span></summary>
+        <summary><span class="mob-acc-em">🏠</span> Casa, Auto & Famiglia <span class="mob-acc-arr">▾</span></summary>
         <div class="mob-acc-body">
-          <div class="mob-acc-sub">Casa &amp; Mutuo</div>
-          <a href="/mutuo" class="mobile-link">Simulatore Mutui</a>
-          <a href="/affitto-vs-mutuo" class="mobile-link">Affitto vs Mutuo</a>
-          <div class="mob-acc-sub">Auto &amp; Mobilità</div>
-          <a href="/bollo_revisione" class="mobile-link">Memo Scadenze Auto</a>
-          <a href="/rc_auto" class="mobile-link">RC Auto</a>
-          <div class="mob-acc-sub">Famiglia &amp; Studi</div>
-          <a href="/istruzione" class="mobile-link">Rette Universitarie</a>
+          <div class="mob-acc-sub">Casa & Mutuo</div>
+          <a href="/mutuo" class="mobile-link">🏠 Simulatore Mutui</a>
+          <a href="/affitto-vs-mutuo" class="mobile-link">⚖️ Affitto vs Mutuo</a>
+          <div class="mob-acc-sub">Auto & Mobilità</div>
+          <a href="/bollo_revisione" class="mobile-link">🚗 Memo Scadenze Auto</a>
+          <a href="/rc_auto" class="mobile-link">🛡️ RC Auto</a>
+          <div class="mob-acc-sub">Famiglia & Studi</div>
+          <a href="/istruzione" class="mobile-link">🎓 Rette Universitarie</a>
         </div>
       </details>
 
       <details class="mobile-acc">
-        <summary><span class="mob-acc-num">03</span> Lavoro &amp; Tasse <span class="mob-acc-arr">▾</span></summary>
+        <summary><span class="mob-acc-em">💼</span> Lavoro & Tasse <span class="mob-acc-arr">▾</span></summary>
         <div class="mob-acc-body">
-          <div class="mob-acc-sub">Stipendi &amp; P.IVA</div>
-          <a href="/calcolo-stipendio" class="mobile-link">Stipendio Lordo/Netto</a>
-          <a href="/forfettario-vs-ordinario" class="mobile-link">Forfettario vs Ordinario</a>
-          <div class="mob-acc-sub">Bonus &amp; Agevolazioni</div>
-          <a href="/trova-bonus" class="mobile-link">Trova Bonus Fiscale</a>
+          <div class="mob-acc-sub">Stipendi & P.IVA</div>
+          <a href="/calcolo-stipendio" class="mobile-link">💶 Stipendio Lordo/Netto</a>
+          <a href="/forfettario-vs-ordinario" class="mobile-link">📋 Forfettario vs Ordinario</a>
+          <div class="mob-acc-sub">Bonus & Agevolazioni</div>
+          <a href="/trova-bonus" class="mobile-link">🎁 Trova Bonus Fiscale</a>
         </div>
       </details>
 
       <details class="mobile-acc">
-        <summary><span class="mob-acc-num">04</span> Investi &amp; Pianifica <span class="mob-acc-arr">▾</span></summary>
+        <summary><span class="mob-acc-em">📈</span> Investi & Pianifica <span class="mob-acc-arr">▾</span></summary>
         <div class="mob-acc-body">
-          <div class="mob-acc-sub">Risparmio &amp; Investimenti</div>
-          <a href="/investimenti" class="mobile-link">Portafogli Modello</a>
-          <a href="/interesse-composto" class="mobile-link">Interesse Composto</a>
+          <div class="mob-acc-sub">Risparmio & Investimenti</div>
+          <a href="/investimenti" class="mobile-link">💼 Portafogli Modello</a>
+          <a href="/interesse-composto" class="mobile-link">📈 Interesse Composto</a>
           <div class="mob-acc-sub">Previdenza</div>
-          <a href="/tfr_pensione" class="mobile-link">Fondi Pensione &amp; TFR</a>
+          <a href="/tfr_pensione" class="mobile-link">📊 Fondi Pensione & TFR</a>
         </div>
       </details>
 
       <details class="mobile-acc">
-        <summary><span class="mob-acc-num">05</span> Metodo &amp; Guide <span class="mob-acc-arr">▾</span></summary>
+        <summary><span class="mob-acc-em">📖</span> Metodo & Guide <span class="mob-acc-arr">▾</span></summary>
         <div class="mob-acc-body">
           <div class="mob-acc-sub">Inizia da qui</div>
-          <a href="/quanto-spendo" class="mobile-link">Quanto Spendo?</a>
-          <a href="/analisi-bolletta" class="mobile-link">Analizza Bolletta (AI)</a>
+          <a href="/quanto-spendo" class="mobile-link">🧮 Quanto Spendo?</a>
+          <a href="/analisi-bolletta" class="mobile-link">🔍 Analizza Bolletta (AI)</a>
           <div class="mob-acc-sub">Guide educational</div>
-          <a href="/guida-risparmio" class="mobile-link">Guida Risparmio 2026</a>
-          <a href="/checklist" class="mobile-link">Checklist Salvavita</a>
+          <a href="/guida-risparmio" class="mobile-link">📖 Guida Risparmio 2026</a>
+          <a href="/checklist" class="mobile-link">✅ Checklist Salvavita</a>
           <div class="mob-acc-sub">Tutte le recensioni</div>
-          <a href="/recensione-eni" class="mobile-link mobile-link-sm">Eni Plenitude</a>
-          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">BBVA Conto Online</a>
-          <a href="/recensione-hype" class="mobile-link mobile-link-sm">Hype</a>
-          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">WindTre Super Fibra</a>
-          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">Lyca Mobile</a>
+          <a href="/recensione-eni" class="mobile-link mobile-link-sm">⚡ Eni Plenitude</a>
+          <a href="/recensione-bbva" class="mobile-link mobile-link-sm">💳 BBVA Conto Online</a>
+          <a href="/recensione-hype" class="mobile-link mobile-link-sm">💰 Hype</a>
+          <a href="/recensione-windtre" class="mobile-link mobile-link-sm">📡 WindTre Super Fibra</a>
+          <a href="/recensione-lyca" class="mobile-link mobile-link-sm">📱 Lyca Mobile</a>
         </div>
       </details>
 
-      <div class="mobile-section-label">Azienda</div>
+      <div class="mobile-section-label" style="color: #8b5cf6; margin-top: 16px;">📋 AZIENDA</div>
       <a href="/chi-siamo" class="mobile-link">Chi Siamo</a>
       <a href="mailto:clart.mgmt@gmail.com" class="mobile-link">Contattaci</a>
     </div>
@@ -387,21 +333,17 @@ const { title, description } = Astro.props;
   <footer class="site-footer">
     <div class="ft-in">
       <div class="ft-b">
-        <div class="ft-logo">
-          <img src="/apple-touch-icon.png?v=6" alt="SoldiBuoni" class="ft-logo-m" />
-          <span class="ft-logo-tx">SoldiBuoni<span class="ft-logo-dot">.</span></span>
+        <div class="logo" style="color: #fff; margin-bottom: 10px;">
+          <img src="/apple-touch-icon.png?v=6" alt="SoldiBuoni" class="logo-m" />
+          SoldiBuoni
         </div>
-        <p class="ft-claim">Piattaforma indipendente di educazione finanziaria e ottimizzazione delle spese. Gratuita, senza registrazione, sempre aggiornata.</p>
-        <div class="ft-meta">
-          <span class="ft-meta-item"><span class="ft-meta-k">Fonti</span> ARERA · Banca d'Italia · ANIA · COVIP</span>
-          <span class="ft-meta-item"><span class="ft-meta-k">Aggiornato</span> Aprile 2026</span>
-        </div>
+        <p>I tuoi soldi spesi bene. Piattaforma indipendente di educazione finanziaria e ottimizzazione delle spese. Gratuita e sempre aggiornata.</p>
       </div>
-
+      
       <div class="ft-c">
         <div>
           <h5>Confronta</h5>
-          <a href="/luce-gas">Luce &amp; Gas</a>
+          <a href="/luce-gas">Luce & Gas</a>
           <a href="/internet">Internet e Fibra</a>
           <a href="/rc_auto">Assicurazione Auto</a>
           <a href="/conti-correnti">Conti e Carte</a>
@@ -416,36 +358,31 @@ const { title, description } = Astro.props;
           <a href="/forfettario-vs-ordinario">Partita IVA</a>
         </div>
         <div>
-          <h5>Recensioni</h5>
-          <a href="/recensione-eni">Eni Plenitude</a>
-          <a href="/recensione-bbva">BBVA Conto Online</a>
-          <a href="/recensione-hype">Hype</a>
-          <a href="/recensione-windtre">WindTre Super Fibra</a>
-          <a href="/recensione-lyca">Lyca Mobile</a>
-        </div>
-        <div>
           <h5>Azienda</h5>
           <a href="/chi-siamo">Chi Siamo</a>
           <a href="/guida-risparmio">Il Nostro Metodo</a>
           <a href="mailto:clart.mgmt@gmail.com">Contattaci</a>
+        </div>
+        <div>
+          <h5>Legale</h5>
           <a href="/privacy">Privacy Policy</a>
           <a href="/termini">Termini e Condizioni</a>
           <a href="#" onclick="document.getElementById('cookie-banner').style.display='block'; return false;">Gestione Cookie</a>
         </div>
       </div>
     </div>
-
+    
     <div class="ft-bot">
-      <p class="ft-disclaimer"><strong>Disclaimer legale.</strong> SoldiBuoni.it fornisce contenuti a scopo puramente informativo e di educazione finanziaria. Le informazioni riportate non costituiscono consulenza finanziaria personalizzata, né raccomandazione o sollecitazione all'investimento ai sensi del Testo Unico della Finanza (TUF). Le simulazioni e i comparatori si basano su dati di mercato elaborati dalla redazione. Per decisioni di investimento vincolanti, si invita l'utente a rivolgersi a consulenti iscritti all'Albo OCF o a leggere i prospetti informativi ufficiali.</p>
-      <p class="ft-copy">&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link in uscita sono gestiti tramite programmi di affiliazione che sostengono la piattaforma senza costi per l'utente finale.</p>
+      <p style="margin-bottom: 12px; line-height: 1.6; text-align: justify; max-width: 100%;"><strong>Disclaimer legale:</strong> SoldiBuoni.it fornisce contenuti a scopo puramente informativo e di educazione finanziaria. Le informazioni riportate non costituiscono consulenza finanziaria personalizzata, né raccomandazione o sollecitazione all'investimento ai sensi del Testo Unico della Finanza (TUF). Le simulazioni e i comparatori si basano su dati di mercato elaborati dalla redazione. Per decisioni di investimento vincolanti, si invita l'utente a rivolgersi a consulenti iscritti all'Albo OCF o a leggere i prospetti informativi ufficiali.</p>
+      <p>&copy; 2026 SoldiBuoni.it — Tutti i diritti riservati. Alcuni link in uscita sono gestiti tramite programmi di affiliazione che sostengono la piattaforma senza costi per l'utente finale.</p>
     </div>
   </footer>
 
   <div id="cookie-banner" class="cookie-banner" style="display:none;">
     <div class="cookie-inner">
       <div class="cookie-text">
-        <strong>Cookie analitici</strong>
-        <span>Usiamo Google Analytics per capire come viene usato il sito e migliorarlo. Nessun dato personale viene venduto o condiviso con terzi. <a href="/privacy">Privacy policy</a></span>
+        <strong>🍪 Questo sito usa cookie analitici</strong>
+        <span>Usiamo Google Analytics per capire come viene usato il sito e migliorarlo. Nessun dato personale viene venduto o condiviso con terzi. <a href="/privacy" style="color: #3b82f6; text-decoration: underline;">Privacy policy</a></span>
       </div>
       <div class="cookie-actions">
         <button id="cookie-reject" class="cookie-btn cookie-btn-reject">Rifiuta</button>
@@ -462,6 +399,7 @@ const { title, description } = Astro.props;
         var banner = document.getElementById('cookie-banner');
         if (banner) banner.style.display = 'block';
       }
+
       function loadGA() {
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
@@ -474,6 +412,7 @@ const { title, description } = Astro.props;
         gtag('js', new Date());
         gtag('config', 'G-H2JD077CTH');
       }
+
       document.getElementById('cookie-accept')?.addEventListener('click', function() {
         try { localStorage.setItem('sb_cookie_consent', 'accepted'); } catch(e) {}
         document.getElementById('cookie-banner').style.display = 'none';
@@ -515,78 +454,190 @@ const { title, description } = Astro.props;
 </html>
 
 <style>
-  /* ═══════════════════════ NAV ═══════════════════════ */
+  /* ══════ NAV ══════ */
   .site-nav {
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
-    height: 68px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
+    padding: 0 32px;
+    box-shadow: 0 1px 2px rgba(12,35,64,0.03);
   }
   .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 21px;
+    color: var(--navy-900);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
   }
   .logo-m {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
     display: block;
     object-fit: cover;
     flex-shrink: 0;
   }
-  .logo-tx {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .logo-dot { color: var(--gold); }
-
   .nav-links-desktop {
     display: flex;
-    gap: 2px;
+    gap: 6px;
     align-items: center;
   }
   .nav-a {
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink-mid);
-    padding: 8px 14px;
-    border-radius: 6px;
-    transition: color 0.18s, background 0.18s;
-    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
   }
-  .nav-a:hover { color: var(--ink); background: rgba(11,29,51,0.03); }
-  .nav-a-secondary {
-    color: var(--ink-mute);
-    margin-left: 6px;
+  .nav-a:hover {
+    color: var(--navy-900);
+    background: var(--navy-50);
   }
   .nav-cta {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 9px 18px;
-    border-radius: 999px;
     font-size: 13px;
-    font-weight: 600;
-    margin-left: 10px;
-    transition: background 0.2s, transform 0.2s;
-    letter-spacing: 0.01em;
+    font-weight: 700;
+    color: #fff;
+    background: var(--green-600);
+    padding: 9px 20px;
+    border-radius: 9px;
+    transition: all 0.25s var(--ease);
+    box-shadow: 0 2px 8px rgba(5,150,105,0.2);
   }
-  .nav-cta:hover { background: var(--green-dark); transform: translateY(-1px); color: var(--paper); }
+  .nav-cta:hover {
+    background: #047857;
+    transform: translateY(-1px);
+  }
 
-  /* Mega menu */
-  .nav-item-mega {
-    position: relative;
+  /* ══════ MOBILE MENU ══════ */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 200;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navy-900);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(248,250,252,0.97);
+    backdrop-filter: blur(16px);
+    z-index: 99;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .mobile-menu.open { display: block; opacity: 1; }
+  .mobile-menu-inner {
+    padding: 90px 24px 40px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mobile-section-label {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 16px 12px 8px;
+  }
+  .mobile-link {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy-900);
+    padding: 14px 16px;
+    border-radius: 12px;
+    transition: background 0.2s;
+  }
+  .mobile-link:hover {
+    background: var(--navy-50);
+  }
+
+  /* ══════ FOOTER ══════ */
+  .site-footer {
+    background: var(--navy-900);
+    padding: 52px 0 0;
+    color: var(--text-light);
+  }
+  .ft-in {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .ft-b {
+    flex: 1.3;
+    min-width: 220px;
+  }
+  .ft-b p {
+    font-size: 12px;
+    color: rgba(148,163,184,0.65);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+  .ft-c {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    flex: 2.5;
+  }
+  .ft-c h5 {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green-400);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .ft-c a {
+    display: block;
+    font-size: 13px;
+    color: rgba(148,163,184,0.65);
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+  .ft-c a:hover { color: #fff; }
+  .ft-bot {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 16px 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .ft-bot p {
+    font-size: 11px;
+    color: rgba(148,163,184,0.35);
+  }
+
+  /* ══════ MEGA MENU DESKTOP ══════ */
+  .nav-item-mega {
+    position: static;
   }
   .nav-a-mega {
     background: none;
@@ -595,354 +646,196 @@ const { title, description } = Astro.props;
     font-family: inherit;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
   }
   .nav-caret {
-    font-size: 9px;
-    opacity: 0.5;
-    transition: transform 0.2s;
+    font-size: 10px;
+    opacity: 0.55;
+    transition: transform 0.25s var(--ease);
+    margin-left: 1px;
   }
-  .nav-item-mega:hover .nav-caret { transform: rotate(180deg); opacity: 0.9; }
-
+  .nav-a-secondary {
+    font-size: 13px;
+    opacity: 0.8;
+  }
   .mega-panel {
     position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
+    top: 64px;
+    left: 0;
+    right: 0;
     background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 24px;
-    min-width: 740px;
-    box-shadow: 0 24px 60px -20px rgba(11,29,51,0.18), 0 8px 20px -8px rgba(11,29,51,0.06);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 32px -12px rgba(12,35,64,0.10);
+    padding: 28px 32px 32px;
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+    transform: translateY(-8px);
     transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
-    z-index: 50;
+    z-index: 99;
   }
-  .mega-panel-narrow { min-width: 520px; }
-  .nav-item-mega:hover .mega-panel,
-  .nav-item-mega:focus-within .mega-panel {
+  .nav-item-mega:hover > .mega-panel,
+  .nav-item-mega:focus-within > .mega-panel {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
-
+  .nav-item-mega:hover > .nav-a-mega,
+  .nav-item-mega:focus-within > .nav-a-mega {
+    color: var(--navy-900);
+    background: var(--navy-50);
+  }
+  .nav-item-mega:hover > .nav-a-mega .nav-caret,
+  .nav-item-mega:focus-within > .nav-a-mega .nav-caret {
+    transform: rotate(180deg);
+  }
   .mega-cols {
+    max-width: 1100px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
   }
   .mega-panel-narrow .mega-cols {
+    max-width: 760px;
     grid-template-columns: repeat(2, 1fr);
   }
   .mega-col h4 {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green-600);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
     margin-bottom: 4px;
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    letter-spacing: -0.005em;
-  }
-  .mega-col-num {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 1.6px;
-    font-family: var(--sans);
-    font-style: normal;
   }
   .mega-col-sub {
     font-size: 11px;
-    color: var(--ink-mute);
-    margin-bottom: 16px;
-    line-height: 1.5;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-style: italic;
   }
   .mega-link {
-    display: block;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
     padding: 8px 10px;
     border-radius: 8px;
-    transition: background 0.15s;
-    margin-bottom: 1px;
+    transition: background 0.18s;
+    margin-bottom: 2px;
   }
-  .mega-link:hover { background: rgba(11,29,51,0.03); }
+  .mega-link:hover {
+    background: var(--navy-50);
+  }
+  .mega-link-ic {
+    flex-shrink: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    width: 22px;
+    text-align: center;
+  }
   .mega-link-tx {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     min-width: 0;
   }
   .mega-link-tx strong {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-900);
     line-height: 1.3;
   }
   .mega-link-tx em {
-    font-size: 11.5px;
+    font-size: 11px;
     font-style: normal;
-    color: var(--ink-mute);
+    color: var(--text-muted);
     line-height: 1.4;
   }
   .mega-link-highlight {
-    background: var(--gold-soft);
+    background: var(--green-50);
   }
-  .mega-link-highlight:hover { background: rgba(160,122,43,0.18); }
-  .mega-link-highlight .mega-link-tx strong { color: var(--gold); }
+  .mega-link-highlight:hover {
+    background: #d1fae5;
+  }
+  .mega-link-highlight strong {
+    color: var(--green-600);
+  }
 
-  /* Menu toggle mobile */
-  .menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 24px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  .menu-toggle span {
-    width: 100%;
-    height: 2px;
-    background: var(--ink);
-    border-radius: 2px;
-    transition: all 0.3s var(--ease);
-    transform-origin: left center;
-  }
-  .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(2px, -2px); }
-  .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(2px, 2px); }
-
-  /* Mobile menu */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 68px;
-    left: 0; right: 0;
-    bottom: 0;
-    background: var(--paper);
-    z-index: 99;
-    overflow-y: auto;
-    opacity: 0;
-    transition: opacity 0.3s var(--ease);
-  }
-  .mobile-menu.open { opacity: 1; }
-  .mobile-menu-inner {
-    padding: 20px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
+  /* ══════ MOBILE ACCORDION ══════ */
   .mobile-cta {
     display: block;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--green-600);
+    color: #fff;
     padding: 14px 18px;
     border-radius: 12px;
-    font-weight: 600;
-    font-size: 14.5px;
+    font-weight: 800;
+    font-size: 15px;
     text-align: center;
-    margin-bottom: 16px;
-    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.25);
   }
   .mobile-acc {
     background: var(--white);
     border-radius: 12px;
     margin-bottom: 8px;
-    border: 1px solid var(--line);
+    border: 1px solid var(--border);
     overflow: hidden;
   }
   .mobile-acc summary {
     padding: 14px 16px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy-900);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     list-style: none;
     user-select: none;
-    font-family: var(--serif);
   }
   .mobile-acc summary::-webkit-details-marker { display: none; }
-  .mob-acc-num {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 1.4px;
-    font-family: var(--sans);
+  .mob-acc-em {
+    font-size: 18px;
   }
   .mob-acc-arr {
     margin-left: auto;
-    font-size: 12px;
-    color: var(--ink-mute);
+    font-size: 13px;
+    color: var(--text-muted);
     transition: transform 0.25s var(--ease);
   }
-  .mobile-acc[open] .mob-acc-arr { transform: rotate(180deg); }
+  .mobile-acc[open] .mob-acc-arr {
+    transform: rotate(180deg);
+  }
   .mob-acc-body {
     padding: 4px 8px 12px;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--border);
   }
   .mob-acc-sub {
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--gold);
+    letter-spacing: 1.2px;
+    color: var(--green-600);
     padding: 12px 12px 4px;
   }
-  .mobile-link {
-    display: block;
-    padding: 11px 16px;
-    color: var(--ink-soft);
-    font-size: 14px;
-    transition: color 0.15s;
-  }
-  .mobile-link:hover { color: var(--ink); }
   .mobile-link-sm {
-    font-size: 13px;
-    color: var(--ink-mute);
-  }
-  .mobile-section-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.6px;
-    color: var(--gold);
-    margin: 20px 12px 6px;
+    font-size: 14px;
+    padding: 10px 16px;
+    color: var(--text-body);
   }
 
-  /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
+  /* ══════ RESPONSIVE ══════ */
   @media (max-width: 1180px) {
-    .nav-a, .nav-a-mega { font-size: 13px; padding: 7px 10px; }
+    .nav-a, .nav-a-mega { font-size: 13px; padding: 7px 11px; }
     .nav-a-secondary { display: none; }
   }
-  @media (max-width: 980px) {
+  @media (max-width: 900px) {
     .nav-links-desktop { display: none; }
     .menu-toggle { display: flex; }
     .site-nav { padding: 0 20px; }
   }
 
-  /* ═══════════════════════ FOOTER ═══════════════════════ */
-  .site-footer {
-    background: var(--ink);
-    color: rgba(248,245,239,0.7);
-    padding: 64px 40px 28px;
-    margin-top: 0;
-  }
-  .ft-in {
-    max-width: 1180px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.2fr 2fr;
-    gap: 56px;
-    padding-bottom: 48px;
-    border-bottom: 1px solid rgba(248,245,239,0.08);
-  }
-  .ft-b { max-width: 360px; }
-  .ft-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .ft-logo-m {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    display: block;
-    object-fit: cover;
-  }
-  .ft-logo-tx {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--paper);
-    letter-spacing: -0.01em;
-  }
-  .ft-logo-dot { color: var(--gold); }
-  .ft-claim {
-    font-size: 14px;
-    line-height: 1.7;
-    color: rgba(248,245,239,0.65);
-    margin-bottom: 24px;
-  }
-  .ft-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .ft-meta-item {
-    font-size: 12px;
-    color: rgba(248,245,239,0.55);
-    line-height: 1.5;
-  }
-  .ft-meta-k {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.6px;
-    color: var(--gold);
-    font-weight: 700;
-    margin-right: 8px;
-  }
-
-  .ft-c {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-  }
-  .ft-c h5 {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--paper);
-    margin-bottom: 14px;
-    letter-spacing: -0.005em;
-  }
-  .ft-c a {
-    display: block;
-    font-size: 13px;
-    color: rgba(248,245,239,0.55);
-    padding: 4px 0;
-    transition: color 0.15s;
-  }
-  .ft-c a:hover { color: var(--paper); }
-
-  .ft-bot {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding-top: 28px;
-  }
-  .ft-disclaimer {
-    font-size: 11.5px;
-    line-height: 1.7;
-    color: rgba(248,245,239,0.45);
-    text-align: justify;
-    margin-bottom: 14px;
-  }
-  .ft-disclaimer strong { color: rgba(248,245,239,0.7); font-weight: 600; }
-  .ft-copy {
-    font-size: 11.5px;
-    color: rgba(248,245,239,0.45);
-    line-height: 1.6;
-  }
-
-  @media (max-width: 900px) {
-    .site-footer { padding: 48px 24px 24px; }
-    .ft-in { grid-template-columns: 1fr; gap: 36px; }
-    .ft-c { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
-  }
-  @media (max-width: 500px) {
-    .ft-c { grid-template-columns: 1fr; }
-  }
-
-  /* ═══════════════════════ COOKIE BANNER ═══════════════════════ */
+  /* ══════ COOKIE BANNER ══════ */
   .cookie-banner {
     position: fixed;
     bottom: 0;
@@ -958,20 +851,19 @@ const { title, description } = Astro.props;
   .cookie-inner {
     max-width: 720px;
     margin: 0 auto;
-    background: var(--ink);
-    border-radius: 14px;
+    background: var(--navy-900);
+    border-radius: 16px;
     padding: 20px 24px;
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: 0 -4px 30px rgba(11,29,51,0.18);
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
     flex-wrap: wrap;
-    border: 1px solid rgba(248,245,239,0.1);
   }
   .cookie-text {
     flex: 1;
     min-width: 240px;
-    color: rgba(248,245,239,0.7);
+    color: rgba(255,255,255,0.75);
     font-size: 13px;
     line-height: 1.6;
     display: flex;
@@ -979,15 +871,8 @@ const { title, description } = Astro.props;
     gap: 4px;
   }
   .cookie-text strong {
-    color: var(--paper);
+    color: #fff;
     font-size: 14px;
-    font-family: var(--serif);
-    font-weight: 600;
-  }
-  .cookie-text a {
-    color: var(--gold);
-    text-decoration: underline;
-    text-underline-offset: 2px;
   }
   .cookie-actions {
     display: flex;
@@ -996,28 +881,30 @@ const { title, description } = Astro.props;
   }
   .cookie-btn {
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     border: none;
     font-family: inherit;
     transition: all 0.2s;
   }
   .cookie-btn-reject {
-    background: transparent;
-    color: rgba(248,245,239,0.65);
-    border: 1px solid rgba(248,245,239,0.15);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
   }
   .cookie-btn-reject:hover {
-    background: rgba(248,245,239,0.05);
-    color: var(--paper);
+    background: rgba(255,255,255,0.15);
+    color: #fff;
   }
   .cookie-btn-accept {
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--green-600);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.3);
   }
-  .cookie-btn-accept:hover { background: var(--white); }
+  .cookie-btn-accept:hover {
+    background: #047857;
+  }
   @media (max-width: 500px) {
     .cookie-inner { flex-direction: column; align-items: stretch; }
     .cookie-actions { justify-content: stretch; }
