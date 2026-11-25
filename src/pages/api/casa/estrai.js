@@ -126,7 +126,8 @@ export async function POST({ request }) {
     }
   }
   if (!risposta) {
-    return json({ errore: 'Non sono riuscito a leggere il documento in questo momento. Riprova tra poco.', codice: ultimoErrore?.status || null, dettaglio: String(ultimoErrore?.message || '').slice(0, 300) }, 502);
+    if (/credit balance/i.test(ultimoErrore?.message || '')) console.error('estrai: CREDITO API ANTHROPIC ESAURITO');
+    return json({ errore: 'Non sono riuscito a leggere il documento in questo momento. Riprova tra poco.', codice: ultimoErrore?.status || null }, 502);
   }
 
   const uso = risposta.content.find((c) => c.type === 'tool_use');
