@@ -85,7 +85,7 @@
 .ca-hero-s { max-width: 520px; margin-bottom: 24px; font-size: 17px; }
 .ca-total { display: flex; align-items: baseline; gap: 12px; margin: 10px 0 6px; color: var(--ink); flex-wrap: wrap; }
 .ca-total .num { font-size: clamp(56px, 11vw, 96px); line-height: .95; font-weight: 400; letter-spacing: -0.05em; }
-.ca-total-e { font-family: var(--f-display); font-size: clamp(40px, 7vw, 64px); color: var(--ink-3); align-self: flex-start; margin-top: .3em; }
+.ca-total-e { font-family: var(--f-ui); font-size: clamp(40px, 7vw, 64px); color: var(--ink-3); align-self: flex-start; margin-top: .3em; }
 .ca-total-u { font-family: var(--f-display); font-size: 28px; color: var(--ink-3); }
 .ca-split { display: flex; gap: 32px; margin-top: 18px; }
 .ca-split > div { display: flex; flex-direction: column; }
@@ -188,7 +188,7 @@
 .ca-doc-forn { border: 0; background: none; font-size: 19px; font-weight: 500; color: var(--ink); padding: 2px 0; width: 100%; }
 .ca-doc-forn:focus { outline: none; box-shadow: 0 1px 0 var(--ink); }
 .ca-doc-importo { display: flex; align-items: baseline; gap: 6px; border-bottom: 1px solid var(--line-strong); padding-bottom: 6px; }
-.ca-doc-eur { font-family: var(--f-display); font-size: 36px; color: var(--ink-3); }
+.ca-doc-eur { font-family: var(--f-ui); font-size: 36px; color: var(--ink-3); }
 .ca-doc-importo input { border: 0; background: none; font-size: 52px; color: var(--ink); width: 100%; letter-spacing: -0.04em; padding: 0; }
 .ca-doc-importo input:focus { outline: none; }
 .ca-doc-more { padding-top: 6px; border-top: 1px dashed var(--line); }
@@ -259,7 +259,7 @@
 .ca-onb-l .ca-muted { font-weight: 400; font-size: 14px; }
 .ca-onb-rata { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; font-size: 14.5px; color: var(--ink); }
 .ca-onb-eur { display: flex; align-items: baseline; gap: 6px; max-width: 260px; border-bottom: 1px solid var(--line-strong); }
-.ca-onb-eur > span { font-family: var(--f-display); font-size: 28px; color: var(--ink-3); }
+.ca-onb-eur > span { font-family: var(--f-ui); font-size: 28px; color: var(--ink-3); }
 .ca-onb-eur input { border: 0; background: none; font-size: 36px; color: var(--ink); width: 100%; padding: 2px 0; letter-spacing: -0.03em; }
 .ca-onb-eur input:focus { outline: none; }
 .ca-onb-cap { max-width: 180px; font-size: 20px; letter-spacing: .1em; }

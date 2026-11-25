@@ -1,8 +1,7 @@
 ---
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
-import '@fontsource/instrument-serif/latin-400.css';
-import '@fontsource/instrument-serif/latin-400-italic.css';
+import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource-variable/bodoni-moda/opsz.css';
+import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 import '../styles/tokens.css';
 
 interface Props { title: string; description?: string; app?: boolean; }
@@ -65,7 +64,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 32 32" width="28" height="28"><path d="M4 15 16 5l12 10v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 28v-7h8v7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="15" r="2.2" fill="#84652d"/></svg>
         </span>
-        <span class="brand-word">SoldiBuoni</span>
+        <span class="brand-word">Soldi<i>Buoni</i></span>
       </a>
       <nav class="nav" aria-label="Principale">
         {nav.map((n) => (
@@ -167,7 +166,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   .hdr { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
   .hdr-in { height: 68px; display: flex; align-items: center; gap: 32px; }
   .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); }
-  .brand-word { font-family: var(--f-display); font-size: 25px; letter-spacing: -0.01em; line-height: 1; }
+  .brand-word { font-family: var(--f-display); font-size: 24px; font-weight: 600; letter-spacing: -0.015em; line-height: 1; }
+  .brand-word i { font-style: italic; font-weight: 400; color: var(--brass); }
   .nav { display: flex; gap: 4px; margin-left: auto; }
   .nav-a { font-size: 15px; color: var(--ink-2); padding: 8px 14px; border-radius: 999px; transition: background .2s var(--ease), color .2s var(--ease); }
   .nav-a:hover { color: var(--ink); background: var(--paper-2); }
