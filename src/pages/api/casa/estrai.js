@@ -14,7 +14,8 @@ const env = (k) =>
   (typeof process !== 'undefined' && process.env?.[k]) ||
   (typeof Netlify !== 'undefined' && Netlify.env?.get?.(k)) || null;
 
-const MODEL = () => env('CASA_MODEL') || 'claude-haiku-4-5-20251001';
+// Primo modello disponibile tra quelli in lista (il primo che l'API accetta).
+const MODELLI = () => [env('CASA_MODEL'), 'claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-haiku-4-5'].filter(Boolean);
 const LIMITE_GIORNALIERO = () => Number(env('CASA_DAILY_CAP') || 300);
 
 const DOC_SCHEMA = {
@@ -105,21 +106,27 @@ export async function POST({ request }) {
   else if (['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(tipo)) blocco = { type: 'image', source: { type: 'base64', media_type: tipo, data } };
   else return json({ errore: 'Formato non supportato: carica un PDF o una foto (JPG, PNG).' }, 415);
 
-  let risposta;
-  try {
-    const client = new Anthropic({ apiKey });
-    risposta = await client.messages.create({
-      model: MODEL(),
-      max_tokens: 1500,
-      temperature: 0,
-      system: SYSTEM,
-      tools: [TOOL],
-      tool_choice: { type: 'tool', name: TOOL.name },
-      messages: [{ role: 'user', content: [blocco, { type: 'text', text: 'Estrai i dati di questo documento.' }] }],
-    });
-  } catch (e) {
-    console.error('estrai: errore API', e?.status, e?.message);
-    return json({ errore: 'Non sono riuscito a leggere il documento in questo momento. Riprova tra poco.' }, 502);
+  let risposta, ultimoErrore;
+  const client = new Anthropic({ apiKey });
+  for (const model of MODELLI()) {
+    try {
+      risposta = await client.messages.create({
+        model,
+        max_tokens: 1500,
+        system: SYSTEM,
+        tools: [TOOL],
+        tool_choice: { type: 'tool', name: TOOL.name },
+        messages: [{ role: 'user', content: [blocco, { type: 'text', text: 'Estrai i dati di questo documento.' }] }],
+      });
+      break;
+    } catch (e) {
+      ultimoErrore = e;
+      console.error('estrai: errore API', model, e?.status, e?.message);
+      if (e?.status !== 404 && e?.status !== 400) break; // modello inesistente → prova il successivo
+    }
+  }
+  if (!risposta) {
+    return json({ errore: 'Non sono riuscito a leggere il documento in questo momento. Riprova tra poco.', codice: ultimoErrore?.status || null }, 502);
   }
 
   const uso = risposta.content.find((c) => c.type === 'tool_use');
