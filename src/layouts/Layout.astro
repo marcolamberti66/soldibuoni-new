@@ -16,6 +16,7 @@ const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').
 const canonical = 'https://soldibuoni.it' + (path === '/' ? '/' : path);
 const nav = [
   { href: '/casa', label: 'La tua casa' },
+  { href: '/controlla-bolletta', label: 'Controlla bolletta' },
   { href: '/guida', label: 'Guida' },
   { href: '/strumenti', label: 'Strumenti' },
   { href: '/chi-siamo', label: 'Chi siamo' },
@@ -140,6 +141,7 @@ const icoTel = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="tru
           </div>
           <div>
             <p class="eyebrow">Strumenti</p>
+            <a href="/controlla-bolletta">Controlla la bolletta</a>
             <a href="/mutuo">Simulatore mutuo</a>
             <a href="/affitto-vs-mutuo">Affitto o mutuo</a>
             <a href="/strumenti">Tutti gli strumenti</a>

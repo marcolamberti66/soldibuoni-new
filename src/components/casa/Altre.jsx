@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { azioni } from '../../casa/store.js';
+import { azioni, prendiInAttesa, ciSonoInAttesa } from '../../casa/store.js';
 import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, TITOLO, parseNumero, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
 import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
@@ -9,6 +9,8 @@ import { Testata } from './Aggiungi.jsx';
 import { Avviso, RigaScadenza } from './Panoramica.jsx';
 import Account from './Account.jsx';
 import { SchedaTelefono } from './Telefono.jsx';
+import { SchedaCondivisa } from './Condivisa.jsx';
+import { useAccount, eliminaCasaRemota } from '../../casa/sync.js';
 import { conta } from '../../casa/dispositivo.js';
 
 // ── Scadenze ────────────────────────────────────────────────
@@ -125,6 +127,23 @@ export function Archivio({ stato, vai }) {
 }
 
 // ── Profilo della casa e dati ───────────────────────────────
+function CancellaTutto() {
+  const acc = useAccount();
+  const [occupato, setOccupato] = useState(false);
+  return (
+    <button className="btn btn-line danger" disabled={occupato} onClick={async () => {
+      const testo = acc.utente
+        ? 'Cancellare la casa da questo dispositivo e dal tuo account? Se la casa è condivisa e l\'hai creata tu, sparisce anche per gli altri. Non si può annullare.'
+        : 'Cancellare tutti i dati della casa da questo dispositivo?';
+      if (!confirm(testo)) return;
+      setOccupato(true);
+      try { if (acc.utente) await eliminaCasaRemota(); azioni.azzera(); }
+      catch (e) { alert(e.message); }
+      finally { setOccupato(false); }
+    }}>{occupato ? 'Cancello…' : 'Cancella tutto'}</button>
+  );
+}
+
 export function Casa({ stato }) {
   const casa = stato.casa || {};
   const [ric, setRic] = useState(null);
@@ -134,6 +153,7 @@ export function Casa({ stato }) {
     <section className="ca-page">
       <Testata titolo="La casa" sotto="Account, profilo della casa e spese fisse." />
       <Account />
+      <SchedaCondivisa />
       <SchedaTelefono />
 
       <div className="ca-card ca-form">
@@ -176,7 +196,7 @@ export function Casa({ stato }) {
             const f = e.target.files[0]; if (!f) return;
             try { await azioni.importa(f); alert('Backup importato.'); } catch { alert('File non valido.'); }
           }} />
-          <button className="btn btn-line danger" onClick={() => { if (confirm('Cancellare tutti i dati della casa da questo dispositivo?')) azioni.azzera(); }}>Cancella tutto</button>
+          <CancellaTutto />
         </div>
       </div>
 
@@ -212,7 +232,10 @@ export function Benvenuto() {
       });
     }
     try { localStorage.setItem('sb_benvenuto', '1'); } catch {}
-    location.hash = '#/aggiungi?primo=1';
+    // Arriva da "Controlla la tua bolletta": la bolletta è già letta, si va dritti alla panoramica.
+    const attesa = prendiInAttesa();
+    if (attesa.length) { azioni.aggiungiDocumenti(attesa); conta('controllo_casa', attesa.length); location.hash = '#/'; }
+    else location.hash = '#/aggiungi?primo=1';
   };
   const risposte = [!!titolo, !!persone, !!risc].filter(Boolean).length;
   const ok = (v) => v ? <span className="ca-onb-ok" aria-label="risposta data"><Icona nome="ok" size={14} /></span> : null;

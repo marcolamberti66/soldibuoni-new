@@ -2,6 +2,7 @@
 // dell'email del lunedì, calcolata sui suoi dati. Usa il token
 // dell'utente: legge solo ciò che le regole del database gli permettono.
 import { createClient } from '@supabase/supabase-js';
+import { caricaStatoUtente } from '../../../casa/dati-utente.js';
 import { costruisciEmail, statoDaRighe } from '../../../casa/email.js';
 import { inviaEmail } from '../../../casa/invio.js';
 
@@ -26,16 +27,7 @@ export async function POST({ request, url }) {
   if (eu || !u?.user?.email) return json({ errore: 'Sessione non valida: esci e rientra.' }, 401);
   const id = u.user.id;
 
-  const [casa, documenti, ricorrenti, promemoria] = await Promise.all([
-    c.from('case').select('*').eq('user_id', id).order('creato_il').limit(1),
-    c.from('documenti').select('*').eq('user_id', id),
-    c.from('ricorrenti').select('*').eq('user_id', id),
-    c.from('promemoria').select('*').eq('user_id', id),
-  ]);
-  const err = [casa, documenti, ricorrenti, promemoria].find((r) => r.error);
-  if (err) return json({ errore: 'Lettura dati non riuscita.' }, 500);
-
-  const stato = statoDaRighe({ casa: casa.data[0], documenti: documenti.data, ricorrenti: ricorrenti.data, promemoria: promemoria.data });
+  const stato = await caricaStatoUtente(c, id);
   const email = costruisciEmail(stato, { sito: url.origin, forza: true });
   try {
     await inviaEmail({ apiKey, a: u.user.email, oggetto: '[Anteprima] ' + email.subject, html: email.html, testo: email.text, mittente: env('SENDER_EMAIL') });

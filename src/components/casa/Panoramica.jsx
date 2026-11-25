@@ -6,6 +6,7 @@ import { consigliDelMese } from '../../casa/stagione.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
 import { Icona, IconaCategoria } from './ui.jsx';
 import PrimiPassi, { primiPassiChiusi } from './PrimiPassi.jsx';
+import SezioneCasa from './SezioneCasa.jsx';
 
 export function Avviso({ a, vai }) {
   const ico = a.livello === 'info' ? 'info' : 'allerta';
@@ -172,6 +173,7 @@ export default function Panoramica({ stato, vai }) {
               ))}
             </div>
           </div>
+          <SezioneCasa voci={voci} />
           {mancanti.length > 0 && <Completa mancanti={mancanti} vai={vai} />}
         </div>
       </div>

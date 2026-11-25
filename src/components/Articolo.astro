@@ -36,8 +36,9 @@ const altre = correlate(slug);
       <aside class="art-side">
         <div class="art-cta">
           <p class="display art-cta-t">Fallo leggere a noi.</p>
-          <p>Carica la bolletta: estraiamo questi dati, li archiviamo e ti avvisiamo quando cambiano.</p>
-          <a href="/casa" class="btn btn-ink">Apri la tua casa</a>
+          <p>Carica la bolletta: in dieci secondi vedi quanto paghi davvero al kWh e quando cambia il tuo prezzo. Gratis, senza registrazione.</p>
+          <a href="/controlla-bolletta" class="btn btn-ink">Controlla la tua bolletta</a>
+          <a href="/casa" class="art-cta-l">Oppure apri la tua casa</a>
         </div>
       </aside>
     </div>
@@ -69,7 +70,8 @@ const altre = correlate(slug);
   .art-side { position: relative; }
   .art-cta { position: sticky; top: 100px; background: var(--card); border: 1px solid var(--ink); border-radius: var(--r-lg); padding: 24px; font-size: 15px; }
   .art-cta-t { font-size: 30px; margin-bottom: 10px; }
-  .art-cta .btn { margin-top: 18px; width: 100%; }
+  .art-cta .btn { margin-top: 18px; width: 100%; justify-content: center; }
+  .art-cta-l { display: block; margin-top: 12px; text-align: center; font-size: 14px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brass); }
   .art-more { margin-top: 88px; border-top: 1px solid var(--ink); padding-top: 28px; }
   .art-more-h { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; margin-bottom: 20px; }
   .art-more-g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }

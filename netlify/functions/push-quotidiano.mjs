@@ -5,6 +5,7 @@
 // Richiede su Netlify: SUPABASE_SERVICE_ROLE_KEY.
 // ─────────────────────────────────────────────────────────────
 import { createClient } from '@supabase/supabase-js';
+import { caricaStatoUtente } from '../../src/casa/dati-utente.js';
 import { costruisciPush } from '../../src/casa/push.js';
 import { statoDaRighe } from '../../src/casa/email.js';
 import { inviaPush } from '../../src/casa/push-server.js';
@@ -24,13 +25,7 @@ export default async () => {
   let inviate = 0, utenti = 0, rimosse = 0;
   for (const [uid, lista] of perUtente) {
     try {
-      const [casa, documenti, ricorrenti, promemoria] = await Promise.all([
-        db.from('case').select('*').eq('user_id', uid).order('creato_il').limit(1),
-        db.from('documenti').select('*').eq('user_id', uid),
-        db.from('ricorrenti').select('*').eq('user_id', uid),
-        db.from('promemoria').select('*').eq('user_id', uid),
-      ]);
-      const stato = statoDaRighe({ casa: casa.data?.[0], documenti: documenti.data, ricorrenti: ricorrenti.data, promemoria: promemoria.data });
+      const stato = await caricaStatoUtente(db, uid);
       const msg = costruisciPush(stato);
       if (!msg) continue;
       utenti++;

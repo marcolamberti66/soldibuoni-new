@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useCasa } from '../../casa/store.js';
-import { avviaSync } from '../../casa/sync.js';
+import { useCasa, azioni, prendiInAttesa, ciSonoInAttesa } from '../../casa/store.js';
+import { conta } from '../../casa/dispositivo.js';
+import { avviaSync, useAccount, usaInvito, invitoInAttesa, ricordaInvito, chiudiAvvisoInvito } from '../../casa/sync.js';
+import { InvitoCasa } from './Condivisa.jsx';
 import { useApertura } from '../../casa/dispositivo.js';
 import { calcolaAvvisi } from '../../casa/insights.js';
 import { Icona } from './ui.jsx';
@@ -33,13 +35,46 @@ export default function CasaApp() {
   const rotta = useRotta();
   const [pronto, setPronto] = useState(false);
   useApertura();
-  useEffect(() => { setPronto(true); avviaSync(); }, []);
+  const acc = useAccount();
+  const [invito, setInvito] = useState(null);
+  useEffect(() => {
+    // Link d'invito: /casa?invito=CODICE. Il codice resta in memoria anche se l'accesso
+    // passa dal link nell'email, che riporta su /casa senza parametri.
+    const q = new URLSearchParams(location.search);
+    const codice = q.get('invito');
+    if (codice && /^[A-Za-z2-9]{8}$/.test(codice)) {
+      q.delete('invito');
+      history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+      usaInvito(codice);
+    }
+    setInvito(invitoInAttesa());
+    setPronto(true);
+    avviaSync();
+  }, []);
+  useEffect(() => { if (acc.utente) setInvito(invitoInAttesa()); }, [acc.utente?.id, acc.stato]);
+  // Chi ha già una casa e controlla una bolletta dalla pagina pubblica: la ritrova qui.
+  useEffect(() => {
+    if (!stato.casa || !ciSonoInAttesa()) return;
+    const l = prendiInAttesa();
+    if (l.length) { azioni.aggiungiDocumenti(l); conta('controllo_casa', l.length); }
+  }, [!!stato.casa]);
   const [percorso, query] = rotta.split('?');
   const parametri = new URLSearchParams(query || '');
   const vai = (r) => { location.hash = '#/' + r; };
   const nAvvisi = useMemo(() => calcolaAvvisi(stato).filter((a) => a.livello !== 'info').length, [stato]);
 
   if (!pronto) return <div className="ca-boot" aria-busy="true" />;
+  if (invito && !acc.utente) {
+    return (
+      <div className="ca ca-solo"><div className="ca-main">
+        <InvitoCasa codice={invito} conCasa={!!stato.casa} />
+        <button className="ca-link muted ca-invcasa-no" onClick={() => { ricordaInvito(null); setInvito(null); }}>Non ora, continua senza invito</button>
+      </div></div>
+    );
+  }
+  if (!stato.casa && acc.utente && acc.stato === 'salvataggio') {
+    return <div className="ca ca-solo"><div className="ca-main"><p className="ca-sync-wait" aria-busy="true">Recupero la tua casa…</p></div></div>;
+  }
   if (!stato.casa) return <div className="ca ca-solo"><div className="ca-main"><Benvenuto /></div></div>;
 
   let vista;
@@ -47,7 +82,7 @@ export default function CasaApp() {
   else if (percorso === 'aggiungi') vista = <Aggiungi key={rotta} parametri={parametri} vai={vai} />;
   else if (percorso === 'scadenze') vista = <Scadenze stato={stato} vai={vai} />;
   else if (percorso === 'archivio') vista = <Archivio stato={stato} vai={vai} />;
-  else if (percorso === 'casa') vista = <Casa stato={stato} />;
+  else if (percorso === 'casa') vista = <Casa stato={stato} vai={vai} />;
   else vista = <Panoramica stato={stato} vai={vai} />;
 
   const attiva = (t) => (t.r === '' ? percorso === '' || percorso.startsWith('voce/') : percorso === t.r);
@@ -65,7 +100,16 @@ export default function CasaApp() {
           </a>
         ))}
       </nav>
-      <div className="ca-main">{vista}</div>
+      <div className="ca-main">
+        {acc.invito && (
+          <div className={'ca-alert ' + (acc.invito.ok ? 'ok' : 'warn')} role="status" style={{ marginBottom: 18 }}>
+            <Icona nome={acc.invito.ok ? 'ok' : 'info'} size={18} />
+            <span>{acc.invito.ok ? 'Sei nella casa condivisa: bollette e scadenze sono le stesse per tutti.' : acc.invito.errore}</span>
+            <button className="ca-icon-btn" aria-label="Chiudi" onClick={chiudiAvvisoInvito}><Icona nome="chiudi" size={16} /></button>
+          </div>
+        )}
+        {vista}
+      </div>
     </div>
   );
 }

@@ -6,7 +6,8 @@ import { sb } from '../../casa/sync.js';
 
 const FASCE = [['giorno0', 'Primo giorno'], ['g1-7', '1–7 giorni'], ['g8-30', '8–30 giorni'], ['g31-90', '1–3 mesi'], ['g90+', 'Oltre 3 mesi']];
 const COLONNE = [
-  ['apertura', 'Aperture'], ['ritorni', 'Di chi torna'], ['app', 'Da app'], ['onboarding', 'Nuove case'],
+  ['controllo', 'Controlli bolletta'], ['controllo_casa', 'Da controllo a casa'],
+  ['apertura', 'Aperture'], ['ritorni', 'Di chi torna'], ['app', 'Da app'], ['onboarding', 'Nuove case'], ['invito_accettato', 'Case condivise'], ['sezione_condivisa', 'Sezioni condivise'],
   ['bolletta_letta', 'Bollette lette'], ['bolletta_errore', 'Letture fallite'], ['account', 'Accessi'], ['push_attivate', 'Notifiche attivate'],
 ];
 const n0 = (n) => (n || 0).toLocaleString('it-IT');
@@ -58,6 +59,7 @@ export default function Statistiche() {
     const fasce = FASCE.map(([k, l]) => [l, ultimi(30, 'apertura', (r) => r.dettaglio?.startsWith(k))]);
     const maxFascia = Math.max(1, ...fasce.map((f) => f[1]));
     const imbuto = [
+      ['Controlli bolletta', ultimi(30, 'controllo')],
       ['Nuove case', ultimi(30, 'onboarding')],
       ['Bollette lette', ultimi(30, 'bolletta_letta')],
       ['Accessi con email', ultimi(30, 'account')],
@@ -105,7 +107,7 @@ export default function Statistiche() {
           <h2 className="st-h">Dal primo uso all'abitudine <small>ultimi 30 giorni</small></h2>
           <ol className="st-imbuto">
             {c.imbuto.map(([l, v], i) => (
-              <li key={l}><span className="st-imbuto-n">{['I', 'II', 'III', 'IV'][i]}</span><span>{l}</span><b className="num">{n0(v)}</b></li>
+              <li key={l}><span className="st-imbuto-n">{['I', 'II', 'III', 'IV', 'V'][i]}</span><span>{l}</span><b className="num">{n0(v)}</b></li>
             ))}
           </ol>
           <p className="st-nota">Totali: {n0(totali.documenti)} documenti, {n0(totali.spese_fisse)} spese fisse, {n0(totali.email_lunedi)} iscritti all'email del lunedì, {n0(totali.dispositivi_push)} dispositivi con notifiche.</p>

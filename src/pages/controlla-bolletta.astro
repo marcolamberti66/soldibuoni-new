@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ControllaBolletta from '../components/ControllaBolletta.jsx';
+import '../styles/casa.css';
+
+const faq = [
+  ['Quanto costa davvero un kWh?', 'Il modo onesto di saperlo è dividere il totale della bolletta per i kWh consumati nello stesso periodo. Ottieni il costo pieno, che comprende energia, trasporto, oneri di sistema, imposte e quota fissa: è l\'unico numero che permette di confrontare offerte diverse.'],
+  ['Il controllo è davvero gratuito?', 'Sì. Non chiediamo registrazione né dati di pagamento, e non guadagniamo se cambi fornitore: SoldiBuoni non ha affiliazioni con venditori di energia.'],
+  ['Cosa succede al file che carico?', 'Viene inviato al nostro server, letto da un modello di intelligenza artificiale per estrarre solo i dati economici e poi scartato. Non lo conserviamo.'],
+  ['Quali bollette posso controllare?', 'Luce e gas in PDF o in foto, anche dual. Leggiamo anche bollette di internet e acqua, ma il costo per unità ha senso solo per luce e gas.'],
+];
+const schema = [
+  { '@type': 'WebApplication', name: 'Controlla la tua bolletta', url: 'https://soldibuoni.it/controlla-bolletta', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: { '@id': 'https://soldibuoni.it/#org' } },
+  { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+];
+---
+<Layout
+  title="Controlla la bolletta luce e gas gratis: quanto paghi davvero al kWh | SoldiBuoni"
+  description="Carica la bolletta di luce o gas, in PDF o in foto: in dieci secondi vedi il costo pieno al kWh o allo Smc, quando scade il tuo prezzo, se ci sono consumi stimati o conguagli. Gratis, senza registrazione, il file non viene salvato."
+  schema={schema}
+>
+  <section class="wrap cbp">
+    <div class="cbp-head">
+      <p class="cbp-k"><span>Strumento gratuito</span> Senza registrazione</p>
+      <h1 class="display cbp-t">Controlla<br /><em>la tua bolletta.</em></h1>
+      <p class="cbp-s">Quanto paghi davvero al kWh, quando cambia il tuo prezzo, se ci sono stime o conguagli. Dieci secondi, e nessuno ci paga per dirti di cambiare fornitore.</p>
+    </div>
+    <div class="cbp-tool">
+      <ControllaBolletta client:only="react" />
+      <noscript><p>Per controllare la bolletta serve JavaScript attivo.</p></noscript>
+    </div>
+  </section>
+
+  <section class="wrap cbp-info">
+    <div class="cbp-col">
+      <h2 class="cbp-h">Cosa guardiamo</h2>
+      <ol class="cbp-list">
+        <li><b>Il costo pieno.</b> Totale diviso consumi: il numero da usare per confrontare, non lo sconto pubblicizzato.</li>
+        <li><b>La materia prima.</b> Quanto pesa l'unica voce su cui i fornitori competono davvero.</li>
+        <li><b>La fine del prezzo.</b> Dopo quella data il fornitore può applicare nuove condizioni: va saputa prima.</li>
+        <li><b>Stime e conguagli.</b> Le bollette stimate sono quelle che preparano le sorprese.</li>
+      </ol>
+    </div>
+    <div class="cbp-col">
+      <h2 class="cbp-h">Domande frequenti</h2>
+      <div class="cbp-faq">
+        {faq.map(([q, a]) => (<details><summary>{q}</summary><p>{a}</p></details>))}
+      </div>
+      <p class="cbp-more">Per capire ogni voce leggi la guida alla <a href="/guida/bolletta-luce">bolletta della luce</a> e a quella <a href="/guida/bolletta-gas">del gas</a>.</p>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  .cbp { padding-top: clamp(40px, 7vw, 88px); padding-bottom: 56px; display: grid; gap: 40px; }
+  @media (min-width: 1000px) { .cbp { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 72px; align-items: start; } .cbp-head { position: sticky; top: 110px; } }
+  .cbp-k { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); display: flex; gap: 14px; align-items: baseline; }
+  .cbp-k span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+  .cbp-t { font-size: clamp(52px, 8vw, 104px); line-height: .92; letter-spacing: -0.045em; margin: 20px 0 24px; }
+  .cbp-t em { color: var(--brass); }
+  .cbp-s { font-size: 18.5px; line-height: 1.55; color: var(--ink-2); max-width: 480px; }
+
+  .cb-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--r); background: var(--card); padding: clamp(28px, 5vw, 48px); text-align: center; transition: border-color .2s var(--ease), background .2s var(--ease); }
+  .cb-drop.sopra { border-color: var(--brass); background: color-mix(in srgb, var(--brass) 6%, var(--card)); }
+  .cb-drop-i { display: inline-grid; place-items: center; width: 60px; height: 60px; border-radius: 18px; background: var(--ink); color: var(--paper); }
+  .cb-drop-t { font-family: var(--f-display); font-size: clamp(26px, 3.4vw, 34px); color: var(--ink); margin: 18px 0 8px; letter-spacing: -0.015em; }
+  .cb-drop-s { font-size: 15.5px; color: var(--ink-2); margin: 0 auto 22px; max-width: 380px; }
+  .cb-drop-a { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cb-drop-a .btn svg, .cb-cta .btn svg { margin: 0 4px; }
+  .cb-priv { display: inline-flex; gap: 8px; align-items: center; margin-top: 22px; font-size: 13px; color: var(--ink-2); }
+  .cb-err { margin-top: 18px; color: var(--warn); font-size: 14.5px; }
+
+  .cb-leggo { text-align: left; display: grid; grid-template-columns: 44px 1fr; gap: 20px; align-items: start; border-style: solid; }
+  .cb-spin { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--brass); animation: cbGira 1s linear infinite; }
+  @keyframes cbGira { to { transform: rotate(360deg); } }
+  .cb-fasi { list-style: none; display: grid; gap: 12px; }
+  .cb-fasi li { font-size: 16px; color: var(--ink-3); transition: color .3s var(--ease); }
+  .cb-fasi li.ora { color: var(--ink); font-weight: 600; }
+  .cb-fasi li.fatto { color: var(--ink-2); }
+  .cb-fasi li.fatto::after { content: ' ✓'; color: var(--ok); }
+
+  .cb-ris { display: grid; gap: 18px; scroll-margin-top: 90px; }
+  .cb-ref { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: var(--r); padding: clamp(20px, 4vw, 32px); animation: cbIn .5s var(--ease); }
+  @keyframes cbIn { from { opacity: 0; transform: translateY(8px); } }
+  .cb-ref-h { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; }
+  .cb-ref-k { font-size: 16px; font-weight: 600; color: var(--ink); margin: 0; }
+  .cb-ref-o { font-size: 13.5px; color: var(--ink-2); margin: 2px 0 0; }
+  .cb-big { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 20px 0; margin-bottom: 18px; }
+  .cb-big-k { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
+  .cb-big-v { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
+  .cb-big-v .num { font-family: var(--f-display); font-size: clamp(52px, 8vw, 72px); line-height: 1; color: var(--ink); letter-spacing: -0.03em; }
+  .cb-e { font-family: var(--f-ui); font-size: .5em; margin-right: .18em; vertical-align: .32em; color: var(--ink-2); }
+  .cb-big-v small { font-size: 15px; color: var(--ink-2); }
+  .cb-big-s { font-size: 14px; color: var(--ink-2); margin: 0; max-width: 520px; line-height: 1.5; }
+  .cb-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px 20px; margin: 0 0 18px; }
+  .cb-kpi dt { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .cb-kpi dd { margin: 4px 0 0; font-size: 19px; color: var(--ink); font-weight: 500; }
+  .cb-oss { list-style: none; display: grid; gap: 0; }
+  .cb-oss li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.5; color: var(--ink); }
+  .cb-oss li > span:last-child { display: flex; flex-direction: column; gap: 3px; }
+  .cb-oss small { font-size: 14px; color: var(--ink-2); }
+  .cb-oss a { font-size: 13.5px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brass); width: max-content; }
+  .cb-oss-i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); color: var(--ink-2); }
+  .cb-oss li.warn .cb-oss-i { background: var(--warn-soft); color: var(--warn); }
+  .cb-oss li.ok .cb-oss-i { background: var(--ok-soft); color: var(--ok); }
+
+  .cb-cta { background: var(--ink); color: var(--paper); border-radius: var(--r); padding: clamp(24px, 4vw, 36px); }
+  .cb-cta-k { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #d9c49a; margin: 0; }
+  .cb-cta-t { font-family: var(--f-display); font-weight: 400; font-size: clamp(30px, 4vw, 40px); line-height: 1.05; letter-spacing: -0.02em; margin: 10px 0 12px; color: var(--paper); }
+  .cb-cta-t em { color: #d9c49a; }
+  .cb-cta p:not(.cb-cta-k) { color: #e6e0d4; font-size: 15.5px; line-height: 1.55; margin: 0 0 20px; }
+  .cb-cta-a { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cb-cta .btn-ink { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .cb-cta .btn-line { color: var(--paper); border-color: rgba(245, 242, 236, .45); background: transparent; }
+
+  .cbp-info { display: grid; gap: 48px; padding-bottom: 96px; border-top: 1px solid var(--line-strong); padding-top: 56px; }
+  @media (min-width: 900px) { .cbp-info { grid-template-columns: 1fr 1fr; gap: 72px; } }
+  .cbp-h { font-family: var(--f-display); font-weight: 500; font-size: 30px; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 18px; }
+  .cbp-list { list-style: none; counter-reset: c; }
+  .cbp-list li { counter-increment: c; position: relative; padding: 14px 0 14px 44px; border-top: 1px solid var(--line); font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+  .cbp-list li::before { content: counter(c, upper-roman); position: absolute; left: 0; top: 13px; font-family: var(--f-display); font-style: italic; color: var(--brass); font-size: 18px; }
+  .cbp-list b { color: var(--ink); }
+  .cbp-faq details { border-top: 1px solid var(--line); padding: 14px 0; }
+  .cbp-faq summary { cursor: pointer; font-size: 16.5px; font-weight: 500; color: var(--ink); }
+  .cbp-faq p { font-size: 15.5px; line-height: 1.6; color: var(--ink-2); margin: 10px 0 0; }
+  .cbp-more { font-size: 15px; color: var(--ink-2); margin-top: 20px; }
+  .cbp-more a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brass); }
+</style>
