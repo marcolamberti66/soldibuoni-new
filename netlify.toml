@@ -33,3 +33,29 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# URL storici senza più una pagina → contenuto più vicino
+[[redirects]]
+  from = "/energia"
+  to = "/guida/bolletta-luce"
+  status = 301
+[[redirects]]
+  from = "/gas"
+  to = "/guida/bolletta-gas"
+  status = 301
+[[redirects]]
+  from = "/acqua"
+  to = "/guida/costi-casa"
+  status = 301
+[[redirects]]
+  from = "/carburante"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/newsletter"
+  to = "/casa"
+  status = 301
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301

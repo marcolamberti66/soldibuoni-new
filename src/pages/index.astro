@@ -1,10 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import TavolaCasa from '../components/TavolaCasa.astro';
+import { GUIDE } from '../data/guide.js';
+const inEvidenza = ['costi-casa', 'spese-condominiali', 'bolletta-luce', 'detrazione-interessi-mutuo'].map((s) => GUIDE.find((g) => g.slug === s));
+const schemaHome = [{
+  '@type': 'WebApplication', name: 'SoldiBuoni · La tua casa', url: 'https://soldibuoni.it/casa',
+  applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT',
+  description: 'Gestione delle spese di casa: lettura automatica delle bollette, scadenzario, avvisi su promozioni e rinnovi, riepilogo settimanale via email.',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+}];
 ---
 <Layout
-  title="SoldiBuoni · Ogni casa ha il suo conto"
-  description="Mutuo o affitto, bollette, condominio, tributi. SoldiBuoni legge i documenti, calcola quanto ti costa la casa e ogni settimana ti dice cosa esce, cosa scade e cosa sistemare. Gratis, senza pubblicità né affiliazioni."
+  schema={schemaHome}
+  title="Gestione spese di casa: bollette, mutuo, condominio | SoldiBuoni"
+  description="App gratuita per gestire le spese di casa: carichi le bollette, SoldiBuoni legge importi e scadenze e ogni settimana ti dice cosa pagare. Mutuo, condominio, TARI e IMU in un posto solo. Senza pubblicità."
 >
   <section class="hero">
     <div class="wrap hero-in">
@@ -97,10 +106,9 @@ import TavolaCasa from '../components/TavolaCasa.astro';
         <a href="/guida" class="hero-link">Tutte le guide</a>
       </div>
       <div class="guides-list">
-        <a href="/guida/costi-casa" class="g-item"><span class="g-n">01</span><h3>Tutte le spese fisse di una casa</h3><p>La mappa completa, e il modo giusto di calcolare il costo mensile.</p></a>
-        <a href="/guida/bolletta-luce" class="g-item"><span class="g-n">02</span><h3>Leggere la bolletta della luce</h3><p>Le quattro voci del totale e le cinque cose da controllare.</p></a>
-        <a href="/guida/bolletta-gas" class="g-item"><span class="g-n">03</span><h3>Leggere la bolletta del gas</h3><p>Smc, scaglioni IVA, consumi stimati, riscaldamento.</p></a>
-        <a href="/guida/internet-telefono" class="g-item"><span class="g-n">04</span><h3>La trappola della promozione</h3><p>Canone promo e di listino, modem a rate, quando cambiare.</p></a>
+        {inEvidenza.map((g, i) => (
+          <a href={`/guida/${g.slug}`} class="g-item"><span class="g-n">{String(i + 1).padStart(2, '0')}</span><h3>{g.t}</h3><p>{g.d}</p></a>
+        ))}
       </div>
     </div>
   </section>

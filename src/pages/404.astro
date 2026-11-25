@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { GUIDE } from '../data/guide.js';
+---
+<Layout title="Pagina non trovata | SoldiBuoni" description="La pagina che cercavi non esiste più o è stata spostata." noindex>
+  <section class="wrap nf">
+    <p class="nf-k"><span>Errore 404</span> Pagina non trovata</p>
+    <h1 class="display nf-t">Questa stanza<br /><em>non esiste.</em></h1>
+    <p class="nf-s">La pagina che cercavi è stata spostata o non c'è più. Da qui puoi tornare a casa o leggere una delle guide.</p>
+    <div class="nf-a"><a class="btn btn-ink" href="/">Torna alla home</a><a class="btn btn-line" href="/casa">Apri la tua casa</a></div>
+    <ul class="nf-l">{GUIDE.slice(0, 6).map((g) => <li><a href={`/guida/${g.slug}`}>{g.t}</a></li>)}</ul>
+  </section>
+</Layout>
+<style>
+  .nf { padding-top: clamp(56px, 9vw, 120px); }
+  .nf-k { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); display: flex; gap: 14px; align-items: baseline; }
+  .nf-k span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+  .nf-t { font-size: clamp(56px, 9vw, 128px); line-height: .92; letter-spacing: -0.045em; margin: 24px 0 26px; }
+  .nf-t em { color: var(--brass); }
+  .nf-s { font-size: 18px; max-width: 520px; }
+  .nf-a { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+  .nf-l { list-style: none; margin-top: 64px; border-top: 1px solid var(--ink); columns: 2 280px; column-gap: 40px; }
+  .nf-l li { break-inside: avoid; border-bottom: 1px solid var(--line); }
+  .nf-l a { display: block; padding: 14px 0; font-family: var(--f-display); font-size: 22px; color: var(--ink); }
+  .nf-l a:hover { font-style: italic; color: var(--brass); }
+</style>

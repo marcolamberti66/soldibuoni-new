@@ -1,20 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-const guide = [
-  { href: '/guida/costi-casa', eb: 'Casa', t: 'Tutte le spese fisse di una casa', d: 'La mappa completa e il modo giusto per calcolare il costo mensile reale.' },
-  { href: '/guida/bolletta-luce', eb: 'Luce', t: 'Come leggere la bolletta della luce', d: 'Le quattro voci del totale, fisso contro variabile, fasce orarie, cosa controllare.' },
-  { href: '/guida/bolletta-gas', eb: 'Gas', t: 'Come leggere la bolletta del gas', d: 'Smc, scaglioni IVA, riscaldamento autonomo o centralizzato, letture stimate.' },
-  { href: '/guida/internet-telefono', eb: 'Internet e telefono', t: 'La trappola della promozione', d: 'Canone promo e di listino, modem a rate, vincoli e quando cambiare.' },
-];
+import { GUIDE as guide } from '../../data/guide.js';
+const schema = [{ '@type': 'CollectionPage', name: 'Guida alle spese di casa', url: 'https://soldibuoni.it/guida', hasPart: guide.map((g) => ({ '@type': 'Article', headline: g.t, url: 'https://soldibuoni.it/guida/' + g.slug })) }];
 ---
-<Layout title="Guida ai costi della casa · SoldiBuoni" description="Guide pratiche per capire le bollette e le spese fisse della casa: luce, gas, internet, condominio, TARI.">
+<Layout title="Guida alle spese di casa: bollette, IMU, condominio, mutuo | SoldiBuoni" description="Guide pratiche e indipendenti sulle spese di casa: come leggere bollette di luce e gas, conguagli, spese condominiali, IMU, detrazione degli interessi del mutuo, promozioni internet." schema={schema}>
   <section class="wrap gh">
     <p class="eyebrow">Guida</p>
     <h1 class="display gh-t">Capire cosa paghi,<br /><em>una voce alla volta.</em></h1>
     <p class="gh-s">Spiegazioni brevi e senza offerte da venderti. Ogni guida si chiude con le cose da controllare in bolletta.</p>
     <ol class="gl">
       {guide.map((g, i) => (
-        <li><a href={g.href}>
+        <li><a href={`/guida/${g.slug}`}>
           <span class="num gl-n">{String(i + 1).padStart(2, '0')}</span>
           <span class="gl-b"><span class="eyebrow">{g.eb}</span><span class="gl-t">{g.t}</span><span class="gl-d">{g.d}</span></span>
           <span class="gl-a" aria-hidden="true">→</span>
