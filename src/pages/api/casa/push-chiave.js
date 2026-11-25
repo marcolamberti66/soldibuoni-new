@@ -11,6 +11,6 @@ export async function GET() {
     });
   } catch (e) {
     console.error('push-chiave', e.message);
-    return new Response(JSON.stringify({ errore: 'Notifiche non disponibili.' }), { status: 503, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ errore: 'Notifiche non disponibili.', dettaglio: String(e?.message || e).slice(0, 200) }), { status: 503, headers: { 'Content-Type': 'application/json' } });
   }
 }
