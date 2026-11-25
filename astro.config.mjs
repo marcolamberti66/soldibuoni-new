@@ -3,12 +3,14 @@ import react from '@astrojs/react';
 import netlify from '@astrojs/netlify';
 import node from '@astrojs/node';
 
-// Se siamo sui server di Netlify, questa variabile sarà vera.
-// Altrimenti (es. su StackBlitz), useremo l'ambiente Node locale che non dà errori di rete.
+// Su Netlify usa l'adapter Netlify; in locale/StackBlitz l'adapter Node.
 const isNetlify = process.env.NETLIFY;
 
 export default defineConfig({
-  output: 'server',
+  site: 'https://soldibuoni.it',
+  // Pagine statiche di default (CDN, LCP basso); solo le route /api/* girano on-demand.
+  output: 'static',
   adapter: isNetlify ? netlify() : node({ mode: 'standalone' }),
   integrations: [react()],
+  build: { inlineStylesheets: 'auto' },
 });

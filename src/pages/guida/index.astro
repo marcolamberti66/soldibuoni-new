@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const guide = [
+  { href: '/guida/costi-casa', eb: 'Casa', t: 'Tutte le spese fisse di una casa', d: 'La mappa completa e il modo giusto per calcolare il costo mensile reale.' },
+  { href: '/guida/bolletta-luce', eb: 'Luce', t: 'Come leggere la bolletta della luce', d: 'Le quattro voci del totale, fisso contro variabile, fasce orarie, cosa controllare.' },
+  { href: '/guida/bolletta-gas', eb: 'Gas', t: 'Come leggere la bolletta del gas', d: 'Smc, scaglioni IVA, riscaldamento autonomo o centralizzato, letture stimate.' },
+  { href: '/guida/internet-telefono', eb: 'Internet e telefono', t: 'La trappola della promozione', d: 'Canone promo e di listino, modem a rate, vincoli e quando cambiare.' },
+];
+---
+<Layout title="Guida ai costi della casa · SoldiBuoni" description="Guide pratiche per capire le bollette e le spese fisse della casa: luce, gas, internet, condominio, TARI.">
+  <section class="wrap gh">
+    <p class="eyebrow">Guida</p>
+    <h1 class="display gh-t">Capire cosa paghi,<br /><em>una voce alla volta.</em></h1>
+    <p class="gh-s">Spiegazioni brevi e senza offerte da venderti. Ogni guida si chiude con le cose da controllare in bolletta.</p>
+    <ol class="gl">
+      {guide.map((g, i) => (
+        <li><a href={g.href}>
+          <span class="num gl-n">{String(i + 1).padStart(2, '0')}</span>
+          <span class="gl-b"><span class="eyebrow">{g.eb}</span><span class="gl-t">{g.t}</span><span class="gl-d">{g.d}</span></span>
+          <span class="gl-a" aria-hidden="true">→</span>
+        </a></li>
+      ))}
+    </ol>
+  </section>
+</Layout>
+<style>
+  .gh { padding-top: clamp(48px, 8vw, 96px); }
+  .gh-t { font-size: clamp(48px, 7.5vw, 96px); margin: 16px 0 22px; }
+  .gh-t em { color: var(--brass); }
+  .gh-s { font-size: 18px; max-width: 560px; }
+  .gl { list-style: none; margin-top: 56px; border-top: 1px solid var(--line-strong); }
+  .gl a { display: grid; grid-template-columns: 80px 1fr 40px; gap: 16px; align-items: start; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .gl-n { color: var(--brass); font-size: 14px; padding-top: 8px; }
+  .gl-b { display: flex; flex-direction: column; gap: 6px; }
+  .gl-t { font-family: var(--f-display); font-size: clamp(30px, 3.6vw, 44px); color: var(--ink); line-height: 1.05; }
+  .gl-d { font-size: 16px; max-width: 560px; }
+  .gl-a { font-size: 24px; color: var(--ink-3); padding-top: 8px; transition: transform .3s var(--ease); }
+  .gl a:hover .gl-a { transform: translateX(6px); color: var(--ink); }
+  @media (max-width: 640px) { .gl a { grid-template-columns: 44px 1fr; } .gl-a { display: none; } }
+</style>

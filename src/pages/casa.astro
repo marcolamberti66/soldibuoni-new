@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CasaApp from '../components/casa/CasaApp.jsx';
+import '../styles/casa.css';
+---
+<Layout
+  title="La tua casa · SoldiBuoni"
+  description="Carica le bollette di casa: SoldiBuoni legge importi, consumi e scadenze, calcola quanto ti costa la casa ogni mese e ti avvisa quando qualcosa cambia."
+  app
+>
+  <CasaApp client:only="react" />
+  <noscript><div class="wrap" style="padding:64px 0">Per usare “La tua casa” serve JavaScript attivo.</div></noscript>
+</Layout>

@@ -30,28 +30,6 @@ export function ProviderRow({ p, i, color, children }) {
   );
 }
 
-export function AffiliateRow({ title, providerName, description, link, priceElement, statsElement, color, ctaText = "Scopri l'Offerta in Evidenza →" }) {
-  return (
-    <div className="affiliate-card" style={{ background: `linear-gradient(145deg, #ffffff, rgba(255,255,255,0.9))`, borderRadius: 24, padding: '2px', marginBottom: 24, backgroundClip: 'padding-box', position: 'relative', animation: `fadeInUp 0.5s ${EASE_FLUID} both` }}>
-      <div style={{ position: 'absolute', inset: 0, borderRadius: 24, zIndex: 0, background: `linear-gradient(135deg, #FBBF24, ${color}, #FBBF24)`, opacity: 0.3 }}></div>
-      <div style={{ background: '#fff', borderRadius: 22, padding: '24px 28px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 16, position: 'relative', zIndex: 1, boxShadow: `0 10px 30px -10px ${color}40` }}>
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 6, minWidth: 280 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24)', color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 12, textTransform: 'uppercase', letterSpacing: 1 }}>🏆 {title}</span></div>
-          <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a' }}>{providerName}</div>
-          <div style={{ fontSize: 13, color: '#64748b' }}>{description}</div>
-        </div>
-        {statsElement && (
-          <div className="comparator-stats" style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'space-between', width: '100%', borderTop: '1px solid #f1f5f9', paddingTop: 16, marginTop: 8 }}>
-            {statsElement}
-            {priceElement && (<div style={{ textAlign: 'right' }}>{priceElement}</div>)}
-          </div>
-        )}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0, width: '100%', marginTop: 10 }}><a href={link} target="_blank" rel="noopener noreferrer" className="btn-solid-premium" style={{ '--btn-bg': color, width: '100%' }}>{ctaText}</a></div>
-      </div>
-    </div>
-  );
-}
-
 export function Badge({ text, color }) {
   if (!text) return null;
   return <span style={{ background: `${color}1A`, color: color, fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 12, letterSpacing: 0.5, textTransform: 'uppercase' }}>{text}</span>;
