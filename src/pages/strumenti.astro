@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 const casa = [
   { href: '/mutuo', t: 'Simulatore mutuo', d: 'Rata, interessi totali e piano di ammortamento.' },
   { href: '/affitto-vs-mutuo', t: 'Affitto o mutuo', d: 'Il punto di pareggio tra comprare e restare in affitto.' },
-  { href: '/luce-gas', t: 'Confronto luce e gas', d: 'Costo annuo di più offerte sui tuoi consumi, a parità di condizioni.' },
-  { href: '/internet', t: 'Confronto internet', d: 'Costo reale di un\'offerta sul periodo in cui la terrai, promo e modem inclusi.' },
-  { href: '/quanto-spendo', t: 'Quanto spendo', d: 'Il profilo delle tue spese ricorrenti.' },
-  { href: '/checklist', t: 'Checklist risparmio', d: 'Le verifiche da fare una volta l\'anno.' },
 ];
 const altri = [
+  { href: '/luce-gas', t: 'Confronto offerte luce e gas' },
+  { href: '/internet', t: 'Confronto offerte internet' },
+  { href: '/quanto-spendo', t: 'Quanto spendo' },
+  { href: '/checklist', t: 'Checklist risparmio' },
   { href: '/calcolo-stipendio', t: 'Stipendio lordo/netto' },
   { href: '/forfettario-vs-ordinario', t: 'Forfettario o ordinario' },
   { href: '/trova-bonus', t: 'Bonus fiscali' },
@@ -26,6 +26,7 @@ const altri = [
   <section class="wrap st">
     <p class="eyebrow">Strumenti</p>
     <h1 class="display st-t">Calcoli che<br /><em>valgono una decisione.</em></h1>
+    <p class="st-lead">Due calcoli per le decisioni grandi. Per tutto il resto non serve compilare niente: carica le bollette in <a href="/casa">La tua casa</a> e i conti li facciamo noi.</p>
     <h2 class="st-h">Per la casa</h2>
     <div class="st-grid">
       {casa.map((s) => <a href={s.href} class="st-c"><span class="st-ct">{s.t}</span><span class="st-cd">{s.d}</span><span class="st-ca" aria-hidden="true">→</span></a>)}
@@ -41,6 +42,8 @@ const altri = [
   .st { padding-top: clamp(48px, 8vw, 96px); }
   .st-t { font-size: clamp(48px, 7.5vw, 96px); margin: 16px 0 8px; }
   .st-t em { color: var(--brass); }
+  .st-lead { font-size: 18px; max-width: 600px; margin-top: 20px; }
+  .st-lead a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
   .st-h { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; margin: 64px 0 18px; }
   .st-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
   .st-c { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 150px; padding: 24px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); transition: border-color .25s var(--ease), transform .25s var(--ease); }

@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { azioni } from '../../casa/store.js';
 import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, TITOLO, parseNumero, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
 import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
+import { scaricaCalendario } from '../../casa/calendario.js';
 import { Campo, Foglio, Icona, IconaCategoria, Scelta } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
 import { Testata } from './Aggiungi.jsx';
@@ -29,7 +30,12 @@ export function Scadenze({ stato, vai }) {
 
   return (
     <section className="ca-page">
-      <Testata titolo="Scadenze" sotto="Pagamenti, fine promozioni e rinnovi, in ordine." destra={<button className="btn btn-line ca-sm" onClick={() => setNuovo(true)}><Icona nome="piu" size={16} /> Promemoria</button>} />
+      <Testata titolo="Scadenze" sotto="Pagamenti, fine promozioni e rinnovi, in ordine." />
+      <div className="ca-act-row">
+        <button className="btn btn-ink ca-sm" onClick={() => scaricaCalendario(stato)}><Icona nome="calendario" size={16} /> Aggiungi al calendario</button>
+        <button className="btn btn-line ca-sm" onClick={() => setNuovo(true)}><Icona nome="piu" size={16} /> Promemoria</button>
+      </div>
+      <p className="ca-muted small ca-act-note">Il file aggiunge tutte le scadenze al calendario del telefono, con un avviso qualche giorno prima. Se aggiungi nuove voci, scaricalo di nuovo.</p>
 
       {avvisi.length > 0 && <div className="ca-avs">{avvisi.map((a) => <Avviso key={a.id} a={a} vai={vai} />)}</div>}
 
