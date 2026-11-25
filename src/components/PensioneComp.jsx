@@ -13,11 +13,11 @@ const COVIP_DATA = [{"s":"ALLEANZA ASSICURAZIONI","f":"ALMEGLIO  ALLEANZA","c":"
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
 const CATEGORIES = [
-  { id: 'tutti', label: 'Tutti', icon: '📊' },
-  { id: 'Azionario', label: 'Azionario', icon: '📈' },
-  { id: 'Bilanciato', label: 'Bilanciato', icon: '⚖️' },
-  { id: 'Obb. Misto', label: 'Obb. Misto', icon: '🔄' },
-  { id: 'Obb. Puro', label: 'Obb. Puro', icon: '🛡️' }
+  { id: 'tutti', label: 'Tutti', icon: '' },
+  { id: 'Azionario', label: 'Azionario', icon: '' },
+  { id: 'Bilanciato', label: 'Bilanciato', icon: '' },
+  { id: 'Obb. Misto', label: 'Obb. Misto', icon: '' },
+  { id: 'Obb. Puro', label: 'Obb. Puro', icon: '' }
 ];
 
 const HORIZONS = [
@@ -28,7 +28,7 @@ const HORIZONS = [
   { key: 'r20', label: '20 Anni', sub: '2005-2024' }
 ];
 
-const THEME = { primary: '#14b8a6', soft: '#ccfbf1', bg: '#f0fdfa' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // ============================================================================
 // COMPONENTE
@@ -104,8 +104,8 @@ export function PensioneComp({ color }) {
 
   // Stile base card (allineato a LuceGas/Conti/RCAuto)
   const cardBase = {
-    background: '#fff',
-    border: '1px solid #e2e8f0',
+    background: '#fbfaf7',
+    border: '1px solid #e6e0d4',
     borderRadius: 24,
     padding: '32px 24px',
     boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
@@ -115,7 +115,7 @@ export function PensioneComp({ color }) {
     display: 'block',
     fontSize: 11,
     fontWeight: 800,
-    color: '#475569',
+    color: '#47433a',
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
     marginBottom: 10
@@ -133,14 +133,14 @@ export function PensioneComp({ color }) {
       fontVariantNumeric: 'tabular-nums'
     };
     if (value === null || value === undefined) {
-      return <span style={{ ...base, background: '#f1f5f9', color: '#94a3b8' }}>N/D</span>;
+      return <span style={{ ...base, background: '#ece7dd', color: '#8f897c' }}>N/D</span>;
     }
     const pos = value >= 0;
     return (
       <span style={{
         ...base,
-        background: pos ? '#dcfce7' : '#fee2e2',
-        color: pos ? '#166534' : '#991b1b'
+        background: pos ? '#e1ebe3' : '#f4e1d6',
+        color: pos ? '#234a37' : '#7d3519'
       }}>
         {pos ? '+' : ''}{value.toFixed(2)}%
       </span>
@@ -149,12 +149,12 @@ export function PensioneComp({ color }) {
 
   const CatBadge = ({ cat }) => {
     const colors = {
-      'Azionario': { bg: '#ede9fe', fg: '#5b21b6' },
-      'Bilanciato': { bg: '#dbeafe', fg: '#1e40af' },
-      'Obb. Misto': { bg: '#fef3c7', fg: '#92400e' },
-      'Obb. Puro': { bg: '#e0e7ff', fg: '#3730a3' }
+      'Azionario': { bg: '#ede6ea', fg: '#7a5a6e' },
+      'Bilanciato': { bg: '#e2e8ef', fg: '#2f4a66' },
+      'Obb. Misto': { bg: '#efe5cf', fg: '#6b5124' },
+      'Obb. Puro': { bg: '#e2e8ef', fg: '#2f4a66' }
     };
-    const c = colors[cat] || { bg: '#f1f5f9', fg: '#64748b' };
+    const c = colors[cat] || { bg: '#ece7dd', fg: '#6f6a5e' };
     return (
       <span style={{
         display: 'inline-block',
@@ -172,21 +172,21 @@ export function PensioneComp({ color }) {
 
   // Podio per i primi 3 risultati
   const podiumBadge = (i) => {
-    if (i === 0) return { icon: '🥇', bg: '#fbbf24', color: '#78350f', label: '1° POSTO' };
-    if (i === 1) return { icon: '🥈', bg: '#cbd5e1', color: '#334155', label: '2° POSTO' };
-    if (i === 2) return { icon: '🥉', bg: '#fdba74', color: '#7c2d12', label: '3° POSTO' };
+    if (i === 0) return { icon: '', bg: '#b0852b', color: '#6b5124', label: '1° POSTO' };
+    if (i === 1) return { icon: '', bg: '#d6cfc1', color: '#3a362c', label: '2° POSTO' };
+    if (i === 2) return { icon: '', bg: '#d9b49b', color: '#6b5124', label: '3° POSTO' };
     return null;
   };
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           WARNING FONDI NEGOZIALI — IL PIÙ IMPORTANTE MESSAGGIO DELLA PAGINA
           ==================================================================== */}
       <div style={{
-        background: '#fffbeb',
-        border: '2px solid #f59e0b',
+        background: '#f6f0e2',
+        border: '2px solid #84652d',
         borderRadius: 20,
         padding: '20px 24px',
         marginBottom: 28,
@@ -194,22 +194,22 @@ export function PensioneComp({ color }) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
-            <span style={{ fontSize: 24 }}>⚠️</span>
-            <div style={{ fontWeight: 800, color: '#92400e', fontSize: 15 }}>
+            <span style={{ fontSize: 24 }}></span>
+            <div style={{ fontWeight: 800, color: '#6b5124', fontSize: 15 }}>
               Prima di confrontare i fondi aperti, verifica se hai diritto a un fondo negoziale
             </div>
           </div>
           <button
             onClick={() => setWarningOpen(!warningOpen)}
             style={{
-              background: 'transparent', border: 'none', color: '#92400e',
+              background: 'transparent', border: 'none', color: '#6b5124',
               fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '4px 8px',
               whiteSpace: 'nowrap'
             }}
           >{warningOpen ? '− Chiudi' : '+ Apri'}</button>
         </div>
         {warningOpen && (
-          <div style={{ marginTop: 14, fontSize: 13, color: '#78350f', lineHeight: 1.7 }}>
+          <div style={{ marginTop: 14, fontSize: 13, color: '#6b5124', lineHeight: 1.7 }}>
             <p style={{ margin: '0 0 10px' }}>
               Questa classifica copre <strong>solo i fondi pensione APERTI</strong> (commercializzati al pubblico da banche e assicurazioni). Se il tuo CCNL prevede un <strong>fondo negoziale di categoria</strong> (Cometa per i metalmeccanici, Fonte per il commercio, Cooperlavoro per le cooperative, Laborfonds per Trentino-AA, Eurofer per le ferrovie, Previvolo per l'aviazione, ecc.), quasi sempre <strong>quello è la scelta migliore</strong>:
             </p>
@@ -218,7 +218,7 @@ export function PensioneComp({ color }) {
               <li>Contributo obbligatorio del <strong>datore di lavoro</strong> (1-2% della RAL) che altrimenti perdi</li>
               <li>Gestione istituzionale con track record consolidato</li>
             </ul>
-            <p style={{ margin: 0, fontSize: 12, color: '#92400e', fontStyle: 'italic' }}>
+            <p style={{ margin: 0, fontSize: 12, color: '#6b5124', fontStyle: 'italic' }}>
               Verifica il tuo CCNL o chiedi all'ufficio risorse umane se esiste un fondo negoziale disponibile per la tua categoria. Rinunciare al fondo negoziale significa rinunciare al contributo datoriale.
             </p>
           </div>
@@ -231,19 +231,19 @@ export function PensioneComp({ color }) {
       <div style={{ ...cardBase, marginBottom: 24, padding: '28px 24px' }}>
 
         <h2 style={{
-          fontFamily: "'Playfair Display', 'DM Serif Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: 'var(--f-display)',
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Classifica fondi pensione aperti
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px' }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px' }}>
           Dati COVIP ufficiali · rendimenti netti al 31/12/2024
         </p>
 
         {/* Ricerca */}
         <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>🔍 Cerca per società, fondo o comparto</label>
+          <label style={labelStyle}>Cerca per società, fondo o comparto</label>
           <input
             type="text"
             value={search}
@@ -251,9 +251,9 @@ export function PensioneComp({ color }) {
             placeholder="es. Amundi, Allianz, Azionario ESG..."
             style={{
               width: '100%', padding: '12px 16px',
-              border: '1px solid #cbd5e1', borderRadius: 12,
+              border: '1px solid #d6cfc1', borderRadius: 12,
               fontSize: 14, boxSizing: 'border-box', outline: 'none',
-              background: '#f8fafc'
+              background: '#f5f2ec'
             }}
           />
         </div>
@@ -265,9 +265,9 @@ export function PensioneComp({ color }) {
             <select
               value={categoria}
               onChange={(e) => { setCategoria(e.target.value); setShowAll(false); }}
-              style={{ width: '100%', padding: '10px 14px', fontSize: 14, fontWeight: 600, border: '1px solid #cbd5e1', borderRadius: 10, background: '#fff', color: '#0f172a', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', padding: '10px 14px', fontSize: 14, fontWeight: 600, border: '1px solid #d6cfc1', borderRadius: 10, background: '#fbfaf7', color: '#17150f', cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              <option value="tutti">📊 Tutti</option>
+              <option value="tutti">Tutti</option>
               {CATEGORIES.map(cat => (
                 <option key={cat.id} value={cat.id}>{cat.icon} {cat.label}</option>
               ))}
@@ -278,7 +278,7 @@ export function PensioneComp({ color }) {
             <select
               value={horizon}
               onChange={(e) => { setHorizon(e.target.value); setShowAll(false); }}
-              style={{ width: '100%', padding: '10px 14px', fontSize: 14, fontWeight: 600, border: '1px solid #cbd5e1', borderRadius: 10, background: '#fff', color: '#0f172a', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', padding: '10px 14px', fontSize: 14, fontWeight: 600, border: '1px solid #d6cfc1', borderRadius: 10, background: '#fbfaf7', color: '#17150f', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               {HORIZONS.map(hz => (
                 <option key={hz.key} value={hz.key}>{hz.label} ({hz.sub})</option>
@@ -290,19 +290,19 @@ export function PensioneComp({ color }) {
         {/* Filtro affidabilità */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          padding: '10px 14px', background: '#f8fafc',
-          borderRadius: 12, border: '1px solid #e2e8f0'
+          padding: '10px 14px', background: '#f5f2ec',
+          borderRadius: 12, border: '1px solid #e6e0d4'
         }}>
-          <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', flex: 1 }}>
-            🎯 Mostra solo fondi con track record ≥ 10 anni
+          <label style={{ fontSize: 12, fontWeight: 700, color: '#47433a', flex: 1 }}>
+            Mostra solo fondi con track record ≥ 10 anni
           </label>
           <button
             onClick={() => { setSoloLongTrack(!soloLongTrack); setShowAll(false); }}
             style={{
               padding: '6px 12px', borderRadius: 8,
-              border: '1px solid ' + (soloLongTrack ? '#16a34a' : '#cbd5e1'),
-              background: soloLongTrack ? '#dcfce7' : '#fff',
-              color: soloLongTrack ? '#166534' : '#64748b',
+              border: '1px solid ' + (soloLongTrack ? '#2c5a43' : '#d6cfc1'),
+              background: soloLongTrack ? '#e1ebe3' : '#fbfaf7',
+              color: soloLongTrack ? '#234a37' : '#6f6a5e',
               fontWeight: 700, fontSize: 12, cursor: 'pointer'
             }}
           >{soloLongTrack ? 'Sì' : 'No'}</button>
@@ -311,11 +311,11 @@ export function PensioneComp({ color }) {
         {/* Conteggio risultati + reset */}
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          marginTop: 20, paddingTop: 16, borderTop: '1px dashed #e2e8f0',
-          fontSize: 13, color: '#64748b', flexWrap: 'wrap', gap: 8
+          marginTop: 20, paddingTop: 16, borderTop: '1px dashed #e6e0d4',
+          fontSize: 13, color: '#6f6a5e', flexWrap: 'wrap', gap: 8
         }}>
           <div>
-            <strong style={{ color: '#0f172a' }}>{filtered.length}</strong> comparti
+            <strong style={{ color: '#17150f' }}>{filtered.length}</strong> comparti
             {categoria !== 'tutti' && <> in <strong style={{ color: themeColor }}>{categoria}</strong></>}
             {soloLongTrack && <> con 10+ anni di storia</>}
             {' '}— ordinati per rendimento a {activeHz?.label}
@@ -324,7 +324,7 @@ export function PensioneComp({ color }) {
             <button
               onClick={resetFilters}
               style={{
-                background: 'transparent', border: 'none', color: '#64748b',
+                background: 'transparent', border: 'none', color: '#6f6a5e',
                 fontSize: 12, fontWeight: 700, cursor: 'pointer',
                 textDecoration: 'underline'
               }}
@@ -346,8 +346,8 @@ export function PensioneComp({ color }) {
           <div
             key={`${d.f}-${d.c}-${i}`}
             style={{
-              background: '#fff',
-              border: `2px solid ${podio ? (i === 0 ? themeColor : '#e2e8f0') : '#e2e8f0'}`,
+              background: '#fbfaf7',
+              border: `2px solid ${podio ? (i === 0 ? themeColor : '#e6e0d4') : '#e6e0d4'}`,
               borderRadius: 20,
               padding: '20px 24px',
               marginBottom: 14,
@@ -375,28 +375,28 @@ export function PensioneComp({ color }) {
               marginBottom: 14
             }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 17, fontWeight: 900, color: '#0f172a', marginBottom: 4 }}>
+                <div style={{ fontSize: 17, fontWeight: 900, color: '#17150f', marginBottom: 4 }}>
                   {d.f}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 12, color: '#64748b' }}>{d.s}</span>
-                  <span style={{ color: '#cbd5e1' }}>•</span>
+                  <span style={{ fontSize: 12, color: '#6f6a5e' }}>{d.s}</span>
+                  <span style={{ color: '#d6cfc1' }}>•</span>
                   <CatBadge cat={d.cat} />
                 </div>
-                <div style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>
+                <div style={{ fontSize: 12, color: '#47433a', fontWeight: 600 }}>
                   Comparto: {d.c}
                 </div>
               </div>
 
               <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+                <div style={{ fontSize: 10, color: '#8f897c', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
                   Rend. {activeHz?.label}
                 </div>
                 <RendPill value={rendVal} size="l" />
                 {deltaMedia !== null && (
                   <div style={{
                     marginTop: 6, fontSize: 11, fontWeight: 700,
-                    color: deltaMedia >= 0 ? '#059669' : '#dc2626'
+                    color: deltaMedia >= 0 ? '#2c5a43' : '#9b4220'
                   }}>
                     {deltaMedia >= 0 ? '▲' : '▼'} {Math.abs(deltaMedia).toFixed(2)}pp vs media
                   </div>
@@ -414,16 +414,16 @@ export function PensioneComp({ color }) {
                 const isActive = horizon === hz.key;
                 const val = d[hz.key];
                 const valColor = val === null || val === undefined
-                  ? '#cbd5e1'
-                  : val >= 0 ? '#059669' : '#dc2626';
+                  ? '#d6cfc1'
+                  : val >= 0 ? '#2c5a43' : '#9b4220';
                 return (
                   <div key={hz.key} style={{
                     textAlign: 'center', padding: '8px 6px',
-                    background: isActive ? t.bg : '#f8fafc',
+                    background: isActive ? t.bg : '#f5f2ec',
                     borderRadius: 10,
                     border: isActive ? `1px solid ${themeColor}` : '1px solid transparent'
                   }}>
-                    <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 700, marginBottom: 2 }}>
+                    <div style={{ fontSize: 10, color: '#8f897c', fontWeight: 700, marginBottom: 2 }}>
                       {hz.label}
                     </div>
                     <div style={{
@@ -449,7 +449,7 @@ export function PensioneComp({ color }) {
             onClick={() => setShowAll(true)}
             style={{
               padding: '12px 28px', borderRadius: 12,
-              border: `2px solid ${themeColor}`, background: '#fff',
+              border: `2px solid ${themeColor}`, background: '#fbfaf7',
               color: themeColor, fontSize: 14, fontWeight: 800,
               cursor: 'pointer', transition: 'all 0.2s'
             }}
@@ -461,11 +461,11 @@ export function PensioneComp({ color }) {
       {filtered.length === 0 && (
         <div style={{
           textAlign: 'center', padding: '60px 20px',
-          background: '#fff', borderRadius: 20,
-          border: '1px dashed #cbd5e1', color: '#94a3b8'
+          background: '#fbfaf7', borderRadius: 20,
+          border: '1px dashed #d6cfc1', color: '#8f897c'
         }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: '#475569', marginBottom: 6 }}>
+          <div style={{ fontSize: 40, marginBottom: 12 }}></div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: '#47433a', marginBottom: 6 }}>
             Nessun comparto trovato
           </div>
           <div style={{ fontSize: 13 }}>Prova ad allargare i filtri o azzerare la ricerca</div>
@@ -477,12 +477,12 @@ export function PensioneComp({ color }) {
           ==================================================================== */}
       <div style={{
         marginTop: 40, padding: '20px 24px',
-        background: '#f8fafc', borderRadius: 16,
-        border: '1px solid #e2e8f0',
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        background: '#f5f2ec', borderRadius: 16,
+        border: '1px solid #e6e0d4',
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Disclaimer importante
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Disclaimer importante
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Fonte dati:</strong> Commissione di Vigilanza sui Fondi Pensione (COVIP). Rendimenti netti da costi di gestione e imposte, aggiornati al 31 dicembre 2024 (ultima pubblicazione ufficiale disponibile, del giugno 2025). Il prossimo aggiornamento COVIP è atteso a giugno 2026.

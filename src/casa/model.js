@@ -5,17 +5,52 @@
 // ─────────────────────────────────────────────────────────────
 
 export const CATEGORIE = {
-  luce:       { label: 'Luce',          unita: 'kWh', colore: 'var(--c-luce)',       bolletta: true,  icona: 'luce' },
-  gas:        { label: 'Gas',           unita: 'Smc', colore: 'var(--c-gas)',        bolletta: true,  icona: 'gas' },
-  internet:   { label: 'Internet',      unita: null,  colore: 'var(--c-internet)',   bolletta: true,  icona: 'internet' },
-  mobile:     { label: 'Telefonia mobile', unita: null, colore: 'var(--c-mobile)',   bolletta: true,  icona: 'mobile' },
-  acqua:      { label: 'Acqua',         unita: 'm³',  colore: 'var(--c-acqua)',      bolletta: true,  icona: 'acqua' },
-  tari:       { label: 'TARI',          unita: null,  colore: 'var(--c-tari)',       bolletta: false, icona: 'tari' },
-  condominio: { label: 'Condominio',    unita: null,  colore: 'var(--c-condominio)', bolletta: false, icona: 'condominio' },
-  altro:      { label: 'Altro',         unita: null,  colore: 'var(--c-altro)',      bolletta: false, icona: 'altro' },
+  // Abitazione
+  mutuo:        { label: 'Mutuo',            unita: null,  colore: 'var(--c-mutuo)',        bolletta: false, icona: 'mutuo',      gruppo: 'abitazione' },
+  affitto:      { label: 'Affitto',          unita: null,  colore: 'var(--c-mutuo)',        bolletta: false, icona: 'chiave',     gruppo: 'abitazione' },
+  condominio:   { label: 'Condominio',       unita: null,  colore: 'var(--c-condominio)',   bolletta: false, icona: 'condominio', gruppo: 'abitazione' },
+  assicurazione:{ label: 'Assicurazione casa', unita: null, colore: 'var(--c-assicurazione)', bolletta: false, icona: 'scudo',    gruppo: 'abitazione' },
+  manutenzione: { label: 'Manutenzione',     unita: null,  colore: 'var(--c-manutenzione)', bolletta: false, icona: 'chiaveinglese', gruppo: 'abitazione' },
+  tari:         { label: 'TARI',             unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'tari',       gruppo: 'abitazione' },
+  imu:          { label: 'IMU e tributi',    unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'documento',  gruppo: 'abitazione' },
+  // Utenze
+  luce:         { label: 'Luce',             unita: 'kWh', colore: 'var(--c-luce)',         bolletta: true,  icona: 'luce',       gruppo: 'utenze' },
+  gas:          { label: 'Gas',              unita: 'Smc', colore: 'var(--c-gas)',          bolletta: true,  icona: 'gas',        gruppo: 'utenze' },
+  acqua:        { label: 'Acqua',            unita: 'm³',  colore: 'var(--c-acqua)',        bolletta: true,  icona: 'acqua',      gruppo: 'utenze' },
+  internet:     { label: 'Internet',         unita: null,  colore: 'var(--c-internet)',     bolletta: true,  icona: 'internet',   gruppo: 'utenze' },
+  mobile:       { label: 'Telefonia mobile', unita: null,  colore: 'var(--c-mobile)',       bolletta: true,  icona: 'mobile',     gruppo: 'utenze' },
+  altro:        { label: 'Altro',            unita: null,  colore: 'var(--c-altro)',        bolletta: false, icona: 'altro',      gruppo: 'utenze' },
 };
 
-export const ORDINE = ['luce', 'gas', 'internet', 'mobile', 'acqua', 'tari', 'condominio', 'altro'];
+export const ORDINE = ['mutuo', 'affitto', 'condominio', 'luce', 'gas', 'acqua', 'internet', 'mobile', 'tari', 'imu', 'assicurazione', 'manutenzione', 'altro'];
+
+export const GRUPPI = { abitazione: 'Abitazione', utenze: 'Utenze e servizi' };
+
+export const TITOLO = {
+  proprieta_mutuo: 'Di proprietà, con mutuo',
+  proprieta: 'Di proprietà',
+  affitto: 'In affitto',
+};
+
+/** Voci che ha senso chiedere a questa casa (es. niente affitto se c'è il mutuo). */
+export function vociAttese(casa) {
+  const t = casa?.titolo;
+  return ORDINE.filter((c) => {
+    if (c === 'altro') return false;
+    if (c === 'mutuo') return !t || t === 'proprieta_mutuo';
+    if (c === 'affitto') return !t || t === 'affitto';
+    if (c === 'imu') return t !== 'affitto';
+    if (c === 'manutenzione') return t !== 'affitto';
+    return true;
+  });
+}
+
+/** Quota interessi stimata della prossima rata (ammortamento alla francese). */
+export function quotaInteressi(r) {
+  const res = Number(r.debito_residuo), tan = Number(r.tasso);
+  if (!(res > 0) || !(tan >= 0)) return null;
+  return res * (tan / 100) / 12;
+}
 
 export const FREQUENZE = {
   mensile: { label: 'ogni mese', mesi: 1 },
@@ -121,3 +156,17 @@ export const dataBreve = (iso) =>
   iso ? new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'short', year: 'numeric' }).format(parseISO(iso)) : '—';
 export const meseAnno = (iso) =>
   iso ? new Intl.DateTimeFormat('it-IT', { month: 'short', year: '2-digit' }).format(parseISO(iso)) : '—';
+
+/**
+ * Numero scritto all'italiana: "1.234,50" → 1234.5, "185.000" → 185000,
+ * "0.134" → 0.134, "142,3" → 142.3.
+ */
+export function parseNumero(v) {
+  if (v == null || v === '') return null;
+  if (typeof v === 'number') return v;
+  let s = String(v).trim().replace(/\s|€/g, '');
+  if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  else if (/^[1-9]\d{0,2}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
+  const n = Number(s);
+  return isNaN(n) ? null : n;
+}

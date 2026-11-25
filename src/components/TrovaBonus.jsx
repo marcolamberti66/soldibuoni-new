@@ -5,7 +5,7 @@ import React, { useState, useMemo } from 'react';
 // Fonti: INPS, Agenzia Entrate, ARERA, MIMIT, MIUR. Verificato aprile 2026.
 // ============================================================================
 
-const THEME = { primary: '#f59e0b', soft: '#fef3c7', bg: '#fffbeb' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // --- ASSEGNO UNICO 2026: parametri ufficiali INPS circolare n. 7/2026 (+1,4%) ---
 const AUU_2026 = {
@@ -295,12 +295,12 @@ export function TrovaBonus({ color }) {
   const totaleStimato = bonusTrovati.reduce((acc, b) => acc + (b.valoreStimato || 0), 0);
 
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
 
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
 
@@ -315,15 +315,15 @@ export function TrovaBonus({ color }) {
   }, [bonusTrovati]);
 
   const categoryIcons = {
-    'Famiglia': '👨‍👩‍👧',
-    'Casa': '🏠',
-    'Bollette': '⚡',
-    'Fisco': '📋',
-    'Giovani': '🎓'
+    'Famiglia': '',
+    'Casa': '',
+    'Bollette': '',
+    'Fisco': '',
+    'Giovani': ''
   };
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           STEP 1: QUESTIONARIO
@@ -331,13 +331,13 @@ export function TrovaBonus({ color }) {
       {step === 1 && (
         <div style={{ ...cardBase, marginBottom: 24 }}>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 22, fontWeight: 800, color: '#0f172a',
+            fontFamily: "var(--f-display)",
+            fontSize: 22, fontWeight: 800, color: '#17150f',
             margin: '0 0 6px', letterSpacing: '-0.01em'
           }}>
             Il tuo profilo
           </h2>
-          <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px' }}>
+          <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px' }}>
             Rispondi a 5 domande anonime. I dati non vengono salvati: la stima è calcolata solo nel tuo browser.
           </p>
 
@@ -350,7 +350,7 @@ export function TrovaBonus({ color }) {
               onChange={(e) => setProfilo({ ...profilo, eta: parseInt(e.target.value) })}
               style={{ width: '100%', accentColor: themeColor }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#8f897c', marginTop: 2 }}>
               <span>18</span><span>75</span>
             </div>
           </div>
@@ -380,9 +380,9 @@ export function TrovaBonus({ color }) {
                     style={{
                       padding: '12px 8px',
                       borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 15, fontWeight: 800, cursor: 'pointer',
                       transition: 'all 0.2s', fontFamily: 'inherit'
                     }}
@@ -414,9 +414,9 @@ export function TrovaBonus({ color }) {
                     onClick={() => setProfilo({ ...profilo, iseeFascia: f.id })}
                     style={{
                       padding: '10px 12px', borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 12, fontWeight: 700, cursor: 'pointer',
                       lineHeight: 1.3, textAlign: 'left', fontFamily: 'inherit'
                     }}
@@ -434,11 +434,11 @@ export function TrovaBonus({ color }) {
             <label style={labelStyle}>Situazione abitativa</label>
             <div className="tb-grid">
               {[
-                { id: 'proprieta', label: 'Proprietario', icon: '🏡' },
-                { id: 'mutuo', label: 'Ho un mutuo', icon: '🏦' },
-                { id: 'affitto', label: 'In affitto', icon: '🔑' },
-                { id: 'cerca', label: 'Cerco casa', icon: '🔍' },
-                { id: 'altro', label: 'Altro', icon: '📍' }
+                { id: 'proprieta', label: 'Proprietario', icon: '' },
+                { id: 'mutuo', label: 'Ho un mutuo', icon: '' },
+                { id: 'affitto', label: 'In affitto', icon: '' },
+                { id: 'cerca', label: 'Cerco casa', icon: '' },
+                { id: 'altro', label: 'Altro', icon: '' }
               ].map(c => {
                 const active = profilo.casa === c.id;
                 return (
@@ -447,9 +447,9 @@ export function TrovaBonus({ color }) {
                     onClick={() => setProfilo({ ...profilo, casa: c.id })}
                     style={{
                       padding: '10px 12px', borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit'
                     }}
                   >
@@ -465,12 +465,12 @@ export function TrovaBonus({ color }) {
             <label style={labelStyle}>Situazione lavorativa</label>
             <div className="tb-grid">
               {[
-                { id: 'dipendente', label: 'Dipendente', icon: '💼' },
-                { id: 'piva', label: 'Partita IVA', icon: '📊' },
-                { id: 'piva_nuova', label: 'P.IVA < 5 anni', icon: '🚀' },
-                { id: 'pensionato', label: 'Pensionato', icon: '👴' },
-                { id: 'disoccupato', label: 'Disoccupato', icon: '📝' },
-                { id: 'studente', label: 'Studente', icon: '🎓' }
+                { id: 'dipendente', label: 'Dipendente', icon: '' },
+                { id: 'piva', label: 'Partita IVA', icon: '' },
+                { id: 'piva_nuova', label: 'P.IVA < 5 anni', icon: '' },
+                { id: 'pensionato', label: 'Pensionato', icon: '' },
+                { id: 'disoccupato', label: 'Disoccupato', icon: '' },
+                { id: 'studente', label: 'Studente', icon: '' }
               ].map(l => {
                 const active = profilo.lavoro === l.id;
                 return (
@@ -479,9 +479,9 @@ export function TrovaBonus({ color }) {
                     onClick={() => setProfilo({ ...profilo, lavoro: l.id })}
                     style={{
                       padding: '10px 12px', borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit'
                     }}
                   >
@@ -496,7 +496,7 @@ export function TrovaBonus({ color }) {
             onClick={() => setStep(2)}
             style={{
               width: '100%', padding: '14px 20px',
-              background: themeColor, color: '#fff',
+              background: themeColor, color: '#fbfaf7',
               border: 'none', borderRadius: 12,
               fontSize: 14, fontWeight: 800,
               cursor: 'pointer',
@@ -520,20 +520,20 @@ export function TrovaBonus({ color }) {
               <div>
                 <div style={{
                   display: 'inline-block', padding: '4px 10px',
-                  background: t.soft, color: '#92400e',
+                  background: t.soft, color: '#6b5124',
                   borderRadius: 6, fontSize: 10, fontWeight: 800,
                   letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 8
                 }}>
-                  ✓ Analisi completata
+                  Analisi completata
                 </div>
                 <h2 style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 22, fontWeight: 800, color: '#0f172a',
+                  fontFamily: "var(--f-display)",
+                  fontSize: 22, fontWeight: 800, color: '#17150f',
                   margin: '0 0 6px'
                 }}>
                   {bonusTrovati.length} agevolazioni potenzialmente compatibili
                 </h2>
-                <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>
+                <p style={{ fontSize: 13, color: '#6f6a5e', margin: 0 }}>
                   Valore cumulato stimato: <strong style={{ color: themeColor }}>~€{Math.round(totaleStimato).toLocaleString('it-IT')}/anno</strong> (annuo o una tantum a seconda del bonus)
                 </p>
               </div>
@@ -541,8 +541,8 @@ export function TrovaBonus({ color }) {
                 onClick={() => setStep(1)}
                 style={{
                   padding: '8px 14px', borderRadius: 10,
-                  border: '1px solid #cbd5e1', background: '#fff',
-                  color: '#64748b', fontSize: 12, fontWeight: 700,
+                  border: '1px solid #d6cfc1', background: '#fbfaf7',
+                  color: '#6f6a5e', fontSize: 12, fontWeight: 700,
                   cursor: 'pointer'
                 }}
               >← Modifica profilo</button>
@@ -552,11 +552,11 @@ export function TrovaBonus({ color }) {
           {/* Lista per categoria */}
           {Object.keys(bonusPerCategoria).length === 0 ? (
             <div style={{ ...cardBase, textAlign: 'center', padding: '60px 20px' }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>😕</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#475569', marginBottom: 6 }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}></div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#47433a', marginBottom: 6 }}>
                 Nessun bonus trovato per questo profilo
               </div>
-              <div style={{ fontSize: 13, color: '#94a3b8' }}>
+              <div style={{ fontSize: 13, color: '#8f897c' }}>
                 Prova a modificare le risposte: i bonus dipendono molto da età, figli e situazione abitativa
               </div>
             </div>
@@ -564,19 +564,19 @@ export function TrovaBonus({ color }) {
             Object.entries(bonusPerCategoria).map(([cat, list]) => (
               <div key={cat} style={{ marginBottom: 24 }}>
                 <h3 style={{
-                  fontSize: 14, fontWeight: 800, color: '#475569',
+                  fontSize: 14, fontWeight: 800, color: '#47433a',
                   textTransform: 'uppercase', letterSpacing: '0.06em',
                   margin: '0 0 14px'
                 }}>
-                  <span style={{ marginRight: 8, fontSize: 16 }}>{categoryIcons[cat] || '📌'}</span>
+                  <span style={{ marginRight: 8, fontSize: 16 }}>{categoryIcons[cat] || ''}</span>
                   {cat}
                 </h3>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {list.map(b => (
                     <div key={b.id} style={{
-                      background: '#fff',
-                      border: b.altoValore ? `2px solid ${themeColor}` : '1px solid #e2e8f0',
+                      background: '#fbfaf7',
+                      border: b.altoValore ? `2px solid ${themeColor}` : '1px solid #e6e0d4',
                       borderRadius: 20,
                       padding: '20px 24px',
                       boxShadow: b.altoValore ? `0 16px 32px -12px ${themeColor}25` : '0 4px 12px rgba(0,0,0,0.03)'
@@ -587,17 +587,17 @@ export function TrovaBonus({ color }) {
                       }}>
                         <div style={{ flex: 1, minWidth: 220 }}>
                           <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6, flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: 16, fontWeight: 900, color: '#0f172a' }}>{b.nome}</span>
+                            <span style={{ fontSize: 16, fontWeight: 900, color: '#17150f' }}>{b.nome}</span>
                             {b.altoValore && (
                               <span style={{
                                 fontSize: 9, fontWeight: 900,
-                                background: themeColor, color: '#fff',
+                                background: themeColor, color: '#fbfaf7',
                                 padding: '2px 8px', borderRadius: 10,
                                 letterSpacing: '0.05em'
-                              }}>⭐ ALTO VALORE</span>
+                              }}>ALTO VALORE</span>
                             )}
                           </div>
-                          <p style={{ fontSize: 13, color: '#475569', margin: '0 0 8px', lineHeight: 1.6 }}>
+                          <p style={{ fontSize: 13, color: '#47433a', margin: '0 0 8px', lineHeight: 1.6 }}>
                             {b.desc}
                           </p>
                         </div>
@@ -607,10 +607,10 @@ export function TrovaBonus({ color }) {
                           background: t.soft, borderRadius: 10,
                           minWidth: 140
                         }}>
-                          <div style={{ fontSize: 10, fontWeight: 800, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
+                          <div style={{ fontSize: 10, fontWeight: 800, color: '#6b5124', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
                             Valore
                           </div>
-                          <div style={{ fontSize: 13, fontWeight: 800, color: '#78350f', lineHeight: 1.3 }}>
+                          <div style={{ fontSize: 13, fontWeight: 800, color: '#6b5124', lineHeight: 1.3 }}>
                             {b.valoreTesto}
                           </div>
                         </div>
@@ -618,22 +618,22 @@ export function TrovaBonus({ color }) {
 
                       {b.note && (
                         <div style={{
-                          padding: '8px 12px', background: '#fffbeb',
+                          padding: '8px 12px', background: '#f6f0e2',
                           borderRadius: 8, fontSize: 11,
-                          color: '#92400e', marginBottom: 10,
-                          border: '1px solid #fbbf24'
+                          color: '#6b5124', marginBottom: 10,
+                          border: '1px solid #b0852b'
                         }}>
-                          ⚠️ {b.note}
+                          {b.note}
                         </div>
                       )}
 
                       <div style={{
                         display: 'flex', justifyContent: 'space-between',
                         alignItems: 'center', gap: 10, flexWrap: 'wrap',
-                        paddingTop: 12, borderTop: '1px dashed #e2e8f0'
+                        paddingTop: 12, borderTop: '1px dashed #e6e0d4'
                       }}>
-                        <div style={{ fontSize: 12, color: '#64748b', flex: 1 }}>
-                          <strong style={{ color: '#475569' }}>Come fare:</strong> {b.action}
+                        <div style={{ fontSize: 12, color: '#6f6a5e', flex: 1 }}>
+                          <strong style={{ color: '#47433a' }}>Come fare:</strong> {b.action}
                         </div>
                         <a
                           href={b.link}
@@ -641,7 +641,7 @@ export function TrovaBonus({ color }) {
                           rel="noopener noreferrer"
                           style={{
                             padding: '8px 14px', borderRadius: 10,
-                            background: '#f8fafc', color: themeColor,
+                            background: '#f5f2ec', color: themeColor,
                             border: `1px solid ${themeColor}40`,
                             fontSize: 12, fontWeight: 800,
                             textDecoration: 'none', whiteSpace: 'nowrap'
@@ -664,12 +664,12 @@ export function TrovaBonus({ color }) {
           ==================================================================== */}
       <div style={{
         marginTop: 40, padding: '20px 24px',
-        background: '#f8fafc', borderRadius: 16,
-        border: '1px solid #e2e8f0',
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        background: '#f5f2ec', borderRadius: 16,
+        border: '1px solid #e6e0d4',
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Disclaimer e nota metodologica
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Disclaimer e nota metodologica
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Strumento informativo, non sostituisce CAF né patronato.</strong> SoldiBuoni non è né un Centro di Assistenza Fiscale né un patronato. Questo strumento fornisce una prima indicazione orientativa dei bonus potenzialmente compatibili con il tuo profilo, basata su regole semplificate. L'eleggibilità reale dipende da requisiti specifici (ISEE esatto, cause ostative, situazione familiare dettagliata) che vanno verificati caso per caso.

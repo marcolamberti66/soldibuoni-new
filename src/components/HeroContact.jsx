@@ -4,7 +4,7 @@ function StyleInjector() {
   return (
     <style dangerouslySetInnerHTML={{__html: `
       .hero-contact-box {
-        background: #ffffff;
+        background: #fbfaf7;
         border-radius: 14px;
         padding: 18px 20px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.12);
@@ -14,7 +14,7 @@ function StyleInjector() {
       .hero-contact-box label {
         font-size: 12px;
         font-weight: 700;
-        color: #64748b; 
+        color: #6f6a5e; 
         text-transform: uppercase;
         letter-spacing: 1px;
         display: block;
@@ -23,19 +23,19 @@ function StyleInjector() {
       .hero-contact-input {
         width: 100%;
         padding: 12px 16px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e6e0d4;
         border-radius: 10px;
         font-size: 14px;
         font-family: inherit;
         outline: none;
         resize: none; 
-        color: #334155; 
+        color: #3a362c; 
         transition: border 0.2s;
         box-sizing: border-box;
         margin-bottom: 12px;
       }
       .hero-contact-input:focus {
-        border-color: #3b82f6; 
+        border-color: #4b5f86; 
       }
       .hero-contact-row {
         display: flex;
@@ -45,7 +45,7 @@ function StyleInjector() {
       }
       .hero-contact-email {
         padding: 8px 12px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e6e0d4;
         border-radius: 8px;
         font-size: 13px;
         outline: none;
@@ -53,7 +53,7 @@ function StyleInjector() {
       }
       .hero-contact-send {
         width: 100%;
-        background: #0f172a; 
+        background: #17150f; 
         color: white;
         border: none;
         padding: 12px;
@@ -64,7 +64,7 @@ function StyleInjector() {
         transition: transform 0.1s, background 0.2s;
       }
       .hero-contact-send:hover {
-        background: #1e293b;
+        background: #26231b;
       }
       .hero-contact-send:active {
         transform: scale(0.98);
@@ -115,14 +115,14 @@ export default function HeroContact() {
   if (status === 'success') {
     return (
       <div className="hero-contact-box" style={{ textAlign: 'center', padding: '30px 20px' }}>
-        <div style={{ fontSize: '32px', marginBottom: '12px' }}>✅</div>
-        <h4 style={{ margin: '0 0 8px 0', color: '#0f172a' }}>Messaggio inviato!</h4>
-        <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 20px 0' }}>
+        <div style={{ fontSize: '32px', marginBottom: '12px' }}></div>
+        <h4 style={{ margin: '0 0 8px 0', color: '#17150f' }}>Messaggio inviato!</h4>
+        <p style={{ fontSize: '14px', color: '#6f6a5e', margin: '0 0 20px 0' }}>
           Ti risponderemo all'indirizzo email indicato entro 24 ore.
         </p>
         <button 
           onClick={() => setStatus('idle')}
-          style={{ background: 'none', border: 'none', color: '#3b82f6', fontWeight: '600', cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}
+          style={{ background: 'none', border: 'none', color: '#4b5f86', fontWeight: '600', cursor: 'pointer', fontSize: '13px', textDecoration: 'underline' }}
         >
           Scrivi un altro messaggio
         </button>
@@ -134,7 +134,7 @@ export default function HeroContact() {
     <form className="hero-contact-box" onSubmit={handleSubmit}>
       <StyleInjector />
       <div className="hero-contact-row">
-        <label style={{ marginBottom: 0 }}>💬 Scrivici — ti rispondiamo entro 24h</label>
+        <label style={{ marginBottom: 0 }}>Scrivici — ti rispondiamo entro 24h</label>
         <input 
           type="email"
           className="hero-contact-email"
@@ -163,7 +163,7 @@ export default function HeroContact() {
         {status === 'loading' ? 'Invio in corso...' : 'Invia messaggio →'}
       </button>
       {status === 'error' && (
-        <div style={{ color: '#ef4444', fontSize: '12px', marginTop: '10px', textAlign: 'center' }}>
+        <div style={{ color: '#9b4220', fontSize: '12px', marginTop: '10px', textAlign: 'center' }}>
           Si è verificato un errore. Riprova più tardi.
         </div>
       )}

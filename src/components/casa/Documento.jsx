@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CATEGORIE, ORDINE, FREQUENZE, eur, num, dataBreve, mesiCoperti } from '../../casa/model.js';
+import { CATEGORIE, ORDINE, FREQUENZE, eur, num, dataBreve, mesiCoperti, parseNumero } from '../../casa/model.js';
 import { Campo, Icona, IconaCategoria } from './ui.jsx';
 
 const CATS_BOLLETTA = ORDINE.filter((c) => CATEGORIE[c].bolletta || c === 'altro');
@@ -18,7 +18,7 @@ export function SchedaDocumento({ iniziale, onSalva, onScarta, etichettaSalva = 
     setD((x) => ({ ...x, [k]: v === '' ? null : v }));
   };
   const nv = (v) => (v == null ? '' : typeof v === 'number' ? String(v).replace('.', ',') : v);
-  const aNum = (v) => (v == null || v === '' ? null : typeof v === 'number' ? v : Number(String(v).replace(/\./g, (m, i, str) => (str.includes(',') ? '' : '.')).replace(',', '.')));
+  const aNum = parseNumero;
   const c = CATEGORIE[d.categoria] || CATEGORIE.altro;
   const energia = d.categoria === 'luce' || d.categoria === 'gas' || d.categoria === 'acqua';
   const tlc = d.categoria === 'internet' || d.categoria === 'mobile';
@@ -126,36 +126,69 @@ export function RigaDocumento({ d, onApri }) {
   );
 }
 
-/** Spesa ricorrente senza bolletta (TARI, condominio, ...). */
+const PLACEHOLDER = {
+  mutuo: 'Mutuo prima casa', affitto: 'Canone di locazione', condominio: 'Spese condominiali', tari: 'TARI',
+  imu: 'IMU', assicurazione: 'Polizza casa', manutenzione: 'Revisione caldaia',
+};
+const FREQ_DEFAULT = { mutuo: 'mensile', affitto: 'mensile', condominio: 'trimestrale', tari: 'annuale', imu: 'semestrale', assicurazione: 'annuale', manutenzione: 'annuale' };
+
+/** Spesa ricorrente senza bolletta: mutuo, affitto, condominio, TARI, ... */
 export function SchedaRicorrente({ iniziale, onSalva, onElimina }) {
-  const [r, setR] = useState({ categoria: 'condominio', frequenza: 'trimestrale', ...iniziale });
+  const cat0 = iniziale?.categoria || 'condominio';
+  const [r, setR] = useState({ categoria: cat0, frequenza: FREQ_DEFAULT[cat0] || 'mensile', ...iniziale });
   const set = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setR((x) => ({ ...x, [k]: v }));
+    setR((x) => ({ ...x, [k]: v === '' ? null : v }));
   };
-  const valido = Number(String(r.importo).replace(',', '.')) > 0;
+  const setCat = (e) => {
+    const c = e.target.value;
+    setR((x) => ({ ...x, categoria: c, frequenza: x.id ? x.frequenza : FREQ_DEFAULT[c] || x.frequenza }));
+  };
+  const n = parseNumero;
+  const valido = n(r.importo) > 0;
+  const mutuo = r.categoria === 'mutuo';
+  const affitto = r.categoria === 'affitto';
+  const salva = (e) => {
+    e.preventDefault();
+    if (!valido) return;
+    onSalva({ ...r, importo: n(r.importo), tasso: n(r.tasso), debito_residuo: n(r.debito_residuo) });
+  };
   return (
-    <form className="ca-doc" onSubmit={(e) => { e.preventDefault(); if (valido) onSalva({ ...r, importo: Number(String(r.importo).replace(',', '.')) }); }}>
+    <form className="ca-doc" onSubmit={salva}>
       <div className="ca-grid2">
         <Campo label="Voce">
-          <select value={r.categoria} onChange={set('categoria')}>
-            {ORDINE.map((k) => <option key={k} value={k}>{CATEGORIE[k].label}</option>)}
+          <select value={r.categoria} onChange={setCat}>
+            {ORDINE.filter((k) => !CATEGORIE[k].bolletta).map((k) => <option key={k} value={k}>{CATEGORIE[k].label}</option>)}
           </select>
         </Campo>
-        <Campo label="Nome (facoltativo)"><input value={r.nome || ''} onChange={set('nome')} placeholder={r.categoria === 'condominio' ? 'Spese condominiali' : ''} /></Campo>
-        <Campo label="Importo €"><input inputMode="decimal" className="num" value={r.importo ?? ''} onChange={set('importo')} placeholder="0,00" /></Campo>
+        <Campo label={mutuo ? 'Banca (facoltativo)' : 'Nome (facoltativo)'}><input value={r.nome || ''} onChange={set('nome')} placeholder={PLACEHOLDER[r.categoria] || ''} /></Campo>
+        <Campo label={mutuo ? 'Rata €' : affitto ? 'Canone €' : 'Importo €'}><input inputMode="decimal" className="num" value={r.importo ?? ''} onChange={set('importo')} placeholder="0,00" /></Campo>
         <Campo label="Ogni">
           <select value={r.frequenza} onChange={set('frequenza')}>
             {Object.entries(FREQUENZE).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
           </select>
         </Campo>
         <Campo label="Prossima scadenza" hint="Ti avvisiamo prima"><input type="date" value={r.prossima_scadenza || ''} onChange={set('prossima_scadenza')} /></Campo>
-        <span />
+        {mutuo || affitto
+          ? <Campo label={mutuo ? 'Ultima rata' : 'Fine contratto'}><input type="date" value={r.data_fine || ''} onChange={set('data_fine')} /></Campo>
+          : <span />}
       </div>
+      {mutuo && (
+        <div className="ca-grid2 ca-doc-more">
+          <Campo label="Tasso (TAN %)"><input inputMode="decimal" className="num" value={r.tasso ?? ''} onChange={set('tasso')} placeholder="3,10" /></Campo>
+          <Campo label="Tipo di tasso">
+            <select value={r.tipo_tasso || ''} onChange={set('tipo_tasso')}>
+              <option value="">Non so</option><option value="fisso">Fisso</option><option value="variabile">Variabile</option><option value="misto">Misto / con cap</option>
+            </select>
+          </Campo>
+          <Campo label="Debito residuo €" hint="Dal piano di ammortamento o dall'app della banca"><input inputMode="decimal" className="num" value={r.debito_residuo ?? ''} onChange={set('debito_residuo')} /></Campo>
+          <label className="ca-check" style={{ alignSelf: 'end', paddingBottom: 12 }}><input type="checkbox" checked={!!r.prima_casa} onChange={set('prima_casa')} /><span>Abitazione principale</span></label>
+        </div>
+      )}
       <label className="ca-check"><input type="checkbox" checked={!!r.domiciliazione} onChange={set('domiciliazione')} /><span>Addebito automatico</span></label>
       <div className="ca-doc-ft">
         {onElimina && <button type="button" className="btn btn-line" onClick={onElimina}><Icona nome="cestino" size={18} /> Elimina</button>}
-        <button type="submit" className="btn btn-ink" disabled={!valido}>Salva spesa</button>
+        <button type="submit" className="btn btn-ink" disabled={!valido}>Salva</button>
       </div>
     </form>
   );

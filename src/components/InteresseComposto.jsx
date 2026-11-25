@@ -8,7 +8,7 @@ import React, { useState, useMemo } from 'react';
 const INFLAZIONE_ATTESA = 0.020;      // 2% target BCE
 const TASSAZIONE_CAPITAL_GAIN = 0.26; // 26% per ETF azionari e obbligazioni non gov. italiane
 
-export function InteresseComposto({ color = '#8b5cf6' }) {
+export function InteresseComposto({ color = '#7a5a6e' }) {
   const [capitale, setCapitale] = useState(5000);
   const [versamento, setVersamento] = useState(200);
   const [anni, setAnni] = useState(15);
@@ -53,7 +53,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
   const formatEuro = (v) => `€ ${Math.round(v).toLocaleString('it-IT')}`;
 
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 800, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       <style dangerouslySetInnerHTML={{__html:`
         .ic-toggle-long { display:inline; }
@@ -76,14 +76,14 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           INPUT CARD
           ==================================================================== */}
       <div className="ic-input-card" style={{
-        background: '#fff', borderRadius: 24,
-        border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)',
+        background: '#fbfaf7', borderRadius: 24,
+        border: '1px solid #e6e0d4', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)',
         marginBottom: 24
       }}>
         <div className="ic-input-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 28 }}>
 
           <div>
-            <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}>
+            <label style={{ fontSize: 14, fontWeight: 700, color: '#47433a', display: 'flex', justifyContent: 'space-between' }}>
               <span>Capitale iniziale</span>
               <span style={{ color, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(capitale)}</span>
             </label>
@@ -95,7 +95,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           </div>
 
           <div>
-            <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}>
+            <label style={{ fontSize: 14, fontWeight: 700, color: '#47433a', display: 'flex', justifyContent: 'space-between' }}>
               <span>Versamento mensile (PAC)</span>
               <span style={{ color, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(versamento)}</span>
             </label>
@@ -107,7 +107,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           </div>
 
           <div>
-            <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}>
+            <label style={{ fontSize: 14, fontWeight: 700, color: '#47433a', display: 'flex', justifyContent: 'space-between' }}>
               <span>Anni di investimento</span>
               <span style={{ color }}>{anni} anni</span>
             </label>
@@ -119,7 +119,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           </div>
 
           <div>
-            <label style={{ fontSize: 14, fontWeight: 700, color: '#475569', display: 'flex', justifyContent: 'space-between' }}>
+            <label style={{ fontSize: 14, fontWeight: 700, color: '#47433a', display: 'flex', justifyContent: 'space-between' }}>
               <span>Rendimento annuo atteso</span>
               <span style={{ color }}>{tasso}%</span>
             </label>
@@ -128,7 +128,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
               value={tasso} onChange={(e) => setTasso(+e.target.value)}
               style={{ width: '100%', accentColor: color, marginTop: 10 }}
             />
-            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 11, color: '#8f897c', marginTop: 4, lineHeight: 1.4 }}>
               Riferimenti storici: 2% conto deposito · 4-6% bilanciato · 7-8% azionario globale
             </div>
           </div>
@@ -141,33 +141,33 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           ==================================================================== */}
       <div className="ic-toggle" style={{
         display: 'flex', gap: 6, marginBottom: 14,
-        background: '#f1f5f9', padding: 4, borderRadius: 12
+        background: '#ece7dd', padding: 4, borderRadius: 12
       }}>
         <button
           onClick={() => setMostraReale(false)}
           style={{
             flex: 1, padding: '10px', borderRadius: 8, border: 'none',
-            background: !mostraReale ? '#fff' : 'transparent',
-            color: !mostraReale ? color : '#64748b',
+            background: !mostraReale ? '#fbfaf7' : 'transparent',
+            color: !mostraReale ? color : '#6f6a5e',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
             boxShadow: !mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none',
             fontFamily: 'inherit'
           }}
         >
-          💰 Valore nominale
+          Valore nominale
         </button>
         <button
           onClick={() => setMostraReale(true)}
           style={{
             flex: 1, padding: '10px', borderRadius: 8, border: 'none',
-            background: mostraReale ? '#fff' : 'transparent',
-            color: mostraReale ? color : '#64748b',
+            background: mostraReale ? '#fbfaf7' : 'transparent',
+            color: mostraReale ? color : '#6f6a5e',
             fontWeight: 700, fontSize: 13, cursor: 'pointer',
             boxShadow: mostraReale ? '0 2px 6px rgba(0,0,0,0.05)' : 'none',
             fontFamily: 'inherit'
           }}
         >
-          🛒 <span className="ic-toggle-long">Valore reale (post inflazione 2% + tasse 26%)</span><span className="ic-toggle-short">Valore reale (netto)</span>
+          <span className="ic-toggle-long">Valore reale (post inflazione 2% + tasse 26%)</span><span className="ic-toggle-short">Valore reale (netto)</span>
         </button>
       </div>
 
@@ -175,17 +175,17 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           VALORE FINALE HERO
           ==================================================================== */}
       <div className="ic-hero" style={{
-        background: '#fff', borderRadius: 24, padding: 32,
-        border: '1px solid #e2e8f0', marginBottom: 24,
+        background: '#fbfaf7', borderRadius: 24, padding: 32,
+        border: '1px solid #e6e0d4', marginBottom: 24,
         boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
       }}>
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 18, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 18, fontWeight: 800, color: '#17150f',
           textAlign: 'center', marginBottom: 4
         }}>{etichettaValore}</h3>
         <div className="ic-hero-num" style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--f-display)",
           fontSize: 52, fontWeight: 900, color,
           textAlign: 'center', marginBottom: 24,
           fontVariantNumeric: 'tabular-nums', lineHeight: 1
@@ -197,15 +197,15 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
         <div style={{
           display: 'flex', height: 24, borderRadius: 8,
           overflow: 'hidden', marginBottom: 14,
-          border: '1px solid #e2e8f0'
+          border: '1px solid #e6e0d4'
         }}>
-          <div style={{ width: `${percVersato}%`, background: '#94a3b8', transition: 'width 0.5s' }} />
+          <div style={{ width: `${percVersato}%`, background: '#8f897c', transition: 'width 0.5s' }} />
           <div style={{ width: `${percInteressi}%`, background: color, transition: 'width 0.5s' }} />
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 600, flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ color: '#64748b' }}>
-            <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 3, background: '#94a3b8', marginRight: 6 }} />
+          <div style={{ color: '#6f6a5e' }}>
+            <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 3, background: '#8f897c', marginRight: 6 }} />
             Versato: <span style={{ fontVariantNumeric: 'tabular-nums' }}>{formatEuro(risultati.versato)}</span>
           </div>
           <div style={{ color }}>
@@ -219,27 +219,27 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           BREAKDOWN
           ==================================================================== */}
       <div style={{
-        background: '#fff', borderRadius: 20, padding: 24,
-        border: '1px solid #e2e8f0', marginBottom: 24,
+        background: '#fbfaf7', borderRadius: 20, padding: 24,
+        border: '1px solid #e6e0d4', marginBottom: 24,
         boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
       }}>
-        <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <h4 style={{ fontSize: 14, fontWeight: 800, color: '#17150f', margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           Dal lordo al valore reale
         </h4>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
           <Row label="Capitale finale nominale" value={formatEuro(risultati.nominale)} strong />
-          <Row label="− Tasse capital gain (26% sul guadagno)" value={`− ${formatEuro(risultati.tasse)}`} color="#dc2626" />
-          <div style={{ height: 1, background: '#e2e8f0' }} />
-          <Row label="= Netto post tasse" value={formatEuro(risultati.nettoPostTasse)} strong color="#059669" />
-          <Row label={`÷ Inflazione (${(risultati.fattoreInflazione).toFixed(2)}× in ${anni} anni)`} value="—" color="#64748b" />
-          <div style={{ height: 1, background: '#e2e8f0' }} />
+          <Row label="− Tasse capital gain (26% sul guadagno)" value={`− ${formatEuro(risultati.tasse)}`} color="#9b4220" />
+          <div style={{ height: 1, background: '#e6e0d4' }} />
+          <Row label="= Netto post tasse" value={formatEuro(risultati.nettoPostTasse)} strong color="#2c5a43" />
+          <Row label={`÷ Inflazione (${(risultati.fattoreInflazione).toFixed(2)}× in ${anni} anni)`} value="—" color="#6f6a5e" />
+          <div style={{ height: 1, background: '#e6e0d4' }} />
           <Row label="= Valore reale (potere d'acquisto di oggi)" value={formatEuro(risultati.valoreReale)} strong color={color} />
         </div>
 
         <div style={{
           marginTop: 18, padding: '12px 14px',
-          background: '#fffbeb', borderRadius: 10,
-          fontSize: 11, color: '#78350f', lineHeight: 1.6
+          background: '#f6f0e2', borderRadius: 10,
+          fontSize: 11, color: '#6b5124', lineHeight: 1.6
         }}>
           <strong>ⓘ Il valore reale è il numero che conta davvero</strong>: ti dice quanto potere d'acquisto hai a fine simulazione nei prezzi di oggi. Un capitale nominale che "raddoppia" in 20 anni al 3,5% non batte l'inflazione al 2%: in termini reali hai guadagnato solo il 30%, non il 100%.
         </div>
@@ -249,7 +249,7 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           CTA SOBRIO
           ==================================================================== */}
       <div style={{
-        background: 'linear-gradient(135deg, #f5f3ff 0%, #fff 60%)',
+        background: 'linear-gradient(135deg, #ede6ea 0%, #fbfaf7 60%)',
         borderRadius: 20, padding: '24px',
         border: `1px solid ${color}30`,
         display: 'flex', justifyContent: 'space-between',
@@ -257,16 +257,16 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
         marginBottom: 24
       }}>
         <div style={{ flex: '1 1 280px' }}>
-          <h4 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>
+          <h4 style={{ fontSize: 16, fontWeight: 800, color: '#17150f', margin: '0 0 4px' }}>
             Come scegliere l'asset allocation?
           </h4>
-          <p style={{ fontSize: 13, color: '#64748b', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#6f6a5e', margin: 0, lineHeight: 1.5 }}>
             Il rendimento atteso dipende dal mix di strumenti finanziari. Vai al costruttore di portafoglio per vedere asset class, rendimenti storici e banda di confidenza.
           </p>
         </div>
         <a href="/investimenti" style={{
           padding: '12px 20px', borderRadius: 12,
-          background: color, color: '#fff',
+          background: color, color: '#fbfaf7',
           fontSize: 13, fontWeight: 800,
           textDecoration: 'none', whiteSpace: 'nowrap',
           boxShadow: `0 6px 16px -4px ${color}50`
@@ -279,12 +279,12 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
           DISCLAIMER
           ==================================================================== */}
       <div style={{
-        padding: '18px 22px', background: '#f8fafc',
-        border: '1px solid #e2e8f0', borderRadius: 14,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '18px 22px', background: '#f5f2ec',
+        border: '1px solid #e6e0d4', borderRadius: 14,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 6, fontSize: 12 }}>
-          ⚠️ Disclaimer
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 6, fontSize: 12 }}>
+          Disclaimer
         </div>
         <p style={{ margin: '0 0 6px' }}>
           <strong>Strumento educativo, non consulenza.</strong> SoldiBuoni non è un consulente finanziario autorizzato CONSOB/OCF. Questo simulatore illustra il concetto di interesse composto ma non costituisce raccomandazione d'investimento.
@@ -301,10 +301,10 @@ export function InteresseComposto({ color = '#8b5cf6' }) {
   );
 }
 
-function Row({ label, value, color = '#0f172a', strong = false }) {
+function Row({ label, value, color = '#17150f', strong = false }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
-      <span style={{ color: strong ? color : '#64748b', fontWeight: strong ? 800 : 500, flex: 1, fontSize: 13, lineHeight: 1.4 }}>
+      <span style={{ color: strong ? color : '#6f6a5e', fontWeight: strong ? 800 : 500, flex: 1, fontSize: 13, lineHeight: 1.4 }}>
         {label}
       </span>
       <span style={{

@@ -27,6 +27,7 @@
 
 @media (min-width: 900px) {
   .ca { grid-template-columns: 220px minmax(0, 1fr); }
+  .ca.ca-solo { grid-template-columns: minmax(0, 1fr); }
   .ca-tabs {
     position: sticky; top: 68px; height: calc(100vh - 68px); align-self: start;
     display: flex; flex-direction: column; gap: 4px; padding: 32px 16px;
@@ -70,6 +71,11 @@
 .ca-total .num { font-size: clamp(56px, 11vw, 96px); line-height: .95; font-weight: 400; letter-spacing: -0.05em; }
 .ca-total-e { font-family: var(--f-display); font-size: clamp(40px, 7vw, 64px); color: var(--ink-3); align-self: flex-start; margin-top: .3em; }
 .ca-total-u { font-family: var(--f-display); font-size: 28px; color: var(--ink-3); }
+.ca-split { display: flex; gap: 32px; margin-top: 18px; }
+.ca-split > div { display: flex; flex-direction: column; }
+.ca-split .num { font-size: 22px; color: var(--ink); letter-spacing: -0.03em; }
+.ca-complete-g { margin-bottom: 14px; }
+.ca-complete-l { font-size: 12.5px; color: var(--ink-3); margin-bottom: 8px; }
 .ca-stack { display: flex; gap: 3px; height: 10px; margin-top: 28px; border-radius: 999px; overflow: hidden; }
 .ca-stack span { min-width: 6px; border-radius: 2px; }
 
@@ -136,6 +142,10 @@
 .ca-kpi-v small { font-size: 14px; color: var(--ink-3); font-family: var(--f-ui); letter-spacing: 0; }
 .ca-kpi-s { font-size: 12px; color: var(--ink-3); }
 .ca-dl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin-bottom: 18px; }
+.ca-dl-wide { grid-column: 1 / -1; }
+.ca-split-bar { display: flex; gap: 2px; height: 8px; border-radius: 999px; overflow: hidden; margin: 6px 0 8px; }
+.ca-split-bar span:first-child { background: var(--warn); }
+.ca-split-bar span:last-child { background: var(--ok); }
 .ca-dl dt { font-size: 12.5px; color: var(--ink-3); }
 .ca-dl dd { color: var(--ink); text-transform: none; }
 .ca-dl dd::first-letter { text-transform: uppercase; }
@@ -231,6 +241,11 @@
 .ca-onb-l { color: var(--ink); font-weight: 500; margin-bottom: 12px; display: flex; gap: 12px; align-items: baseline; }
 .ca-onb-l .num { color: var(--brass); font-size: 13px; }
 .ca-onb-l .ca-muted { font-weight: 400; font-size: 14px; }
+.ca-onb-rata { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; font-size: 14.5px; color: var(--ink); }
+.ca-onb-eur { display: flex; align-items: baseline; gap: 6px; max-width: 260px; border-bottom: 1px solid var(--line-strong); }
+.ca-onb-eur > span { font-family: var(--f-display); font-size: 28px; color: var(--ink-3); }
+.ca-onb-eur input { border: 0; background: none; font-size: 36px; color: var(--ink); width: 100%; padding: 2px 0; letter-spacing: -0.03em; }
+.ca-onb-eur input:focus { outline: none; }
 .ca-onb-cap { max-width: 180px; font-size: 20px; letter-spacing: .1em; }
 .ca-onb-go { width: 100%; height: 56px; font-size: 16px; }
 .ca-onb-go:disabled { opacity: .35; cursor: not-allowed; }

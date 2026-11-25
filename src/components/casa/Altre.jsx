@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { azioni } from '../../casa/store.js';
-import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
+import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, TITOLO, parseNumero, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
 import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
 import { Campo, Foglio, Icona, IconaCategoria, Scelta } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
@@ -131,14 +131,16 @@ export function Casa({ stato }) {
           <Campo label="CAP"><input inputMode="numeric" maxLength={5} defaultValue={casa.cap || ''} onBlur={(e) => set('cap')(e.target.value.replace(/\D/g, '') || null)} /></Campo>
           <Campo label="Metri quadri"><input inputMode="numeric" defaultValue={casa.mq || ''} onBlur={(e) => set('mq')(Number(e.target.value) || null)} /></Campo>
         </div>
-        <p className="ca-field-l">Persone in casa</p>
+        <p className="ca-field-l">La casa è</p>
+        <Scelta nome="Titolo" valore={casa.titolo} onChange={set('titolo')} colonne={3} opzioni={Object.entries(TITOLO).map(([v, l]) => ({ v, l }))} />
+        <p className="ca-field-l" style={{ marginTop: 18 }}>Persone in casa</p>
         <Scelta nome="Persone" valore={casa.persone} onChange={set('persone')} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
         <p className="ca-field-l" style={{ marginTop: 18 }}>Riscaldamento</p>
         <Scelta nome="Riscaldamento" valore={casa.riscaldamento} onChange={set('riscaldamento')} opzioni={Object.entries(RISCALDAMENTO).map(([v, l]) => ({ v, l }))} colonne={2} />
       </div>
 
       <div className="ca-h2-row">
-        <h2 className="ca-h2">Spese fisse senza bolletta</h2>
+        <h2 className="ca-h2">Spese fisse</h2>
         <button className="ca-link" onClick={() => setRic({})}>+ Aggiungi</button>
       </div>
       {stato.ricorrenti.length ? (
@@ -151,7 +153,7 @@ export function Casa({ stato }) {
             </button>
           ))}
         </div>
-      ) : <div className="ca-card ca-empty-s">Condominio, TARI, assicurazione casa: aggiungile per avere il costo completo.</div>}
+      ) : <div className="ca-card ca-empty-s">Mutuo o affitto, condominio, TARI, assicurazione: aggiungile per avere il costo completo.</div>}
 
       <h2 className="ca-h2">I tuoi dati</h2>
       <div className="ca-card ca-data">
@@ -174,23 +176,56 @@ export function Casa({ stato }) {
   );
 }
 
-// ── Onboarding: tre tocchi ──────────────────────────────────
+// ── Onboarding: quattro tocchi ──────────────────────────────
 export function Benvenuto() {
+  const [titolo, setTitolo] = useState(null);
+  const [rata, setRata] = useState('');
   const [persone, setPersone] = useState(null);
   const [risc, setRisc] = useState(null);
   const [cap, setCap] = useState('');
-  const pronto = persone && risc;
+  const pronto = titolo && persone && risc;
+  const conRata = titolo === 'proprieta_mutuo' || titolo === 'affitto';
+
+  const vai = () => {
+    azioni.creaCasa({ titolo, persone, riscaldamento: risc, cap: cap || null });
+    const importo = parseNumero(rata) || 0;
+    if (conRata && importo > 0) {
+      const oggi = new Date();
+      const prossima = new Date(oggi.getFullYear(), oggi.getMonth() + 1, 1).toISOString().slice(0, 10);
+      azioni.salvaRicorrente({
+        categoria: titolo === 'affitto' ? 'affitto' : 'mutuo', importo, frequenza: 'mensile',
+        prossima_scadenza: prossima, prima_casa: titolo === 'proprieta_mutuo' ? true : undefined,
+        domiciliazione: titolo === 'proprieta_mutuo' ? true : undefined,
+      });
+    }
+    location.hash = '#/aggiungi';
+  };
+
   return (
     <section className="ca-page ca-onb">
       <p className="eyebrow">Benvenuto</p>
-      <h1 className="display ca-onb-t">Due domande sulla casa,<br /><em>poi pensiamo noi ai conti.</em></h1>
+      <h1 className="display ca-onb-t">Quattro domande sulla casa,<br /><em>poi pensiamo noi ai conti.</em></h1>
 
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">01</span> Quante persone ci vivono?</p>
+        <p className="ca-onb-l"><span className="num">01</span> La casa è</p>
+        <Scelta nome="Titolo" valore={titolo} onChange={setTitolo} colonne={3} opzioni={[
+          { v: 'proprieta_mutuo', l: 'Di proprietà', sub: 'con mutuo', icona: 'mutuo' },
+          { v: 'proprieta', l: 'Di proprietà', sub: 'senza mutuo', icona: 'casa' },
+          { v: 'affitto', l: 'In affitto', sub: 'canone mensile', icona: 'chiave' },
+        ]} />
+        {conRata && (
+          <label className="ca-onb-rata">
+            <span>{titolo === 'affitto' ? 'Canone mensile' : 'Rata mensile del mutuo'} <span className="ca-muted">facoltativo</span></span>
+            <span className="ca-onb-eur"><span>€</span><input className="num" inputMode="decimal" value={rata} onChange={(e) => setRata(e.target.value.replace(/[^\d.,]/g, ''))} placeholder="0" /></span>
+          </label>
+        )}
+      </div>
+      <div className="ca-onb-q">
+        <p className="ca-onb-l"><span className="num">02</span> Quante persone ci vivono?</p>
         <Scelta nome="Persone" valore={persone} onChange={setPersone} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">02</span> Come si scalda?</p>
+        <p className="ca-onb-l"><span className="num">03</span> Come si scalda?</p>
         <Scelta nome="Riscaldamento" valore={risc} onChange={setRisc} colonne={2} opzioni={[
           { v: 'gas_autonomo', l: 'Caldaia a gas', sub: 'autonoma', icona: 'gas' },
           { v: 'centralizzato', l: 'Centralizzato', sub: 'del condominio', icona: 'condominio' },
@@ -199,12 +234,11 @@ export function Benvenuto() {
         ]} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">03</span> CAP <span className="ca-muted">facoltativo</span></p>
+        <p className="ca-onb-l"><span className="num">04</span> CAP <span className="ca-muted">facoltativo</span></p>
         <input className="ca-onb-cap num" inputMode="numeric" maxLength={5} value={cap} onChange={(e) => setCap(e.target.value.replace(/\D/g, ''))} placeholder="20100" aria-label="CAP" />
       </div>
 
-      <button className="btn btn-ink ca-onb-go" disabled={!pronto}
-        onClick={() => { azioni.creaCasa({ persone, riscaldamento: risc, cap: cap || null }); location.hash = '#/aggiungi'; }}>
+      <button className="btn btn-ink ca-onb-go" disabled={!pronto} onClick={vai}>
         Continua e carica una bolletta <Icona nome="freccia" size={18} />
       </button>
       <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Nessuna registrazione. I dati restano sul tuo dispositivo.</p>

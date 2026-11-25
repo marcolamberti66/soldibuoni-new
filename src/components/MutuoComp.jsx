@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 // Fonti tassi: ABI aprile 2026, Osservatorio MutuiOnline
 // ============================================================================
 
-const THEME = { primary: '#10b981', soft: '#d1fae5', bg: '#ecfdf5' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // Tassi di riferimento aprile 2026 (indicativi)
 const TASSI_BASE = {
@@ -52,7 +52,7 @@ function calcolaAmmortamento(importo, tassoMese, mesi) {
   return { rata, totale: rata * mesi, interessi: rata * mesi - importo, rows };
 }
 
-export function MutuoComp({ color = '#10b981' }) {
+export function MutuoComp({ color = '#2c5a43' }) {
   // Inputs simulatore principale
   const [importo, setImporto] = useState(180000);
   const [immobile, setImmobile] = useState(240000);
@@ -166,36 +166,36 @@ export function MutuoComp({ color = '#10b981' }) {
   const formatPerc = (v, d = 2) => `${v.toFixed(d)}%`;
 
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
   const inputStyle = {
-    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1',
-    borderRadius: 12, boxSizing: 'border-box', color: '#0f172a', background: '#fff', outline: 'none'
+    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #d6cfc1',
+    borderRadius: 12, boxSizing: 'border-box', color: '#17150f', background: '#fbfaf7', outline: 'none'
   };
 
   // Reddito consigliato (regola 35%)
   const redditoConsigliato = Math.round(principale.rata / 0.35);
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           BLOCCO 1 — INPUT SIMULATORE
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Simulatore rata mutuo 2026
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px', lineHeight: 1.6 }}>
           Tassi base aggiornati aprile 2026 (IRS ed Euribor). Negozia lo spread della banca: è l'unica parte del tasso su cui hai potere contrattuale.
         </p>
 
@@ -213,19 +213,19 @@ export function MutuoComp({ color = '#10b981' }) {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
               <label style={labelStyle}>Valore immobile</label>
-              <span style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(immobile)}</span>
+              <span style={{ fontSize: 18, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(immobile)}</span>
             </div>
             <input type="range" min={50000} max={800000} step={5000} value={immobile} onChange={(e) => setImmobile(parseInt(e.target.value))} style={{ width: '100%', accentColor: themeColor }} />
             <div style={{ marginTop: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
               <span style={{
                 fontSize: 11, fontWeight: 800,
                 padding: '4px 10px', borderRadius: 20,
-                background: ltv <= 80 ? '#dcfce7' : ltv <= 90 ? '#fef3c7' : '#fee2e2',
-                color: ltv <= 80 ? '#166534' : ltv <= 90 ? '#92400e' : '#991b1b'
+                background: ltv <= 80 ? '#e1ebe3' : ltv <= 90 ? '#efe5cf' : '#f4e1d6',
+                color: ltv <= 80 ? '#234a37' : ltv <= 90 ? '#6b5124' : '#7d3519'
               }}>
                 LTV {ltv.toFixed(0)}%
               </span>
-              <span style={{ fontSize: 11, color: '#94a3b8' }}>
+              <span style={{ fontSize: 11, color: '#8f897c' }}>
                 {ltv <= 80 ? 'Condizioni ottimali' : ltv <= 90 ? 'Accettabile, spread leggermente più alto' : 'LTV alto, alcune banche non finanziano'}
               </span>
             </div>
@@ -261,9 +261,9 @@ export function MutuoComp({ color = '#10b981' }) {
                   style={{
                     flex: 1, padding: '14px 16px',
                     borderRadius: 14,
-                    border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                    background: active ? t.bg : '#fff',
-                    color: active ? '#0f172a' : '#64748b',
+                    border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                    background: active ? t.bg : '#fbfaf7',
+                    color: active ? '#17150f' : '#6f6a5e',
                     cursor: 'pointer', textAlign: 'left', lineHeight: 1.4
                   }}
                 >
@@ -282,30 +282,30 @@ export function MutuoComp({ color = '#10b981' }) {
             <span style={{ fontSize: 18, fontWeight: 900, color: themeColor, fontVariantNumeric: 'tabular-nums' }}>{formatPerc(spread)}</span>
           </div>
           <input type="range" min={0.3} max={2.0} step={0.05} value={spread} onChange={(e) => setSpread(parseFloat(e.target.value))} style={{ width: '100%', accentColor: themeColor }} />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#8f897c', marginTop: 4 }}>
             <span>0,30% (migliori offerte)</span><span>2,00% (banca tradizionale)</span>
           </div>
         </div>
 
         {/* Classe energetica */}
         <div style={{
-          padding: '14px 16px', background: classeEnergetica ? '#dcfce7' : '#f8fafc',
-          borderRadius: 12, border: classeEnergetica ? '2px solid #10b981' : '1px solid #e2e8f0',
+          padding: '14px 16px', background: classeEnergetica ? '#e1ebe3' : '#f5f2ec',
+          borderRadius: 12, border: classeEnergetica ? '2px solid #2c5a43' : '1px solid #e6e0d4',
           display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer'
         }} onClick={() => setClasseEnergetica(!classeEnergetica)}>
           <div style={{
             width: 22, height: 22, borderRadius: 6,
-            border: classeEnergetica ? 'none' : '2px solid #cbd5e1',
-            background: classeEnergetica ? '#10b981' : '#fff',
+            border: classeEnergetica ? 'none' : '2px solid #d6cfc1',
+            background: classeEnergetica ? '#2c5a43' : '#fbfaf7',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontWeight: 900, fontSize: 14,
+            color: '#fbfaf7', fontWeight: 900, fontSize: 14,
             flexShrink: 0
           }}>
-            {classeEnergetica ? '✓' : ''}
+            {classeEnergetica ? '' : ''}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a' }}>🌱 Immobile in classe energetica A o B</div>
-            <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>Mutuo green: sconto tipico −0,40% sullo spread (APE certificato richiesto)</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#17150f' }}>Immobile in classe energetica A o B</div>
+            <div style={{ fontSize: 12, color: '#6f6a5e', marginTop: 2 }}>Mutuo green: sconto tipico −0,40% sullo spread (APE certificato richiesto)</div>
           </div>
         </div>
       </div>
@@ -318,30 +318,30 @@ export function MutuoComp({ color = '#10b981' }) {
         border: `2px solid ${themeColor}40`,
         borderRadius: 24, padding: '36px 24px', marginBottom: 24, textAlign: 'center'
       }}>
-        <div style={{ fontSize: 11, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+        <div style={{ fontSize: 11, color: '#6f6a5e', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
           Rata mensile stimata · Tasso finale {formatPerc(tassoFinale)}
         </div>
         <div style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--f-display)",
           fontSize: 52, fontWeight: 900, color: themeColor,
           lineHeight: 1, marginBottom: 8, fontVariantNumeric: 'tabular-nums'
         }}>
           {formatEuro(principale.rata)}
         </div>
-        <div style={{ fontSize: 13, color: '#475569' }}>
+        <div style={{ fontSize: 13, color: '#47433a' }}>
           <strong>{formatEuro(principale.totale)}</strong> costo vita del mutuo · <strong>{formatEuro(principale.interessi)}</strong> di interessi totali
         </div>
         <div style={{
           display: 'inline-block',
           marginTop: 14, padding: '8px 16px',
-          background: 'rgba(255,255,255,0.6)', color: '#475569',
+          background: 'rgba(255,255,255,0.6)', color: '#47433a',
           fontSize: 12, fontWeight: 700, borderRadius: 20
         }}>
-          💡 Reddito netto consigliato ≥ <strong style={{ color: themeColor }}>{formatEuro(redditoConsigliato)}/mese</strong> (regola 35%)
+          Reddito netto consigliato ≥ <strong style={{ color: themeColor }}>{formatEuro(redditoConsigliato)}/mese</strong> (regola 35%)
         </div>
         {redditoConsigliato > 3500 && (
           <div style={{ marginTop: 10 }}>
-            <a href="/calcolo-stipendio" style={{ fontSize: 12, color: '#475569', textDecoration: 'underline' }}>
+            <a href="/calcolo-stipendio" style={{ fontSize: 12, color: '#47433a', textDecoration: 'underline' }}>
               Verifica il tuo netto con il Calcolatore Stipendio 2026 →
             </a>
           </div>
@@ -353,12 +353,12 @@ export function MutuoComp({ color = '#10b981' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontSize: 16, fontWeight: 800, color: '#0f172a',
+          fontSize: 16, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Costi una tantum all'accensione (spesso dimenticati)
         </h3>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 18px', lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 18px', lineHeight: 1.5 }}>
           Oltre alla rata, l'apertura mutuo ha costi di ingresso significativi — il tuo budget "cassa" per l'acquisto deve includerli.
         </p>
 
@@ -370,25 +370,25 @@ export function MutuoComp({ color = '#10b981' }) {
         </div>
 
         <div style={{
-          padding: '14px 16px', background: '#f8fafc', borderRadius: 12,
+          padding: '14px 16px', background: '#f5f2ec', borderRadius: 12,
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10
         }}>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
               Totale costi una tantum
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 22, fontWeight: 900, color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>
               {formatEuro(costiAccessori.totale)}
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
               TAEG stimato
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 22, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(taegStimato)}
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>TAN + incidenza costi</div>
+            <div style={{ fontSize: 10, color: '#8f897c', marginTop: 2 }}>TAN + incidenza costi</div>
           </div>
         </div>
       </div>
@@ -397,39 +397,39 @@ export function MutuoComp({ color = '#10b981' }) {
           BLOCCO 3 — STRESS TEST VARIABILE
           ==================================================================== */}
       {tipoTasso === 'variabile' && stressTest && (
-        <div style={{ ...cardBase, marginBottom: 24, borderColor: '#f59e0b40', background: 'linear-gradient(135deg, #fffbeb 0%, #fff 100%)' }}>
+        <div style={{ ...cardBase, marginBottom: 24, borderColor: '#f59e0b40', background: 'linear-gradient(135deg, #f6f0e2 0%, #fbfaf7 100%)' }}>
           <h3 style={{
-            fontSize: 16, fontWeight: 800, color: '#78350f',
+            fontSize: 16, fontWeight: 800, color: '#6b5124',
             margin: '0 0 6px', letterSpacing: '-0.01em'
           }}>
-            ⚠️ Stress test tasso variabile
+            Stress test tasso variabile
           </h3>
-          <p style={{ fontSize: 13, color: '#78350f', margin: '0 0 18px', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#6b5124', margin: '0 0 18px', lineHeight: 1.5 }}>
             Il variabile segue l'Euribor, che può salire. Storicamente (2008, 2022) è arrivato fino al 4,5-5%. Verifica se reggi la rata nello scenario peggiore:
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
             <label style={labelStyle}>Se il tasso salisse a...</label>
-            <span style={{ fontSize: 18, fontWeight: 900, color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>{formatPerc(stressRate)}</span>
+            <span style={{ fontSize: 18, fontWeight: 900, color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>{formatPerc(stressRate)}</span>
           </div>
-          <input type="range" min={tassoFinale} max={7} step={0.25} value={stressRate} onChange={(e) => setStressRate(parseFloat(e.target.value))} style={{ width: '100%', accentColor: '#dc2626', marginBottom: 18 }} />
+          <input type="range" min={tassoFinale} max={7} step={0.25} value={stressRate} onChange={(e) => setStressRate(parseFloat(e.target.value))} style={{ width: '100%', accentColor: '#9b4220', marginBottom: 18 }} />
 
           <div style={{
-            padding: '18px 20px', background: '#fee2e2', borderRadius: 12,
-            border: '1px solid #fca5a5'
+            padding: '18px 20px', background: '#f4e1d6', borderRadius: 12,
+            border: '1px solid #e8c4b2'
           }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#991b1b', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: '#7d3519', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               La tua rata diventerebbe
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, flexWrap: 'wrap' }}>
-              <div style={{ fontSize: 32, fontWeight: 900, color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>
+              <div style={{ fontSize: 32, fontWeight: 900, color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>
                 {formatEuro(stressTest.nuovaRata)}
               </div>
-              <div style={{ fontSize: 14, color: '#991b1b', fontWeight: 700 }}>
+              <div style={{ fontSize: 14, color: '#7d3519', fontWeight: 700 }}>
                 +{formatEuro(stressTest.aumento)}/mese · +{stressTest.aumentoPerc.toFixed(1)}%
               </div>
             </div>
-            <div style={{ fontSize: 12, color: '#991b1b', marginTop: 10, lineHeight: 1.5 }}>
+            <div style={{ fontSize: 12, color: '#7d3519', marginTop: 10, lineHeight: 1.5 }}>
               Se non sei sicuro di poter reggere questa rata, valuta di passare al tasso fisso — o di ridurre l'importo richiesto.
             </div>
           </div>
@@ -441,7 +441,7 @@ export function MutuoComp({ color = '#10b981' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontSize: 16, fontWeight: 800, color: '#0f172a',
+          fontSize: 16, fontWeight: 800, color: '#17150f',
           margin: '0 0 18px', letterSpacing: '-0.01em'
         }}>
           Durata alternative (stesso importo e tasso)
@@ -455,19 +455,19 @@ export function MutuoComp({ color = '#10b981' }) {
             return (
               <div key={c.anni} style={{
                 padding: '12px 14px',
-                background: isActive ? t.bg : '#f8fafc',
+                background: isActive ? t.bg : '#f5f2ec',
                 borderRadius: 12,
                 border: isActive ? `2px solid ${themeColor}` : '1px solid transparent'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-                  <div style={{ fontSize: 14, fontWeight: isActive ? 900 : 700, color: '#0f172a' }}>
+                  <div style={{ fontSize: 14, fontWeight: isActive ? 900 : 700, color: '#17150f' }}>
                     {c.anni} anni {isActive && <span style={{ fontSize: 11, color: themeColor, marginLeft: 6 }}>← attuale</span>}
                   </div>
-                  <div style={{ fontSize: 13, color: '#64748b', fontVariantNumeric: 'tabular-nums' }}>
-                    <strong style={{ color: '#0f172a' }}>{formatEuro(c.rata)}</strong>/mese · interessi <strong style={{ color: '#dc2626' }}>{formatEuro(c.interessi)}</strong>
+                  <div style={{ fontSize: 13, color: '#6f6a5e', fontVariantNumeric: 'tabular-nums' }}>
+                    <strong style={{ color: '#17150f' }}>{formatEuro(c.rata)}</strong>/mese · interessi <strong style={{ color: '#9b4220' }}>{formatEuro(c.interessi)}</strong>
                   </div>
                 </div>
-                <div style={{ background: '#e2e8f0', borderRadius: 6, height: 6, overflow: 'hidden' }}>
+                <div style={{ background: '#e6e0d4', borderRadius: 6, height: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${pctInt}%`, height: '100%', background: themeColor, transition: 'width 0.4s' }} />
                 </div>
               </div>
@@ -481,42 +481,42 @@ export function MutuoComp({ color = '#10b981' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontSize: 16, fontWeight: 800, color: '#0f172a',
+          fontSize: 16, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Piano di ammortamento
         </h3>
-        <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 18px' }}>
+        <p style={{ fontSize: 12, color: '#6f6a5e', margin: '0 0 18px' }}>
           Nei primi anni la maggior parte della rata paga interessi. Il debito residuo scende più velocemente verso fine mutuo.
         </p>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ background: '#f8fafc' }}>
-                <th style={{ padding: '10px 12px', textAlign: 'left', color: '#475569', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Anno</th>
-                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#475569', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Capitale</th>
-                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#475569', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Interessi</th>
-                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#475569', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Debito residuo</th>
+              <tr style={{ background: '#f5f2ec' }}>
+                <th style={{ padding: '10px 12px', textAlign: 'left', color: '#47433a', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Anno</th>
+                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#47433a', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Capitale</th>
+                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#47433a', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Interessi</th>
+                <th style={{ padding: '10px 12px', textAlign: 'right', color: '#47433a', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }}>Debito residuo</th>
               </tr>
             </thead>
             <tbody>
               {principale.rows.slice(0, 5).map(r => (
-                <tr key={r.anno} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <tr key={r.anno} style={{ borderBottom: '1px solid #ece7dd' }}>
                   <td style={{ padding: '10px 12px', fontWeight: 700 }}>{r.anno}</td>
                   <td style={{ padding: '10px 12px', textAlign: 'right', color: themeColor, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(r.capitale)}</td>
-                  <td style={{ padding: '10px 12px', textAlign: 'right', color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(r.interessi)}</td>
+                  <td style={{ padding: '10px 12px', textAlign: 'right', color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(r.interessi)}</td>
                   <td style={{ padding: '10px 12px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(r.debitoResiduo)}</td>
                 </tr>
               ))}
               {principale.rows.length > 5 && (
                 <>
                   <tr>
-                    <td colSpan={4} style={{ padding: '8px 12px', textAlign: 'center', color: '#94a3b8', fontStyle: 'italic', fontSize: 12 }}>···</td>
+                    <td colSpan={4} style={{ padding: '8px 12px', textAlign: 'center', color: '#8f897c', fontStyle: 'italic', fontSize: 12 }}>···</td>
                   </tr>
-                  <tr style={{ background: '#f8fafc', borderTop: '2px dashed #e2e8f0' }}>
+                  <tr style={{ background: '#f5f2ec', borderTop: '2px dashed #e6e0d4' }}>
                     <td style={{ padding: '10px 12px', fontWeight: 700 }}>{principale.rows[principale.rows.length - 1].anno}</td>
                     <td style={{ padding: '10px 12px', textAlign: 'right', color: themeColor, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(principale.rows[principale.rows.length - 1].capitale)}</td>
-                    <td style={{ padding: '10px 12px', textAlign: 'right', color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(principale.rows[principale.rows.length - 1].interessi)}</td>
+                    <td style={{ padding: '10px 12px', textAlign: 'right', color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>{formatEuro(principale.rows[principale.rows.length - 1].interessi)}</td>
                     <td style={{ padding: '10px 12px', textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(0)}</td>
                   </tr>
                 </>
@@ -529,18 +529,18 @@ export function MutuoComp({ color = '#10b981' }) {
       {/* ====================================================================
           BLOCCO 4 — MINI-TOOL SURROGA
           ==================================================================== */}
-      <div style={{ ...cardBase, marginBottom: 24, background: 'linear-gradient(135deg, #eff6ff 0%, #fff 60%)', border: '1px solid #bfdbfe' }}>
+      <div style={{ ...cardBase, marginBottom: 24, background: 'linear-gradient(135deg, #e2e8ef 0%, #fbfaf7 60%)', border: '1px solid #c9d3df' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-          <span style={{ fontSize: 24 }}>🔁</span>
+          <span style={{ fontSize: 24 }}></span>
           <h3 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 18, fontWeight: 800, color: '#0f172a',
+            fontFamily: "var(--f-display)",
+            fontSize: 18, fontWeight: 800, color: '#17150f',
             margin: 0, letterSpacing: '-0.01em'
           }}>
             Hai già un mutuo? Calcola se conviene la surroga
           </h3>
         </div>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 20px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 20px', lineHeight: 1.6 }}>
           La surroga è gratuita per legge. Se i tassi attuali sono più bassi del tuo, cambiando banca puoi ridurre la rata senza costi. Ecco il risparmio stimato al tasso finale del simulatore sopra.
         </p>
 
@@ -548,14 +548,14 @@ export function MutuoComp({ color = '#10b981' }) {
           <div>
             <label style={labelStyle}>Rata mensile attuale</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>€</span>
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8f897c' }}>€</span>
               <input type="number" value={surrRataAttuale} onChange={(e) => setSurrRataAttuale(e.target.value)} style={{ ...inputStyle, paddingLeft: 28, fontWeight: 800 }} />
             </div>
           </div>
           <div>
             <label style={labelStyle}>Debito residuo</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>€</span>
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8f897c' }}>€</span>
               <input type="number" value={surrResiduo} onChange={(e) => setSurrResiduo(e.target.value)} style={{ ...inputStyle, paddingLeft: 28, fontWeight: 800 }} />
             </div>
           </div>
@@ -568,34 +568,34 @@ export function MutuoComp({ color = '#10b981' }) {
         {surroga && (
           <div style={{
             padding: '18px 20px',
-            background: surroga.conviene ? '#d1fae5' : '#f1f5f9',
+            background: surroga.conviene ? '#e1ebe3' : '#ece7dd',
             borderRadius: 12,
-            border: `1px solid ${surroga.conviene ? '#6ee7b7' : '#cbd5e1'}`
+            border: `1px solid ${surroga.conviene ? '#a9c4b2' : '#d6cfc1'}`
           }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: surroga.conviene ? '#065f46' : '#64748b', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              {surroga.conviene ? '✅ Surroga conveniente' : 'ℹ️ Risparmio modesto'}
+            <div style={{ fontSize: 11, fontWeight: 800, color: surroga.conviene ? '#234a37' : '#6f6a5e', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              {surroga.conviene ? 'Surroga conveniente' : 'ℹRisparmio modesto'}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 14 }}>
               <div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 2 }}>Nuova rata stimata</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+                <div style={{ fontSize: 11, color: '#6f6a5e', marginBottom: 2 }}>Nuova rata stimata</div>
+                <div style={{ fontSize: 20, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
                   {formatEuro(surroga.rataNew)}
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 2 }}>Risparmio mensile</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: surroga.conviene ? '#059669' : '#64748b', fontVariantNumeric: 'tabular-nums' }}>
+                <div style={{ fontSize: 11, color: '#6f6a5e', marginBottom: 2 }}>Risparmio mensile</div>
+                <div style={{ fontSize: 20, fontWeight: 900, color: surroga.conviene ? '#2c5a43' : '#6f6a5e', fontVariantNumeric: 'tabular-nums' }}>
                   {surroga.risparmioMensile > 0 ? '+' : ''}{formatEuro(Math.abs(surroga.risparmioMensile))}
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 2 }}>Risparmio totale (residuo)</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: surroga.conviene ? '#059669' : '#64748b', fontVariantNumeric: 'tabular-nums' }}>
+                <div style={{ fontSize: 11, color: '#6f6a5e', marginBottom: 2 }}>Risparmio totale (residuo)</div>
+                <div style={{ fontSize: 20, fontWeight: 900, color: surroga.conviene ? '#2c5a43' : '#6f6a5e', fontVariantNumeric: 'tabular-nums' }}>
                   {surroga.risparmioTotale > 0 ? '+' : ''}{formatEuro(Math.abs(surroga.risparmioTotale))}
                 </div>
               </div>
             </div>
-            <div style={{ fontSize: 11, color: '#64748b', marginTop: 12, lineHeight: 1.5, fontStyle: 'italic' }}>
+            <div style={{ fontSize: 11, color: '#6f6a5e', marginTop: 12, lineHeight: 1.5, fontStyle: 'italic' }}>
               Stima al tasso finale {formatPerc(tassoFinale)} del simulatore principale. La surroga conviene tipicamente se il risparmio supera i 50€/mese, ma valuta caso per caso anche il costo opportunità (tempo, pratiche) anche se legalmente è gratuita.
             </div>
           </div>
@@ -606,12 +606,12 @@ export function MutuoComp({ color = '#10b981' }) {
           DISCLAIMER
           ==================================================================== */}
       <div style={{
-        padding: '20px 24px', background: '#f8fafc',
-        border: '1px solid #e2e8f0', borderRadius: 16,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '20px 24px', background: '#f5f2ec',
+        border: '1px solid #e6e0d4', borderRadius: 16,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Nota metodologica e disclaimer
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Nota metodologica e disclaimer
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Parametri aggiornati aprile 2026</strong>. Tassi base (IRS per il fisso, Euribor 1M per il variabile) sono valori indicativi di mercato che cambiano quotidianamente: i tassi applicati concretamente dalle banche possono differire. Lo spread negoziato dipende da profilo reddituale, LTV, età, classe energetica dell'immobile e potere contrattuale del cliente.
@@ -635,19 +635,19 @@ function CostoCell({ label, value, sub }) {
   return (
     <div style={{
       padding: '12px 14px',
-      background: '#f8fafc', borderRadius: 12,
-      border: '1px solid #e2e8f0'
+      background: '#f5f2ec', borderRadius: 12,
+      border: '1px solid #e6e0d4'
     }}>
-      <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+      <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
         {label}
       </div>
       <div style={{
-        fontSize: 18, fontWeight: 900, color: '#0f172a',
+        fontSize: 18, fontWeight: 900, color: '#17150f',
         fontVariantNumeric: 'tabular-nums', marginBottom: 3
       }}>
         {value}
       </div>
-      <div style={{ fontSize: 10, color: '#94a3b8', lineHeight: 1.4 }}>
+      <div style={{ fontSize: 10, color: '#8f897c', lineHeight: 1.4 }}>
         {sub}
       </div>
     </div>

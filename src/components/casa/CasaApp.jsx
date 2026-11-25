@@ -37,7 +37,7 @@ export default function CasaApp() {
   const nAvvisi = useMemo(() => calcolaAvvisi(stato).filter((a) => a.livello !== 'info').length, [stato]);
 
   if (!pronto) return <div className="ca-boot" aria-busy="true" />;
-  if (!stato.casa) return <div className="ca"><div className="ca-main"><Benvenuto /></div></div>;
+  if (!stato.casa) return <div className="ca ca-solo"><div className="ca-main"><Benvenuto /></div></div>;
 
   let vista;
   if (percorso.startsWith('voce/')) vista = <Voce cat={percorso.slice(5)} stato={stato} vai={vai} />;

@@ -8,23 +8,19 @@ const topic = TOPICS.mutuo;
 <Layout title="Calcola Rata Mutuo — Simulatore Gratuito | SoldiBuoni" description="Simula la rata del mutuo casa. Confronta durate e tassi, visualizza il piano di ammortamento e scopri quanto paghi davvero di interessi.">
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
-        {topic.icon}
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
-        Simulatore Mutuo
-      </h1>
-    </div>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">Simulatore Mutuo</h1>
+    </header>
 
     <div class="tab-container" style={`--theme-color: ${topic.color}`}>
-      <button class="tab-btn active" data-target="tab-calc">🏠 Simulatore</button>
-      <button class="tab-btn" data-target="tab-capire">💡 Capire i mutui</button>
-      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
+      <button class="tab-btn active" data-target="tab-calc">Simulatore</button>
+      <button class="tab-btn" data-target="tab-capire">Capire i mutui</button>
+      <button class="tab-btn" data-target="tab-guida">Come scegliere</button>
     </div>
 
     <div id="tab-calc" class="tab-content" style="display: block;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 18px;">
+      <h2 style="font-family: var(--f-display); font-size: 24px; color: #17150f; margin-bottom: 18px;">
         Simulatore Rata Mutuo
       </h2>
 
@@ -65,7 +61,7 @@ const topic = TOPICS.mutuo;
       <div class="calc-card">
         <label class="calc-label">
           Valore immobile: <span id="immobile-value" class="calc-accent">€200.000</span>
-          <span id="ltv-badge" style="font-size: 11px; font-weight: 600; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 8px; margin-left: 8px;">LTV 75%</span>
+          <span id="ltv-badge" style="font-size: 11px; font-weight: 600; background: #e1ebe3; color: #234a37; padding: 2px 8px; border-radius: 8px; margin-left: 8px;">LTV 75%</span>
         </label>
         <input type="range" id="immobile-slider" min="50000" max="800000" step="5000" value="200000" class="calc-slider">
         <div class="calc-range"><span>€50.000</span><span>€800.000</span></div>
@@ -75,11 +71,11 @@ const topic = TOPICS.mutuo;
       <div class="results-hero">
         <div class="result-box">
           <div class="result-label">Rata mensile</div>
-          <div id="res-rata" class="result-big" style="color: #10b981;">€726</div>
+          <div id="res-rata" class="result-big" style="color: #a9c4b2;">€726</div>
         </div>
         <div class="result-box">
           <div class="result-label">Totale interessi</div>
-          <div id="res-interessi" class="result-big" style="color: #f59e0b;">€67.820</div>
+          <div id="res-interessi" class="result-big" style="color: #d9c49b;">€67.820</div>
         </div>
         <div class="result-box">
           <div class="result-label">Costo totale</div>
@@ -89,18 +85,18 @@ const topic = TOPICS.mutuo;
 
       <!-- REDDITO CONSIGLIATO -->
       <div id="reddito-box" class="reddito-box">
-        <p>💡 Per una rata di <strong id="reddito-rata">€726</strong>/mese, il reddito netto consigliato è almeno <strong id="reddito-min">€2.074</strong>/mese (regola del 35%).</p>
+        <p>Per una rata di <strong id="reddito-rata">€726</strong>/mese, il reddito netto consigliato è almeno <strong id="reddito-min">€2.074</strong>/mese (regola del 35%).</p>
       </div>
 
       <!-- CONFRONTO DURATE -->
       <div class="calc-card" style="margin-top: 16px;">
-        <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">Confronto durate (stesso importo e tasso)</h3>
+        <h3 style="font-size: 15px; font-weight: 700; color: #17150f; margin-bottom: 14px;">Confronto durate (stesso importo e tasso)</h3>
         <div id="durata-comparison"></div>
       </div>
 
       <!-- PIANO AMMORTAMENTO -->
       <div class="calc-card" style="margin-top: 16px;">
-        <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">Piano di ammortamento (primi 5 anni)</h3>
+        <h3 style="font-size: 15px; font-weight: 700; color: #17150f; margin-bottom: 14px;">Piano di ammortamento (primi 5 anni)</h3>
         <div style="overflow-x: auto;">
           <table id="ammortamento-table" class="amm-table">
             <thead>
@@ -117,31 +113,31 @@ const topic = TOPICS.mutuo;
         </div>
       </div>
 
-      <p style="font-size: 11px; color: #94a3b8; margin-top: 14px; font-style: italic; text-align: center;">
+      <p style="font-size: 11px; color: #8f897c; margin-top: 14px; font-style: italic; text-align: center;">
         * Simulazione indicativa. Il TAEG reale include spese di istruttoria, perizia e assicurazioni.
         Consulta sempre più istituti prima di decidere.
       </p>
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      <h2 style="font-family: var(--f-display); font-size: 24px; color: #17150f; margin-bottom: 24px;">{topic.capire.title}</h2>
       {topic.capire.content.map((c) => (
-        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+        <div style="background: #fbfaf7; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e6e0d4;">
           <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
-          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
+          <p style="color: #47433a; font-size: 14px; line-height: 1.75;">{c.text}</p>
         </div>
       ))}
     </div>
 
     <div id="tab-guida" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <h2 style="font-family: var(--f-display); font-size: 24px; color: #17150f; margin-bottom: 24px;">{topic.guida.title}</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
         {topic.guida.steps.map((s) => (
-          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
-            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+          <div style="background: #fbfaf7; border-radius: 14px; padding: 20px 24px; border: 1px solid #e6e0d4; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fbfaf7; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
             <div>
-              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
-              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+              <h3 style="color: #17150f; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #47433a; font-size: 14px; line-height: 1.6;">{s.text}</p>
             </div>
           </div>
         ))}
@@ -151,31 +147,31 @@ const topic = TOPICS.mutuo;
 </Layout>
 
 <style>
-  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fff; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; }
-  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit; }
-  .tab-btn:hover { background: #f8fafc; }
-  .tab-btn.active { background: var(--theme-color); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fbfaf7; padding: 6px; border-radius: 12px; border: 1px solid #e6e0d4; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #6f6a5e; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .tab-btn:hover { background: #f5f2ec; }
+  .tab-btn.active { background: var(--theme-color); color: #fbfaf7; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
   .tab-content { animation: fadeIn 0.3s ease-in-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  .calc-card { background: #fff; border-radius: 14px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 16px; }
-  .calc-label { font-size: 14px; font-weight: 600; color: #0f172a; display: block; margin-bottom: 8px; }
-  .calc-accent { color: #10B981; }
-  .calc-slider { width: 100%; accent-color: #10B981; }
-  .calc-range { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; }
+  .calc-card { background: #fbfaf7; border-radius: 14px; padding: 22px; border: 1px solid #e6e0d4; margin-bottom: 16px; }
+  .calc-label { font-size: 14px; font-weight: 600; color: #17150f; display: block; margin-bottom: 8px; }
+  .calc-accent { color: #84652d; }
+  .calc-slider { width: 100%; accent-color: #17150f; }
+  .calc-range { display: flex; justify-content: space-between; font-size: 12px; color: #8f897c; }
 
-  .tipo-pill { padding: 6px 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 12px; font-weight: 600; background: #fff; color: #64748b; cursor: pointer; font-family: inherit; transition: all 0.2s; }
-  .tipo-pill.active { background: #10B981; color: #fff; border-color: #10B981; }
+  .tipo-pill { padding: 6px 14px; border-radius: 8px; border: 1px solid #e6e0d4; font-size: 12px; font-weight: 600; background: #fbfaf7; color: #6f6a5e; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .tipo-pill.active { background: #2c5a43; color: #fbfaf7; border-color: #2c5a43; }
 
-  .results-hero { background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 28px; color: #fff; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; margin-bottom: 16px; }
-  .result-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-  .result-big { font-size: 28px; font-weight: 800; font-family: 'Playfair Display', serif; }
+  .results-hero { background: linear-gradient(135deg, #17150f, #26231b); border-radius: 16px; padding: 28px; color: #fbfaf7; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; margin-bottom: 16px; }
+  .result-label { font-size: 12px; color: #8f897c; margin-bottom: 4px; }
+  .result-big { font-size: 28px; font-weight: 800; font-family: var(--f-display); }
 
-  .reddito-box { background: #f0fdf4; border-radius: 12px; padding: 16px 20px; border: 1px solid #bbf7d0; font-size: 14px; color: #166534; line-height: 1.6; }
+  .reddito-box { background: #eef3ef; border-radius: 12px; padding: 16px 20px; border: 1px solid #c6d8cb; font-size: 14px; color: #234a37; line-height: 1.6; }
 
   .amm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .amm-table th { text-align: left; padding: 10px 12px; color: #64748b; font-weight: 600; font-size: 12px; border-bottom: 2px solid #e2e8f0; }
-  .amm-table td { padding: 10px 12px; color: #0f172a; border-bottom: 1px solid #f1f5f9; }
+  .amm-table th { text-align: left; padding: 10px 12px; color: #6f6a5e; font-weight: 600; font-size: 12px; border-bottom: 2px solid #e6e0d4; }
+  .amm-table td { padding: 10px 12px; color: #17150f; border-bottom: 1px solid #ece7dd; }
   .amm-table tr:last-child td { border-bottom: none; }
 
   @media (max-width: 768px) {
@@ -243,9 +239,9 @@ const topic = TOPICS.mutuo;
     const ltvBadge = document.getElementById('ltv-badge');
     ltvBadge.textContent = 'LTV ' + ltv + '%';
     if (ltv <= 80) {
-      ltvBadge.style.background = '#dcfce7'; ltvBadge.style.color = '#166534';
+      ltvBadge.style.background = '#e1ebe3'; ltvBadge.style.color = '#234a37';
     } else {
-      ltvBadge.style.background = '#fef3c7'; ltvBadge.style.color = '#92400e';
+      ltvBadge.style.background = '#efe5cf'; ltvBadge.style.color = '#6b5124';
     }
 
     document.getElementById('res-rata').textContent = '€' + fmt(rata);
@@ -266,19 +262,19 @@ const topic = TOPICS.mutuo;
       const int = t - importo;
       const pct = (t / maxTotale) * 100;
       const isActive = d === anni;
-      return `<div style="margin-bottom: 10px; ${isActive ? 'background: #f0fdf4; padding: 10px 12px; border-radius: 10px; margin: 0 -12px 10px;' : ''}">
+      return `<div style="margin-bottom: 10px; ${isActive ? 'background: #eef3ef; padding: 10px 12px; border-radius: 10px; margin: 0 -12px 10px;' : ''}">
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; align-items: center;">
-          <span style="font-size: 13px; font-weight: ${isActive ? '700' : '500'}; color: #0f172a;">${d} anni ${isActive ? '← attuale' : ''}</span>
-          <span style="font-size: 12px; color: #64748b;">€${fmt(r)}/mese · interessi €${fmt(int)}</span>
+          <span style="font-size: 13px; font-weight: ${isActive ? '700' : '500'}; color: #17150f;">${d} anni ${isActive ? '← attuale' : ''}</span>
+          <span style="font-size: 12px; color: #6f6a5e;">€${fmt(r)}/mese · interessi €${fmt(int)}</span>
         </div>
-        <div style="background: #f1f5f9; border-radius: 4px; height: 8px; overflow: hidden; position: relative;">
+        <div style="background: #ece7dd; border-radius: 4px; height: 8px; overflow: hidden; position: relative;">
           <div style="position: absolute; height: 100%; border-radius: 4px; background: #10b98140; width: ${pct}%;"></div>
-          <div style="position: absolute; height: 100%; border-radius: 4px; background: #10b981; width: ${(importo / maxTotale) * 100}%;"></div>
+          <div style="position: absolute; height: 100%; border-radius: 4px; background: #2c5a43; width: ${(importo / maxTotale) * 100}%;"></div>
         </div>
       </div>`;
     }).join('');
     document.getElementById('durata-comparison').innerHTML = compHtml +
-      '<div style="display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: #94a3b8;">' +
+      '<div style="display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: #8f897c;">' +
       '<span>■ Capitale</span><span style="opacity: 0.4;">■ Interessi</span></div>';
 
     // Piano ammortamento (primi 5 anni)
@@ -298,8 +294,8 @@ const topic = TOPICS.mutuo;
       html += `<tr>
         <td style="font-weight: 600;">Anno ${a}</td>
         <td>€${fmt(rata * 12)}</td>
-        <td style="color: #10b981; font-weight: 600;">€${fmt(capAnno)}</td>
-        <td style="color: #f59e0b;">€${fmt(intAnno)}</td>
+        <td style="color: #2c5a43; font-weight: 600;">€${fmt(capAnno)}</td>
+        <td style="color: #84652d;">€${fmt(intAnno)}</td>
         <td>€${fmt(Math.max(0, debito))}</td>
       </tr>`;
     }
@@ -315,16 +311,16 @@ const topic = TOPICS.mutuo;
           debitoSkip -= capMese;
         }
         if (a === anni) {
-          html += `<tr style="border-top: 2px dashed #e2e8f0;">
+          html += `<tr style="border-top: 2px dashed #e6e0d4;">
             <td style="font-weight: 600;">Anno ${a}</td>
             <td>€${fmt(rata * 12)}</td>
-            <td style="color: #10b981; font-weight: 600;">€${fmt(capAnno)}</td>
-            <td style="color: #f59e0b;">€${fmt(intAnno)}</td>
+            <td style="color: #2c5a43; font-weight: 600;">€${fmt(capAnno)}</td>
+            <td style="color: #84652d;">€${fmt(intAnno)}</td>
             <td style="font-weight: 700;">€0</td>
           </tr>`;
         }
       }
-      html = html.replace('</tr><tr style="border-top', '</tr><tr><td colspan="5" style="text-align: center; color: #94a3b8; font-style: italic; padding: 8px;">···</td></tr><tr style="border-top');
+      html = html.replace('</tr><tr style="border-top', '</tr><tr><td colspan="5" style="text-align: center; color: #8f897c; font-style: italic; padding: 8px;">···</td></tr><tr style="border-top');
     }
     document.getElementById('amm-body').innerHTML = html;
   }

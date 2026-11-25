@@ -2,33 +2,29 @@
 import Layout from '../layouts/Layout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.jsx';
 
-const color = '#3b82f6';
+const color = '#4b5f86';
 ---
 
 <Layout title="Guida Risparmio 2026 — Come Tagliare le Spese in 7 Capitoli | SoldiBuoni" description="Guida pratica per risparmiare su bollette luce, gas, internet, acqua e casa. Strategie testate con calcoli reali e strumenti gratuiti. Aggiornata aprile 2026.">
 
   <article style="max-width: 720px; margin: 0 auto; padding: 36px 20px 60px;">
 
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${color}14; flex-shrink: 0;`}>
-        📖
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
-        Guida <span style={`color: ${color};`}>Risparmio</span> 2026
-      </h1>
-    </div>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">Guida <span style={`color: ${color};`}>Risparmio</span> 2026</h1>
+    </header>
 
-    <p class="update-note">🔄 Aggiornata aprile 2026 · 8 min di lettura · Dati ARERA, ABI, ANIA</p>
+    <p class="update-note">Aggiornata aprile 2026 · 8 min di lettura · Dati ARERA, ABI, ANIA</p>
 
-    <p style="font-size: 17px; color: #64748b; line-height: 1.7; margin: 0 0 28px;">
+    <p style="font-size: 17px; color: #6f6a5e; line-height: 1.7; margin: 0 0 28px;">
       Una famiglia italiana media spende tra €2.500 e €4.000 all'anno in bollette.
       Con poche azioni mirate, è possibile ridurre questa cifra del 20-35%.
       Ecco il metodo completo in 7 capitoli, con calcoli reali.
     </p>
 
-    <nav style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; margin-bottom: 32px;">
-      <p style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">In questa guida:</p>
-      <ol style="font-size: 14px; color: #475569; line-height: 2; padding-left: 20px;">
+    <nav style="background: #fbfaf7; border-radius: 14px; padding: 20px 24px; border: 1px solid #e6e0d4; margin-bottom: 32px;">
+      <p style="font-size: 14px; font-weight: 700; color: #17150f; margin-bottom: 10px;">In questa guida:</p>
+      <ol style="font-size: 14px; color: #47433a; line-height: 2; padding-left: 20px;">
         <li><a href="#mercato-libero" style={`color: ${color}; text-decoration: none;`}>Capire il Mercato Libero</a></li>
         <li><a href="#confronto-luce" style={`color: ${color}; text-decoration: none;`}>Risparmiare sulla Luce</a></li>
         <li><a href="#confronto-gas" style={`color: ${color}; text-decoration: none;`}>Risparmiare sul Gas</a></li>
@@ -52,10 +48,10 @@ const color = '#3b82f6';
         Per il gas, la transizione al mercato libero è avvenuta a gennaio 2025. Lo scenario è simile:
         chi non ha scelto attivamente un fornitore potrebbe star pagando più del necessario.
       </p>
-      <div style="background: #f0fdf4; border-radius: 12px; padding: 18px 22px; border: 1px solid #bbf7d0; margin: 20px 0;">
-        <p style="font-size: 14px; color: #166534; margin: 0;">
-          <strong>💡 Cosa fare subito:</strong> Controlla sulla tua bolletta se sei ancora nel Servizio a
-          Tutele Graduali. Se sì, usa il nostro <a href="/luce-gas" style="color: #059669; font-weight: 700;">comparatore Luce & Gas</a>
+      <div style="background: #eef3ef; border-radius: 12px; padding: 18px 22px; border: 1px solid #c6d8cb; margin: 20px 0;">
+        <p style="font-size: 14px; color: #234a37; margin: 0;">
+          <strong>Cosa fare subito:</strong> Controlla sulla tua bolletta se sei ancora nel Servizio a
+          Tutele Graduali. Se sì, usa il nostro <a href="/luce-gas" style="color: #2c5a43; font-weight: 700;">comparatore Luce & Gas</a>
           per trovare un'offerta migliore. Il cambio fornitore è gratuito e richiede 5 minuti.
         </p>
       </div>
@@ -78,11 +74,11 @@ const color = '#3b82f6';
         migliori hanno spread di €0.006-0.009/kWh sul PUN. Con un PUN medio intorno a €0.08-0.10/kWh,
         le variabili risultano spesso più convenienti — ma serve propensione al rischio.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #f59e0b; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          ⚡ Confronta le offerte luce e gas
+      <div style="background: #fbfaf7; border-radius: 12px; padding: 18px 22px; border: 2px solid #84652d; margin: 20px 0; text-align: center;">
+        <p style="font-size: 15px; color: #17150f; margin: 0 0 10px; font-weight: 700;">
+          Confronta le offerte luce e gas
         </p>
-        <a href="/luce-gas" style="display: inline-block; background: #f59e0b; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
+        <a href="/luce-gas" style="display: inline-block; background: #84652d; color: #fbfaf7; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
           Vai al Comparatore →
         </a>
       </div>
@@ -118,11 +114,11 @@ const color = '#3b82f6';
         Le offerte senza vincolo sono sempre preferibili — ti permettono di cambiare in qualsiasi momento
         se esce un'offerta migliore.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #8B5CF6; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          📡 Trova la fibra più conveniente
+      <div style="background: #fbfaf7; border-radius: 12px; padding: 18px 22px; border: 2px solid #7a5a6e; margin: 20px 0; text-align: center;">
+        <p style="font-size: 15px; color: #17150f; margin: 0 0 10px; font-weight: 700;">
+          Trova la fibra più conveniente
         </p>
-        <a href="/internet" style="display: inline-block; background: #8B5CF6; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
+        <a href="/internet" style="display: inline-block; background: #7a5a6e; color: #fbfaf7; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
           Vai al Comparatore Internet →
         </a>
       </div>
@@ -154,48 +150,48 @@ const color = '#3b82f6';
         Molte famiglie scoprono di rientrare nelle soglie senza saperlo, specialmente dopo un cambio
         lavorativo o un figlio in più.
       </p>
-      <div style="background: #fff; border-radius: 12px; padding: 18px 22px; border: 2px solid #ec4899; margin: 20px 0; text-align: center;">
-        <p style="font-size: 15px; color: #0f172a; margin: 0 0 10px; font-weight: 700;">
-          🎁 Scopri a quali bonus hai diritto
+      <div style="background: #fbfaf7; border-radius: 12px; padding: 18px 22px; border: 2px solid #a5532f; margin: 20px 0; text-align: center;">
+        <p style="font-size: 15px; color: #17150f; margin: 0 0 10px; font-weight: 700;">
+          Scopri a quali bonus hai diritto
         </p>
-        <a href="/trova-bonus" style="display: inline-block; background: #ec4899; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
+        <a href="/trova-bonus" style="display: inline-block; background: #a5532f; color: #fbfaf7; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none;">
           Vai a Trova Bonus →
         </a>
       </div>
 
       <h2 id="errori">7. I 5 Errori più Comuni</h2>
 
-      <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
-        <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 1: Non confrontare mai le offerte.</strong>
+      <div style="background: #f4e1d6; border-radius: 12px; padding: 18px 22px; border: 1px solid #e8c4b2; margin: 16px 0;">
+        <p style="font-size: 14px; color: #7d3519; margin: 0;">
+          <strong>Errore 1: Non confrontare mai le offerte.</strong>
           Il mercato cambia ogni mese. Un'offerta che era competitiva un anno fa potrebbe essere
           tra le più care oggi. Bastano 10 minuti una volta all'anno.
         </p>
       </div>
-      <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
-        <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 2: Guardare solo il prezzo al kWh.</strong>
+      <div style="background: #f4e1d6; border-radius: 12px; padding: 18px 22px; border: 1px solid #e8c4b2; margin: 16px 0;">
+        <p style="font-size: 14px; color: #7d3519; margin: 0;">
+          <strong>Errore 2: Guardare solo il prezzo al kWh.</strong>
           Il costo fisso mensile può incidere molto, soprattutto con consumi bassi.
           Un'offerta a €0.12/kWh con €15/mese di fisso può costare più di una a €0.14/kWh con €5/mese.
         </p>
       </div>
-      <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
-        <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 3: Avere paura di cambiare fornitore.</strong>
+      <div style="background: #f4e1d6; border-radius: 12px; padding: 18px 22px; border: 1px solid #e8c4b2; margin: 16px 0;">
+        <p style="font-size: 14px; color: #7d3519; margin: 0;">
+          <strong>Errore 3: Avere paura di cambiare fornitore.</strong>
           Il cambio è gratuito, non c'è interruzione del servizio, e puoi tornare indietro quando vuoi.
           Non ci sono penali se l'offerta non ha vincolo.
         </p>
       </div>
-      <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
-        <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 4: Ignorare la potenza del contatore.</strong>
+      <div style="background: #f4e1d6; border-radius: 12px; padding: 18px 22px; border: 1px solid #e8c4b2; margin: 16px 0;">
+        <p style="font-size: 14px; color: #7d3519; margin: 0;">
+          <strong>Errore 4: Ignorare la potenza del contatore.</strong>
           Se hai 4.5 kW o 6 kW ma ne usi al massimo 3, stai pagando costi fissi in più per niente.
           Chiedi al fornitore di ridurre la potenza contrattuale.
         </p>
       </div>
-      <div style="background: #fef2f2; border-radius: 12px; padding: 18px 22px; border: 1px solid #fecaca; margin: 16px 0;">
-        <p style="font-size: 14px; color: #991b1b; margin: 0;">
-          <strong>❌ Errore 5: Non leggere l'autolettura.</strong>
+      <div style="background: #f4e1d6; border-radius: 12px; padding: 18px 22px; border: 1px solid #e8c4b2; margin: 16px 0;">
+        <p style="font-size: 14px; color: #7d3519; margin: 0;">
+          <strong>Errore 5: Non leggere l'autolettura.</strong>
           Se il distributore stima i tuoi consumi (invece di leggere il contatore), potresti pagare
           bollette gonfiate. Comunica l'autolettura almeno ogni 2 mesi.
         </p>
@@ -208,20 +204,20 @@ const color = '#3b82f6';
         perché non ha mai confrontato le offerte o non conosce gli strumenti disponibili.
       </p>
       <p>
-        Il <a href="/quanto-spendo" style="color: #059669; font-weight: 700;">calcolatore "Quanto Spendo?"</a>
+        Il <a href="/quanto-spendo" style="color: #2c5a43; font-weight: 700;">calcolatore "Quanto Spendo?"</a>
         ti dà una panoramica completa in 2 minuti. Se preferisci un approccio strutturato, la
-        <a href="/checklist" style="color: #8b5cf6; font-weight: 700;">Checklist Salvavita</a> ti guida
+        <a href="/checklist" style="color: #7a5a6e; font-weight: 700;">Checklist Salvavita</a> ti guida
         con 12 azioni concrete, una al mese.
       </p>
 
     </div>
 
-    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, #f5f3ff 0%, #fff 60%); border: 1px solid rgba(139,92,246,0.2); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, #ede6ea 0%, #fbfaf7 60%); border: 1px solid rgba(122,90,110,0.2); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
       <div style="flex: 1 1 280px;">
-        <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 4px;">Pronto a passare all'azione?</h4>
-        <p style="font-size: 13px; color: #64748b; margin: 0; line-height: 1.5;">12 azioni concrete con risparmio stimato, tempo richiesto e progresso tracciato.</p>
+        <h4 style="font-size: 16px; font-weight: 800; color: #17150f; margin: 0 0 4px;">Pronto a passare all'azione?</h4>
+        <p style="font-size: 13px; color: #6f6a5e; margin: 0; line-height: 1.5;">12 azioni concrete con risparmio stimato, tempo richiesto e progresso tracciato.</p>
       </div>
-      <a href="/checklist" style="padding: 12px 20px; border-radius: 12px; background: #8b5cf6; color: #fff; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; box-shadow: 0 6px 16px -4px rgba(139,92,246,0.5);">
+      <a href="/checklist" style="padding: 12px 20px; border-radius: 12px; background: #7a5a6e; color: #fbfaf7; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; box-shadow: 0 6px 16px -4px rgba(122,90,110,0.5);">
         Vai alla Checklist →
       </a>
     </div>
@@ -236,16 +232,16 @@ const color = '#3b82f6';
 <style>
   .update-note {
     font-size: 12px;
-    color: #94a3b8;
+    color: #8f897c;
     margin: 0 0 20px 0;
     padding-left: 2px;
     font-weight: 500;
   }
 
   .article-body h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--f-display);
     font-size: 24px;
-    color: #0f172a;
+    color: #17150f;
     margin-top: 40px;
     margin-bottom: 12px;
     line-height: 1.3;
@@ -253,18 +249,18 @@ const color = '#3b82f6';
   .article-body h3 {
     font-size: 17px;
     font-weight: 700;
-    color: #334155;
+    color: #3a362c;
     margin-top: 24px;
     margin-bottom: 8px;
   }
   .article-body p {
     font-size: 15px;
-    color: #475569;
+    color: #47433a;
     line-height: 1.8;
     margin-bottom: 16px;
   }
   .article-body a {
-    color: #059669;
+    color: #2c5a43;
     text-decoration: none;
     font-weight: 600;
   }

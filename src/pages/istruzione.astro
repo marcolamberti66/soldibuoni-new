@@ -9,19 +9,15 @@ const topic = TOPICS.istruzione;
 <Layout title="Costi Università e Borse di Studio | SoldiBuoni" description="Confronta le rette universitarie, scopri come funziona l'ISEE e trova l'ateneo migliore per il tuo budget.">
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
-        {topic.icon}
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; color: #0f172a;">
-        {topic.title}
-      </h1>
-    </div>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">{topic.title}</h1>
+    </header>
 
     <div class="tab-container" style={`--theme-color: ${topic.color}`}>
-      <button class="tab-btn active" data-target="tab-confronta">🎓 Confronta</button>
-      <button class="tab-btn" data-target="tab-capire">💡 Capire il mercato</button>
-      <button class="tab-btn" data-target="tab-guida">🛠️ Come scegliere</button>
+      <button class="tab-btn active" data-target="tab-confronta">Confronta</button>
+      <button class="tab-btn" data-target="tab-capire">Capire il mercato</button>
+      <button class="tab-btn" data-target="tab-guida">Come scegliere</button>
     </div>
 
     <div id="tab-confronta" class="tab-content" style="display: block;">
@@ -29,24 +25,24 @@ const topic = TOPICS.istruzione;
     </div>
 
     <div id="tab-capire" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.capire.title}</h2>
+      <h2 style="font-family: var(--f-display); font-size: 24px; color: #17150f; margin-bottom: 24px;">{topic.capire.title}</h2>
       {topic.capire.content.map((c) => (
-        <div style="background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+        <div style="background: #fbfaf7; border-radius: 14px; padding: 24px; margin-bottom: 14px; border: 1px solid #e6e0d4;">
           <h3 style={`color: ${topic.color}; font-size: 15px; font-weight: 700; margin-bottom: 8px;`}>{c.subtitle}</h3>
-          <p style="color: #475569; font-size: 14px; line-height: 1.75;">{c.text}</p>
+          <p style="color: #47433a; font-size: 14px; line-height: 1.75;">{c.text}</p>
         </div>
       ))}
     </div>
 
     <div id="tab-guida" class="tab-content" style="display: none;">
-      <h2 style="font-family: 'Playfair Display',serif; font-size: 24px; color: #0f172a; margin-bottom: 24px;">{topic.guida.title}</h2>
+      <h2 style="font-family: var(--f-display); font-size: 24px; color: #17150f; margin-bottom: 24px;">{topic.guida.title}</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
         {topic.guida.steps.map((s) => (
-          <div style="background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; gap: 16px;">
-            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
+          <div style="background: #fbfaf7; border-radius: 14px; padding: 20px 24px; border: 1px solid #e6e0d4; display: flex; gap: 16px;">
+            <div style={`width: 32px; height: 32px; border-radius: 50%; background: ${topic.color}; color: #fbfaf7; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;`}>{s.n}</div>
             <div>
-              <h3 style="color: #0f172a; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
-              <p style="color: #475569; font-size: 14px; line-height: 1.6;">{s.text}</p>
+              <h3 style="color: #17150f; font-size: 16px; font-weight: 700; margin-bottom: 6px;">{s.title}</h3>
+              <p style="color: #47433a; font-size: 14px; line-height: 1.6;">{s.text}</p>
             </div>
           </div>
         ))}
@@ -61,10 +57,10 @@ const topic = TOPICS.istruzione;
     display: flex;
     gap: 8px;
     margin-bottom: 30px;
-    background: #fff;
+    background: #fbfaf7;
     padding: 6px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e6e0d4;
   }
   .tab-btn {
     flex: 1;
@@ -74,15 +70,15 @@ const topic = TOPICS.istruzione;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
-    color: #64748b;
+    color: #6f6a5e;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
   }
-  .tab-btn:hover { background: #f8fafc; }
+  .tab-btn:hover { background: #f5f2ec; }
   .tab-btn.active {
     background: var(--theme-color);
-    color: #fff;
+    color: #fbfaf7;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
   .tab-content { animation: fadeIn 0.3s ease-in-out; }

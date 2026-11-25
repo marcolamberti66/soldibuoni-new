@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 // Approccio: checklist CCNL + simulazione 3 scenari + griglia di requisiti.
 // ============================================================================
 
-const THEME = { primary: '#dc2626', soft: '#fee2e2', bg: '#fef2f2' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // Costi medi di riferimento prestazioni sanitarie private 2026 (fonte: medie indicative centri diagnostici)
 const COSTI_PRIVATI = {
@@ -20,7 +20,7 @@ const COSTI_PRIVATI = {
   ricoveroGrave: 25000         // intervento complesso / lunga degenza
 };
 
-export function SaluteComp({ color = '#dc2626' }) {
+export function SaluteComp({ color = '#9b4220' }) {
   const [hasFondoCcnl, setHasFondoCcnl] = useState('non_so');
   const [premioStr, setPremioStr] = useState('400');
   const [nVisite, setNVisite] = useState(3);
@@ -96,21 +96,21 @@ export function SaluteComp({ color = '#dc2626' }) {
   }, [premioStr, nVisite, cureOdonto, persone, eta]);
 
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
   const inputStyle = {
-    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1',
-    borderRadius: 12, boxSizing: 'border-box', color: '#0f172a', background: '#fff', outline: 'none'
+    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #d6cfc1',
+    borderRadius: 12, boxSizing: 'border-box', color: '#17150f', background: '#fbfaf7', outline: 'none'
   };
   const formatEuro = (v) => `€ ${Math.abs(Math.round(v)).toLocaleString('it-IT')}`;
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           BLOCCO CRUCIALE: FONDO CCNL PRIMA DI TUTTO
@@ -118,26 +118,26 @@ export function SaluteComp({ color = '#dc2626' }) {
       <div style={{
         ...cardBase,
         marginBottom: 24,
-        background: 'linear-gradient(135deg, #fef3c7 0%, #fff 60%)',
-        border: '2px solid #f59e0b'
+        background: 'linear-gradient(135deg, #efe5cf 0%, #fbfaf7 60%)',
+        border: '2px solid #84652d'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <span style={{ fontSize: 24 }}>⚠️</span>
+          <span style={{ fontSize: 24 }}></span>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0
+            fontFamily: "var(--f-display)",
+            fontSize: 20, fontWeight: 800, color: '#17150f', margin: 0
           }}>
             Prima di tutto: hai già un fondo sanitario CCNL?
           </h2>
         </div>
-        <p style={{ fontSize: 14, color: '#475569', margin: '0 0 18px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: '#47433a', margin: '0 0 18px', lineHeight: 1.6 }}>
           Il 70% dei lavoratori dipendenti italiani <strong>ha già un'integrativa sanitaria</strong> tramite il fondo previsto dal CCNL (Metasalute per metalmeccanici, FASI per dirigenti, Unisalute per molti altri CCNL del commercio e servizi, Fondo Est, Sanimoda...). <strong>Molti non lo sanno</strong> e pagano una seconda polizza privata duplicando la copertura.
         </p>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
           {[
-            { id: 'si', label: 'Sì, ce l\'ho', icon: '✓' },
-            { id: 'no', label: 'No', icon: '✕' },
+            { id: 'si', label: 'Sì, ce l\'ho', icon: '' },
+            { id: 'no', label: 'No', icon: '' },
             { id: 'non_so', label: 'Non lo so', icon: '?' }
           ].map(o => {
             const active = hasFondoCcnl === o.id;
@@ -148,9 +148,9 @@ export function SaluteComp({ color = '#dc2626' }) {
                 style={{
                   flex: '1 1 120px', padding: '12px 16px',
                   borderRadius: 12,
-                  border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                  background: active ? t.bg : '#fff',
-                  color: active ? '#0f172a' : '#64748b',
+                  border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                  background: active ? t.bg : '#fbfaf7',
+                  color: active ? '#17150f' : '#6f6a5e',
                   fontSize: 14, fontWeight: 800, cursor: 'pointer'
                 }}
               >
@@ -163,7 +163,7 @@ export function SaluteComp({ color = '#dc2626' }) {
         {hasFondoCcnl === 'non_so' && (
           <div style={{
             padding: '14px 16px', background: 'rgba(255,255,255,0.8)',
-            borderRadius: 12, fontSize: 13, color: '#78350f', lineHeight: 1.6
+            borderRadius: 12, fontSize: 13, color: '#6b5124', lineHeight: 1.6
           }}>
             <strong>Come verificare:</strong> controlla la tua busta paga alla voce "contributi enti bilaterali" o "Fondo sanitario" (piccola trattenuta mensile), chiedi al tuo ufficio HR o al rappresentante sindacale, oppure controlla il tuo CCNL di categoria (cerca "fondo sanitario" nel testo). Se c'è, hai già accesso gratuito o quasi-gratuito a una copertura che tipicamente include ricoveri, specialistica e a volte odontoiatrica.
           </div>
@@ -172,7 +172,7 @@ export function SaluteComp({ color = '#dc2626' }) {
         {hasFondoCcnl === 'si' && (
           <div style={{
             padding: '14px 16px', background: 'rgba(255,255,255,0.8)',
-            borderRadius: 12, fontSize: 13, color: '#78350f', lineHeight: 1.6
+            borderRadius: 12, fontSize: 13, color: '#6b5124', lineHeight: 1.6
           }}>
             <strong>Bene — prima di comprare un'altra polizza:</strong> richiedi al fondo CCNL il <strong>piano delle prestazioni</strong> (nomenclatore), leggi massimali per ricovero e specialistica, verifica se include familiari a carico, controlla la rete convenzionata nella tua città. Spesso una polizza privata aggiuntiva è utile <strong>solo</strong> per coperture non incluse (es. odontoiatrica completa, massimali più alti, rete più estesa). Calcolare la differenza di copertura prima di pagare il premio.
           </div>
@@ -181,7 +181,7 @@ export function SaluteComp({ color = '#dc2626' }) {
         {hasFondoCcnl === 'no' && (
           <div style={{
             padding: '14px 16px', background: 'rgba(255,255,255,0.8)',
-            borderRadius: 12, fontSize: 13, color: '#78350f', lineHeight: 1.6
+            borderRadius: 12, fontSize: 13, color: '#6b5124', lineHeight: 1.6
           }}>
             <strong>Allora una polizza privata ha più senso da valutare.</strong> Considera che il Servizio Sanitario Nazionale resta la tua base primaria (gratuita, universale, con eccellenza su molte patologie gravi): la polizza privata serve principalmente per <strong>bypassare liste d'attesa</strong>, coprire odontoiatrica e ricoveri in strutture private. Usa il calcolatore qui sotto per valutare il rapporto premio/beneficio nel tuo caso specifico.
           </div>
@@ -193,13 +193,13 @@ export function SaluteComp({ color = '#dc2626' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Analisi di rischio su tre scenari
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px', lineHeight: 1.6 }}>
           L'assicurazione sanitaria si valuta come un contratto di trasferimento del rischio: confronta cosa spenderesti in 3 scenari (anno normale, imprevisto medio, ricovero grave) con e senza polizza.
         </p>
 
@@ -208,7 +208,7 @@ export function SaluteComp({ color = '#dc2626' }) {
           <div>
             <label style={labelStyle}>Premio annuo polizza (€)</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700 }}>€</span>
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8f897c', fontWeight: 700 }}>€</span>
               <input
                 type="number" min="0" step="50"
                 value={premioStr}
@@ -216,7 +216,7 @@ export function SaluteComp({ color = '#dc2626' }) {
                 style={{ ...inputStyle, paddingLeft: 28, fontWeight: 800, color: themeColor }}
               />
             </div>
-            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
+            <div style={{ fontSize: 11, color: '#8f897c', marginTop: 4 }}>
               Se non hai ancora una polizza, inserisci il preventivo che stai valutando
             </div>
           </div>
@@ -233,9 +233,9 @@ export function SaluteComp({ color = '#dc2626' }) {
                     style={{
                       flex: 1, padding: '12px',
                       borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.bg : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.bg : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 15, fontWeight: 800, cursor: 'pointer'
                     }}
                   >{n === 4 ? '4+' : n}</button>
@@ -280,9 +280,9 @@ export function SaluteComp({ color = '#dc2626' }) {
                     style={{
                       flex: '1 1 140px', padding: '10px 14px',
                       borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.bg : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.bg : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 13, fontWeight: 700, cursor: 'pointer',
                       lineHeight: 1.3, textAlign: 'left'
                     }}
@@ -303,8 +303,8 @@ export function SaluteComp({ color = '#dc2626' }) {
           ==================================================================== */}
       <div style={{ marginBottom: 24 }}>
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 20, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 20, fontWeight: 800, color: '#17150f',
           margin: '0 0 16px', letterSpacing: '-0.01em'
         }}>
           I 3 scenari a confronto
@@ -317,7 +317,7 @@ export function SaluteComp({ color = '#dc2626' }) {
         }}>
 
           <ScenarioCard
-            icon="🟢"
+            icon=""
             titolo="Anno normale"
             descrizione="Visite di routine, niente imprevisti (circa 85% degli anni)"
             senzaPolizza={risultati.costoAnnoNormale}
@@ -326,7 +326,7 @@ export function SaluteComp({ color = '#dc2626' }) {
           />
 
           <ScenarioCard
-            icon="🟡"
+            icon=""
             titolo="Imprevisto medio"
             descrizione="Chirurgia ambulatoriale o ricovero breve (~12% degli anni)"
             senzaPolizza={risultati.costoImprevistoMedio}
@@ -335,7 +335,7 @@ export function SaluteComp({ color = '#dc2626' }) {
           />
 
           <ScenarioCard
-            icon="🔴"
+            icon=""
             titolo="Ricovero grave"
             descrizione={`Intervento complesso o lunga degenza (~${(risultati.probabilitaRicoveroGrave * 100).toFixed(1)}% degli anni)`}
             senzaPolizza={risultati.costoRicoveroGrave}
@@ -349,35 +349,35 @@ export function SaluteComp({ color = '#dc2626' }) {
         <div style={{
           marginTop: 20,
           background: risultati.giudizio === 'positivo'
-            ? 'linear-gradient(135deg, #d1fae5 0%, #fff 100%)'
+            ? 'linear-gradient(135deg, #e1ebe3 0%, #fbfaf7 100%)'
             : risultati.giudizio === 'negativo'
-              ? 'linear-gradient(135deg, #fee2e2 0%, #fff 100%)'
-              : '#f8fafc',
+              ? 'linear-gradient(135deg, #f4e1d6 0%, #fbfaf7 100%)'
+              : '#f5f2ec',
           border: risultati.giudizio === 'positivo'
-            ? '2px solid #10b981'
+            ? '2px solid #2c5a43'
             : risultati.giudizio === 'negativo'
-              ? '2px solid #ef4444'
-              : '2px solid #cbd5e1',
+              ? '2px solid #9b4220'
+              : '2px solid #d6cfc1',
           borderRadius: 20, padding: '24px'
         }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, flexWrap: 'wrap' }}>
             <div style={{ fontSize: 28 }}>
-              {risultati.giudizio === 'positivo' ? '✅' : risultati.giudizio === 'negativo' ? '⚠️' : '📊'}
+              {risultati.giudizio === 'positivo' ? '' : risultati.giudizio === 'negativo' ? '' : ''}
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
               <h4 style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 18, fontWeight: 800, color: '#0f172a',
+                fontFamily: "var(--f-display)",
+                fontSize: 18, fontWeight: 800, color: '#17150f',
                 margin: '0 0 6px'
               }}>
                 {risultati.giudizio === 'positivo' && 'La polizza ha senso economico'}
                 {risultati.giudizio === 'negativo' && 'La polizza costa più del valore atteso'}
                 {risultati.giudizio === 'neutro' && 'Valutazione in equilibrio — decidi sui casi estremi'}
               </h4>
-              <p style={{ fontSize: 13, color: '#475569', margin: 0, lineHeight: 1.6 }}>
-                Sul valore atteso (media ponderata dei 3 scenari), pagare il premio ti costa <strong style={{ fontVariantNumeric: 'tabular-nums' }}>{formatEuro(risultati.valoreAttesoConPolizza)}/anno</strong>, mentre senza polizza ti aspetteresti di spendere <strong style={{ fontVariantNumeric: 'tabular-nums' }}>{formatEuro(risultati.valoreAtteso)}/anno</strong>. Differenza attesa: <strong style={{ color: risultati.differenzaAttesa > 0 ? '#059669' : '#dc2626', fontVariantNumeric: 'tabular-nums' }}>{risultati.differenzaAttesa > 0 ? '+' : ''}{formatEuro(Math.abs(risultati.differenzaAttesa))}/anno a favore della polizza</strong>.
+              <p style={{ fontSize: 13, color: '#47433a', margin: 0, lineHeight: 1.6 }}>
+                Sul valore atteso (media ponderata dei 3 scenari), pagare il premio ti costa <strong style={{ fontVariantNumeric: 'tabular-nums' }}>{formatEuro(risultati.valoreAttesoConPolizza)}/anno</strong>, mentre senza polizza ti aspetteresti di spendere <strong style={{ fontVariantNumeric: 'tabular-nums' }}>{formatEuro(risultati.valoreAtteso)}/anno</strong>. Differenza attesa: <strong style={{ color: risultati.differenzaAttesa > 0 ? '#2c5a43' : '#9b4220', fontVariantNumeric: 'tabular-nums' }}>{risultati.differenzaAttesa > 0 ? '+' : ''}{formatEuro(Math.abs(risultati.differenzaAttesa))}/anno a favore della polizza</strong>.
               </p>
-              <p style={{ fontSize: 12, color: '#64748b', margin: '10px 0 0', lineHeight: 1.6, fontStyle: 'italic' }}>
+              <p style={{ fontSize: 12, color: '#6f6a5e', margin: '10px 0 0', lineHeight: 1.6, fontStyle: 'italic' }}>
                 ⓘ L'analisi sul valore atteso non è l'unico criterio: una polizza ha valore anche come protezione contro il caso estremo (ricovero grave da €25.000+) anche se non conviene "in media". È il concetto di assicurazione come scudo psicologico ed economico contro l'evento raro ma devastante.
               </p>
             </div>
@@ -390,13 +390,13 @@ export function SaluteComp({ color = '#dc2626' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 20, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 20, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Checklist: 8 cose da chiedere prima di firmare
         </h3>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 20px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 20px', lineHeight: 1.6 }}>
           Non confrontare solo il premio. Queste sono le clausole che determinano se la polizza sarà davvero utile quando ti servirà.
         </p>
 
@@ -414,9 +414,9 @@ export function SaluteComp({ color = '#dc2626' }) {
         <div style={{
           marginTop: 20, padding: '14px 16px',
           background: t.bg, borderRadius: 12,
-          fontSize: 12, color: '#991b1b', lineHeight: 1.6
+          fontSize: 12, color: '#7d3519', lineHeight: 1.6
         }}>
-          <strong>💡 Da fare:</strong> richiedi la <strong>Nota Informativa IVASS</strong> (documento obbligatorio) e il <strong>Set Informativo completo</strong> con condizioni di polizza. Leggili prima di firmare. Per confronti tra offerte usa i preventivatori dei broker indipendenti (Facile.it, Segugio, 6sicuro) o rivolgiti a un broker IVASS.
+          <strong>Da fare:</strong> richiedi la <strong>Nota Informativa IVASS</strong> (documento obbligatorio) e il <strong>Set Informativo completo</strong> con condizioni di polizza. Leggili prima di firmare. Per confronti tra offerte usa i preventivatori dei broker indipendenti (Facile.it, Segugio, 6sicuro) o rivolgiti a un broker IVASS.
         </div>
       </div>
 
@@ -424,12 +424,12 @@ export function SaluteComp({ color = '#dc2626' }) {
           DISCLAIMER LEGALE
           ==================================================================== */}
       <div style={{
-        padding: '20px 24px', background: '#f8fafc',
-        border: '1px solid #e2e8f0', borderRadius: 16,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '20px 24px', background: '#f5f2ec',
+        border: '1px solid #e6e0d4', borderRadius: 16,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Nota metodologica e disclaimer
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Nota metodologica e disclaimer
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Strumento educativo, non consulenza assicurativa.</strong> SoldiBuoni non è un broker IVASS né una compagnia di intermediazione assicurativa: questa analisi non costituisce consulenza ai sensi del D.Lgs. 209/2005 (Codice delle Assicurazioni) né raccomandazione di prodotto. Per scegliere una polizza concreta, rivolgiti a un broker IVASS iscritto al Registro Unico degli Intermediari (RUI), a un agente assicurativo autorizzato, oppure contatta direttamente le compagnie per preventivi personalizzati.
@@ -457,27 +457,27 @@ function ScenarioCard({ icon, titolo, descrizione, senzaPolizza, conPolizza, col
   const convienePolizza = risparmio > 0;
   return (
     <div style={{
-      background: '#fff', borderRadius: 20,
-      border: '1px solid #e2e8f0', padding: 20,
+      background: '#fbfaf7', borderRadius: 20,
+      border: '1px solid #e6e0d4', padding: 20,
       boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
     }}>
       <div style={{ fontSize: 24, marginBottom: 6 }}>{icon}</div>
-      <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>{titolo}</div>
-      <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 14, lineHeight: 1.4, minHeight: 28 }}>{descrizione}</div>
+      <div style={{ fontSize: 14, fontWeight: 800, color: '#17150f', marginBottom: 4 }}>{titolo}</div>
+      <div style={{ fontSize: 11, color: '#8f897c', marginBottom: 14, lineHeight: 1.4, minHeight: 28 }}>{descrizione}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#64748b' }}>Senza polizza</span>
-          <span style={{ color: '#0f172a', fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(senzaPolizza)}</span>
+          <span style={{ color: '#6f6a5e' }}>Senza polizza</span>
+          <span style={{ color: '#17150f', fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(senzaPolizza)}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#64748b' }}>Con polizza</span>
-          <span style={{ color: '#0f172a', fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(conPolizza)}</span>
+          <span style={{ color: '#6f6a5e' }}>Con polizza</span>
+          <span style={{ color: '#17150f', fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{formatEuro(conPolizza)}</span>
         </div>
         <div style={{
           marginTop: 6, padding: '6px 10px',
-          background: convienePolizza ? '#d1fae5' : '#fee2e2',
+          background: convienePolizza ? '#e1ebe3' : '#f4e1d6',
           borderRadius: 8, fontSize: 11, fontWeight: 800,
-          color: convienePolizza ? '#065f46' : '#991b1b', textAlign: 'center'
+          color: convienePolizza ? '#234a37' : '#7d3519', textAlign: 'center'
         }}>
           {convienePolizza
             ? `Polizza risparmia ${formatEuro(risparmio)}`
@@ -492,17 +492,17 @@ function ChecklistItem({ num, titolo, spec }) {
   return (
     <div style={{
       display: 'flex', gap: 14, padding: '12px 14px',
-      background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0'
+      background: '#f5f2ec', borderRadius: 12, border: '1px solid #e6e0d4'
     }}>
       <div style={{
         width: 28, height: 28, borderRadius: 8,
-        background: '#dc2626', color: '#fff',
+        background: '#9b4220', color: '#fbfaf7',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontWeight: 900, fontSize: 13, flexShrink: 0
       }}>{num}</div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginBottom: 2 }}>{titolo}</div>
-        <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>{spec}</div>
+        <div style={{ fontSize: 14, fontWeight: 800, color: '#17150f', marginBottom: 2 }}>{titolo}</div>
+        <div style={{ fontSize: 12, color: '#6f6a5e', lineHeight: 1.5 }}>{spec}</div>
       </div>
     </div>
   );

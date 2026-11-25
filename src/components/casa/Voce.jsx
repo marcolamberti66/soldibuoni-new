@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { azioni } from '../../casa/store.js';
 import {
   CATEGORIE, RIFERIMENTO_ARERA, FREQUENZE, costoMensile, consumoAnnuo, costoUnitarioPieno,
-  mesiCoperti, dataDoc, eur, num, dataBreve, meseAnno,
+  mesiCoperti, dataDoc, eur, num, dataBreve, meseAnno, quotaInteressi, oggiISO, parseISO,
 } from '../../casa/model.js';
 import { Barre, Foglio, Icona, IconaCategoria } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
@@ -43,6 +43,18 @@ export default function Voce({ cat, stato, vai }) {
         {c.unita && consumo && <div className="ca-kpi"><span className="ca-kpi-l">{consumo.affidabile ? 'Consumo annuo' : 'Ritmo annuo'}</span><span className="ca-kpi-v num">{consumo ? num(consumo.annuo) : '—'}<small> {c.unita}</small></span>{consumo && <span className="ca-kpi-s">{consumo.fonte}</span>}</div>}
         {unitPieno && <div className="ca-kpi"><span className="ca-kpi-l">Costo pieno per {c.unita}</span><span className="ca-kpi-v num">{num(unitPieno, 3)} €</span><span className="ca-kpi-s">tutto incluso, ultima bolletta</span></div>}
       </div>
+
+      {cat === 'mutuo' && ric[0] && <PannelloMutuo r={ric[0]} onModifica={() => setRicAperta(ric[0])} />}
+      {cat === 'affitto' && ric[0] && (
+        <div className="ca-card">
+          <h2 className="ca-h3">Il tuo contratto di affitto</h2>
+          <dl className="ca-dl">
+            <div><dt>Canone</dt><dd className="num">{eur(ric[0].importo, 2)}</dd></div>
+            <div><dt>Fine contratto</dt><dd>{ric[0].data_fine ? dataBreve(ric[0].data_fine) : 'non indicata'}</dd></div>
+          </dl>
+          <a className="ca-link" href="/affitto-vs-mutuo">Ti conviene comprare? Simula affitto contro mutuo →</a>
+        </div>
+      )}
 
       {barre.length >= 2 && (
         <div className="ca-card">
@@ -96,6 +108,7 @@ export default function Voce({ cat, stato, vai }) {
         </>
       )}
 
+      {(c.bolletta || docs.length > 0) && (<>
       <div className="ca-h2-row">
         <h2 className="ca-h2">Documenti</h2>
         <button className="ca-link" onClick={() => vai('aggiungi?cat=' + cat)}>+ Aggiungi</button>
@@ -105,6 +118,8 @@ export default function Voce({ cat, stato, vai }) {
       ) : (
         <div className="ca-card ca-empty-s">Nessuna bolletta {c.label.toLowerCase()} ancora.</div>
       )}
+
+      </>)}
 
       <Foglio aperto={!!doc} onChiudi={() => setAperto(null)} titolo="Modifica documento">
         {doc && <>
@@ -119,5 +134,41 @@ export default function Voce({ cat, stato, vai }) {
         {ricAperta && <SchedaRicorrente iniziale={ricAperta} onSalva={(r) => { azioni.salvaRicorrente(r); setRicAperta(null); }} onElimina={() => { azioni.eliminaRicorrente(ricAperta.id); setRicAperta(null); }} />}
       </Foglio>
     </section>
+  );
+}
+
+function mesiTra(a, b) {
+  const x = parseISO(a), y = parseISO(b);
+  return (y.getFullYear() - x.getFullYear()) * 12 + (y.getMonth() - x.getMonth());
+}
+
+function PannelloMutuo({ r, onModifica }) {
+  const interessi = quotaInteressi(r);
+  const rateResidue = r.data_fine ? Math.max(0, mesiTra(oggiISO(), r.data_fine) + 1) : null;
+  const rata = Number(r.importo) || 0;
+  const mancano = !r.tasso || !r.debito_residuo || !r.data_fine;
+  return (
+    <div className="ca-card">
+      <h2 className="ca-h3">Il tuo mutuo</h2>
+      <dl className="ca-dl">
+        <div><dt>Rata</dt><dd className="num">{eur(rata, 2)}</dd></div>
+        <div><dt>Tasso</dt><dd>{r.tasso ? <span className="num">{num(r.tasso, 2)}%</span> : '—'}{r.tipo_tasso ? ' ' + r.tipo_tasso : ''}</dd></div>
+        <div><dt>Debito residuo</dt><dd className="num">{r.debito_residuo ? eur(r.debito_residuo) : '—'}</dd></div>
+        <div><dt>Rate residue</dt><dd>{rateResidue != null ? <><span className="num">{rateResidue}</span> · fino a {dataBreve(r.data_fine)}</> : '—'}</dd></div>
+        {interessi != null && rata > 0 && (
+          <div className="ca-dl-wide"><dt>Composizione della prossima rata (stima)</dt>
+            <dd>
+              <div className="ca-split-bar"><span style={{ flexGrow: interessi }} /><span style={{ flexGrow: Math.max(0, rata - interessi) }} /></div>
+              <span className="num">{eur(interessi)}</span> di interessi · <span className="num">{eur(Math.max(0, rata - interessi))}</span> di capitale
+            </dd>
+          </div>
+        )}
+      </dl>
+      {r.prima_casa && <p className="ca-muted small">Mutuo sull'abitazione principale: gli interessi passivi sono detraibili al 19% nel 730, fino a 4.000 € di interessi l'anno. Conserva la certificazione annuale della banca.</p>}
+      <div className="ca-av-act">
+        {mancano && <button className="ca-link" onClick={onModifica}>Completa tasso, residuo e scadenza</button>}
+        <a className="ca-link muted" href="/mutuo">Simulatore mutuo</a>
+      </div>
+    </div>
   );
 }

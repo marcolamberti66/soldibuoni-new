@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { azioni } from '../../casa/store.js';
-import { CATEGORIE, ORDINE, costoMensile, eur, num, dataBreve, giorniTra, oggiISO } from '../../casa/model.js';
+import { CATEGORIE, ORDINE, GRUPPI, vociAttese, costoMensile, eur, num, dataBreve, giorniTra, oggiISO } from '../../casa/model.js';
 import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
 import { Icona, IconaCategoria } from './ui.jsx';
 
@@ -49,7 +49,8 @@ export default function Panoramica({ stato, vai }) {
   const totale = voci.reduce((s, v) => s + v.mensile, 0);
   const avvisi = useMemo(() => calcolaAvvisi(stato), [stato]);
   const scadenze = useMemo(() => calcolaScadenze(stato, 60).filter((s) => s.data >= oggiISO()).slice(0, 4), [stato]);
-  const mancanti = ORDINE.filter((c) => c !== 'altro' && !voci.find((v) => v.cat === c));
+  const mancanti = vociAttese(stato.casa).filter((c) => !voci.find((v) => v.cat === c));
+  const perGruppo = Object.keys(GRUPPI).map((g) => ({ g, tot: voci.filter((v) => CATEGORIE[v.cat].gruppo === g).reduce((t, v) => t + v.mensile, 0) }));
   const nDoc = stato.documenti.length + stato.ricorrenti.length;
   const nome = stato.casa?.nome || 'La tua casa';
 
@@ -62,7 +63,7 @@ export default function Panoramica({ stato, vai }) {
           <p className="ca-muted ca-hero-s">Carica una bolletta di luce o gas: in pochi secondi ne estraggo importo, consumi, prezzo e scadenze. Da lì costruiamo il quadro dei costi della casa.</p>
           <button className="btn btn-ink" onClick={() => vai('aggiungi')}><Icona nome="upload" size={18} /> Carica una bolletta</button>
         </header>
-        <Completa mancanti={ORDINE.filter((c) => c !== 'altro')} vai={vai} />
+        <Completa mancanti={vociAttese(stato.casa)} vai={vai} />
       </section>
     );
   }
@@ -75,6 +76,11 @@ export default function Panoramica({ stato, vai }) {
           <span className="ca-total-e">€</span><span className="num">{num(Math.round(totale))}</span><span className="ca-total-u">al mese</span>
         </p>
         <p className="ca-muted">Circa <span className="num">{eur(totale * 12)}</span> l'anno, calcolato su {nDoc} {nDoc === 1 ? 'voce' : 'voci'} registrate.</p>
+        <div className="ca-split">
+          {perGruppo.map(({ g, tot }) => (
+            <div key={g}><span className="ca-kpi-l">{GRUPPI[g]}</span><span className="num">{eur(tot)}</span></div>
+          ))}
+        </div>
 
         <div className="ca-stack" role="img" aria-label={voci.map((v) => `${CATEGORIE[v.cat].label} ${Math.round((v.mensile / totale) * 100)}%`).join(', ')}>
           {voci.map((v) => <span key={v.cat} style={{ flexGrow: v.mensile, background: CATEGORIE[v.cat].colore }} />)}
@@ -126,17 +132,23 @@ export default function Panoramica({ stato, vai }) {
 }
 
 function Completa({ mancanti, vai }) {
+  const gruppi = Object.keys(GRUPPI).map((g) => [g, mancanti.filter((c) => CATEGORIE[c].gruppo === g)]).filter(([, l]) => l.length);
   return (
     <div className="ca-complete">
       <h2 className="ca-h2">Completa il quadro</h2>
       <p className="ca-muted">Più voci aggiungi, più il costo della casa è reale.</p>
-      <div className="ca-chips">
-        {mancanti.map((c) => (
-          <button key={c} className="ca-chip" onClick={() => vai('aggiungi?cat=' + c)}>
-            <Icona nome={CATEGORIE[c].icona} size={16} /> {CATEGORIE[c].label} <Icona nome="piu" size={14} />
-          </button>
-        ))}
-      </div>
+      {gruppi.map(([g, lista]) => (
+        <div key={g} className="ca-complete-g">
+          <p className="ca-complete-l">{GRUPPI[g]}</p>
+          <div className="ca-chips">
+            {lista.map((c) => (
+              <button key={c} className="ca-chip" onClick={() => vai('aggiungi?cat=' + c)}>
+                <Icona nome={CATEGORIE[c].icona} size={16} /> {CATEGORIE[c].label} <Icona nome="piu" size={14} />
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

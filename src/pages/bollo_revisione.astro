@@ -13,14 +13,14 @@ const topic = TOPICS.bollo_revisione;
       <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: ${topic.color}14;`}>
         {topic.icon}
       </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 32px; color: #0f172a;">
+      <h1 style="font-family: var(--f-display); font-size: 32px; color: #17150f;">
         {topic.title}
       </h1>
     </div>
 
     <div class="tab-container" style={`--theme-color: ${topic.color}`}>
-      <button class="tab-btn active" data-target="tab-scadenze">📅 Scadenzario</button>
-      <button class="tab-btn" data-target="tab-capire">💡 Come funziona</button>
+      <button class="tab-btn active" data-target="tab-scadenze">Scadenzario</button>
+      <button class="tab-btn" data-target="tab-capire">Come funziona</button>
     </div>
 
     <div id="tab-scadenze" class="tab-content" style="display: block;">
@@ -29,9 +29,9 @@ const topic = TOPICS.bollo_revisione;
 
     <div id="tab-capire" class="tab-content" style="display: none; max-width: 640px; margin: 0 auto;">
       {topic.capire.content.map((c) => (
-        <div style="background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <div style="background: #fbfaf7; border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid #e6e0d4; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
           <h3 style={`color: ${topic.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>{c.subtitle}</h3>
-          <p style="color: #475569; font-size: 14px; line-height: 1.75; margin: 0;">{c.text}</p>
+          <p style="color: #47433a; font-size: 14px; line-height: 1.75; margin: 0;">{c.text}</p>
         </div>
       ))}
     </div>
@@ -40,9 +40,9 @@ const topic = TOPICS.bollo_revisione;
 </Layout>
 
 <style>
-  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fff; padding: 6px; border-radius: 16px; border: 1px solid #e2e8f0; max-width: 400px; margin: 0 auto 40px; }
-  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 12px; font-size: 14px; font-weight: 700; color: #64748b; cursor: pointer; transition: all 0.2s; }
-  .tab-btn.active { background: var(--theme-color); color: #fff; }
+  .tab-container { display: flex; gap: 8px; margin-bottom: 30px; background: #fbfaf7; padding: 6px; border-radius: 16px; border: 1px solid #e6e0d4; max-width: 400px; margin: 0 auto 40px; }
+  .tab-btn { flex: 1; background: transparent; border: none; padding: 12px 0; border-radius: 12px; font-size: 14px; font-weight: 700; color: #6f6a5e; cursor: pointer; transition: all 0.2s; }
+  .tab-btn.active { background: var(--theme-color); color: #fbfaf7; }
   .tab-content { animation: fadeIn 0.3s ease-in-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>

@@ -69,6 +69,13 @@ export function calcolaScadenze(stato, orizzonteGiorni = 120) {
     }
   }
 
+  for (const r of stato.ricorrenti) {
+    if (r.attiva === false || !r.data_fine || r.categoria !== 'affitto') continue;
+    if (r.data_fine >= addGiorni(oggi, -30) && r.data_fine <= addGiorni(oggi, Math.max(orizzonteGiorni, 400))) {
+      out.push({ id: 'fine-' + r.id, data: r.data_fine, categoria: 'affitto', tipo: 'fine_contratto', ricId: r.id, titolo: 'Scade il contratto di affitto' });
+    }
+  }
+
   for (const p of stato.promemoria) {
     if (!p.fatto && p.data && p.data <= fine) {
       out.push({ id: 'pro-' + p.id, data: p.data, categoria: p.categoria || 'altro', tipo: 'promemoria', promId: p.id, titolo: p.titolo });
@@ -103,6 +110,20 @@ export function calcolaAvvisi(stato) {
           ? 'A fine promozione il canone passa di solito al prezzo di listino. È il momento di verificare il nuovo importo e, se serve, cambiare operatore.'
           : 'Dopo questa data il fornitore può applicare un nuovo prezzo: deve comunicartelo per iscritto in anticipo. Controlla posta ed email e confronta prima di accettare il rinnovo.',
         azione: { tipo: 'vai', href: '#/voce/' + s.categoria, label: 'Vedi dettagli' },
+      });
+    }
+  }
+
+  // Contratto di affitto in scadenza: i termini di disdetta sono lunghi
+  for (const s of calcolaScadenze(stato, 400)) {
+    if (s.tipo !== 'fine_contratto') continue;
+    const g = giorniTra(oggi, s.data);
+    if (g <= 210) {
+      av.push({
+        id: s.id + '-' + s.data, livello: g <= 60 ? 'urgente' : 'attenzione', categoria: 'affitto',
+        titolo: g < 0 ? 'Contratto di affitto scaduto' : `Il contratto di affitto scade tra ${g} giorni`,
+        testo: 'Disdetta e rinnovo hanno preavvisi lunghi, spesso sei mesi: rileggi il contratto per sapere entro quando devi comunicare le tue intenzioni.',
+        azione: { tipo: 'vai', href: '#/voce/affitto', label: 'Vedi contratto' },
       });
     }
   }

@@ -22,12 +22,12 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
   };
 
   const categorie = [
-    { id: 'energia', label: 'Luce', icon: '⚡' },
-    { id: 'gas', label: 'Gas', icon: '🔥' },
-    { id: 'internet', label: 'Internet', icon: '📡' },
-    { id: 'rc_auto', label: 'RC Auto', icon: '🚗' },
-    { id: 'mutuo', label: 'Mutuo', icon: '🏠' },
-    { id: 'universita', label: 'Università', icon: '🎓' },
+    { id: 'energia', label: 'Luce', icon: '' },
+    { id: 'gas', label: 'Gas', icon: '' },
+    { id: 'internet', label: 'Internet', icon: '' },
+    { id: 'rc_auto', label: 'RC Auto', icon: '' },
+    { id: 'mutuo', label: 'Mutuo', icon: '' },
+    { id: 'universita', label: 'Università', icon: '' },
   ];
 
   const handleSubmit = async () => {
@@ -54,17 +54,17 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
   if (status === 'success') {
     return (
       <div style={{
-        background: '#f0fdf4', borderRadius: 16, padding: '32px 24px',
-        border: '1px solid #bbf7d0', textAlign: 'center',
+        background: '#eef3ef', borderRadius: 16, padding: '32px 24px',
+        border: '1px solid #c6d8cb', textAlign: 'center',
       }}>
-        <div style={{ fontSize: 48, marginBottom: 14 }}>✅</div>
+        <div style={{ fontSize: 48, marginBottom: 14 }}></div>
         <p style={{
-          fontSize: 20, fontWeight: 800, color: '#166534', marginBottom: 8,
-          fontFamily: "'Playfair Display', serif"
+          fontSize: 20, fontWeight: 800, color: '#234a37', marginBottom: 8,
+          fontFamily: "var(--f-display)"
         }}>
           Iscrizione confermata!
         </p>
-        <p style={{ fontSize: 14, color: '#166534', lineHeight: 1.6, maxWidth: 460, margin: '0 auto' }}>
+        <p style={{ fontSize: 14, color: '#234a37', lineHeight: 1.6, maxWidth: 460, margin: '0 auto' }}>
           Grazie per esserti iscritto. Riceverai il primo Report Risparmio Mensile entro le prossime 4 settimane,
           con contenuti calibrati sui tuoi interessi selezionati. Controlla lo spam se non arriva.
         </p>
@@ -78,15 +78,15 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
   if (variant === 'compact') {
     return (
       <div style={{
-        background: 'linear-gradient(135deg, #0f172a, #1e293b)',
-        borderRadius: 16, padding: '28px 24px', color: '#fff',
+        background: 'linear-gradient(135deg, #17150f, #26231b)',
+        borderRadius: 16, padding: '28px 24px', color: '#fbfaf7',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 240 }}>
             <p style={{ fontSize: 18, fontWeight: 700, marginBottom: 6 }}>
-              📬 Report Risparmio Mensile
+              Report Risparmio Mensile
             </p>
-            <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: '#8f897c', lineHeight: 1.6 }}>
               Ogni mese nella tua inbox: come sono cambiati i prezzi,
               le migliori offerte del momento, e consigli personalizzati.
             </p>
@@ -100,8 +100,8 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
               style={{
                 flex: 1, padding: '12px 16px', borderRadius: 10,
-                border: '1px solid #334155', background: '#1e293b',
-                color: '#fff', fontSize: 14, fontFamily: 'inherit',
+                border: '1px solid #3a362c', background: '#26231b',
+                color: '#fbfaf7', fontSize: 14, fontFamily: 'inherit',
                 outline: 'none', minWidth: 180,
               }}
             />
@@ -110,8 +110,8 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
               disabled={status === 'loading'}
               style={{
                 padding: '12px 24px', borderRadius: 10, border: 'none',
-                background: 'linear-gradient(135deg, #059669, #10b981)',
-                color: '#fff', fontSize: 14, fontWeight: 700,
+                background: 'linear-gradient(135deg, #2c5a43, #2c5a43)',
+                color: '#fbfaf7', fontSize: 14, fontWeight: 700,
                 cursor: status === 'loading' ? 'wait' : 'pointer',
                 fontFamily: 'inherit', whiteSpace: 'nowrap',
               }}
@@ -121,11 +121,11 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
           </div>
         </div>
         {status === 'error' && (
-          <p style={{ fontSize: 12, color: '#f87171', marginTop: 10 }}>
+          <p style={{ fontSize: 12, color: '#c98a6d', marginTop: 10 }}>
             Errore nell'iscrizione. Riprova tra qualche secondo.
           </p>
         )}
-        <p style={{ fontSize: 11, color: '#475569', marginTop: 10 }}>
+        <p style={{ fontSize: 11, color: '#47433a', marginTop: 10 }}>
           Zero spam. Cancellati in un click. Massimo 1 email al mese.
         </p>
       </div>
@@ -139,36 +139,36 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
   if (variant === 'landing') {
     return (
       <div style={{
-        background: '#fff', borderRadius: 24, padding: '36px 32px',
-        border: '1px solid #e2e8f0',
+        background: '#fbfaf7', borderRadius: 24, padding: '36px 32px',
+        border: '1px solid #e6e0d4',
         boxShadow: '0 20px 40px -10px rgba(0,0,0,0.06)',
       }}>
 
         {prefilledInterests && prefilledInterests.length > 0 && (
           <div style={{
-            background: '#dbeafe', border: '1px solid #93c5fd',
+            background: '#e2e8ef', border: '1px solid #c9d3df',
             borderRadius: 12, padding: '12px 16px', marginBottom: 20,
-            fontSize: 13, color: '#1e40af'
+            fontSize: 13, color: '#2f4a66'
           }}>
-            ✨ <strong>Abbiamo pre-selezionato i temi</strong> in base alle tue aree di risparmio principali. Puoi modificarli qui sotto.
+            <strong>Abbiamo pre-selezionato i temi</strong> in base alle tue aree di risparmio principali. Puoi modificarli qui sotto.
           </div>
         )}
 
         <h2 style={{
-          fontSize: 24, fontWeight: 800, color: '#0f172a',
+          fontSize: 24, fontWeight: 800, color: '#17150f',
           margin: '0 0 8px',
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--f-display)",
           letterSpacing: '-0.01em'
         }}>
           Iscriviti al Report Risparmio
         </h2>
-        <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: '#6f6a5e', margin: '0 0 24px', lineHeight: 1.6 }}>
           Una sola email al mese con le analisi che servono davvero. Gratuito, senza spam, cancellabile in un click.
         </p>
 
         {/* Email + nome */}
         <div style={{ marginBottom: 20 }}>
-          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#47433a', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             La tua email *
           </label>
           <input
@@ -178,15 +178,15 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
             onChange={(e) => setEmail(e.target.value)}
             style={{
               width: '100%', padding: '14px 16px', borderRadius: 12,
-              border: '1px solid #cbd5e1', fontSize: 15, fontFamily: 'inherit',
-              outline: 'none', background: '#fff', boxSizing: 'border-box',
+              border: '1px solid #d6cfc1', fontSize: 15, fontFamily: 'inherit',
+              outline: 'none', background: '#fbfaf7', boxSizing: 'border-box',
               fontWeight: 500
             }}
           />
         </div>
 
         <div style={{ marginBottom: 24 }}>
-          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#47433a', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Nome (facoltativo)
           </label>
           <input
@@ -196,15 +196,15 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
             onChange={(e) => setNome(e.target.value)}
             style={{
               width: '100%', padding: '14px 16px', borderRadius: 12,
-              border: '1px solid #cbd5e1', fontSize: 15, fontFamily: 'inherit',
-              outline: 'none', background: '#fff', boxSizing: 'border-box'
+              border: '1px solid #d6cfc1', fontSize: 15, fontFamily: 'inherit',
+              outline: 'none', background: '#fbfaf7', boxSizing: 'border-box'
             }}
           />
         </div>
 
         {/* Preferenze sempre visibili in landing */}
         <div style={{ marginBottom: 24 }}>
-          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#475569', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 800, color: '#47433a', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             I temi che ti interessano di più
           </label>
           <div style={{
@@ -218,10 +218,10 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
                   onClick={() => toggleInteresse(c.id)}
                   style={{
                     padding: '12px 10px', borderRadius: 12,
-                    border: active ? '2px solid #3b82f6' : '1px solid #cbd5e1',
+                    border: active ? '2px solid #4b5f86' : '1px solid #d6cfc1',
                     fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-                    background: active ? '#dbeafe' : '#fff',
-                    color: active ? '#1e40af' : '#64748b',
+                    background: active ? '#e2e8ef' : '#fbfaf7',
+                    color: active ? '#2f4a66' : '#6f6a5e',
                     transition: 'all 0.2s',
                     textAlign: 'center',
                     lineHeight: 1.3
@@ -233,7 +233,7 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
               );
             })}
           </div>
-          <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 10 }}>
+          <p style={{ fontSize: 11, color: '#8f897c', marginTop: 10 }}>
             Selezionane quanti vuoi. Il report conterrà sezioni dedicate agli argomenti che hai scelto.
           </p>
         </div>
@@ -247,26 +247,26 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
             cursor: (status === 'loading' || !email) ? 'not-allowed' : 'pointer',
             fontFamily: 'inherit',
             background: (status === 'loading' || !email)
-              ? '#94a3b8'
-              : '#3b82f6',
-            color: '#fff',
-            boxShadow: status === 'loading' ? 'none' : '0 10px 24px -6px rgba(59,130,246,0.5)',
+              ? '#8f897c'
+              : '#4b5f86',
+            color: '#fbfaf7',
+            boxShadow: status === 'loading' ? 'none' : '0 10px 24px -6px rgba(75,95,134,0.5)',
           }}
         >
-          {status === 'loading' ? '⏳ Iscrizione in corso...' : '📬 Iscriviti gratis al Report Mensile'}
+          {status === 'loading' ? '⏳ Iscrizione in corso...' : 'Iscriviti gratis al Report Mensile'}
         </button>
 
         {status === 'error' && (
-          <p style={{ fontSize: 13, color: '#dc2626', marginTop: 12, textAlign: 'center' }}>
-            ⚠️ Errore nell'iscrizione. Controlla l'email e riprova tra qualche secondo.
+          <p style={{ fontSize: 13, color: '#9b4220', marginTop: 12, textAlign: 'center' }}>
+            Errore nell'iscrizione. Controlla l'email e riprova tra qualche secondo.
           </p>
         )}
 
         <div style={{
-          marginTop: 16, padding: '12px 16px', background: '#f8fafc',
-          borderRadius: 10, fontSize: 11, color: '#64748b', lineHeight: 1.5
+          marginTop: 16, padding: '12px 16px', background: '#f5f2ec',
+          borderRadius: 10, fontSize: 11, color: '#6f6a5e', lineHeight: 1.5
         }}>
-          🔒 Iscrivendoti accetti l'invio di 1 email al mese. Non condividiamo la tua email con terzi. Puoi cancellarti in qualsiasi momento con un click (link in ogni email).
+          Iscrivendoti accetti l'invio di 1 email al mese. Non condividiamo la tua email con terzi. Puoi cancellarti in qualsiasi momento con un click (link in ogni email).
         </div>
 
       </div>
@@ -278,15 +278,15 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
   // ==========================================================================
   return (
     <div style={{
-      background: '#fff', borderRadius: 16, padding: '28px 24px',
-      border: '1px solid #e2e8f0',
+      background: '#fbfaf7', borderRadius: 16, padding: '28px 24px',
+      border: '1px solid #e6e0d4',
     }}>
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <span style={{ fontSize: 36, display: 'block', marginBottom: 8 }}>📬</span>
-        <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', fontFamily: "'Playfair Display',serif", marginBottom: 6 }}>
+        <span style={{ fontSize: 36, display: 'block', marginBottom: 8 }}></span>
+        <h3 style={{ fontSize: 20, fontWeight: 700, color: '#17150f', fontFamily: "var(--f-display)", marginBottom: 6 }}>
           Report Risparmio Mensile
         </h3>
-        <p style={{ fontSize: 14, color: '#64748b', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: '#6f6a5e', lineHeight: 1.6 }}>
           Ricevi ogni mese un'analisi personalizzata: come sono cambiati i prezzi,
           dove puoi risparmiare, e le migliori offerte del momento.
         </p>
@@ -300,8 +300,8 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
           onChange={(e) => setNome(e.target.value)}
           style={{
             width: '100%', padding: '12px 16px', borderRadius: 10,
-            border: '1px solid #e2e8f0', fontSize: 14, fontFamily: 'inherit',
-            outline: 'none', background: '#f8fafc', marginBottom: 10,
+            border: '1px solid #e6e0d4', fontSize: 14, fontFamily: 'inherit',
+            outline: 'none', background: '#f5f2ec', marginBottom: 10,
           }}
         />
         <input
@@ -311,8 +311,8 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
           onChange={(e) => setEmail(e.target.value)}
           style={{
             width: '100%', padding: '12px 16px', borderRadius: 10,
-            border: '1px solid #e2e8f0', fontSize: 14, fontFamily: 'inherit',
-            outline: 'none', background: '#f8fafc',
+            border: '1px solid #e6e0d4', fontSize: 14, fontFamily: 'inherit',
+            outline: 'none', background: '#f5f2ec',
           }}
         />
       </div>
@@ -321,7 +321,7 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
         onClick={() => setShowPrefs(!showPrefs)}
         style={{
           background: 'none', border: 'none', fontSize: 13, fontWeight: 600,
-          color: '#64748b', cursor: 'pointer', fontFamily: 'inherit',
+          color: '#6f6a5e', cursor: 'pointer', fontFamily: 'inherit',
           marginBottom: 10, display: 'block',
         }}
       >
@@ -331,7 +331,7 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
       {showPrefs && (
         <div style={{
           display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16,
-          padding: '14px', background: '#f8fafc', borderRadius: 10,
+          padding: '14px', background: '#f5f2ec', borderRadius: 10,
         }}>
           {categorie.map(c => (
             <button
@@ -340,8 +340,8 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
               style={{
                 padding: '7px 14px', borderRadius: 8, border: 'none',
                 fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-                background: interessi.includes(c.id) ? '#0f172a' : '#e2e8f0',
-                color: interessi.includes(c.id) ? '#fff' : '#64748b',
+                background: interessi.includes(c.id) ? '#17150f' : '#e6e0d4',
+                color: interessi.includes(c.id) ? '#fbfaf7' : '#6f6a5e',
                 transition: 'all 0.2s',
               }}
             >
@@ -360,22 +360,22 @@ export default function NewsletterSignup({ variant, prefilledInterests }) {
           cursor: (status === 'loading' || !email) ? 'not-allowed' : 'pointer',
           fontFamily: 'inherit',
           background: (status === 'loading' || !email)
-            ? '#94a3b8'
-            : 'linear-gradient(135deg, #059669, #10b981)',
-          color: '#fff',
-          boxShadow: status === 'loading' ? 'none' : '0 4px 12px rgba(5,150,105,0.25)',
+            ? '#8f897c'
+            : 'linear-gradient(135deg, #2c5a43, #2c5a43)',
+          color: '#fbfaf7',
+          boxShadow: status === 'loading' ? 'none' : '0 4px 12px rgba(44,90,67,0.25)',
         }}
       >
-        {status === 'loading' ? '⏳ Iscrizione in corso...' : '📬 Iscriviti — è gratis'}
+        {status === 'loading' ? '⏳ Iscrizione in corso...' : 'Iscriviti — è gratis'}
       </button>
 
       {status === 'error' && (
-        <p style={{ fontSize: 12, color: '#dc2626', marginTop: 10, textAlign: 'center' }}>
+        <p style={{ fontSize: 12, color: '#9b4220', marginTop: 10, textAlign: 'center' }}>
           Errore nell'iscrizione. Riprova tra qualche secondo.
         </p>
       )}
 
-      <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 12, textAlign: 'center' }}>
+      <p style={{ fontSize: 11, color: '#8f897c', marginTop: 12, textAlign: 'center' }}>
         Zero spam. Massimo 1 email al mese. Cancellati in un click.
       </p>
     </div>

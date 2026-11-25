@@ -13,6 +13,7 @@ create table if not exists public.case (
   cap text check (cap ~ '^\d{5}$'),
   persone smallint check (persone between 1 and 20),
   mq numeric,
+  titolo text check (titolo in ('proprieta_mutuo','proprieta','affitto')),
   riscaldamento text check (riscaldamento in ('gas_autonomo','centralizzato','pompa_calore','altro')),
   creato_il timestamptz not null default now()
 );
@@ -21,7 +22,7 @@ create table if not exists public.documenti (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users on delete cascade default auth.uid(),
   casa_id uuid not null references public.case on delete cascade,
-  categoria text not null check (categoria in ('luce','gas','internet','mobile','acqua','tari','condominio','altro')),
+  categoria text not null check (categoria in ('luce','gas','internet','mobile','acqua','tari','condominio','mutuo','affitto','assicurazione','manutenzione','imu','altro')),
   fornitore text, offerta text,
   periodo_dal date, periodo_al date, data_emissione date, scadenza_pagamento date, fine_condizioni date,
   importo numeric(10,2) not null check (importo >= 0),
@@ -41,7 +42,8 @@ create table if not exists public.ricorrenti (
   casa_id uuid not null references public.case on delete cascade,
   categoria text not null, nome text,
   importo numeric(10,2) not null, frequenza text not null,
-  prossima_scadenza date, domiciliazione boolean, attiva boolean default true,
+  prossima_scadenza date, data_fine date, domiciliazione boolean, attiva boolean default true,
+  tasso numeric(6,3), tipo_tasso text, debito_residuo numeric(12,2), prima_casa boolean,
   creato_il timestamptz not null default now()
 );
 

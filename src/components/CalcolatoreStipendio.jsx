@@ -66,7 +66,7 @@ const ADDIZIONALI_COMUNALI = {
   'Altro': 0.006
 };
 
-const THEME = { primary: '#10b981', soft: '#d1fae5', bg: '#ecfdf5' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // --- UTILS ---
 
@@ -138,7 +138,7 @@ function calcolaInps(ral) {
 // COMPONENTE
 // ============================================================================
 
-export function CalcolatoreStipendio({ color = '#10b981' }) {
+export function CalcolatoreStipendio({ color = '#2c5a43' }) {
   const [ral, setRal] = useState(28000);
   const [mensilita, setMensilita] = useState(13);
   const [regione, setRegione] = useState('Lombardia');
@@ -208,33 +208,33 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
 
   // --- STILI ---
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
   const inputStyle = {
-    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1',
-    borderRadius: 12, boxSizing: 'border-box', color: '#0f172a', background: '#fff', outline: 'none'
+    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #d6cfc1',
+    borderRadius: 12, boxSizing: 'border-box', color: '#17150f', background: '#fbfaf7', outline: 'none'
   };
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           INPUT PANEL
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Dal lordo al netto 2026
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px' }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px' }}>
           Aliquote Legge di Bilancio 2026 con IRPEF 33% sul secondo scaglione, addizionali regionali e comunali reali, bonus in busta per redditi bassi.
         </p>
 
@@ -251,7 +251,7 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
             value={ral} onChange={(e) => setRal(parseInt(e.target.value))}
             style={{ width: '100%', accentColor: themeColor, height: 6 }}
           />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#8f897c', marginTop: 4 }}>
             <span>€10k</span><span>€200k</span>
           </div>
         </div>
@@ -271,9 +271,9 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
                     style={{
                       flex: 1, padding: '12px',
                       borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 15, fontWeight: 800, cursor: 'pointer'
                     }}
                   >{m}</button>
@@ -315,9 +315,9 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
                     style={{
                       flex: 1, padding: '12px',
                       borderRadius: 12,
-                      border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                      background: active ? t.soft : '#fff',
-                      color: active ? '#0f172a' : '#64748b',
+                      border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                      background: active ? t.soft : '#fbfaf7',
+                      color: active ? '#17150f' : '#6f6a5e',
                       fontSize: 15, fontWeight: 800, cursor: 'pointer'
                     }}
                   >{n === 3 ? '3+' : n}</button>
@@ -328,7 +328,7 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
 
         </div>
 
-        <div style={{ fontSize: 11, color: '#64748b', lineHeight: 1.5, fontStyle: 'italic', marginTop: 8 }}>
+        <div style={{ fontSize: 11, color: '#6f6a5e', lineHeight: 1.5, fontStyle: 'italic', marginTop: 8 }}>
           ⓘ I figli minori di 21 anni non rientrano più tra le detrazioni IRPEF dal 2022: sono coperti dall'Assegno Unico Universale (vedi tool dedicato).
         </div>
       </div>
@@ -341,27 +341,27 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
         border: `2px solid ${themeColor}40`,
         borderRadius: 24, padding: '36px 24px', marginBottom: 24, textAlign: 'center'
       }}>
-        <div style={{ fontSize: 11, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+        <div style={{ fontSize: 11, color: '#6f6a5e', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
           Netto mensile stimato ({mensilita} mensilità)
         </div>
         <div style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--f-display)",
           fontSize: 52, fontWeight: 900, color: themeColor,
           lineHeight: 1, marginBottom: 8, fontVariantNumeric: 'tabular-nums'
         }}>
           {formatEuro(risultati.nettoMensile)}
         </div>
-        <div style={{ fontSize: 13, color: '#475569' }}>
+        <div style={{ fontSize: 13, color: '#47433a' }}>
           <strong>{formatEuro(risultati.nettoAnnuo)}</strong> netti annui · ti costa a fisco e previdenza il <strong>{formatPerc(risultati.aliqMedia)}</strong> del lordo
         </div>
         {risultati.bonusIntegrativo > 0 && (
           <div style={{
             display: 'inline-block',
             marginTop: 14, padding: '6px 14px',
-            background: '#dcfce7', color: '#166534',
+            background: '#e1ebe3', color: '#234a37',
             fontSize: 12, fontWeight: 700, borderRadius: 20
           }}>
-            ✨ Include bonus integrativo {formatEuro(risultati.bonusIntegrativo)}/anno
+            Include bonus integrativo {formatEuro(risultati.bonusIntegrativo)}/anno
           </div>
         )}
       </div>
@@ -371,7 +371,7 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontSize: 16, fontWeight: 800, color: '#0f172a',
+          fontSize: 16, fontWeight: 800, color: '#17150f',
           margin: '0 0 20px', letterSpacing: '-0.01em'
         }}>
           Dove finiscono gli altri {formatEuro(risultati.totaleTrattenute - risultati.bonusIntegrativo)}
@@ -381,58 +381,58 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
           <BreakdownRow
             label="Contributi INPS (9,19% fino a €56.224, +1% oltre)"
             value={risultati.inpsAnnuo}
-            color="#64748b"
+            color="#6f6a5e"
           />
-          <div style={{ height: 1, background: '#e2e8f0' }} />
+          <div style={{ height: 1, background: '#e6e0d4' }} />
           <BreakdownRow
             label="Imponibile fiscale (RAL − INPS)"
             value={risultati.imponibileFiscale}
-            color="#0f172a"
+            color="#17150f"
             strong
           />
           <BreakdownRow
             label="IRPEF lorda (23% / 33% / 43%)"
             value={risultati.irpefLorda}
-            color="#64748b"
+            color="#6f6a5e"
           />
           {risultati.detrazioneLavoro > 0 && (
             <BreakdownRow
               label="− Detrazione lavoro dipendente"
               value={-risultati.detrazioneLavoro}
-              color="#059669"
+              color="#2c5a43"
             />
           )}
           {risultati.detrazioneFigli > 0 && (
             <BreakdownRow
               label={`− Detrazione ${nFigliOver21} figli over 21 a carico`}
               value={-risultati.detrazioneFigli}
-              color="#059669"
+              color="#2c5a43"
             />
           )}
           <BreakdownRow
             label="= IRPEF netta"
             value={risultati.irpefNetta}
-            color="#dc2626"
+            color="#9b4220"
             strong
           />
-          <div style={{ height: 1, background: '#e2e8f0' }} />
+          <div style={{ height: 1, background: '#e6e0d4' }} />
           <BreakdownRow
             label={`Addizionale regionale (${regione})`}
             value={risultati.addRegionale}
-            color="#64748b"
+            color="#6f6a5e"
           />
           <BreakdownRow
             label={`Addizionale comunale (${comune})`}
             value={risultati.addComunale}
-            color="#64748b"
+            color="#6f6a5e"
           />
           {risultati.bonusIntegrativo > 0 && (
             <>
-              <div style={{ height: 1, background: '#e2e8f0' }} />
+              <div style={{ height: 1, background: '#e6e0d4' }} />
               <BreakdownRow
                 label="Bonus integrativo in busta"
                 value={risultati.bonusIntegrativo}
-                color="#059669"
+                color="#2c5a43"
                 strong
               />
             </>
@@ -442,26 +442,26 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
         {/* Aliquote marginale + media */}
         <div style={{
           marginTop: 24, padding: '14px 16px',
-          background: '#f8fafc', borderRadius: 12,
+          background: '#f5f2ec', borderRadius: 12,
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 14
         }}>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#6f6a5e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
               Aliquota media
             </div>
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(risultati.aliqMedia)}
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>% reale di tasse sul totale</div>
+            <div style={{ fontSize: 10, color: '#8f897c', marginTop: 2 }}>% reale di tasse sul totale</div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#6f6a5e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>
               Aliquota marginale
             </div>
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(risultati.aliqMarginale)}
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>che perdi sul prossimo €1 di lordo</div>
+            <div style={{ fontSize: 10, color: '#8f897c', marginTop: 2 }}>che perdi sul prossimo €1 di lordo</div>
           </div>
         </div>
       </div>
@@ -470,21 +470,21 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
           CTA SOBRIO VERSO CONTI-CORRENTI
           ==================================================================== */}
       <div style={{
-        background: '#fff', border: '1px solid #e2e8f0',
+        background: '#fbfaf7', border: '1px solid #e6e0d4',
         borderRadius: 20, padding: '24px', marginBottom: 24,
         display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap'
       }}>
         <div style={{ flex: '1 1 280px' }}>
-          <h4 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>
+          <h4 style={{ fontSize: 16, fontWeight: 800, color: '#17150f', margin: '0 0 4px' }}>
             Il tuo netto lavora se lo fai lavorare
           </h4>
-          <p style={{ fontSize: 13, color: '#64748b', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#6f6a5e', margin: 0, lineHeight: 1.5 }}>
             Un conto corrente che remunera la liquidità aumenta il netto senza cambiare lavoro. Vedi il confronto tra i conti con interessi attivi.
           </p>
         </div>
         <a href="/conti-correnti" style={{
           padding: '12px 20px', borderRadius: 12,
-          background: themeColor, color: '#fff',
+          background: themeColor, color: '#fbfaf7',
           fontSize: 13, fontWeight: 800,
           textDecoration: 'none', whiteSpace: 'nowrap',
           boxShadow: `0 6px 16px -4px ${themeColor}60`
@@ -497,12 +497,12 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
           DISCLAIMER LEGALE
           ==================================================================== */}
       <div style={{
-        padding: '20px 24px', background: '#f8fafc',
-        border: '1px solid #e2e8f0', borderRadius: 16,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '20px 24px', background: '#f5f2ec',
+        border: '1px solid #e6e0d4', borderRadius: 16,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Nota metodologica e disclaimer
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Nota metodologica e disclaimer
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Parametri aggiornati al 2026</strong> (Legge di Bilancio 2026 n. 199/2025): IRPEF 23% fino a 28.000€, 33% da 28k a 50k (ridotto dal 35%), 43% oltre. Contributi INPS dipendente 9,19% con aggiunta dell'1% sulle retribuzioni oltre 56.224€ e massimale contributivo 122.295€ (circolare INPS 8/2026). No Tax Area 8.500€. Detrazione lavoro dipendente 1.955€ fino a 15k e decalage fino a 50k. Bonus integrativo in busta paga 100€/mese (1.200€/anno) per redditi fino a 15k con decalage fino a 28k.
@@ -523,7 +523,7 @@ export function CalcolatoreStipendio({ color = '#10b981' }) {
 }
 
 // --- Helper component per breakdown rows ---
-function BreakdownRow({ label, value, color = '#64748b', strong = false }) {
+function BreakdownRow({ label, value, color = '#6f6a5e', strong = false }) {
   const formatEuro = (v) => `€ ${Math.abs(Math.round(v)).toLocaleString('it-IT')}`;
   const sign = value < 0 ? '−' : value > 0 ? '' : '';
   return (
