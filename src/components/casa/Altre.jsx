@@ -8,6 +8,8 @@ import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.js
 import { Testata } from './Aggiungi.jsx';
 import { Avviso, RigaScadenza } from './Panoramica.jsx';
 import Account from './Account.jsx';
+import { SchedaTelefono } from './Telefono.jsx';
+import { conta } from '../../casa/dispositivo.js';
 
 // ── Scadenze ────────────────────────────────────────────────
 export function Scadenze({ stato, vai }) {
@@ -132,6 +134,7 @@ export function Casa({ stato }) {
     <section className="ca-page">
       <Testata titolo="La casa" sotto="Account, profilo della casa e spese fisse." />
       <Account />
+      <SchedaTelefono />
 
       <div className="ca-card ca-form">
         <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
@@ -197,6 +200,7 @@ export function Benvenuto() {
 
   const vai = () => {
     azioni.creaCasa({ titolo, persone, riscaldamento: risc, cap: cap || null });
+    conta('onboarding', titolo);
     const importo = parseNumero(rata) || 0;
     if (conRata && importo > 0) {
       const oggi = new Date();

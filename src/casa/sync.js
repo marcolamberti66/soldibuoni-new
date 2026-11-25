@@ -163,6 +163,7 @@ async function accesso(utente) {
     await unisci(utente.id);
     await sb().from('notifiche').upsert({ user_id: utente.id }, { onConflict: 'user_id', ignoreDuplicates: true });
     set({ stato: 'ok', errore: null, ultimo: new Date() });
+    import('./dispositivo.js').then((m) => m.ricollegaPush()).catch(() => {});
   } catch (e) {
     console.error('sync', e);
     set({ stato: 'errore', errore: e.message || String(e) });
@@ -175,7 +176,10 @@ export function avviaSync() {
   const c = sb();
   c.auth.getSession().then(({ data }) => { if (data.session?.user) accesso(data.session.user); });
   c.auth.onAuthStateChange((evento, sessione) => {
-    if (evento === 'SIGNED_IN' && sessione?.user && sessione.user.id !== info.utente?.id) accesso(sessione.user);
+    if (evento === 'SIGNED_IN' && sessione?.user && sessione.user.id !== info.utente?.id) {
+      accesso(sessione.user);
+      import('./dispositivo.js').then((m) => m.conta('account')).catch(() => {});
+    }
     if (evento === 'SIGNED_OUT') set({ utente: null, stato: 'off' });
   });
   subscribeStato(() => {
@@ -201,6 +205,8 @@ export async function verificaCodice(email, codice) {
 }
 
 export async function esci() {
+  // Il dispositivo smette di ricevere le notifiche di questo account.
+  await import('./dispositivo.js').then((m) => m.disattivaPush()).catch(() => {});
   await sb().auth.signOut();
 }
 

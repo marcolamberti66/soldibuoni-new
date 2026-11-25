@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
     <h1 style="font-family: var(--f-display); font-size: 32px; color: #17150f; margin-bottom: 8px;">
       Privacy Policy
     </h1>
-    <p style="font-size: 13px; color: #8f897c; margin-bottom: 32px;">Ultimo aggiornamento: 28 marzo 2026</p>
+    <p style="font-size: 13px; color: #8f897c; margin-bottom: 32px;">Ultimo aggiornamento: 25 novembre 2026</p>
 
     <div class="legal-content">
 
@@ -19,63 +19,78 @@ import Layout from '../layouts/Layout.astro';
       </p>
 
       <h2>2. Dati raccolti</h2>
-      <p>SoldiBuoni.it raccoglie i seguenti dati:</p>
 
-      <h3>2.1 Dati forniti volontariamente</h3>
+      <h3>2.1 La tua casa senza account</h3>
       <p>
-        <strong>Newsletter:</strong> Quando ti iscrivi alla newsletter, raccogliamo il tuo indirizzo email, il nome (facoltativo) e le preferenze sugli argomenti. Questi dati sono conservati su server protetti all'interno dell'Unione Europea.
-      </p>
-      <p>
-        <strong>Scadenzario Auto:</strong> Quando utilizzi il servizio di promemoria auto, raccogliamo email, nome e dati del veicolo (targa, date scadenze). Questi dati sono usati esclusivamente per l'erogazione del servizio richiesto.
+        Se usi “La tua casa” senza accedere, i dati che inserisci (profilo della casa, importi, scadenze, documenti letti) restano <strong>solo sul tuo dispositivo</strong>, nella memoria del browser o dell'app installata. Non li riceviamo e non li conserviamo.
       </p>
 
-      <h3>2.2 Analisi bollette PDF</h3>
+      <h3>2.2 La tua casa con account</h3>
       <p>
-        Quando carichi una bolletta per l'analisi, il file PDF viene inviato temporaneamente al nostro server per l'elaborazione tramite intelligenza artificiale (Anthropic Claude). <strong>Il file non viene salvato in nessun database.</strong> Viene processato nella memoria volatile (RAM) per l'estrazione anonima dei dati di consumo e viene immediatamente distrutto al termine dell'elaborazione.
+        Se accedi con la tua email, conserviamo l'indirizzo email e i dati della casa che inserisci, per sincronizzarli tra i tuoi dispositivi e per mandarti, se lo scegli, l'email del lunedì e le notifiche. I dati sono su un database Supabase in Unione Europea, protetto da regole che permettono a ciascun account di leggere solo i propri dati. Non chiediamo nome, codice fiscale, indirizzo o dati bancari.
       </p>
 
-      <h3>2.3 Dati di navigazione</h3>
+      <h3>2.3 Lettura delle bollette</h3>
       <p>
-        Il sito è ospitato su server sicuri che possono raccogliere dati tecnici anonimizzati (indirizzo IP, tipo di browser, pagine visitate) per esclusive finalità di sicurezza, diagnostica e performance.
+        Quando carichi una bolletta, il file viene inviato al nostro server ed elaborato con un modello di intelligenza artificiale (Anthropic). <strong>Il file non viene salvato</strong>: viene letto, se ne estraggono solo i dati economici (importi, periodo, consumi, scadenze, condizioni dell'offerta) e viene scartato. Lo schema di estrazione non prevede campi per i dati personali.
+      </p>
+
+      <h3>2.4 Notifiche sul telefono</h3>
+      <p>
+        Se attivi le notifiche, conserviamo l'indirizzo tecnico di consegna fornito dal tuo browser o telefono (un codice anonimo del servizio di notifiche di Apple, Google o Mozilla), collegato al tuo account. Puoi disattivarle in ogni momento dalla sezione “Casa” o dalle impostazioni del telefono; uscendo dall'account vengono disattivate su quel dispositivo.
+      </p>
+
+      <h3>2.5 Misurazione anonima dell'uso</h3>
+      <p>
+        Per capire se l'app è utile contiamo alcuni eventi (per esempio “app aperta”, “bolletta letta”, “notifiche attivate”) con la sola data e un dettaglio generico, come da quanto tempo usi l'app o se la apri dall'app installata. <strong>Non usiamo cookie né identificativi</strong>, non registriamo indirizzi IP e non è possibile collegare due eventi alla stessa persona. È un conteggio statistico aggregato, assimilabile agli strumenti tecnici secondo le Linee guida del Garante sui cookie (10 giugno 2021), e non richiede consenso.
+      </p>
+
+      <h3>2.6 Newsletter e promemoria auto</h3>
+      <p>
+        Per chi si è iscritto in passato alla newsletter o allo scadenzario auto conserviamo email, nome (se indicato), preferenze e, per l'auto, le date di scadenza inserite, presso Brevo (Unione Europea), solo per inviare le comunicazioni richieste.
+      </p>
+
+      <h3>2.7 Dati di navigazione</h3>
+      <p>
+        Il sito è ospitato da Netlify, che può registrare dati tecnici (indirizzo IP, browser, pagine richieste) per sicurezza e diagnostica.
       </p>
 
       <h2>3. Finalità del trattamento</h2>
-      <p>I dati raccolti sono utilizzati esclusivamente per:</p>
       <p>
-        — Invio della newsletter mensile con aggiornamenti su prezzi e offerte<br/>
-        — Invio dei promemoria auto alle scadenze richieste<br/>
-        — Analisi della bolletta caricata per fornire un confronto personalizzato<br/>
-        — Miglioramento del servizio ed elaborazioni statistiche aggregate
+        — Erogare “La tua casa”: sincronizzazione, calcoli, avvisi e scadenze<br/>
+        — Inviare l'email del lunedì e le notifiche, solo se attivate<br/>
+        — Leggere le bollette caricate e restituirne i dati economici<br/>
+        — Inviare newsletter e promemoria auto a chi li ha richiesti<br/>
+        — Statistiche aggregate e anonime sull'uso del servizio
       </p>
 
       <h2>4. Base giuridica</h2>
       <p>
-        Il trattamento dei dati si basa sul consenso esplicito dell'utente (art. 6, par. 1, lett. a del GDPR), espresso al momento dell'iscrizione alla newsletter o all'utilizzo volontario dei singoli strumenti della piattaforma.
+        Esecuzione del servizio richiesto (art. 6, par. 1, lett. b GDPR) per account, sincronizzazione, lettura delle bollette, email e notifiche attivate; consenso (lett. a) per newsletter e Google Analytics; legittimo interesse (lett. f) per sicurezza e statistiche anonime.
       </p>
 
       <h2>5. Conservazione dei dati</h2>
       <p>
-        <strong>Newsletter:</strong> I dati sono conservati fino alla cancellazione volontaria dell'iscrizione (opt-out), sempre disponibile in calce a ogni comunicazione.<br/>
-        <strong>Promemoria auto:</strong> I dati sono conservati per 12 mesi dall'ultima scadenza registrata.<br/>
-        <strong>Bollette PDF:</strong> Nessun dato viene conservato (elaborazione istantanea in memoria).
+        <strong>Account e dati della casa:</strong> finché l'account resta attivo. Puoi cancellare i dati dalla sezione “Casa” o chiedere la cancellazione dell'account scrivendoci.<br/>
+        <strong>Notifiche:</strong> fino alla disattivazione, o finché il servizio di notifiche segnala che il dispositivo non è più raggiungibile.<br/>
+        <strong>Bollette:</strong> nessuna conservazione del file.<br/>
+        <strong>Eventi anonimi:</strong> fino a 24 mesi, in forma aggregata.<br/>
+        <strong>Newsletter e promemoria auto:</strong> fino alla disiscrizione; i dati auto per 12 mesi dall'ultima scadenza.
       </p>
 
-      <h2>6. Diritti dell'utente</h2>
-      <p>Ai sensi del GDPR (Regolamento UE 2016/679), hai il diritto di:</p>
+      <h2>6. Fornitori</h2>
       <p>
-        — Accedere ai tuoi dati personali<br/>
-        — Richiedere la rettifica o la cancellazione immediata (diritto all'oblio)<br/>
-        — Opporti al trattamento<br/>
-        — Richiedere la portabilità dei dati<br/>
-        — Revocare il consenso precedentemente fornito
-      </p>
-      <p>
-        Per esercitare questi diritti, puoi inviare una comunicazione scritta a: <strong>clart.mgmt@gmail.com</strong>.
+        Supabase (database e accesso), Netlify (hosting e funzioni), Brevo (invio email), Anthropic (lettura delle bollette), servizi di notifica di Apple, Google e Mozilla (solo consegna: il testo della notifica viaggia cifrato e non è leggibile da loro).
       </p>
 
-      <h2>7. Cookie Policy</h2>
+      <h2>7. Diritti dell'utente</h2>
       <p>
-        SoldiBuoni.it utilizza cookie tecnici strettamente necessari al funzionamento del sito e cookie analitici (Google Analytics) attivati <strong>esclusivamente</strong> dopo aver ottenuto il tuo consenso tramite l'apposito banner. Non utilizziamo cookie di profilazione pubblicitaria di terze parti.
+        Ai sensi del GDPR puoi accedere ai tuoi dati, chiederne rettifica, cancellazione o portabilità (l'esportazione è disponibile anche dalla sezione “Casa”), opporti al trattamento e revocare il consenso. Scrivi a <strong>clart.mgmt@gmail.com</strong>. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.
+      </p>
+
+      <h2>8. Cookie</h2>
+      <p>
+        Usiamo solo memoria tecnica del browser necessaria al funzionamento (preferenze, dati locali della casa, sessione di accesso) e, <strong>solo con il tuo consenso</strong>, Google Analytics con IP anonimizzato. Nessun cookie di profilazione pubblicitaria.
       </p>
 
     </div>

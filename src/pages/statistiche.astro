@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Statistiche from '../components/casa/Statistiche.jsx';
+---
+<Layout title="Statistiche | SoldiBuoni" description="Pagina riservata." noindex>
+  <section class="wrap st-page">
+    <p class="eyebrow">Riservato</p>
+    <h1 class="display st-t">Come viene usata<br /><em>la tua casa.</em></h1>
+    <Statistiche client:only="react" />
+  </section>
+</Layout>
+<style is:global>
+  .st-page { padding: clamp(40px, 6vw, 80px) 0 96px; }
+  .st-t { font-size: clamp(40px, 6vw, 72px); line-height: .98; letter-spacing: -0.035em; margin: 14px 0 40px; }
+  .st-t em { color: var(--brass); }
+  .st-vuoto { padding: 40px 0; font-size: 17px; color: var(--ink-2); }
+  .st-vuoto a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .st-kpi { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .st-kpi > div { padding: 22px 20px 22px 0; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid var(--line); }
+  .st-kpi span { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+  .st-kpi b { font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, 5vw, 52px); line-height: 1; color: var(--ink); letter-spacing: -0.02em; }
+  .st-kpi small { font-size: 13.5px; color: var(--ink-2); }
+  @media (min-width: 860px) { .st-kpi { grid-template-columns: repeat(4, 1fr); } .st-kpi > div { border-bottom: 0; } .st-kpi > div + div { padding-left: 20px; border-left: 1px solid var(--line); } }
+  .st-due { display: grid; gap: 40px; margin: 48px 0 56px; }
+  @media (min-width: 860px) { .st-due { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .st-h { font-family: var(--f-display); font-weight: 500; font-size: 26px; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 18px; }
+  .st-h small { display: block; font-family: var(--f-ui); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; font-weight: 400; }
+  .st-barre { list-style: none; }
+  .st-barre li { display: grid; grid-template-columns: 120px minmax(0, 1fr) 56px; gap: 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14.5px; color: var(--ink-2); }
+  .st-barre i { height: 8px; background: var(--paper-2); border-radius: 999px; overflow: hidden; }
+  .st-barre em { display: block; height: 100%; background: var(--ink); border-radius: 999px; }
+  .st-barre li:not(:first-child) em { background: var(--brass); }
+  .st-barre b, .st-imbuto b { text-align: right; color: var(--ink); font-weight: 500; }
+  .st-imbuto { list-style: none; }
+  .st-imbuto li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15.5px; color: var(--ink); }
+  .st-imbuto-n { font-family: var(--f-display); font-style: italic; color: var(--brass); font-size: 18px; }
+  .st-imbuto b { font-family: var(--f-display); font-size: 26px; font-weight: 400; }
+  .st-nota { font-size: 13.5px; color: var(--ink-3); margin-top: 14px; max-width: 640px; line-height: 1.5; }
+  .st-tab-wrap { overflow-x: auto; border-top: 1px solid var(--ink); }
+  .st-tab { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px; }
+  .st-tab th { text-align: right; font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding: 12px 8px; border-bottom: 1px solid var(--line-strong); }
+  .st-tab th:first-child, .st-tab td:first-child { text-align: left; padding-left: 0; }
+  .st-tab td { text-align: right; padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--ink); }
+  .st-tab td:first-child { color: var(--ink-2); white-space: nowrap; }
+</style>
