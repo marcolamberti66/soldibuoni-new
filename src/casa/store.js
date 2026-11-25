@@ -16,9 +16,11 @@ const vuoto = () => ({
   documenti: [],       // bollette e fatture estratte o inserite
   ricorrenti: [],      // spese fisse senza bolletta (TARI, condominio, ...)
   promemoria: [],      // scadenze manuali
+  conviventi: [],      // chi divide le spese: { id, nome, account_id?, attivo }
+  movimenti: [],       // spese divise e rimborsi
   avvisi_letti: {},    // id avviso → data in cui è stato archiviato
   // Sincronizzazione: id già presenti sul database e cancellazioni da propagare.
-  _sync: { noti: { documenti: [], ricorrenti: [], promemoria: [] }, eliminati: { documenti: [], ricorrenti: [], promemoria: [] } },
+  _sync: { noti: { documenti: [], ricorrenti: [], promemoria: [], conviventi: [], movimenti: [] }, eliminati: { documenti: [], ricorrenti: [], promemoria: [], conviventi: [], movimenti: [] } },
 });
 
 let stato = vuoto();
@@ -122,6 +124,29 @@ export const azioni = {
   },
   eliminaPromemoria(id) {
     aggiorna((s) => ({ promemoria: s.promemoria.filter((x) => x.id !== id), _sync: segnaEliminato(s, 'promemoria', id) }));
+  },
+  salvaConvivente(c) {
+    aggiorna((s) => {
+      if (c.id && s.conviventi.some((x) => x.id === c.id)) return { conviventi: s.conviventi.map((x) => (x.id === c.id ? { ...x, ...c, aggiornato_il: ora() } : x)) };
+      return { conviventi: [...s.conviventi, { id: c.id || uid(), creato_il: ora(), aggiornato_il: ora(), attivo: true, ...c }] };
+    });
+  },
+  eliminaConvivente(id) {
+    aggiorna((s) => {
+      // Chi compare in qualche conto non si cancella: si mette da parte, i conti restano giusti.
+      const usato = s.movimenti.some((m) => m.pagato_da === id || m.a_chi === id || (m.quote && id in m.quote));
+      if (usato) return { conviventi: s.conviventi.map((x) => (x.id === id ? { ...x, attivo: false, aggiornato_il: ora() } : x)) };
+      return { conviventi: s.conviventi.filter((x) => x.id !== id), _sync: segnaEliminato(s, 'conviventi', id) };
+    });
+  },
+  salvaMovimento(m) {
+    aggiorna((s) => {
+      if (m.id && s.movimenti.some((x) => x.id === m.id)) return { movimenti: s.movimenti.map((x) => (x.id === m.id ? { ...x, ...m, aggiornato_il: ora() } : x)) };
+      return { movimenti: [...s.movimenti, { id: uid(), creato_il: ora(), aggiornato_il: ora(), ...m }] };
+    });
+  },
+  eliminaMovimento(id) {
+    aggiorna((s) => ({ movimenti: s.movimenti.filter((x) => x.id !== id), _sync: segnaEliminato(s, 'movimenti', id) }));
   },
   archiviaAvviso(id) {
     aggiorna((s) => ({ avvisi_letti: { ...s.avvisi_letti, [id]: ora() } }));

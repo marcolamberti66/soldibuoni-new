@@ -7,6 +7,7 @@ import { scaricaCalendario } from '../../casa/calendario.js';
 import { Icona, IconaCategoria } from './ui.jsx';
 import PrimiPassi, { primiPassiChiusi } from './PrimiPassi.jsx';
 import SezioneCasa from './SezioneCasa.jsx';
+import { RiepilogoConti } from './Dividi.jsx';
 
 export function Avviso({ a, vai }) {
   const ico = a.livello === 'info' ? 'info' : 'allerta';
@@ -139,6 +140,7 @@ export default function Panoramica({ stato, vai }) {
         </div>
 
         <div>
+          <RiepilogoConti stato={stato} vai={vai} />
           {consigli.length > 0 && <>
             <h2 className="ca-h2">Questo mese in casa</h2>
             <div className="ca-tips">

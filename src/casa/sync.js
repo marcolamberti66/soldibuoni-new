@@ -32,6 +32,9 @@ const COLONNE = {
   ricorrenti: ['id', 'categoria', 'nome', 'importo', 'frequenza', 'prossima_scadenza', 'data_fine', 'domiciliazione',
     'attiva', 'tasso', 'tipo_tasso', 'debito_residuo', 'prima_casa', 'creato_il', 'aggiornato_il'],
   promemoria: ['id', 'titolo', 'data', 'categoria', 'fatto', 'creato_il', 'aggiornato_il'],
+  conviventi: ['id', 'nome', 'account_id', 'attivo', 'creato_il', 'aggiornato_il'],
+  movimenti: ['id', 'tipo', 'descrizione', 'importo', 'data', 'pagato_da', 'a_chi', 'quote', 'modo', 'categoria',
+    'documento_id', 'ricorrente_id', 'creato_il', 'aggiornato_il'],
 };
 const VALORI_AMMESSI = {
   tipo_prezzo: ['fisso', 'variabile', 'tutela'],
@@ -76,8 +79,10 @@ export function useAccount() {
 //  · un elemento cancellato qui viene cancellato sul database (lista "eliminati");
 //  · un elemento che il database conosceva e ora non ha più è stato
 //    cancellato altrove (altro dispositivo o altra persona): sparisce anche qui.
-const TABELLE = ['documenti', 'ricorrenti', 'promemoria'];
-const vuotoSync = () => ({ noti: { documenti: [], ricorrenti: [], promemoria: [] }, eliminati: { documenti: [], ricorrenti: [], promemoria: [] } });
+const TABELLE = ['documenti', 'ricorrenti', 'promemoria', 'conviventi', 'movimenti'];
+const vuotoSync = () => ({ noti: Object.fromEntries(TABELLE.map((t) => [t, []])), eliminati: Object.fromEntries(TABELLE.map((t) => [t, []])) });
+const TABELLA_ASSENTE = /^(42P01|PGRST20[45])$/;
+const assenti = new Set();
 const quando = (x) => Date.parse(x?.aggiornato_il || x?.creato_il || '') || 0;
 
 async function casaRemota(uid) {
@@ -97,10 +102,16 @@ async function casaRemota(uid) {
 async function scaricaCasa(casaRiga) {
   const c = sb();
   const ris = await Promise.all(TABELLE.map((t) => c.from(t).select('*').eq('casa_id', casaRiga.id)));
+  ris.forEach((r, i) => {
+    // Tabella non ancora creata sul database (migrazione da eseguire): quei dati restano sul dispositivo.
+    if (r.error && TABELLA_ASSENTE.test(r.error.code || '') ) { assenti.add(TABELLE[i]); r.error = null; r.data = []; }
+  });
   for (const r of ris) if (r.error) throw r.error;
   const casa = daDb(casaRiga);
   casa.proprietario = casaRiga.user_id;
-  return { casa, documenti: ris[0].data.map(daDb), ricorrenti: ris[1].data.map(daDb), promemoria: ris[2].data.map(daDb) };
+  const out = { casa };
+  TABELLE.forEach((t, i) => { out[t] = ris[i].data.map(daDb); });
+  return out;
 }
 
 function unisciLista(locale, remota, noti, eliminati) {
@@ -157,6 +168,7 @@ async function sincronizza(uid) {
   const { error: e1 } = await c.from('case').upsert(versoDb(unito.casa, 'case', { user_id: unito.casa.proprietario || uid }));
   if (e1) throw e1;
   for (const t of TABELLE) {
+    if (assenti.has(t)) continue;
     const righe = unito[t].map((x) => versoDb(x, t, { user_id: uid, casa_id: casaId }));
     if (righe.length) {
       const { error } = await c.from(t).upsert(righe);
@@ -169,12 +181,18 @@ async function sincronizza(uid) {
     }
   }
 
-  const nuovoSync = { noti: Object.fromEntries(TABELLE.map((t) => [t, unito[t].map((x) => x.id)])), eliminati: vuotoSync().eliminati };
+  const nuovoSync = {
+    noti: Object.fromEntries(TABELLE.map((t) => [t, assenti.has(t) ? [] : unito[t].map((x) => x.id)])),
+    eliminati: { ...vuotoSync().eliminati, ...Object.fromEntries([...assenti].map((t) => [t, sy.eliminati[t] || []])) },
+  };
   const attuale = getStato();
   // Modificato qualcosa mentre caricavamo? Non sovrascriviamo: un nuovo giro unirà tutto.
   if (attuale !== s) { ancora = true; return; }
   const prossimo = { ...unito, _sync: nuovoSync };
-  if (!uguali({ casa: attuale.casa, documenti: attuale.documenti, ricorrenti: attuale.ricorrenti, promemoria: attuale.promemoria, _sync: attuale._sync }, prossimo)) {
+  const confronto = { casa: attuale.casa };
+  for (const t of TABELLE) confronto[t] = attuale[t];
+  confronto._sync = attuale._sync;
+  if (!uguali(confronto, prossimo)) {
     applicando = true;
     try { aggiorna(() => prossimo); } finally { applicando = false; }
   }

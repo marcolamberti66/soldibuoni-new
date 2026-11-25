@@ -34,6 +34,7 @@ const PATHS = {
   info: <><circle {...P} cx="12" cy="12" r="8.5" /><path {...P} d="M12 11v5" /><circle cx="12" cy="8" r=".9" fill="currentColor" /></>,
   lucchetto: <><rect {...P} x="5" y="10.5" width="14" height="10" rx="2" /><path {...P} d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" /></>,
   cestino: <><path {...P} d="M5 7h14M10 7V4.5h4V7M7 7l.8 12.2a1 1 0 0 0 1 .8h6.4a1 1 0 0 0 1-.8L17 7" /></>,
+  dividi: <><circle {...P} cx="8.5" cy="12" r="5.5" /><circle {...P} cx="15.5" cy="12" r="5.5" /></>,
   campanella: <><path {...P} d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15Z" /><path {...P} d="M10 20.5a2 2 0 0 0 4 0" /></>,
   condividi: <><path {...P} d="M12 14.5V3.5M8.5 7 12 3.5 15.5 7" /><path {...P} d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 17.5 10H16" /></>,
   aggiungihome: <><rect {...P} x="4" y="4" width="16" height="16" rx="3.5" /><path {...P} d="M12 8.5v7M8.5 12h7" /></>,
