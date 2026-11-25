@@ -134,3 +134,20 @@ export function Barre({ dati, altezza = 140, formato = (v) => v, colore = 'var(-
     </div>
   );
 }
+
+/** Il percorso d'ingresso: casa → prima bolletta → panoramica. */
+const PASSI = ['La tua casa', 'Prima bolletta', 'Panoramica'];
+export function Percorso({ passo = 0 }) {
+  return (
+    <nav className="ca-percorso" aria-label={`Passo ${passo + 1} di ${PASSI.length}`}>
+      <ol>
+        {PASSI.map((p, i) => (
+          <li key={p} className={i < passo ? 'fatto' : i === passo ? 'ora' : ''} aria-current={i === passo ? 'step' : undefined}>
+            <span className="ca-percorso-n">{i < passo ? <Icona nome="ok" size={14} /> : i + 1}</span>
+            <span className="ca-percorso-t">{p}</span>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}

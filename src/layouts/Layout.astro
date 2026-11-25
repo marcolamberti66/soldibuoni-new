@@ -3,6 +3,7 @@ import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource-variable/bodoni-moda/opsz.css';
 import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 import '../styles/tokens.css';
+import QRCode from 'qrcode';
 
 interface Props { title: string; description?: string; app?: boolean; ogImage?: string; schema?: object[]; noindex?: boolean; tipo?: string; }
 const {
@@ -20,6 +21,9 @@ const nav = [
   { href: '/chi-siamo', label: 'Chi siamo' },
 ];
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
+// QR per aprire l'app dal telefono (generato in fase di build, nessuna richiesta esterna).
+const qr = await QRCode.toString('https://soldibuoni.it/casa?origine=qr', { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#17150f', light: '#0000' } });
+const icoTel = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18.3" r=".9" fill="currentColor"/></svg>';
 ---
 <!DOCTYPE html>
 <html lang="it">
@@ -99,7 +103,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           <a href={n.href} class:list={['nav-a', { on: isActive(n.href) }]} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
         ))}
       </nav>
-      <a href="/casa" class="btn btn-ink hdr-cta">Apri la tua casa</a>
+      <button type="button" class="hdr-app" data-app-apri aria-haspopup="dialog"><Fragment set:html={icoTel} /><span>Scarica l'app</span></button>
+      {!app && <a href="/casa" class="btn btn-ink hdr-cta">Apri la tua casa</a>}
       <button class="menu-btn" aria-expanded="false" aria-controls="mnav" aria-label="Apri menu">
         <span></span><span></span>
       </button>
@@ -107,6 +112,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
     <nav id="mnav" class="mnav" aria-label="Menu mobile" hidden>
       <div class="wrap">
         {nav.map((n) => <a href={n.href} class="mnav-a">{n.label}</a>)}
+        <button type="button" class="mnav-a mnav-app" data-app-apri="menu">Scarica l'app</button>
       </div>
     </nav>
   </header>
@@ -155,6 +161,50 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
     </div>
   </footer>
 
+  <dialog id="app-dlg" class="app-dlg" aria-labelledby="app-dlg-t">
+    <div class="app-dlg-in">
+      <button type="button" class="app-dlg-x" data-app-chiudi aria-label="Chiudi">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <img src="/icon-192.png" alt="" width="64" height="64" class="app-dlg-ico" />
+      <p class="eyebrow">App gratuita · iPhone e Android</p>
+      <h2 id="app-dlg-t" class="display app-dlg-t">SoldiBuoni<br /><em>sul telefono.</em></h2>
+      <p class="app-dlg-s">Si apre come un'app, funziona anche senza rete e ti avvisa il giorno delle scadenze. Nessuno store, nessun download pesante: si installa dal browser in pochi secondi.</p>
+
+      <div data-v="prompt" hidden>
+        <button type="button" class="btn btn-ink app-dlg-go" data-app-installa>Installa SoldiBuoni</button>
+      </div>
+
+      <ol class="app-passi" data-v="ios" hidden>
+        <li><span>1</span><p>Tocca <strong>Condividi</strong> <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="app-glifo"><path d="M12 14.5V3.5M8.5 7 12 3.5 15.5 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 17.5 10H16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> nella barra di Safari, in basso o in alto.</p></li>
+        <li><span>2</span><p>Scorri e scegli <strong>Aggiungi alla schermata Home</strong>.</p></li>
+        <li><span>3</span><p>Tocca <strong>Aggiungi</strong>, poi apri SoldiBuoni dalla Home.</p></li>
+      </ol>
+
+      <div data-v="ios-altro" hidden>
+        <p class="app-avviso">Su iPhone l'app si installa da <strong>Safari</strong>. Copia il link, aprilo in Safari e tocca Condividi → Aggiungi alla schermata Home.</p>
+        <button type="button" class="btn btn-ink app-dlg-go" data-app-copia>Copia il link</button>
+      </div>
+
+      <ol class="app-passi" data-v="android" hidden>
+        <li><span>1</span><p>Apri il menu <strong>⋮</strong> del browser, in alto a destra.</p></li>
+        <li><span>2</span><p>Scegli <strong>Installa app</strong> o <strong>Aggiungi a schermata Home</strong>.</p></li>
+      </ol>
+
+      <div class="app-qr" data-v="desktop" hidden>
+        <div class="app-qr-c"><Fragment set:html={qr} /></div>
+        <div>
+          <p class="app-qr-t">Inquadra con la fotocamera del telefono</p>
+          <p class="app-qr-s">Si apre soldibuoni.it/casa: da lì l'installazione richiede due tocchi. Oppure apri il sito dal telefono.</p>
+          <button type="button" class="ca-link app-qr-pc" data-app-installa hidden>Installa anche su questo computer</button>
+        </div>
+      </div>
+
+      <p class="app-ok" data-v="installata" hidden>Hai già l'app installata su questo dispositivo: aprila dalla schermata Home.</p>
+      <p class="app-nota">I dati restano gli stessi tra sito e app. Con l'accesso via email li ritrovi su tutti i dispositivi.</p>
+    </div>
+  </dialog>
+
   <div id="cookie" class="cookie" role="dialog" aria-label="Preferenze cookie" hidden>
     <p><strong>Cookie analitici.</strong> Usiamo Google Analytics, con IP anonimizzato, per capire quali pagine servono davvero. Niente profilazione pubblicitaria. <a href="/privacy">Dettagli</a></p>
     <div class="cookie-act">
@@ -180,6 +230,50 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           ck.hidden = true; if (v === 'accepted') location.reload();
         });
       });
+      // ── Scarica l'app: un solo punto di ingresso per tutto il sito e per l'app ──
+      var ua = navigator.userAgent || '';
+      var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var android = /Android/.test(ua);
+      var safari = ios && !/CriOS|FxiOS|EdgiOS|GSA\//.test(ua);
+      var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+      if (standalone) document.documentElement.classList.add('in-app');
+      window.__sbPrompt = window.__sbPrompt || null;
+      window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__sbPrompt = e; document.dispatchEvent(new Event('sb-installabile')); });
+      window.addEventListener('appinstalled', function () { window.__sbPrompt = null; document.dispatchEvent(new Event('sb-installata')); });
+      var dlg = document.getElementById('app-dlg');
+      function variante() {
+        if (standalone) return 'installata';
+        if (ios) return safari ? 'ios' : 'ios-altro';
+        if (android) return window.__sbPrompt ? 'prompt' : 'android';
+        return 'desktop';
+      }
+      function apri(origine) {
+        var v = variante();
+        dlg.querySelectorAll('[data-v]').forEach(function (el) { el.hidden = el.getAttribute('data-v') !== v; });
+        var pc = dlg.querySelector('.app-qr-pc'); if (pc) pc.hidden = !window.__sbPrompt;
+        if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+        try { window.sbConta && window.sbConta('invito_install', (origine || 'sito') + '·' + v); } catch (e) {}
+      }
+      window.sbApp = { apri: apri, variante: variante };
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('[data-app-apri]');
+        if (a) { e.preventDefault(); apri(a.getAttribute('data-app-apri') || 'sito'); }
+      });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.querySelector('[data-app-chiudi]').addEventListener('click', function () { dlg.close(); });
+      dlg.querySelectorAll('[data-app-installa]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var p = window.__sbPrompt; if (!p) return;
+          p.prompt(); p.userChoice.then(function () { window.__sbPrompt = null; dlg.close(); }).catch(function () {});
+        });
+      });
+      var cp = dlg.querySelector('[data-app-copia]');
+      if (cp) cp.addEventListener('click', function () {
+        var u = 'https://soldibuoni.it/casa';
+        (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { cp.textContent = 'Link copiato'; }, function () { cp.textContent = u; });
+      });
+      if (new URLSearchParams(location.search).get('app') === '1') window.addEventListener('load', function () { apri('link'); });
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
       }
@@ -207,28 +301,66 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   .nav-a:hover { color: var(--ink); background: var(--paper-2); }
   .nav-a.on { color: var(--ink); background: var(--paper-2); }
   .hdr-cta { height: 40px; font-size: 14px; padding: 0 18px; }
+  .hdr-app { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0; height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--ink); background: transparent; color: var(--ink); font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease); }
+  .hdr-app:hover { background: var(--ink); color: var(--paper); }
+  .hdr-app:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  .is-app .hdr-app { margin-left: auto; }
+  .in-app .hdr-app { display: none; }
   .menu-btn { display: none; margin-left: auto; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; position: relative; }
   .menu-btn span { position: absolute; left: 12px; right: 12px; height: 1.6px; background: var(--ink); transition: transform .3s var(--ease); }
   .menu-btn span:first-child { top: 18px; } .menu-btn span:last-child { top: 25px; }
   .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
   .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
   .mnav { border-top: 1px solid var(--line); padding: 8px 0 20px; }
+  .mnav-app { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); cursor: pointer; font-style: italic; color: var(--brass) !important; }
+  .in-app .mnav-app { display: none; }
   .mnav-a { display: block; font-family: var(--f-display); font-size: 30px; color: var(--ink); padding: 10px 0; border-bottom: 1px solid var(--line); }
   @media (max-width: 860px) {
     .nav, .hdr-cta { display: none; }
-    .menu-btn { display: block; }
+    .menu-btn { display: block; margin-left: 4px; }
+    .hdr-in { gap: 8px; }
+    .hdr-app { margin-left: auto; height: 38px; padding: 0 14px 0 12px; font-size: 13.5px; background: var(--ink); color: var(--paper); }
+    .brand-word { font-size: 21px; }
+    .brand-mark svg { width: 24px; height: 24px; }
   }
+  @media (max-width: 389px) { .hdr-app svg { display: none; } .hdr-app { padding: 0 12px; } }
+  @media (max-width: 340px) { .hdr-app span { font-size: 12.5px; } .brand-word { font-size: 19px; } }
 
-  .ftr { margin-top: 96px; background: var(--ink); color: rgba(245, 242, 236, .72); padding: 72px 0 32px; }
-  .ftr .eyebrow { color: rgba(245, 242, 236, .5); margin-bottom: 14px; }
+  .app-dlg [hidden] { display: none !important; }
+  .app-dlg { border: 0; padding: 0; background: transparent; max-width: min(520px, calc(100vw - 24px)); width: 100%; margin: auto; color: var(--ink); }
+  .app-dlg::backdrop { background: rgba(23, 21, 15, .55); backdrop-filter: blur(3px); }
+  .app-dlg-in { position: relative; background: var(--card); border-radius: 22px; padding: 32px 28px 24px; box-shadow: 0 30px 80px rgba(23, 21, 15, .35); max-height: calc(100vh - 32px); overflow: auto; }
+  .app-dlg-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--paper-2); color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+  .app-dlg-ico { width: 64px; height: 64px; border-radius: 15px; margin-bottom: 18px; box-shadow: 0 6px 18px rgba(23, 21, 15, .18); }
+  .app-dlg-t { font-size: clamp(34px, 7vw, 44px); line-height: .98; letter-spacing: -0.03em; margin: 10px 0 14px; }
+  .app-dlg-t em { color: var(--brass); }
+  .app-dlg-s { font-size: 15.5px; line-height: 1.55; color: var(--ink-2); margin-bottom: 22px; }
+  .app-dlg-go { width: 100%; height: 52px; font-size: 16px; justify-content: center; }
+  .app-passi { list-style: none; border-top: 1px solid var(--line); }
+  .app-passi li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .app-passi li span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: var(--f-display); font-style: italic; font-size: 17px; }
+  .app-passi p { font-size: 15.5px; line-height: 1.45; color: var(--ink); }
+  .app-glifo { vertical-align: -4px; color: #0a64d6; }
+  .app-avviso { font-size: 15px; line-height: 1.5; background: var(--brass-soft); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; color: var(--ink); }
+  .app-qr { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 22px; align-items: center; padding: 18px; border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper); }
+  .app-qr-c svg { width: 148px; height: 148px; display: block; }
+  .app-qr-t { font-weight: 600; font-size: 15.5px; margin-bottom: 6px; }
+  .app-qr-s { font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+  .app-qr-pc { margin-top: 10px; }
+  @media (max-width: 480px) { .app-qr { grid-template-columns: 1fr; justify-items: start; } }
+  .app-ok { font-size: 15.5px; color: var(--ok); font-weight: 500; }
+  .app-nota { margin-top: 18px; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+
+  .ftr { margin-top: 96px; background: var(--ink); color: rgba(245, 242, 236, .84); padding: 72px 0 32px; }
+  .ftr .eyebrow { color: rgba(245, 242, 236, .68); margin-bottom: 14px; }
   .ftr-top { display: grid; grid-template-columns: 1.1fr 1.4fr; gap: 64px; }
   .ftr-claim { color: var(--paper); font-size: clamp(36px, 4.4vw, 52px); }
   .ftr-claim em { color: #d9c49b; }
   .ftr-small { margin-top: 20px; max-width: 380px; font-size: 14px; }
   .ftr-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .ftr-cols a { display: block; font-size: 14.5px; padding: 5px 0; color: rgba(245, 242, 236, .82); }
+  .ftr-cols a { display: block; font-size: 14.5px; padding: 5px 0; color: rgba(245, 242, 236, .92); }
   .ftr-cols a:hover { color: #fff; }
-  .ftr-bot { margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(245, 242, 236, .12); display: flex; justify-content: space-between; gap: 24px; font-size: 12.5px; color: rgba(245, 242, 236, .5); }
+  .ftr-bot { margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(245, 242, 236, .12); display: flex; justify-content: space-between; gap: 24px; font-size: 12.5px; color: rgba(245, 242, 236, .68); }
   .ftr-bot p:first-child { max-width: 640px; }
   @media (max-width: 860px) {
     .ftr-top { grid-template-columns: 1fr; gap: 48px; }

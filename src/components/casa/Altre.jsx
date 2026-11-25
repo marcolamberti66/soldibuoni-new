@@ -3,7 +3,7 @@ import { azioni } from '../../casa/store.js';
 import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, TITOLO, parseNumero, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
 import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
-import { Campo, Foglio, Icona, IconaCategoria, Scelta } from './ui.jsx';
+import { Campo, Foglio, Icona, IconaCategoria, Percorso, Scelta } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
 import { Testata } from './Aggiungi.jsx';
 import { Avviso, RigaScadenza } from './Panoramica.jsx';
@@ -211,14 +211,17 @@ export function Benvenuto() {
         domiciliazione: titolo === 'proprieta_mutuo' ? true : undefined,
       });
     }
-    location.hash = '#/aggiungi';
+    try { localStorage.setItem('sb_benvenuto', '1'); } catch {}
+    location.hash = '#/aggiungi?primo=1';
   };
+  const risposte = [!!titolo, !!persone, !!risc].filter(Boolean).length;
+  const ok = (v) => v ? <span className="ca-onb-ok" aria-label="risposta data"><Icona nome="ok" size={14} /></span> : null;
 
   return (
     <section className="ca-page ca-onb">
-      <p className="eyebrow">Benvenuto</p>
+      <Percorso passo={0} />
       <h1 className="display ca-onb-t">La tua casa,<br /><em>in quattro risposte.</em></h1>
-      <p className="ca-onb-s">Bastano per sapere quali spese aspettarti. Poi carichi una bolletta e al resto pensiamo noi.</p>
+      <p className="ca-onb-s">Un minuto, nessuna registrazione. Poi carichi una bolletta (o lo fai dopo) e si apre la <strong>tua panoramica</strong>: ogni settimana cosa esce, cosa scade, cosa fare.</p>
       {accedi ? <div className="ca-onb-acc"><Account variante="rientro" /></div> : (
         <button className="ca-onb-ret" onClick={() => setAccedi(true)}>
           <span className="ca-onb-ret-i"><Icona nome="chiave" size={20} /></span>
@@ -228,7 +231,7 @@ export function Benvenuto() {
       )}
 
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="ca-onb-n">I</span> La casa è</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">I</span> La casa è {ok(titolo)}</p>
         <Scelta nome="Titolo" valore={titolo} onChange={setTitolo} colonne={3} opzioni={[
           { v: 'proprieta_mutuo', l: 'Di proprietà', sub: 'con mutuo', icona: 'mutuo' },
           { v: 'proprieta', l: 'Di proprietà', sub: 'senza mutuo', icona: 'casa' },
@@ -242,11 +245,11 @@ export function Benvenuto() {
         )}
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="ca-onb-n">II</span> Quante persone ci vivono?</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">II</span> Quante persone ci vivono? {ok(persone)}</p>
         <Scelta nome="Persone" valore={persone} onChange={setPersone} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="ca-onb-n">III</span> Come si scalda?</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">III</span> Come si scalda? {ok(risc)}</p>
         <Scelta nome="Riscaldamento" valore={risc} onChange={setRisc} colonne={2} opzioni={[
           { v: 'gas_autonomo', l: 'Caldaia a gas', sub: 'autonoma', icona: 'gas' },
           { v: 'centralizzato', l: 'Centralizzato', sub: 'del condominio', icona: 'condominio' },
@@ -259,9 +262,12 @@ export function Benvenuto() {
         <input className="ca-onb-cap num" inputMode="numeric" maxLength={5} value={cap} onChange={(e) => setCap(e.target.value.replace(/\D/g, ''))} placeholder="20100" aria-label="CAP" />
       </div>
 
-      <button className="btn btn-ink ca-onb-go" disabled={!pronto} onClick={vai}>
-        Continua e carica una bolletta <Icona nome="freccia" size={18} />
-      </button>
+      <div className="ca-onb-fine">
+        <button className="btn btn-ink ca-onb-go" disabled={!pronto} onClick={vai}>
+          {pronto ? <>Crea la mia casa <Icona nome="freccia" size={18} /></> : `Rispondi ancora a ${3 - risposte} ${3 - risposte === 1 ? 'domanda' : 'domande'}`}
+        </button>
+        <p className="ca-onb-dopo">{pronto ? 'Poi ti chiedo una bolletta da leggere. Puoi anche saltare.' : 'Le domande I, II e III sono obbligatorie, il resto no.'}</p>
+      </div>
       <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Nessuna registrazione. I dati restano sul tuo dispositivo.</p>
     </section>
   );
