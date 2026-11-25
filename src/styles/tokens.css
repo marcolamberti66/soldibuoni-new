@@ -93,7 +93,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .display { font-family: var(--f-display); font-weight: 400; color: var(--ink); letter-spacing: -0.025em; line-height: 1; font-optical-sizing: auto; }
 .display em, em.display { font-weight: 400; }
 .eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
-.num { font-family: var(--f-ui); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; }
+.num { font-family: var(--f-ui); font-variant-numeric: lining-nums; letter-spacing: -0.01em; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;

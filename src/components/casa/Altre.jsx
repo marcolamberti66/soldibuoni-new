@@ -50,7 +50,7 @@ export function Scadenze({ stato, vai }) {
       {Object.keys(perMese).length ? Object.entries(perMese).map(([mese, voci]) => (
         <div key={mese}>
           <h2 className="ca-h2 ca-month">{new Date(mese + '-01T00:00:00').toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
-            <span className="num ca-month-tot">{eur(voci.reduce((t, s) => t + (Number(s.importo) || 0), 0))}</span>
+            {voci.some((s) => Number(s.importo) > 0) && <span className="num ca-month-tot">{eur(voci.reduce((t, s) => t + (Number(s.importo) || 0), 0))}</span>}
           </h2>
           <div className="ca-card flush ca-list">{voci.map((s) => <RigaScadenza key={s.id} s={s} onApri={() => apri(s)} />)}</div>
         </div>
@@ -133,17 +133,17 @@ export function Casa({ stato }) {
       <Testata titolo="La casa" sotto="Account, profilo della casa e spese fisse." />
       <Account />
 
-      <div className="ca-card">
+      <div className="ca-card ca-form">
         <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
         <div className="ca-grid2">
           <Campo label="CAP"><input inputMode="numeric" maxLength={5} defaultValue={casa.cap || ''} onBlur={(e) => set('cap')(e.target.value.replace(/\D/g, '') || null)} /></Campo>
           <Campo label="Metri quadri"><input inputMode="numeric" defaultValue={casa.mq || ''} onBlur={(e) => set('mq')(Number(e.target.value) || null)} /></Campo>
         </div>
-        <p className="ca-field-l">La casa è</p>
+        <p className="ca-field-l ca-form-h">La casa è</p>
         <Scelta nome="Titolo" valore={casa.titolo} onChange={set('titolo')} colonne={3} opzioni={Object.entries(TITOLO).map(([v, l]) => ({ v, l }))} />
-        <p className="ca-field-l" style={{ marginTop: 18 }}>Persone in casa</p>
+        <p className="ca-field-l ca-form-h">Persone in casa</p>
         <Scelta nome="Persone" valore={casa.persone} onChange={set('persone')} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
-        <p className="ca-field-l" style={{ marginTop: 18 }}>Riscaldamento</p>
+        <p className="ca-field-l ca-form-h">Riscaldamento</p>
         <Scelta nome="Riscaldamento" valore={casa.riscaldamento} onChange={set('riscaldamento')} opzioni={Object.entries(RISCALDAMENTO).map(([v, l]) => ({ v, l }))} colonne={2} />
       </div>
 
@@ -213,15 +213,18 @@ export function Benvenuto() {
   return (
     <section className="ca-page ca-onb">
       <p className="eyebrow">Benvenuto</p>
-      <h1 className="display ca-onb-t">Quattro domande sulla casa,<br /><em>poi pensiamo noi ai conti.</em></h1>
-      <div className="ca-onb-acc">
-        {accedi ? <Account /> : (
-          <p>Hai già un account? <button className="ca-link" onClick={() => setAccedi(true)}>Accedi e ritrova la tua casa</button></p>
-        )}
-      </div>
+      <h1 className="display ca-onb-t">La tua casa,<br /><em>in quattro risposte.</em></h1>
+      <p className="ca-onb-s">Bastano per sapere quali spese aspettarti. Poi carichi una bolletta e al resto pensiamo noi.</p>
+      {accedi ? <div className="ca-onb-acc"><Account variante="rientro" /></div> : (
+        <button className="ca-onb-ret" onClick={() => setAccedi(true)}>
+          <span className="ca-onb-ret-i"><Icona nome="chiave" size={20} /></span>
+          <span className="ca-onb-ret-t"><strong>Hai già un account?</strong><small>Accedi e ritrova la tua casa su questo dispositivo</small></span>
+          <span className="ca-onb-ret-a">Accedi <Icona nome="freccia" size={16} /></span>
+        </button>
+      )}
 
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">01</span> La casa è</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">I</span> La casa è</p>
         <Scelta nome="Titolo" valore={titolo} onChange={setTitolo} colonne={3} opzioni={[
           { v: 'proprieta_mutuo', l: 'Di proprietà', sub: 'con mutuo', icona: 'mutuo' },
           { v: 'proprieta', l: 'Di proprietà', sub: 'senza mutuo', icona: 'casa' },
@@ -235,11 +238,11 @@ export function Benvenuto() {
         )}
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">02</span> Quante persone ci vivono?</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">II</span> Quante persone ci vivono?</p>
         <Scelta nome="Persone" valore={persone} onChange={setPersone} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">03</span> Come si scalda?</p>
+        <p className="ca-onb-l"><span className="ca-onb-n">III</span> Come si scalda?</p>
         <Scelta nome="Riscaldamento" valore={risc} onChange={setRisc} colonne={2} opzioni={[
           { v: 'gas_autonomo', l: 'Caldaia a gas', sub: 'autonoma', icona: 'gas' },
           { v: 'centralizzato', l: 'Centralizzato', sub: 'del condominio', icona: 'condominio' },
@@ -248,7 +251,7 @@ export function Benvenuto() {
         ]} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="num">04</span> CAP <span className="ca-muted">facoltativo</span></p>
+        <p className="ca-onb-l"><span className="ca-onb-n">IV</span> CAP <span className="ca-muted">facoltativo</span></p>
         <input className="ca-onb-cap num" inputMode="numeric" maxLength={5} value={cap} onChange={(e) => setCap(e.target.value.replace(/\D/g, ''))} placeholder="20100" aria-label="CAP" />
       </div>
 

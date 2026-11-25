@@ -96,7 +96,7 @@ export function Campo({ label, hint, children, id }) {
 
 export function Scelta({ opzioni, valore, onChange, nome, colonne }) {
   return (
-    <div className="ca-seg" role="radiogroup" aria-label={nome} style={colonne ? { gridTemplateColumns: `repeat(${colonne}, 1fr)` } : undefined}>
+    <div className={'ca-seg' + (colonne ? ' cols-' + colonne : '')} role="radiogroup" aria-label={nome}>
       {opzioni.map((o) => (
         <button
           type="button" key={o.v} role="radio" aria-checked={valore === o.v}

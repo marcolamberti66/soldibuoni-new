@@ -151,7 +151,7 @@ export default function Aggiungi({ parametri, vai }) {
         onDrop={(e) => { e.preventDefault(); setSopra(false); elabora(e.dataTransfer.files); }}
       >
         <span className="ca-drop-ico"><Icona nome="upload" size={28} /></span>
-        <p className="display ca-drop-t">Trascina qui le bollette</p>
+        <p className="display ca-drop-t"><span className="ca-hover-only">Trascina qui le bollette</span><span className="ca-touch-only">Carica le bollette</span></p>
         <p className="ca-muted">Anche più di una insieme. Leggiamo luce, gas, acqua, internet e telefono.</p>
         <div className="ca-drop-btns">
           <button className="btn btn-ink" onClick={() => inFile.current.click()}><Icona nome="upload" size={18} /> Scegli file</button>
