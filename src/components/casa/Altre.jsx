@@ -186,6 +186,7 @@ export function Casa({ stato }) {
 
 // ── Onboarding: quattro tocchi ──────────────────────────────
 export function Benvenuto() {
+  const [accedi, setAccedi] = useState(false);
   const [titolo, setTitolo] = useState(null);
   const [rata, setRata] = useState('');
   const [persone, setPersone] = useState(null);
@@ -213,6 +214,11 @@ export function Benvenuto() {
     <section className="ca-page ca-onb">
       <p className="eyebrow">Benvenuto</p>
       <h1 className="display ca-onb-t">Quattro domande sulla casa,<br /><em>poi pensiamo noi ai conti.</em></h1>
+      <div className="ca-onb-acc">
+        {accedi ? <Account /> : (
+          <p>Hai già un account? <button className="ca-link" onClick={() => setAccedi(true)}>Accedi e ritrova la tua casa</button></p>
+        )}
+      </div>
 
       <div className="ca-onb-q">
         <p className="ca-onb-l"><span className="num">01</span> La casa è</p>
