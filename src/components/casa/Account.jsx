@@ -19,11 +19,13 @@ export default function Account({ variante } = {}) {
   if (!acc.utente) {
     return (
       <div className="ca-card ca-acc">
-        <p className="ca-acc-k">{variante === 'rientro' ? 'Bentornato' : 'Account'}</p>
-        <h3 className="ca-acc-t">{variante === 'rientro' ? 'Ritrova la tua casa.' : 'Ogni lunedì, la settimana della casa nella tua email.'}</h3>
+        <p className="ca-acc-k">{variante === 'rientro' ? 'Bentornato' : variante === 'invito' ? 'Ultimo passo' : 'Account'}</p>
+        <h3 className="ca-acc-t">{variante === 'rientro' ? 'Ritrova la tua casa.' : variante === 'invito' ? 'Entra con la tua email.' : 'Ogni lunedì, la settimana della casa nella tua email.'}</h3>
         <p className="ca-muted">{variante === 'rientro'
           ? 'Scrivi l\'email con cui ti sei registrato: ti mandiamo un link, lo apri e i tuoi dati compaiono qui.'
-          : 'Accedi con la tua email: i dati restano anche se cambi telefono o browser, e ogni lunedì ricevi il riepilogo. Niente password, ti mandiamo un link.'}</p>
+          : variante === 'invito'
+            ? 'Ti mandiamo un codice di 6 cifre: lo scrivi qui e la casa condivisa compare, con bollette e scadenze. Niente password.'
+            : 'Accedi con la tua email: i dati restano anche se cambi telefono o browser, e ogni lunedì ricevi il riepilogo. Niente password, ti mandiamo un link.'}</p>
         {fase === 'inviato' ? (
           <>
             <div className="ca-acc-ok">

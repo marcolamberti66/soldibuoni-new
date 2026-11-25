@@ -5,6 +5,7 @@
 // BREVO_API_KEY. Se manca la prima, non fa nulla.
 // ─────────────────────────────────────────────────────────────
 import { createClient } from '@supabase/supabase-js';
+import { caricaStatoUtente } from '../../src/casa/dati-utente.js';
 import { costruisciEmail, statoDaRighe } from '../../src/casa/email.js';
 import { inviaEmail } from '../../src/casa/invio.js';
 
@@ -28,13 +29,7 @@ export default async () => {
       const { data: u } = await db.auth.admin.getUserById(n.user_id);
       const email = u?.user?.email;
       if (!email) { saltate++; continue; }
-      const [casa, documenti, ricorrenti, promemoria] = await Promise.all([
-        db.from('case').select('*').eq('user_id', n.user_id).order('creato_il').limit(1),
-        db.from('documenti').select('*').eq('user_id', n.user_id),
-        db.from('ricorrenti').select('*').eq('user_id', n.user_id),
-        db.from('promemoria').select('*').eq('user_id', n.user_id),
-      ]);
-      const stato = statoDaRighe({ casa: casa.data?.[0], documenti: documenti.data, ricorrenti: ricorrenti.data, promemoria: promemoria.data });
+      const stato = await caricaStatoUtente(db, n.user_id);
       if (!stato.casa) { saltate++; continue; }
       const msg = costruisciEmail(stato);
       if (!msg) { saltate++; continue; } // niente da dire: niente email

@@ -1,6 +1,7 @@
 // POST /api/casa/push-prova — manda una notifica di prova ai dispositivi
 // dell'utente collegato. Usa il token dell'utente: vede solo le sue iscrizioni.
 import { createClient } from '@supabase/supabase-js';
+import { caricaStatoUtente } from '../../../casa/dati-utente.js';
 import { inviaPush } from '../../../casa/push-server.js';
 import { costruisciPush } from '../../../casa/push.js';
 import { statoDaRighe } from '../../../casa/email.js';
@@ -28,13 +29,7 @@ export async function POST({ request, url }) {
   if (!iscr?.length) return json({ errore: 'Nessun dispositivo iscritto: attiva prima le notifiche.' }, 404);
 
   // Anteprima vera, se oggi ci sarebbe qualcosa da dire; altrimenti una prova neutra.
-  const [casa, documenti, ricorrenti, promemoria] = await Promise.all([
-    c.from('case').select('*').eq('user_id', id).order('creato_il').limit(1),
-    c.from('documenti').select('*').eq('user_id', id),
-    c.from('ricorrenti').select('*').eq('user_id', id),
-    c.from('promemoria').select('*').eq('user_id', id),
-  ]);
-  const stato = statoDaRighe({ casa: casa.data?.[0], documenti: documenti.data, ricorrenti: ricorrenti.data, promemoria: promemoria.data });
+  const stato = await caricaStatoUtente(c, id);
   const vero = costruisciPush(stato, { sito: url.origin });
   const msg = vero || {
     titolo: 'Notifiche attive',

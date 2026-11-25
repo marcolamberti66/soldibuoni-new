@@ -28,6 +28,7 @@ const schemaHome = [{
             Scarica l'app
           </button>
         </div>
+        <a class="hero-cb" href="/controlla-bolletta">Hai solo una bolletta sotto mano? <b>Controllala in dieci secondi</b> <span aria-hidden="true">→</span></a>
         <ol class="hero-passi" aria-label="Come si comincia">
           <li><span>I</span><p><b>4 domande</b>Un minuto, senza registrazione</p></li>
           <li><span>II</span><p><b>Una bolletta</b>PDF o foto, la leggiamo noi</p></li>
@@ -137,6 +138,9 @@ const schemaHome = [{
   .hero-t { font-size: clamp(58px, 8.2vw, 124px); line-height: .9; letter-spacing: -0.045em; margin: 28px 0 32px; font-weight: 400; }
   .hero-t em { font-style: italic; color: var(--brass); }
   .hero-s { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; max-width: 500px; color: var(--ink-2); }
+  .hero-cb { display: inline-block; margin-top: 18px; font-size: 15px; color: var(--ink-2); text-decoration: none; }
+  .hero-cb b { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brass); }
+  .hero-cb:hover b { text-decoration-thickness: 2px; }
   .hero-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
   .hero-app { gap: 10px; }
   .in-app .hero-app { display: none; }

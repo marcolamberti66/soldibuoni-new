@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { CATEGORIE } from '../../casa/model.js';
 
 const P = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
@@ -74,7 +75,8 @@ export function Foglio({ aperto, onChiudi, titolo, children, piede }) {
     };
   }, [aperto]);
   if (!aperto) return null;
-  return (
+  // In un portale: fuori dai contenitori animati, sopra la barra delle sezioni.
+  return createPortal(
     <div className="ca-sheet-bg" onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
       <div className="ca-sheet" role="dialog" aria-modal="true" aria-label={titolo} ref={ref}>
         <div className="ca-sheet-hd">
@@ -84,7 +86,8 @@ export function Foglio({ aperto, onChiudi, titolo, children, piede }) {
         <div className="ca-sheet-body">{children}</div>
         {piede && <div className="ca-sheet-ft">{piede}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

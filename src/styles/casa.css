@@ -453,3 +453,40 @@
   .ca-pp-prog { flex-direction: row; align-items: center; justify-content: flex-start; }
   .ca-pp-prog b { font-size: 30px; }
 }
+
+/* ── casa condivisa ───────────────────────────────────────── */
+.ca-alert.ok { background: var(--ok-soft, rgba(44, 90, 67, .1)); color: var(--ok); }
+.ca-alert .ca-icon-btn { margin-left: auto; }
+.ca-cond .ca-muted { margin-bottom: 6px; }
+.ca-cond-req { display: flex; gap: 10px; align-items: center; padding: 12px 14px; margin-top: 12px; border: 1px dashed var(--line-strong); border-radius: var(--r-sm); font-size: 14px; color: var(--ink-2); }
+.ca-cond-list { list-style: none; margin: 14px 0 0; }
+.ca-cond-list li { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+.ca-cond-list li:last-child { border-bottom: 1px solid var(--line); }
+.ca-cond-av { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: var(--f-display); font-size: 17px; }
+.ca-cond-list li:nth-child(2) .ca-cond-av { background: var(--brass); }
+.ca-cond-m { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 15px; color: var(--ink); }
+.ca-cond-m strong { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ca-cond-m small { font-size: 12.5px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ca-cond .btn svg { margin-right: 6px; }
+.ca-cond-link { margin-top: 14px; font-size: 13px; color: var(--ink-2); display: grid; gap: 6px; }
+.ca-cond-link code { font-family: var(--f-ui); font-size: 13.5px; color: var(--ink); background: var(--paper-2); padding: 10px 12px; border-radius: var(--r-sm); word-break: break-all; user-select: all; }
+
+.ca-invcasa { max-width: 620px; padding-top: clamp(24px, 6vw, 64px); }
+.ca-invcasa .ca-acc { margin-top: 24px; }
+.ca-invcasa-no { display: block; margin: 22px 0 40px; }
+.ca-sync-wait { padding: 80px 0; font-family: var(--f-display); font-style: italic; font-size: 24px; color: var(--ink-2); }
+
+/* ── sezione della casa da condividere ────────────────────── */
+.ca-sez-btn { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; align-items: center; width: 100%; margin-top: 14px; padding: 14px 16px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--card); color: var(--ink); text-align: left; cursor: pointer; font: inherit; transition: border-color .2s var(--ease); }
+.ca-sez-btn:hover { border-color: var(--ink); }
+.ca-sez-btn > span:nth-child(2) { display: flex; flex-direction: column; gap: 2px; font-size: 15px; }
+.ca-sez-btn small { font-size: 13px; color: var(--ink-2); }
+.ca-sez-ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: var(--paper); }
+.ca-sez-prev { margin: 16px auto; aspect-ratio: 1080 / 1350; max-height: 50vh; display: grid; place-items: center; background: var(--paper-2); border-radius: var(--r-sm); overflow: hidden; }
+.ca-sez-prev img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.ca-sez-wait { font-family: var(--f-display); font-style: italic; color: var(--ink-2); font-size: 20px; }
+.ca-sez-btn ~ .ca-data-act .btn svg, .ca-sheet .btn svg { margin-right: 6px; }
+.ca-sheet-ft { padding: 12px 20px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--paper); }
+.ca-sheet-ft .btn { width: 100%; justify-content: center; }
+.ca-sheet-ft .btn svg { margin-right: 6px; }
+@media (min-width: 700px) { .ca-sheet-ft .btn { width: auto; } }

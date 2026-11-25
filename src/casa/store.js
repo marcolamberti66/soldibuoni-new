@@ -17,6 +17,8 @@ const vuoto = () => ({
   ricorrenti: [],      // spese fisse senza bolletta (TARI, condominio, ...)
   promemoria: [],      // scadenze manuali
   avvisi_letti: {},    // id avviso → data in cui è stato archiviato
+  // Sincronizzazione: id già presenti sul database e cancellazioni da propagare.
+  _sync: { noti: { documenti: [], ricorrenti: [], promemoria: [] }, eliminati: { documenti: [], ricorrenti: [], promemoria: [] } },
 });
 
 let stato = vuoto();
@@ -58,44 +60,68 @@ export function useCasa() {
   return useSyncExternalStore(subscribe, getStato, () => server);
 }
 
+// ── bollette lette da "Controlla la tua bolletta", in attesa di una casa ──
+const ATTESA = 'sb_bollette_in_attesa';
+export function mettiInAttesa(documenti) {
+  try { localStorage.setItem(ATTESA, JSON.stringify(documenti)); } catch {}
+}
+/** Restituisce e consuma le bollette in attesa. */
+export function prendiInAttesa() {
+  try {
+    const l = JSON.parse(localStorage.getItem(ATTESA) || '[]');
+    localStorage.removeItem(ATTESA);
+    return Array.isArray(l) ? l : [];
+  } catch { return []; }
+}
+export function ciSonoInAttesa() {
+  try { return !!localStorage.getItem(ATTESA); } catch { return false; }
+}
+
 // ── azioni ───────────────────────────────────────────────────
 const ora = () => new Date().toISOString();
 
+// Una cancellazione va propagata al database solo se l'elemento c'era già.
+function segnaEliminato(s, tab, id) {
+  const sy = s._sync || vuoto()._sync;
+  if (!sy.noti?.[tab]?.includes(id)) return sy;
+  return { ...sy, eliminati: { ...sy.eliminati, [tab]: [...(sy.eliminati?.[tab] || []), id] } };
+}
+
 export const azioni = {
   creaCasa(dati) {
-    aggiorna(() => ({ casa: { id: uid(), creato_il: ora(), ...dati } }));
+    aggiorna(() => ({ casa: { id: uid(), creato_il: ora(), aggiornato_il: ora(), ...dati } }));
   },
   modificaCasa(patch) {
-    aggiorna((s) => ({ casa: { ...s.casa, ...patch } }));
+    aggiorna((s) => ({ casa: { ...s.casa, ...patch, aggiornato_il: ora() } }));
   },
   aggiungiDocumenti(lista) {
-    const nuovi = lista.map((d) => ({ id: uid(), creato_il: ora(), ...d }));
+    const nuovi = lista.map((d) => ({ id: uid(), creato_il: ora(), aggiornato_il: ora(), ...d }));
     aggiorna((s) => ({ documenti: [...s.documenti, ...nuovi] }));
     return nuovi;
   },
   modificaDocumento(id, patch) {
-    aggiorna((s) => ({ documenti: s.documenti.map((d) => (d.id === id ? { ...d, ...patch } : d)) }));
+    aggiorna((s) => ({ documenti: s.documenti.map((d) => (d.id === id ? { ...d, ...patch, aggiornato_il: ora() } : d)) }));
   },
   eliminaDocumento(id) {
-    aggiorna((s) => ({ documenti: s.documenti.filter((d) => d.id !== id) }));
+    aggiorna((s) => ({ documenti: s.documenti.filter((d) => d.id !== id), _sync: segnaEliminato(s, 'documenti', id) }));
   },
   salvaRicorrente(r) {
     aggiorna((s) => {
-      if (r.id) return { ricorrenti: s.ricorrenti.map((x) => (x.id === r.id ? { ...x, ...r } : x)) };
-      return { ricorrenti: [...s.ricorrenti, { id: uid(), creato_il: ora(), attiva: true, ...r }] };
+      if (r.id) return { ricorrenti: s.ricorrenti.map((x) => (x.id === r.id ? { ...x, ...r, aggiornato_il: ora() } : x)) };
+      return { ricorrenti: [...s.ricorrenti, { id: uid(), creato_il: ora(), aggiornato_il: ora(), attiva: true, ...r }] };
     });
   },
   eliminaRicorrente(id) {
-    aggiorna((s) => ({ ricorrenti: s.ricorrenti.filter((x) => x.id !== id) }));
+    aggiorna((s) => ({ ricorrenti: s.ricorrenti.filter((x) => x.id !== id), _sync: segnaEliminato(s, 'ricorrenti', id) }));
   },
   salvaPromemoria(p) {
     aggiorna((s) => {
-      if (p.id) return { promemoria: s.promemoria.map((x) => (x.id === p.id ? { ...x, ...p } : x)) };
-      return { promemoria: [...s.promemoria, { id: uid(), creato_il: ora(), fatto: false, ...p }] };
+      if (p.id) return { promemoria: s.promemoria.map((x) => (x.id === p.id ? { ...x, ...p, aggiornato_il: ora() } : x)) };
+      return { promemoria: [...s.promemoria, { id: uid(), creato_il: ora(), aggiornato_il: ora(), fatto: false, ...p }] };
     });
   },
   eliminaPromemoria(id) {
-    aggiorna((s) => ({ promemoria: s.promemoria.filter((x) => x.id !== id) }));
+    aggiorna((s) => ({ promemoria: s.promemoria.filter((x) => x.id !== id), _sync: segnaEliminato(s, 'promemoria', id) }));
   },
   archiviaAvviso(id) {
     aggiorna((s) => ({ avvisi_letti: { ...s.avvisi_letti, [id]: ora() } }));
