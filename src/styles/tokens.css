@@ -10,13 +10,13 @@
   --paper-2: #ece7dd;
   --card: #fbfaf7;
   --ink: #17150f;
-  --ink-2: #47433a;
-  --ink-3: #6f6a5e;
-  --line: rgba(23, 21, 15, 0.11);
-  --line-strong: rgba(23, 21, 15, 0.22);
+  --ink-2: #37332b;
+  --ink-3: #575246;
+  --line: rgba(23, 21, 15, 0.13);
+  --line-strong: rgba(23, 21, 15, 0.28);
 
   /* accento e stati */
-  --brass: #84652d;
+  --brass: #7a5a22;
   --brass-soft: #efe5cf;
   --ok: #2c5a43;
   --ok-soft: #e1ebe3;
@@ -146,3 +146,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tab-btn:hover { color: var(--ink) !important; }
 .tab-btn.active { color: var(--ink) !important; border-bottom-color: var(--ink) !important; }
 input[type="range"] { accent-color: var(--ink); }
+
+/* Leggibilità: segnaposto e testo disabilitato restano contrastati */
+::placeholder { color: var(--ink-3); opacity: .75; }

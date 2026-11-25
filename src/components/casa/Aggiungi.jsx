@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { conta } from '../../casa/dispositivo.js';
 import { azioni } from '../../casa/store.js';
 import { CATEGORIE } from '../../casa/model.js';
-import { Icona } from './ui.jsx';
+import { Icona, Percorso } from './ui.jsx';
 import { SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
 
 // Le foto da telefono pesano 3–8 MB e su iPhone sono HEIC: le ridisegniamo
@@ -35,6 +35,7 @@ async function leggi(file) {
 
 export default function Aggiungi({ parametri, vai }) {
   const preset = parametri.get('cat');
+  const primo = parametri.get('primo') === '1';
   const presetRicorrente = preset && CATEGORIE[preset] && !CATEGORIE[preset].bolletta;
   const [fase, setFase] = useState(presetRicorrente ? 'ricorrente' : 'scegli');
   const [coda, setCoda] = useState([]);      // documenti da rivedere
@@ -156,8 +157,9 @@ export default function Aggiungi({ parametri, vai }) {
           <p className="display ca-done-t">{salvati ? (salvati === 1 ? 'Aggiunta alla tua casa.' : `${salvati} documenti aggiunti.`) : 'Nessun documento salvato.'}</p>
           <div className="ca-done-act">
             <button className="btn btn-line" onClick={() => { setSalvati(0); setStato(null); setFase('scegli'); }}>Aggiungine un'altra</button>
-            <button className="btn btn-ink" onClick={() => vai('')}>Vai alla panoramica</button>
+            <button className="btn btn-ink" onClick={() => vai('')}>{primo ? 'Apri la tua panoramica' : 'Vai alla panoramica'}</button>
           </div>
+          {primo && <p className="ca-muted ca-done-n">Passo 3 di 3: la panoramica è la pagina da riaprire ogni settimana.</p>}
         </div>
       </section>
     );
@@ -165,7 +167,12 @@ export default function Aggiungi({ parametri, vai }) {
 
   return (
     <section className="ca-page">
-      <Testata titolo="Aggiungi una spesa" sotto="Carica la bolletta così com'è: PDF dall'email o foto della carta." />
+      {primo && <Percorso passo={1} />}
+      <Testata
+        titolo={primo ? 'Ora la prima bolletta' : 'Aggiungi una spesa'}
+        sotto={primo ? 'Luce o gas, PDF dall\'email o foto della carta: la leggo io in pochi secondi. È il modo più rapido per riempire la panoramica.' : 'Carica la bolletta così com\'è: PDF dall\'email o foto della carta.'}
+      />
+      {primo && <button className="ca-link ca-salta" onClick={() => vai('')}>Salta, la carico dopo: vai alla panoramica <Icona nome="freccia" size={16} /></button>}
       <div
         className={'ca-drop' + (sopra ? ' over' : '')}
         onDragOver={(e) => { e.preventDefault(); setSopra(true); }}

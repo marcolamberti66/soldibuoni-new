@@ -5,8 +5,7 @@ import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
 import { consigliDelMese } from '../../casa/stagione.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
 import { Icona, IconaCategoria } from './ui.jsx';
-import { InvitoAccount } from './Account.jsx';
-import { InvitoApp } from './Telefono.jsx';
+import PrimiPassi, { primiPassiChiusi } from './PrimiPassi.jsx';
 
 export function Avviso({ a, vai }) {
   const ico = a.livello === 'info' ? 'info' : 'allerta';
@@ -58,12 +57,19 @@ export default function Panoramica({ stato, vai }) {
   const nome = stato.casa?.nome || 'La tua casa';
 
   if (!nDoc) {
+    if (!primiPassiChiusi()) {
+      return (
+        <section className="ca-page">
+          <PrimiPassi stato={stato} vai={vai} vuota />
+        </section>
+      );
+    }
     return (
       <section className="ca-page">
         <header className="ca-hero">
-          <p className="eyebrow">{nome}</p>
-          <h1 className="display ca-hero-t">Iniziamo dalla<br /><em>prima bolletta.</em></h1>
-          <p className="ca-muted ca-hero-s">Carica una bolletta di luce o gas: in pochi secondi ne estraggo importo, consumi, prezzo e scadenze. Da lì costruiamo il quadro dei costi della casa.</p>
+          <p className="eyebrow">{nome} · la tua panoramica</p>
+          <h1 className="display ca-hero-t">Qui vedrai<br /><em>i conti della casa.</em></h1>
+          <p className="ca-hero-s">Per ora è vuota. Carica una bolletta di luce o gas, o inserisci rata e condominio: da quel momento qui trovi ogni settimana cosa esce, cosa scade e cosa conviene fare.</p>
           <button className="btn btn-ink" onClick={() => vai('aggiungi')}><Icona nome="upload" size={18} /> Carica una bolletta</button>
         </header>
         <Completa mancanti={vociAttese(stato.casa)} vai={vai} />
@@ -102,7 +108,7 @@ export default function Panoramica({ stato, vai }) {
         </p>
       </header>
 
-      <InvitoApp vai={vai} altrimenti={<InvitoAccount vai={vai} />} />
+      <PrimiPassi stato={stato} vai={vai} />
 
       <div className="ca-cols">
         <div>

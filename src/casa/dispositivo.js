@@ -20,26 +20,33 @@ export function ambiente() {
 }
 
 // ── installazione ────────────────────────────────────────────
-let promptInstallazione = null;
+// Il prompt di sistema viene catturato nel layout (window.__sbPrompt),
+// così il pulsante "Scarica l'app" del sito e quello dell'app usano lo stesso.
 let installata = false;
 const ascInst = new Set();
 const notificaInst = () => ascInst.forEach((f) => f());
 if (finestra) {
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); promptInstallazione = e; notificaInst(); });
-  window.addEventListener('appinstalled', () => { installata = true; promptInstallazione = null; conta('app_installata'); notificaInst(); });
+  document.addEventListener('sb-installabile', notificaInst);
+  document.addEventListener('sb-installata', () => { installata = true; conta('app_installata'); notificaInst(); });
 }
-const leggiInst = () => (installata ? 'installata' : promptInstallazione ? 'pronta' : 'no');
+const leggiInst = () => (installata ? 'installata' : finestra && window.__sbPrompt ? 'pronta' : 'no');
 
 /** 'pronta' (c'è il pulsante di sistema), 'installata', 'no'. */
 export function useInstallazione() {
   return useSyncExternalStore((f) => { ascInst.add(f); return () => ascInst.delete(f); }, leggiInst, () => 'no');
 }
 
+/** Apre la finestra "Scarica l'app" del sito (istruzioni giuste per il dispositivo). */
+export function apriScaricaApp(origine = 'app') {
+  if (finestra && window.sbApp) window.sbApp.apri(origine);
+}
+
 export async function installa() {
-  if (!promptInstallazione) return false;
-  promptInstallazione.prompt();
-  const { outcome } = await promptInstallazione.userChoice.catch(() => ({ outcome: 'dismissed' }));
-  promptInstallazione = null;
+  const p = finestra && window.__sbPrompt;
+  if (!p) { apriScaricaApp(); return false; }
+  p.prompt();
+  const { outcome } = await p.userChoice.catch(() => ({ outcome: 'dismissed' }));
+  window.__sbPrompt = null;
   notificaInst();
   return outcome === 'accepted';
 }
@@ -135,6 +142,8 @@ export async function provaPush() {
 // Non è possibile collegare due eventi alla stessa persona.
 const EVENTI = new Set(['apertura', 'onboarding', 'bolletta_letta', 'bolletta_errore', 'voce_manuale', 'spesa_fissa',
   'account', 'push_attivate', 'app_installata', 'invito_install', 'condivisione']);
+
+if (finestra) window.sbConta = (n, d) => conta(n, d);
 
 export function conta(nome, dettaglio = null) {
   if (!finestra || !EVENTI.has(nome)) return;

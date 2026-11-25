@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAccount } from '../../casa/sync.js';
-import { ambiente, useInstallazione, installa, statoPush, attivaPush, disattivaPush, provaPush, conta } from '../../casa/dispositivo.js';
+import { ambiente, useInstallazione, installa, apriScaricaApp, statoPush, attivaPush, disattivaPush, provaPush, conta } from '../../casa/dispositivo.js';
 import { Foglio, Icona } from './ui.jsx';
 
 const CHIAVE_RINVIO = 'sb_invito_app';
@@ -61,7 +61,7 @@ export function InvitoApp({ vai, altrimenti = null }) {
       azione = 'Installa'; onAzione = async () => { conta('invito_install', 'prompt'); await installa(); };
     } else if (a.ios) {
       testo = <><strong>Tienila sulla Home dell'iPhone.</strong> Si apre come un'app e ti avvisa il giorno delle scadenze.</>;
-      azione = 'Come si fa'; onAzione = () => { conta('invito_install', 'ios'); setIphone(true); };
+      azione = 'Come si fa'; onAzione = () => { conta('invito_install', 'ios'); apriScaricaApp('telefono'); };
     } else return altrimenti; // computer o browser senza installazione: niente invito
   } else {
     if (!acc.utente || push !== 'spente') return altrimenti;
@@ -122,11 +122,7 @@ export function SchedaTelefono() {
         </span>
         {a.standalone || inst === 'installata'
           ? <span className="ca-pill ok">{etichettaStato}</span>
-          : inst === 'pronta'
-            ? <button className="btn btn-ink btn-sm" onClick={() => esegui(installa)}>Installa</button>
-            : a.ios
-              ? <button className="btn btn-line btn-sm" onClick={() => setIphone(true)}>Come si fa</button>
-              : <span className="ca-pill">{a.mobile ? 'Dal menu del browser' : 'Dal telefono'}</span>}
+          : <button className="btn btn-ink btn-sm" onClick={() => (inst === 'pronta' ? esegui(installa) : apriScaricaApp('telefono'))}>Scarica</button>}
       </div>
 
       <div className="ca-tel-riga">
@@ -143,7 +139,7 @@ export function SchedaTelefono() {
           }</small>
         </span>
         {push === 'serve-app'
-          ? <button className="btn btn-line btn-sm" onClick={() => setIphone(true)}>Installa</button>
+          ? <button className="btn btn-line btn-sm" onClick={() => apriScaricaApp('telefono')}>Installa</button>
           : acc.utente && (push === 'spente' || push === 'attive')
             ? (
               <label className="ca-switch" aria-label="Notifiche su questo dispositivo">

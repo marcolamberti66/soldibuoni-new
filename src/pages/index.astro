@@ -22,14 +22,17 @@ const schemaHome = [{
         <h1 class="display hero-t">Ogni casa<br />ha il suo <em>conto.</em></h1>
         <p class="hero-s">Mutuo, bollette, condominio, tributi. Li carichi così come arrivano, SoldiBuoni li legge e ogni settimana ti dice in un minuto cosa esce, cosa scade e cosa conviene sistemare.</p>
         <div class="hero-cta">
-          <a href="/casa" class="btn btn-ink btn-lg">Apri la tua casa <span aria-hidden="true">→</span></a>
-          <a href="#settimana" class="hero-link">Come funziona</a>
+          <a href="/casa" class="btn btn-ink btn-lg">Inizia gratis <span aria-hidden="true">→</span></a>
+          <button type="button" class="btn btn-line btn-lg hero-app" data-app-apri="home">
+            <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Scarica l'app
+          </button>
         </div>
-        <ul class="hero-facts">
-          <li><b>4</b> domande per iniziare</li>
-          <li><b>0</b> moduli da compilare</li>
-          <li><b>1</b> minuto a settimana</li>
-        </ul>
+        <ol class="hero-passi" aria-label="Come si comincia">
+          <li><span>I</span><p><b>4 domande</b>Un minuto, senza registrazione</p></li>
+          <li><span>II</span><p><b>Una bolletta</b>PDF o foto, la leggiamo noi</p></li>
+          <li><span>III</span><p><b>La tua panoramica</b>Ogni settimana cosa esce e cosa scade</p></li>
+        </ol>
       </div>
       <div class="hero-tav"><TavolaCasa /></div>
     </div>
@@ -134,7 +137,20 @@ const schemaHome = [{
   .hero-t { font-size: clamp(58px, 8.2vw, 124px); line-height: .9; letter-spacing: -0.045em; margin: 28px 0 32px; font-weight: 400; }
   .hero-t em { font-style: italic; color: var(--brass); }
   .hero-s { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; max-width: 500px; color: var(--ink-2); }
-  .hero-cta { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin-top: 36px; }
+  .hero-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+  .hero-app { gap: 10px; }
+  .in-app .hero-app { display: none; }
+  .hero-passi { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 44px; max-width: 560px; border-top: 1px solid var(--ink); counter-reset: p; }
+  .hero-passi li { display: flex; gap: 10px; padding: 16px 14px 0 0; }
+  .hero-passi li + li { padding-left: 14px; border-left: 1px solid var(--line-strong); }
+  .hero-passi span { font-family: var(--f-display); font-style: italic; color: var(--brass); font-size: 20px; line-height: 1.1; }
+  .hero-passi p { font-size: 13.5px; line-height: 1.4; color: var(--ink-2); }
+  .hero-passi b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  @media (max-width: 560px) {
+    .hero-passi { grid-template-columns: 1fr; }
+    .hero-passi li, .hero-passi li + li { padding: 14px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+    .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
+  }
   .hero-facts { list-style: none; display: flex; gap: 0; margin-top: 48px; border-top: 1px solid var(--line-strong); max-width: 520px; }
   .hero-facts li { flex: 1; padding: 16px 16px 0 0; font-size: 13.5px; color: var(--ink-3); line-height: 1.35; }
   .hero-facts li + li { padding-left: 16px; border-left: 1px solid var(--line); }
