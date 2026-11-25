@@ -7,7 +7,7 @@ import { sb } from '../../casa/sync.js';
 const FASCE = [['giorno0', 'Primo giorno'], ['g1-7', '1–7 giorni'], ['g8-30', '8–30 giorni'], ['g31-90', '1–3 mesi'], ['g90+', 'Oltre 3 mesi']];
 const COLONNE = [
   ['controllo', 'Controlli bolletta'], ['controllo_casa', 'Da controllo a casa'],
-  ['apertura', 'Aperture'], ['ritorni', 'Di chi torna'], ['app', 'Da app'], ['onboarding', 'Nuove case'], ['invito_accettato', 'Case condivise'], ['sezione_condivisa', 'Sezioni condivise'],
+  ['apertura', 'Aperture'], ['ritorni', 'Di chi torna'], ['app', 'Da app'], ['onboarding', 'Nuove case'], ['invito_accettato', 'Case condivise'], ['sezione_condivisa', 'Sezioni condivise'], ['dividi_attivato', 'Conti avviati'], ['spesa_divisa', 'Spese divise'],
   ['bolletta_letta', 'Bollette lette'], ['bolletta_errore', 'Letture fallite'], ['account', 'Accessi'], ['push_attivate', 'Notifiche attivate'],
 ];
 const n0 = (n) => (n || 0).toLocaleString('it-IT');

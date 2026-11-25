@@ -142,7 +142,8 @@ export async function provaPush() {
 // Non è possibile collegare due eventi alla stessa persona.
 const EVENTI = new Set(['apertura', 'onboarding', 'bolletta_letta', 'bolletta_errore', 'voce_manuale', 'spesa_fissa',
   'account', 'push_attivate', 'app_installata', 'invito_install', 'condivisione',
-  'controllo', 'controllo_errore', 'controllo_casa', 'sezione_condivisa', 'invito_creato', 'invito_accettato']);
+  'controllo', 'controllo_errore', 'controllo_casa', 'sezione_condivisa', 'invito_creato', 'invito_accettato',
+  'dividi_attivato', 'spesa_divisa', 'rimborso', 'sollecito']);
 
 if (finestra) window.sbConta = (n, d) => conta(n, d);
 

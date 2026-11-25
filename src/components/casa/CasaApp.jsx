@@ -9,6 +9,7 @@ import { Icona } from './ui.jsx';
 import Panoramica from './Panoramica.jsx';
 import Aggiungi from './Aggiungi.jsx';
 import Voce from './Voce.jsx';
+import Dividi from './Dividi.jsx';
 import { Scadenze, Archivio, Casa, Benvenuto } from './Altre.jsx';
 
 function useRotta() {
@@ -26,9 +27,12 @@ const TABS = [
   { r: '', l: 'Panoramica', i: 'panoramica' },
   { r: 'scadenze', l: 'Scadenze', i: 'calendario' },
   { r: 'aggiungi', l: 'Aggiungi', i: 'piu', primario: true },
+  { r: 'dividi', l: 'Dividi', i: 'dividi', soloCondivisa: true },
   { r: 'archivio', l: 'Archivio', i: 'archivio' },
   { r: 'casa', l: 'Casa', i: 'casa' },
 ];
+// "Dividi" compare quando in casa vive più di una persona (o i conti sono già iniziati).
+const conDividi = (s) => (Number(s.casa?.persone) || 1) > 1 || s.conviventi.length > 0;
 
 export default function CasaApp() {
   const stato = useCasa();
@@ -82,6 +86,7 @@ export default function CasaApp() {
   else if (percorso === 'aggiungi') vista = <Aggiungi key={rotta} parametri={parametri} vai={vai} />;
   else if (percorso === 'scadenze') vista = <Scadenze stato={stato} vai={vai} />;
   else if (percorso === 'archivio') vista = <Archivio stato={stato} vai={vai} />;
+  else if (percorso === 'dividi') vista = <Dividi stato={stato} vai={vai} />;
   else if (percorso === 'casa') vista = <Casa stato={stato} vai={vai} />;
   else vista = <Panoramica stato={stato} vai={vai} />;
 
@@ -90,7 +95,7 @@ export default function CasaApp() {
   return (
     <div className="ca">
       <nav className="ca-tabs" aria-label="Sezioni">
-        {TABS.map((t) => (
+        {TABS.filter((t) => !t.soloCondivisa || conDividi(stato) || percorso === 'dividi').map((t) => (
           <a key={t.r} href={'#/' + t.r} className={'ca-tab' + (attiva(t) ? ' on' : '') + (t.primario ? ' prim' : '')} aria-current={attiva(t) ? 'page' : undefined}>
             <span className="ca-tab-i">
               <Icona nome={t.i} size={t.primario ? 22 : 21} />
