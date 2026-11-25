@@ -59,3 +59,22 @@
   from = "/sitemap.xml"
   to = "/sitemap-index.xml"
   status = 301
+
+# App installabile: il service worker non va mai messo in cache dal browser
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=3600"
+
+# "Condividi con SoldiBuoni" quando il service worker non è ancora attivo
+[[redirects]]
+  from = "/casa-condividi"
+  to = "/casa"
+  status = 302
+  force = true

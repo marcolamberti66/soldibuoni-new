@@ -2,11 +2,11 @@
 // Estrazione dati offerta internet/fibra con output strutturato via tool_use.
 
 import Anthropic from '@anthropic-ai/sdk';
+import { limiteSuperato, creaConRipiego } from '../../lib/limiti-ai.js';
 
 export const prerender = false;
 
 var MAX_FILE_BYTES = 8 * 1024 * 1024;
-var MODEL = 'claude-haiku-4-5-20251001';
 
 var EXTRACTION_TOOL = {
   name: 'estrai_offerta_internet',
@@ -102,6 +102,9 @@ export async function POST({ request }) {
     }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
+  var bloccato = await limiteSuperato();
+  if (bloccato) return bloccato;
+
   var client;
   try { client = new Anthropic({ apiKey: apiKey }); }
   catch (e) {
@@ -154,8 +157,7 @@ export async function POST({ request }) {
 
   var response;
   try {
-    response = await client.messages.create({
-      model: MODEL,
+    response = await creaConRipiego(client, {
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       tools: [EXTRACTION_TOOL],

@@ -1,0 +1,47 @@
+{
+  "id": "/casa",
+  "name": "SoldiBuoni · La tua casa",
+  "short_name": "SoldiBuoni",
+  "description": "Bollette, mutuo, condominio e scadenze della casa in un posto solo. Fotografi la bolletta, SoldiBuoni la legge e ti avvisa quando serve.",
+  "lang": "it-IT",
+  "dir": "ltr",
+  "start_url": "/casa?origine=app",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#f5f2ec",
+  "theme_color": "#f5f2ec",
+  "categories": ["finance", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Aggiungi una bolletta",
+      "short_name": "Aggiungi",
+      "url": "/casa?origine=scorciatoia#/aggiungi",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Prossime scadenze",
+      "short_name": "Scadenze",
+      "url": "/casa?origine=scorciatoia#/scadenze",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "share_target": {
+    "action": "/casa-condividi",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "titolo",
+      "text": "testo",
+      "files": [
+        { "name": "file", "accept": ["application/pdf", "image/jpeg", "image/png", "image/webp", ".pdf", ".jpg", ".jpeg", ".png"] }
+      ]
+    }
+  }
+}

@@ -18,7 +18,7 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (url) => !/\/(api|report-risparmio)(\/|$)/.test(url),
+      filter: (url) => !/\/(api|report-risparmio|offline|statistiche)(\/|$)/.test(url),
       changefreq: 'weekly',
       lastmod: new Date(),
       serialize(item) {

@@ -6,6 +6,7 @@ import { consigliDelMese } from '../../casa/stagione.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
 import { Icona, IconaCategoria } from './ui.jsx';
 import { InvitoAccount } from './Account.jsx';
+import { InvitoApp } from './Telefono.jsx';
 
 export function Avviso({ a, vai }) {
   const ico = a.livello === 'info' ? 'info' : 'allerta';
@@ -101,7 +102,7 @@ export default function Panoramica({ stato, vai }) {
         </p>
       </header>
 
-      <InvitoAccount vai={vai} />
+      <InvitoApp vai={vai} altrimenti={<InvitoAccount vai={vai} />} />
 
       <div className="ca-cols">
         <div>

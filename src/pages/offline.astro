@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Sei offline | SoldiBuoni" description="Nessuna connessione: i dati della tua casa restano sul telefono." noindex>
+  <section class="wrap nf">
+    <p class="nf-k"><span>Offline</span> Nessuna connessione</p>
+    <h1 class="display nf-t">La casa è qui,<br /><em>la rete no.</em></h1>
+    <p class="nf-s">Questa pagina non è salvata sul dispositivo. I dati della tua casa invece sì: li trovi anche senza connessione.</p>
+    <div class="nf-a"><a class="btn btn-ink" href="/casa">Apri la tua casa</a><button class="btn btn-line" type="button" onclick="location.reload()">Riprova</button></div>
+  </section>
+</Layout>
+<style>
+  .nf { padding-top: clamp(56px, 9vw, 120px); padding-bottom: 80px; }
+  .nf-k { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); display: flex; gap: 14px; align-items: baseline; }
+  .nf-k span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+  .nf-t { font-size: clamp(52px, 9vw, 120px); line-height: .92; letter-spacing: -0.045em; margin: 24px 0 26px; }
+  .nf-t em { color: var(--brass); }
+  .nf-s { font-size: 18px; max-width: 520px; }
+  .nf-a { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+</style>

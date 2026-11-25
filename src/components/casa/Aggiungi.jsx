@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { conta } from '../../casa/dispositivo.js';
 import { azioni } from '../../casa/store.js';
 import { CATEGORIE } from '../../casa/model.js';
 import { Icona } from './ui.jsx';
@@ -42,6 +43,24 @@ export default function Aggiungi({ parametri, vai }) {
   const [sopra, setSopra] = useState(false);
   const inFile = useRef(null), inFoto = useRef(null);
 
+  // File arrivati da "Condividi → SoldiBuoni" (app installata): il service worker li ha messi in cache.
+  useEffect(() => {
+    if (parametri.get('condivisi') !== '1' || !('caches' in window)) return;
+    (async () => {
+      const c = await caches.open('sb-condivisi');
+      const chiavi = await c.keys();
+      const files = [];
+      for (const k of chiavi) {
+        const r = await c.match(k);
+        const blob = await r.blob();
+        files.push(new File([blob], decodeURIComponent(r.headers.get('x-nome') || 'documento'), { type: blob.type }));
+        await c.delete(k);
+      }
+      history.replaceState(null, '', location.pathname + '#/aggiungi');
+      if (files.length) { conta('condivisione', files.length); elabora(files); }
+    })().catch(() => {});
+  }, []);
+
   async function elabora(files) {
     const lista = [...files].slice(0, 10);
     if (!lista.length) return;
@@ -57,6 +76,8 @@ export default function Aggiungi({ parametri, vai }) {
       }
       setStato({ fatti: i + 1, totale: lista.length, errori: [...errori] });
     }
+    if (trovati.length) conta('bolletta_letta', trovati.length);
+    if (errori.length) conta('bolletta_errore', errori.length);
     if (!trovati.length && errori.length) {
       setCoda([{ categoria: preset && CATEGORIE[preset]?.bolletta ? preset : 'luce', fonte: 'manuale' }]);
     } else {
@@ -67,6 +88,7 @@ export default function Aggiungi({ parametri, vai }) {
 
   const conferma = (doc) => {
     const { _file, ...pulito } = doc;
+    if (pulito.fonte !== 'ai') conta('voce_manuale', pulito.categoria);
     azioni.aggiungiDocumenti([pulito]);
     setSalvati((n) => n + 1);
     avanza();
@@ -83,7 +105,7 @@ export default function Aggiungi({ parametri, vai }) {
         <div className="ca-card">
           <SchedaRicorrente
             iniziale={{ categoria: preset && CATEGORIE[preset] ? preset : 'condominio' }}
-            onSalva={(r) => { azioni.salvaRicorrente(r); vai(''); }}
+            onSalva={(r) => { azioni.salvaRicorrente(r); conta('spesa_fissa', r.categoria); vai(''); }}
           />
         </div>
       </section>

@@ -356,3 +356,47 @@
 .ca-acc-code .btn { height: 52px; }
 .ca-acc-code .btn:disabled { opacity: .4; }
 .ca-acc-again { display: block; margin-top: 12px; font-size: 13.5px; }
+
+/* ── telefono: app installata e notifiche ─────────────────── */
+.btn-sm { height: 36px; padding: 0 16px; font-size: 13.5px; }
+.ca-tel { margin-bottom: 18px; }
+.ca-tel .ca-acc-t { margin-bottom: 14px; }
+.ca-tel-riga { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); }
+.ca-tel-riga:last-of-type { border-bottom: 1px solid var(--line); }
+.ca-tel-ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--paper-2); color: var(--ink); }
+.ca-tel-main { display: flex; flex-direction: column; gap: 3px; color: var(--ink); font-size: 15px; }
+.ca-tel-main small { font-size: 13px; line-height: 1.45; }
+
+.ca-switch { position: relative; display: inline-block; width: 50px; height: 30px; flex-shrink: 0; cursor: pointer; }
+.ca-switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+.ca-switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--line-strong); transition: background .25s var(--ease); }
+.ca-switch span::after { content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 3px rgba(23, 21, 15, .25); transition: transform .25s var(--ease); }
+.ca-switch input:checked + span { background: var(--ok); }
+.ca-switch input:checked + span::after { transform: translateX(20px); }
+.ca-switch input:focus-visible + span { outline: 2px solid var(--brass); outline-offset: 2px; }
+.ca-switch input:disabled + span { opacity: .5; }
+
+.ca-invito-ico { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--ink); color: var(--paper); flex-shrink: 0; }
+.ca-invito-app { align-items: flex-start; }
+.ca-invito-app .ca-icon-btn { margin: -6px -6px 0 0; }
+.ca-invito-app-t { flex: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.ca-invito-app-t p { flex: 1 1 260px; margin: 0; }
+.ca-invito-app-t .ca-link { white-space: nowrap; }
+
+.ca-passi { list-style: none; display: grid; gap: 0; }
+.ca-passi li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; align-items: center; padding: 16px 0; border-top: 1px solid var(--line); }
+.ca-passi li:last-child { border-bottom: 1px solid var(--line); }
+.ca-passi-n { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--ink); font-family: var(--f-display); font-style: italic; font-size: 18px; color: var(--ink); }
+.ca-passi-t { font-size: 15.5px; color: var(--ink-2); line-height: 1.45; }
+.ca-passi-t strong { color: var(--ink); }
+.ca-passi-g { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-left: 4px; vertical-align: middle; border-radius: 8px; background: var(--paper-2); color: #0a64d6; }
+
+/* App installata (schermo intero): niente testata e piè di pagina del sito,
+   rispetto per notch e barra di stato. */
+@media (display-mode: standalone) {
+  .is-app .hdr, .is-app .ftr, .is-app .cookie { display: none; }
+  .is-app .ca { min-height: 100vh; }
+  .is-app .ca-main { padding-top: calc(env(safe-area-inset-top) + 18px); }
+  .is-app body, body.is-app { overscroll-behavior-y: none; }
+  @media (min-width: 900px) { .is-app .ca-tabs { top: 0; height: 100vh; padding-top: calc(env(safe-area-inset-top) + 32px); } }
+}

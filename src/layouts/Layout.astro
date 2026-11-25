@@ -31,9 +31,15 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   <link rel="canonical" href={canonical} />
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
   <meta name="theme-color" content="#f5f2ec" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=7" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=7" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=8" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=8" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="SoldiBuoni" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="format-detection" content="telephone=no" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content={tipo} />
@@ -123,6 +129,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             <a href="/guida/spese-condominiali">Spese condominiali</a>
             <a href="/guida/imu">IMU</a>
             <a href="/guida/detrazione-interessi-mutuo">Detrazione interessi mutuo</a>
+            <a href="/guida/mutuo-fisso-o-variabile">Mutuo fisso o variabile</a>
+            <a href="/guida/tari">TARI</a>
           </div>
           <div>
             <p class="eyebrow">Strumenti</p>
@@ -172,6 +180,9 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           ck.hidden = true; if (v === 'accepted') location.reload();
         });
       });
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+      }
       document.querySelectorAll('[data-cookie-open]').forEach(function (el) {
         el.addEventListener('click', function (e) { e.preventDefault(); ck.hidden = false; });
       });
