@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useCasa } from '../../casa/store.js';
+import { avviaSync } from '../../casa/sync.js';
 import { calcolaAvvisi } from '../../casa/insights.js';
 import { Icona } from './ui.jsx';
 import Panoramica from './Panoramica.jsx';
@@ -30,7 +31,7 @@ export default function CasaApp() {
   const stato = useCasa();
   const rotta = useRotta();
   const [pronto, setPronto] = useState(false);
-  useEffect(() => setPronto(true), []);
+  useEffect(() => { setPronto(true); avviaSync(); }, []);
   const [percorso, query] = rotta.split('?');
   const parametri = new URLSearchParams(query || '');
   const vai = (r) => { location.hash = '#/' + r; };

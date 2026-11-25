@@ -7,6 +7,7 @@ import { Campo, Foglio, Icona, IconaCategoria, Scelta } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
 import { Testata } from './Aggiungi.jsx';
 import { Avviso, RigaScadenza } from './Panoramica.jsx';
+import Account from './Account.jsx';
 
 // ── Scadenze ────────────────────────────────────────────────
 export function Scadenze({ stato, vai }) {
@@ -129,7 +130,8 @@ export function Casa({ stato }) {
   const set = (k) => (v) => azioni.modificaCasa({ [k]: v });
   return (
     <section className="ca-page">
-      <Testata titolo="La casa" sotto="Pochi dati che rendono più precisi confronti e avvisi." />
+      <Testata titolo="La casa" sotto="Account, profilo della casa e spese fisse." />
+      <Account />
 
       <div className="ca-card">
         <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
@@ -163,7 +165,7 @@ export function Casa({ stato }) {
 
       <h2 className="ca-h2">I tuoi dati</h2>
       <div className="ca-card ca-data">
-        <p><Icona nome="lucchetto" size={18} /> Per ora i dati restano solo su questo dispositivo, nel browser. Nessun server li conserva. Con gli account, in arrivo, potrai sincronizzarli tra telefono e computer.</p>
+        <p><Icona nome="lucchetto" size={18} /> Senza account i dati restano solo in questo browser. Con l'account sono salvati anche sul nostro database in Europa, visibili solo a te. Il file delle bollette non viene mai conservato.</p>
         <div className="ca-data-act">
           <button className="btn btn-line" onClick={azioni.esporta}>Esporta backup</button>
           <button className="btn btn-line" onClick={() => inImp.current.click()}>Importa backup</button>

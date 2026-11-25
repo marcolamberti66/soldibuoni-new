@@ -30,3 +30,6 @@
   from = "/analisi-bolletta"
   to = "/casa"
   status = 301
+
+[functions]
+  node_bundler = "esbuild"

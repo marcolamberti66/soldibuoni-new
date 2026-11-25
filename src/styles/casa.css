@@ -293,3 +293,20 @@
 
 .ca-act-row { display: flex; gap: 8px; flex-wrap: wrap; margin: -12px 0 8px; }
 .ca-act-note { margin-bottom: 20px; max-width: 560px; }
+
+/* account */
+.ca-acc { margin-bottom: 18px; }
+.ca-acc-k { font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); font-weight: 600; }
+.ca-acc-t { font-family: var(--f-display); font-weight: 500; font-size: 26px; line-height: 1.1; color: var(--ink); margin: 8px 0 8px; letter-spacing: -0.02em; }
+.ca-acc-f { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.ca-acc-f input { flex: 1; min-width: 200px; height: 48px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 18px; font-size: 16px; background: var(--card); color: var(--ink); }
+.ca-acc-f input:focus { outline: none; border-color: var(--ink); }
+.ca-acc-ok { display: flex; gap: 10px; align-items: flex-start; margin-top: 16px; padding: 14px 16px; border-radius: var(--r); background: var(--ok-soft); color: var(--ok); font-size: 14.5px; }
+.ca-acc-ok svg { flex-shrink: 0; margin-top: 2px; }
+.ca-acc-err { margin-top: 10px; font-size: 14px; color: var(--warn); }
+.ca-acc-user { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0 16px; color: var(--ink); }
+.ca-acc-toggle { align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.ca-acc-toggle input { margin-top: 3px; }
+.ca-invito { display: flex; align-items: center; gap: 12px; margin: 22px 0 4px; padding: 14px 16px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--card); color: var(--ink); }
+.ca-invito p { flex: 1; font-size: 14.5px; color: var(--ink-2); }
+.ca-invito strong { color: var(--ink); }

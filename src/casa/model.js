@@ -76,8 +76,15 @@ export const RIFERIMENTO_ARERA = {
   gas:  { annuo: 1400, unita: 'Smc', nota: 'Cliente domestico tipo ARERA: 1.400 Smc/anno, riscaldamento autonomo' },
 };
 
-export const uid = () =>
-  (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+// UUID v4: gli id devono essere validi anche per il database (colonne uuid).
+export const uid = () => {
+  if (globalThis.crypto?.randomUUID) return crypto.randomUUID();
+  const b = new Uint8Array(16);
+  if (globalThis.crypto?.getRandomValues) crypto.getRandomValues(b); else for (let i = 0; i < 16; i++) b[i] = Math.random() * 256;
+  b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+  const h = [...b].map((x) => x.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+};
 
 const GIORNO = 86400000;
 export const parseISO = (s) => (s ? new Date(s + (s.length === 10 ? 'T00:00:00' : '')) : null);
