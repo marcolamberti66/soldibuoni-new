@@ -349,14 +349,13 @@ export function QuantoSpendo({ color = '#2c5a43' }) {
           border: '1px solid #e6e0d4', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.06)',
           textAlign: 'center', marginBottom: 20
         }}>
-          <div style={{ fontSize: 60, marginBottom: 16 }}></div>
-          <h1 style={{
+          <h2 style={{
             fontFamily: "var(--f-display)",
-            fontSize: 32, fontWeight: 900, color: '#17150f',
+            fontSize: 32, fontWeight: 500, color: '#17150f',
             margin: '0 0 10px', letterSpacing: '-0.02em'
           }}>
             Quanto stai davvero spendendo?
-          </h1>
+          </h2>
           <p style={{ fontSize: 16, color: '#47433a', lineHeight: 1.6, margin: '0 0 24px' }}>
             In 2 minuti scopri quanto la tua famiglia spende all'anno in <strong>spese fisse</strong> (bollette, auto, casa, servizi) e dove puoi risparmiare davvero. Nessun dato viene inviato: il calcolo avviene solo nel tuo browser.
           </p>

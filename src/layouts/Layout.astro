@@ -4,10 +4,15 @@ import '@fontsource-variable/bodoni-moda/opsz.css';
 import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 import '../styles/tokens.css';
 
-interface Props { title: string; description?: string; app?: boolean; }
-const { title, description = 'Tutti i costi della tua casa in un posto solo: carichi la bolletta, SoldiBuoni la legge, la archivia e ti avvisa quando qualcosa cambia.', app = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, 'https://soldibuoni.it').href;
-const path = Astro.url.pathname;
+interface Props { title: string; description?: string; app?: boolean; ogImage?: string; schema?: object[]; noindex?: boolean; tipo?: string; }
+const {
+  title,
+  description = 'Tutti i costi della tua casa in un posto solo: carichi la bolletta, SoldiBuoni la legge, la archivia e ti avvisa quando qualcosa cambia.',
+  app = false, ogImage = '/og.png', schema = [], noindex = false, tipo = 'website',
+} = Astro.props;
+// Percorso pulito: niente .html, niente /index, niente barra finale (tranne la home).
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1') || '/';
+const canonical = 'https://soldibuoni.it' + (path === '/' ? '/' : path);
 const nav = [
   { href: '/casa', label: 'La tua casa' },
   { href: '/guida', label: 'Guida' },
@@ -24,15 +29,24 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
   <meta name="theme-color" content="#f5f2ec" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico?v=7" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=7" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={tipo} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content="https://soldibuoni.it/apple-touch-icon.png?v=7" />
+  <meta property="og:site_name" content="SoldiBuoni" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:image" content={new URL(ogImage, 'https://soldibuoni.it').href} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogImage, 'https://soldibuoni.it').href} />
   <meta name="google-site-verification" content="wuZor-nm95eBgdUml4_hB69hobDCJkqEDEdAoikBAbc" />
   <script is:inline>
     (function () {
@@ -49,11 +63,19 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   </script>
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'SoldiBuoni',
-    url: 'https://soldibuoni.it/',
-    inLanguage: 'it-IT',
-    description: 'I costi della tua casa, in conti chiari.'
+    '@graph': [
+      {
+        '@type': 'Organization', '@id': 'https://soldibuoni.it/#org', name: 'SoldiBuoni', url: 'https://soldibuoni.it/',
+        logo: { '@type': 'ImageObject', url: 'https://soldibuoni.it/favicon-192.png', width: 192, height: 192 },
+        email: 'clart.mgmt@gmail.com',
+      },
+      {
+        '@type': 'WebSite', '@id': 'https://soldibuoni.it/#web', name: 'SoldiBuoni', url: 'https://soldibuoni.it/',
+        inLanguage: 'it-IT', publisher: { '@id': 'https://soldibuoni.it/#org' },
+        description: 'Gestione delle spese di casa: bollette, mutuo, condominio e tributi in un posto solo.',
+      },
+      ...schema,
+    ],
   })} />
 </head>
 <body class:list={['site', { 'is-app': app }]}>
@@ -98,8 +120,9 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             <a href="/casa">La tua casa</a>
             <a href="/guida">Guida ai costi</a>
             <a href="/guida/bolletta-luce">Leggere la bolletta luce</a>
-            <a href="/guida/bolletta-gas">Leggere la bolletta gas</a>
-            <a href="/guida/internet-telefono">Internet e telefono</a>
+            <a href="/guida/spese-condominiali">Spese condominiali</a>
+            <a href="/guida/imu">IMU</a>
+            <a href="/guida/detrazione-interessi-mutuo">Detrazione interessi mutuo</a>
           </div>
           <div>
             <p class="eyebrow">Strumenti</p>

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://soldibuoni.it/sitemap.xml
+Sitemap: https://soldibuoni.it/sitemap-index.xml

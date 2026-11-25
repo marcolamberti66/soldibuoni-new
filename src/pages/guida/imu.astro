@@ -1,0 +1,55 @@
+---
+import Articolo from '../../components/Articolo.astro';
+---
+<Articolo
+  slug="imu"
+  title="IMU: chi la paga, scadenze e come si calcola | SoldiBuoni"
+  description="IMU spiegata semplice: prima casa esente (salvo A/1, A/8, A/9), seconda casa, scadenze del 16 giugno e 16 dicembre, calcolo dalla rendita catastale, comodato ai figli e affitto a canone concordato."
+  eyebrow="IMU"
+  titolo="IMU: chi la paga,<br /><em>quando e quanto</em>"
+  lead="Sulla prima casa ordinaria non si paga. Su tutto il resto sì, due volte l'anno, con un'aliquota che decide il tuo Comune. Ecco come orientarsi."
+  aggiornato="2026-11-25"
+>
+  <h2>Chi deve pagarla</h2>
+  <p>L'IMU la paga il <strong>proprietario</strong> dell'immobile, oppure chi ha un diritto reale come l'usufrutto o il diritto di abitazione. <strong>L'inquilino non la paga mai.</strong></p>
+
+  <h2>Prima casa: quando è esente</h2>
+  <p>L'abitazione principale, cioè quella in cui hai la residenza e la dimora abituale, è <strong>esente</strong>. Fanno eccezione le abitazioni principali accatastate nelle categorie di lusso <strong>A/1, A/8 e A/9</strong>, che pagano con una detrazione di 200 euro.</p>
+  <p>L'esenzione vale anche per le <strong>pertinenze</strong>, al massimo una per ciascuna delle categorie C/2 (cantina, soffitta), C/6 (box, posto auto) e C/7 (tettoia).</p>
+
+  <h2>Le scadenze</h2>
+  <table>
+    <thead><tr><th>Rata</th><th>Scadenza</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Acconto</strong></td><td>16 giugno</td></tr>
+      <tr><td><strong>Saldo</strong></td><td>16 dicembre</td></tr>
+    </tbody>
+  </table>
+  <p>Si può anche pagare tutto in un'unica soluzione entro il 16 giugno. Se la scadenza cade di sabato o festivo, slitta al primo giorno lavorativo successivo. Si paga con il modello F24.</p>
+
+  <h2>Come si calcola</h2>
+  <ol>
+    <li>Prendi la <strong>rendita catastale</strong> dalla visura.</li>
+    <li>Rivalutala del <strong>5%</strong>.</li>
+    <li>Moltiplica per il <strong>coefficiente</strong> della categoria: 160 per le abitazioni (gruppo A, escluso A/10) e per C/2, C/6 e C/7.</li>
+    <li>Applica l'<strong>aliquota</strong> deliberata dal tuo Comune.</li>
+    <li>Rapporta il risultato ai <strong>mesi di possesso</strong> nell'anno e alla tua quota di proprietà.</li>
+  </ol>
+  <p class="note"><strong>Esempio</strong> (aliquota ipotetica dell'1,06%, possesso al 100% per tutto l'anno): rendita 800 € → 800 × 1,05 = 840 € → 840 × 160 = 134.400 € di base imponibile → 134.400 × 1,06% = <strong>1.424,64 € l'anno</strong>, cioè 712,32 € a giugno e 712,32 € a dicembre. L'aliquota vera è quella del tuo Comune: verificala sul sito del Comune o sul portale del Dipartimento delle Finanze.</p>
+
+  <h2>Due riduzioni da conoscere</h2>
+  <ul>
+    <li><strong>Comodato a figli o genitori:</strong> la base imponibile si riduce del 50% se il contratto di comodato è registrato, l'immobile non è di lusso e chi lo concede possiede al massimo un'altra abitazione in Italia, nello stesso Comune, in cui risiede.</li>
+    <li><strong>Affitto a canone concordato:</strong> l'imposta calcolata con l'aliquota comunale si riduce al 75%.</li>
+  </ul>
+
+  <div class="faq">
+    <h2>Domande frequenti</h2>
+    <h3>Pago l'IMU sulla casa in cui vivo?</h3>
+    <p>No, se è la tua abitazione principale e non è di categoria A/1, A/8 o A/9.</p>
+    <h3>Se sono in affitto devo pagare l'IMU?</h3>
+    <p>No. L'IMU è a carico del proprietario.</p>
+    <h3>Quando si paga il saldo IMU?</h3>
+    <p>Entro il 16 dicembre. L'acconto si paga entro il 16 giugno.</p>
+  </div>
+</Articolo>
