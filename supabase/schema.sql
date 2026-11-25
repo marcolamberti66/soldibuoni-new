@@ -73,6 +73,13 @@ begin
   end loop;
 end $$;
 
+-- Accesso dall'app (utenti loggati). Esplicito, così non dipende dalle
+-- impostazioni scelte alla creazione del progetto. Gli utenti anonimi non
+-- hanno alcun accesso; quelli loggati vedono solo le proprie righe (RLS sopra).
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on public.case, public.documenti, public.ricorrenti, public.promemoria, public.notifiche to authenticated;
+revoke all on public.case, public.documenti, public.ricorrenti, public.promemoria, public.notifiche from anon;
+
 -- Vista aggregata e anonima per i benchmark futuri: nessun user_id,
 -- solo provincia (prime 2 cifre del CAP), categoria, mese e valori.
 create or replace view public.benchmark_anonimo as
