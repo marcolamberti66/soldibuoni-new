@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+interface Props { title: string; description: string; eyebrow: string; titolo: string; lead: string; aggiornato: string; }
+const { title, description, eyebrow, titolo, lead, aggiornato } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: titolo, description,
+  inLanguage: 'it-IT', dateModified: aggiornato, publisher: { '@type': 'Organization', name: 'SoldiBuoni' },
+};
+---
+<Layout title={title} description={description}>
+  <article class="art wrap">
+    <nav class="art-bc" aria-label="Percorso"><a href="/guida">Guida</a> <span aria-hidden="true">/</span> {eyebrow}</nav>
+    <header class="art-hd">
+      <h1 class="display art-t" set:html={titolo} />
+      <p class="art-lead">{lead}</p>
+      <p class="art-meta">Aggiornato a {new Date(aggiornato).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}</p>
+    </header>
+    <div class="art-body">
+      <div class="prose"><slot /></div>
+      <aside class="art-side">
+        <div class="art-cta">
+          <p class="display art-cta-t">Fallo leggere a noi.</p>
+          <p>Carica la bolletta: estraiamo questi dati, li archiviamo e ti avvisiamo quando cambiano.</p>
+          <a href="/casa" class="btn btn-ink">Apri la tua casa</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</Layout>
+<style>
+  .art { padding-top: 40px; }
+  .art-bc { font-size: 14px; color: var(--ink-3); }
+  .art-bc a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  .art-hd { padding: 28px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 40px; }
+  .art-t { font-size: clamp(44px, 7vw, 88px); max-width: 980px; }
+  .art-t :global(em) { color: var(--brass); }
+  .art-lead { font-size: clamp(18px, 1.8vw, 21px); max-width: 680px; margin-top: 24px; color: var(--ink-2); }
+  .art-meta { font-size: 13px; color: var(--ink-3); margin-top: 18px; }
+  .art-body { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 64px; }
+  .art-body .prose > :first-child { margin-top: 0; }
+  .art-side { position: relative; }
+  .art-cta { position: sticky; top: 100px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; font-size: 15px; }
+  .art-cta-t { font-size: 30px; margin-bottom: 10px; }
+  .art-cta .btn { margin-top: 18px; width: 100%; }
+  @media (max-width: 960px) { .art-body { grid-template-columns: 1fr; gap: 40px; } .art-cta { position: static; } }
+</style>

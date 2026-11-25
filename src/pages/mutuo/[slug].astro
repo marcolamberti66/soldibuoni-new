@@ -133,7 +133,7 @@ const confrontiImporti = importiVicini.map(imp => ({
 const importoFmt = fmt(importo);
 const titleSeo = `Rata mutuo ${importoFmt} euro per ${durata} anni: quanto pagherai al mese`;
 const descrSeo = `Mutuo ${importoFmt} € a ${durata} anni: rata di ${fmt(fisso.rata)} €/mese a tasso fisso (${TASSO_FISSO}%) o ${fmt(variabile.rata)} €/mese a variabile (${TASSO_VARIABILE}%). Calcolo, interessi totali e stipendio necessario.`;
-const color = '#10b981';
+const color = '#2c5a43';
 
 // FAQ Schema.org
 const faqs = [
@@ -176,37 +176,33 @@ const faqJsonLd = {
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
 
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" style="font-size: 13px; color: #64748b; margin-bottom: 18px;">
-      <a href="/" style="color: #64748b;">Home</a>
-      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
-      <a href="/mutuo" style="color: #64748b;">Mutuo</a>
-      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
-      <span style="color: #0f172a; font-weight: 600;">{importoFmt} € · {durata} anni</span>
+    <nav aria-label="breadcrumb" style="font-size: 13px; color: #6f6a5e; margin-bottom: 18px;">
+      <a href="/" style="color: #6f6a5e;">Home</a>
+      <span style="margin: 0 6px; color: #d6cfc1;">›</span>
+      <a href="/mutuo" style="color: #6f6a5e;">Mutuo</a>
+      <span style="margin: 0 6px; color: #d6cfc1;">›</span>
+      <span style="color: #17150f; font-weight: 600;">{importoFmt} € · {durata} anni</span>
     </nav>
 
     <!-- Header -->
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: ${color}14; flex-shrink: 0;`}>
-        🏠
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
-        Rata mutuo da <span style={`color: ${color};`}>{importoFmt} €</span> per {durata} anni
-      </h1>
-    </div>
-    <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">Tassi medi di mercato · Fisso {TASSO_FISSO}% · Variabile {TASSO_VARIABILE}%</p>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">Rata mutuo da <span style={`color: ${color};`}>{importoFmt} €</span> per {durata} anni</h1>
+    </header>
+    <p style="color: #8f897c; font-size: 13px; margin: 0 0 28px 0;">Tassi medi di mercato · Fisso {TASSO_FISSO}% · Variabile {TASSO_VARIABILE}%</p>
 
     <!-- BIG NUMBER CARD -->
-    <div style={`background: linear-gradient(135deg, ${color} 0%, #059669 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(16,185,129,0.25);`}>
+    <div style={`background: linear-gradient(135deg, ${color} 0%, #2c5a43 100%); border-radius: 24px; padding: 32px; color: #fbfaf7; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(44,90,67,0.25);`}>
       <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 8px;">La tua rata mensile (stima)</div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px;">
         <div>
-          <div style="font-size: 12px; opacity: 0.85; margin-bottom: 4px; font-weight: 600;">🔒 Tasso fisso ({TASSO_FISSO}%)</div>
-          <div style="font-family: 'Playfair Display',serif; font-size: 36px; font-weight: 800; line-height: 1.1;">€ {fmt(fisso.rata)}</div>
+          <div style="font-size: 12px; opacity: 0.85; margin-bottom: 4px; font-weight: 600;">Tasso fisso ({TASSO_FISSO}%)</div>
+          <div style="font-family: var(--f-display); font-size: 36px; font-weight: 800; line-height: 1.1;">€ {fmt(fisso.rata)}</div>
           <div style="font-size: 11px; opacity: 0.85; margin-top: 4px;">/mese per {durata*12} mesi</div>
         </div>
         <div>
-          <div style="font-size: 12px; opacity: 0.85; margin-bottom: 4px; font-weight: 600;">📈 Tasso variabile ({TASSO_VARIABILE}%)</div>
-          <div style="font-family: 'Playfair Display',serif; font-size: 36px; font-weight: 800; line-height: 1.1;">€ {fmt(variabile.rata)}</div>
+          <div style="font-size: 12px; opacity: 0.85; margin-bottom: 4px; font-weight: 600;">Tasso variabile ({TASSO_VARIABILE}%)</div>
+          <div style="font-family: var(--f-display); font-size: 36px; font-weight: 800; line-height: 1.1;">€ {fmt(variabile.rata)}</div>
           <div style="font-size: 11px; opacity: 0.85; margin-top: 4px;">/mese (rata iniziale)</div>
         </div>
       </div>
@@ -227,79 +223,79 @@ const faqJsonLd = {
     </div>
 
     <!-- Intro -->
-    <p style="color: #475569; font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
+    <p style="color: #47433a; font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
       Un mutuo casa di <strong>{importoFmt} euro</strong> rimborsato in <strong>{durata} anni</strong> comporta una rata mensile di circa <strong>{fmt(fisso.rata)} €</strong> a tasso fisso ai prezzi medi attuali del mercato italiano. Sull'intera durata del finanziamento pagherai <strong>{fmt(fisso.interessiTotali)} €</strong> di interessi al fisso, ovvero il {fisso.ratioInteressi}% del capitale richiesto. Con un tasso variabile la rata iniziale sarebbe di {fmt(variabile.rata)} €/mese, ma può variare nel tempo seguendo l'Euribor. Sotto trovi il dettaglio completo, lo stipendio necessario per sostenere questa rata e i confronti con durate e importi vicini.
     </p>
 
     <!-- Confronto Fisso vs Variabile -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Fisso vs Variabile per {importoFmt} € a {durata} anni</h2>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 18px 0;`}>Fisso vs Variabile per {importoFmt} € a {durata} anni</h2>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <div class="rate-box">
-          <div class="rate-label">🔒 Tasso fisso al {TASSO_FISSO}%</div>
+          <div class="rate-label">Tasso fisso al {TASSO_FISSO}%</div>
           <div class="rate-row"><span>Rata mensile</span><strong>€ {fmt(fisso.rata)}</strong></div>
           <div class="rate-row"><span>Capitale</span><span>€ {fmt(importo)}</span></div>
           <div class="rate-row"><span>Interessi totali</span><span>€ {fmt(fisso.interessiTotali)}</span></div>
           <div class="rate-row rate-row-total"><span>Totale dovuto</span><strong>€ {fmt(fisso.totaleRimborsato)}</strong></div>
         </div>
         <div class="rate-box">
-          <div class="rate-label">📈 Tasso variabile al {TASSO_VARIABILE}%</div>
+          <div class="rate-label">Tasso variabile al {TASSO_VARIABILE}%</div>
           <div class="rate-row"><span>Rata mensile</span><strong>€ {fmt(variabile.rata)}</strong></div>
           <div class="rate-row"><span>Capitale</span><span>€ {fmt(importo)}</span></div>
           <div class="rate-row"><span>Interessi totali</span><span>€ {fmt(variabile.interessiTotali)}</span></div>
           <div class="rate-row rate-row-total"><span>Totale dovuto</span><strong>€ {fmt(variabile.totaleRimborsato)}</strong></div>
         </div>
       </div>
-      <p style="margin: 18px 0 0 0; font-size: 14px; color: #475569; line-height: 1.6;">
+      <p style="margin: 18px 0 0 0; font-size: 14px; color: #47433a; line-height: 1.6;">
         Con i tassi attuali, il <strong>fisso costa {fmt(variabile.rata - fisso.rata)} € in meno al mese</strong> rispetto al variabile. Sull'intero piano, scegliere il fisso ti farebbe risparmiare <strong>{fmt(variabile.interessiTotali - fisso.interessiTotali)} € di interessi</strong>. Questa è una condizione di mercato anomala (la curva dei tassi è invertita) che riflette l'attesa di tagli BCE nei prossimi anni: il variabile potrebbe scendere, ma anche salire.
       </p>
     </div>
 
     <!-- Stipendio necessario -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 12px 0;`}>Quale stipendio serve per sostenere questa rata?</h2>
-      <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 18px 0;">
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 12px 0;`}>Quale stipendio serve per sostenere questa rata?</h2>
+      <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0 0 18px 0;">
         La regola del 30% rata-reddito è il riferimento standard usato dalle banche italiane per valutare la sostenibilità del mutuo. Per una rata di <strong>{fmt(fisso.rata)} €/mese</strong> serve quindi:
       </p>
-      <div style="background: #f0fdf4; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
+      <div style="background: #eef3ef; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
           <div>
-            <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">Netto mensile minimo</div>
-            <div style="font-size: 22px; font-weight: 800; color: #0f172a;">€ {fmt(Math.round(fisso.rata / 0.30))}</div>
+            <div style="font-size: 11px; color: #6f6a5e; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">Netto mensile minimo</div>
+            <div style="font-size: 22px; font-weight: 800; color: #17150f;">€ {fmt(Math.round(fisso.rata / 0.30))}</div>
           </div>
           <div>
-            <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">RAL stimata</div>
-            <div style="font-size: 22px; font-weight: 800; color: #0f172a;">€ {fmt(ralStimataFissa)}</div>
+            <div style="font-size: 11px; color: #6f6a5e; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">RAL stimata</div>
+            <div style="font-size: 22px; font-weight: 800; color: #17150f;">€ {fmt(ralStimataFissa)}</div>
           </div>
           <div>
-            <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">Vedi calcolo netto</div>
+            <div style="font-size: 11px; color: #6f6a5e; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">Vedi calcolo netto</div>
             <a href={`/calcolo-stipendio/${ralLink}-euro-lordi`} style={`font-size: 15px; font-weight: 700; color: ${color}; text-decoration: underline;`}>RAL {fmt(ralLink)} →</a>
           </div>
         </div>
       </div>
-      <p style="color: #64748b; font-size: 13px; line-height: 1.6; margin: 0;">
+      <p style="color: #6f6a5e; font-size: 13px; line-height: 1.6; margin: 0;">
         Considera che questa è una stima teorica: la banca valuterà anche eventuali altri finanziamenti in corso, anzianità lavorativa (preferibilmente tempo indeterminato da almeno 6-12 mesi), eventuali garanti, e l'LTV (rapporto mutuo/valore immobile, ideale ≤80%). Se due percettori di reddito firmano insieme, la soglia di sostenibilità raddoppia.
       </p>
     </div>
 
     <!-- CTA al simulatore principale -->
-    <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
-      <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi simulare con il <strong>tuo TAN/TAEG reale</strong>, vedere il piano di ammortamento completo e provare scenari diversi?</div>
-      <a href="/mutuo" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
+    <div style={`background: #f5f2ec; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
+      <div style="font-size: 14px; color: #47433a; margin-bottom: 12px;">Vuoi simulare con il <strong>tuo TAN/TAEG reale</strong>, vedere il piano di ammortamento completo e provare scenari diversi?</div>
+      <a href="/mutuo" style={`display: inline-block; background: ${color}; color: #fbfaf7; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
         Apri il simulatore mutuo →
       </a>
     </div>
 
     <!-- Confronto con altre durate -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>Stesso importo, durata diversa</h2>
-      <p style="color: #64748b; font-size: 14px; margin: 0 0 18px 0;">Allungare la durata abbassa la rata ma aumenta gli interessi totali. Confronta le opzioni:</p>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 8px 0;`}>Stesso importo, durata diversa</h2>
+      <p style="color: #6f6a5e; font-size: 14px; margin: 0 0 18px 0;">Allungare la durata abbassa la rata ma aumenta gli interessi totali. Confronta le opzioni:</p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
         {altreDurate.map(d => (
           <a href={`/mutuo/${importo}-euro-${d.durata}-anni`} class="cmp-mini">
             <div class="cmp-mini-tag">{d.durata} anni</div>
             <div class="cmp-mini-rata">€ {fmt(d.rata)}/m</div>
-            <div class="cmp-mini-diff" style={d.rata < fisso.rata ? 'color: #10b981;' : 'color: #ef4444;'}>
+            <div class="cmp-mini-diff" style={d.rata < fisso.rata ? 'color: #2c5a43;' : 'color: #9b4220;'}>
               {d.rata < fisso.rata ? '−' : '+'} € {fmt(Math.abs(d.rata - fisso.rata))}/m
             </div>
           </a>
@@ -315,15 +311,15 @@ const faqJsonLd = {
     <!-- Confronto con importi vicini -->
     {confrontiImporti.length > 0 && (
       <div class="info-card" style="margin-bottom: 16px;">
-        <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>Stessa durata, importo diverso</h2>
-        <p style="color: #64748b; font-size: 14px; margin: 0 0 18px 0;">Quanto cambia la rata se modifichi il capitale richiesto?</p>
+        <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 8px 0;`}>Stessa durata, importo diverso</h2>
+        <p style="color: #6f6a5e; font-size: 14px; margin: 0 0 18px 0;">Quanto cambia la rata se modifichi il capitale richiesto?</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
           {confrontiImporti.map(c => (
             <a href={`/mutuo/${c.importo}-euro-${durata}-anni`} class="cmp-card">
               <div class="cmp-tag">{c.importo < importo ? 'Meno capitale' : 'Più capitale'}</div>
               <div class="cmp-ral">€ {fmt(c.importo)}</div>
               <div class="cmp-net">Rata: € {fmt(c.rata)}/mese (fisso)</div>
-              <div class="cmp-diff" style={c.rata < fisso.rata ? 'color: #10b981;' : 'color: #ef4444;'}>
+              <div class="cmp-diff" style={c.rata < fisso.rata ? 'color: #2c5a43;' : 'color: #9b4220;'}>
                 {c.rata < fisso.rata ? '−' : '+'} € {fmt(Math.abs(c.rata - fisso.rata))}/mese
               </div>
             </a>
@@ -334,7 +330,7 @@ const faqJsonLd = {
 
     <!-- FAQ -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
         {faqs.map(f => (
           <details class="faq-item">
@@ -347,14 +343,14 @@ const faqJsonLd = {
 
     <!-- Tutti gli importi per questa durata -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 18px; margin: 0 0 14px 0;`}>Altri importi a {durata} anni</h2>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 18px; margin: 0 0 14px 0;`}>Altri importi a {durata} anni</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
         {importi.filter(i => i !== importo).map(i => (
           <a href={`/mutuo/${i}-euro-${durata}-anni`} class="pill-link">€ {fmt(i)}</a>
         ))}
       </div>
 
-      <h3 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 16px; margin: 0 0 14px 0;`}>Stesso importo, altre durate</h3>
+      <h3 style={`color: ${color}; font-family: var(--f-display); font-size: 16px; margin: 0 0 14px 0;`}>Stesso importo, altre durate</h3>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         {durate.filter(d => d !== durata).map(d => (
           <a href={`/mutuo/${importo}-euro-${d}-anni`} class="pill-link">{d} anni</a>
@@ -363,9 +359,9 @@ const faqJsonLd = {
     </div>
 
     <!-- Disclaimer trasparenza -->
-    <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
-      <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
-        <strong>Nota metodologica:</strong> i calcoli usano la formula di ammortamento alla francese (rata costante, capitale crescente). Il TAN del {TASSO_FISSO}% (fisso) e {TASSO_VARIABILE}% (variabile) sono valori medi indicativi del mercato italiano per un mutuo prima casa con LTV 80%; il TAEG effettivo offerto dalla tua banca dipenderà da spread, profilo creditizio, durata e tipologia di immobile. Non sono inclusi i costi accessori (perizia, istruttoria, imposta sostitutiva 0,25% prima casa, notaio, assicurazione incendio obbligatoria). Per il calcolo personalizzato con il tuo TAEG reale, usa il <a href="/mutuo" style="color: #92400e; text-decoration: underline;">simulatore mutuo principale</a>.
+    <div style="margin-top: 24px; padding: 16px 20px; background: #efe5cf; border-radius: 12px; border-left: 3px solid #84652d;">
+      <div style="font-size: 12px; color: #6b5124; line-height: 1.6;">
+        <strong>Nota metodologica:</strong> i calcoli usano la formula di ammortamento alla francese (rata costante, capitale crescente). Il TAN del {TASSO_FISSO}% (fisso) e {TASSO_VARIABILE}% (variabile) sono valori medi indicativi del mercato italiano per un mutuo prima casa con LTV 80%; il TAEG effettivo offerto dalla tua banca dipenderà da spread, profilo creditizio, durata e tipologia di immobile. Non sono inclusi i costi accessori (perizia, istruttoria, imposta sostitutiva 0,25% prima casa, notaio, assicurazione incendio obbligatoria). Per il calcolo personalizzato con il tuo TAEG reale, usa il <a href="/mutuo" style="color: #6b5124; text-decoration: underline;">simulatore mutuo principale</a>.
       </div>
     </div>
 
@@ -374,7 +370,7 @@ const faqJsonLd = {
 
 <style>
   .info-card {
-    background: #fff;
+    background: #fbfaf7;
     border-radius: 20px;
     padding: 24px;
     border: 1px solid rgba(0,0,0,0.04);
@@ -382,7 +378,7 @@ const faqJsonLd = {
   }
 
   .rate-box {
-    background: #f8fafc;
+    background: #f5f2ec;
     border-radius: 14px;
     padding: 18px;
     border: 1px solid rgba(0,0,0,0.04);
@@ -390,10 +386,10 @@ const faqJsonLd = {
   .rate-label {
     font-size: 13px;
     font-weight: 700;
-    color: #0f172a;
+    color: #17150f;
     margin-bottom: 14px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e6e0d4;
   }
   .rate-row {
     display: flex;
@@ -401,22 +397,22 @@ const faqJsonLd = {
     align-items: center;
     padding: 6px 0;
     font-size: 13px;
-    color: #475569;
+    color: #47433a;
   }
   .rate-row strong {
-    color: #0f172a;
+    color: #17150f;
     font-size: 15px;
   }
   .rate-row-total {
     margin-top: 6px;
     padding-top: 10px;
-    border-top: 1px dashed #e2e8f0;
+    border-top: 1px dashed #e6e0d4;
     font-weight: 700;
   }
 
   .cmp-mini {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f5f2ec;
+    border: 1px solid #e6e0d4;
     border-radius: 12px;
     padding: 12px 14px;
     text-decoration: none;
@@ -425,8 +421,8 @@ const faqJsonLd = {
     display: block;
   }
   .cmp-mini:hover:not(.cmp-mini-current) {
-    background: #fff;
-    border-color: #10b981;
+    background: #fbfaf7;
+    border-color: #2c5a43;
     transform: translateY(-2px);
   }
   .cmp-mini-current { border-width: 2px; }
@@ -435,24 +431,24 @@ const faqJsonLd = {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: #94a3b8;
+    color: #8f897c;
     margin-bottom: 4px;
   }
   .cmp-mini-rata {
     font-size: 16px;
     font-weight: 800;
-    color: #0f172a;
+    color: #17150f;
     margin-bottom: 2px;
   }
   .cmp-mini-diff {
     font-size: 11px;
     font-weight: 600;
-    color: #64748b;
+    color: #6f6a5e;
   }
 
   .cmp-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f5f2ec;
+    border: 1px solid #e6e0d4;
     border-radius: 14px;
     padding: 16px;
     text-decoration: none;
@@ -461,8 +457,8 @@ const faqJsonLd = {
     display: block;
   }
   .cmp-card:hover {
-    background: #fff;
-    border-color: #10b981;
+    background: #fbfaf7;
+    border-color: #2c5a43;
     transform: translateY(-2px);
   }
   .cmp-tag {
@@ -470,18 +466,18 @@ const faqJsonLd = {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #94a3b8;
+    color: #8f897c;
     margin-bottom: 6px;
   }
   .cmp-ral {
     font-size: 18px;
     font-weight: 800;
-    color: #0f172a;
+    color: #17150f;
     margin-bottom: 4px;
   }
   .cmp-net {
     font-size: 13px;
-    color: #475569;
+    color: #47433a;
     margin-bottom: 6px;
   }
   .cmp-diff {
@@ -490,15 +486,15 @@ const faqJsonLd = {
   }
 
   .faq-item {
-    background: #f8fafc;
+    background: #f5f2ec;
     border-radius: 12px;
     padding: 14px 18px;
     transition: background 0.2s;
   }
-  .faq-item[open] { background: #f0fdf4; }
+  .faq-item[open] { background: #eef3ef; }
   .faq-item summary {
     font-weight: 700;
-    color: #0f172a;
+    color: #17150f;
     cursor: pointer;
     list-style: none;
     font-size: 14px;
@@ -513,16 +509,16 @@ const faqJsonLd = {
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
-    color: #94a3b8;
+    color: #8f897c;
     transition: transform 0.2s;
   }
   .faq-item[open] summary::after {
     content: '−';
-    color: #10b981;
+    color: #2c5a43;
   }
   .faq-item p {
     margin: 12px 0 0 0;
-    color: #475569;
+    color: #47433a;
     font-size: 14px;
     line-height: 1.7;
   }
@@ -530,19 +526,19 @@ const faqJsonLd = {
   .pill-link {
     display: inline-block;
     padding: 8px 14px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f5f2ec;
+    border: 1px solid #e6e0d4;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
-    color: #475569;
+    color: #47433a;
     text-decoration: none;
     transition: all 0.2s;
   }
   .pill-link:hover {
-    background: #10b981;
-    border-color: #10b981;
-    color: #fff;
+    background: #2c5a43;
+    border-color: #2c5a43;
+    color: #fbfaf7;
   }
 
   @media (max-width: 600px) {

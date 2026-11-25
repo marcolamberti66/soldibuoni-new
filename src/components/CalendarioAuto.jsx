@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-export function CalendarioAuto({ color = '#f43f5e' }) {
+export function CalendarioAuto({ color = '#9b4220' }) {
   const [form, setForm] = useState({
     immatMese: '01', 
     immatAnno: new Date().getFullYear().toString(),
@@ -107,15 +107,15 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
     }
   };
 
-  const inputStyle = { padding: '12px 16px', borderRadius: '12px', border: '1px solid #e2e8f0', width: '100%', fontSize: '14px', outline: 'none', fontFamily: 'inherit', color: '#0f172a' };
+  const inputStyle = { padding: '12px 16px', borderRadius: '12px', border: '1px solid #e6e0d4', width: '100%', fontSize: '14px', outline: 'none', fontFamily: 'inherit', color: '#17150f' };
 
   if (success) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 20px', background: '#fff', borderRadius: '24px', border: '1px solid #e2e8f0', animation: `fadeInUp 0.5s ${EASE}` }}>
-        <div style={{ fontSize: '60px', marginBottom: '20px' }}>📧</div>
-        <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', marginBottom: '12px' }}>Promemoria attivati!</h2>
-        <p style={{ color: '#64748b', lineHeight: '1.6' }}>Riceverai un'email a <strong>{form.email}</strong> 7 giorni prima di ogni scadenza.</p>
-        <button onClick={() => setSuccess(false)} style={{ marginTop: 24, background: color, color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 700, cursor: 'pointer' }}>Calcola un'altra auto</button>
+      <div style={{ textAlign: 'center', padding: '40px 20px', background: '#fbfaf7', borderRadius: '24px', border: '1px solid #e6e0d4', animation: `fadeInUp 0.5s ${EASE}` }}>
+        <div style={{ fontSize: '60px', marginBottom: '20px' }}></div>
+        <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#17150f', marginBottom: '12px' }}>Promemoria attivati!</h2>
+        <p style={{ color: '#6f6a5e', lineHeight: '1.6' }}>Riceverai un'email a <strong>{form.email}</strong> 7 giorni prima di ogni scadenza.</p>
+        <button onClick={() => setSuccess(false)} style={{ marginTop: 24, background: color, color: '#fbfaf7', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 700, cursor: 'pointer' }}>Calcola un'altra auto</button>
       </div>
     );
   }
@@ -123,15 +123,15 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
   return (
     <div style={{ maxWidth: 640, margin: '0 auto' }}>
       <style dangerouslySetInnerHTML={{__html: `@keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}} />
-      <form onSubmit={handleSubmit} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: 32, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)', animation: `fadeInUp 0.4s ${EASE}` }}>
+      <form onSubmit={handleSubmit} style={{ background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24, padding: 32, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)', animation: `fadeInUp 0.4s ${EASE}` }}>
         
-        <h3 style={{ marginBottom: 8, fontWeight: 800, fontSize: 20, color: '#0f172a' }}>📅 Scadenzario Personalizzato</h3>
-        <p style={{ color: '#64748b', fontSize: 14, marginBottom: 24 }}>Inserisci i dati del veicolo per ricevere gli alert via email.</p>
+        <h3 style={{ marginBottom: 8, fontWeight: 800, fontSize: 20, color: '#17150f' }}>Scadenzario Personalizzato</h3>
+        <p style={{ color: '#6f6a5e', fontSize: 14, marginBottom: 24 }}>Inserisci i dati del veicolo per ricevere gli alert via email.</p>
         
         {/* PARTE 1: DATI VEICOLO */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
           <div style={{ gridColumn: '1/-1' }}>
-            <label style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Immatricolazione (Mese/Anno)</label>
+            <label style={{ fontSize: 11, fontWeight: 700, color: '#8f897c', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Immatricolazione (Mese/Anno)</label>
             <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
               <select style={{...inputStyle, flex: 1}} value={form.immatMese} onChange={e => setForm({...form, immatMese: e.target.value})}>
                 {Array.from({length:12}, (_,i)=> (i+1).toString().padStart(2,'0')).map(m => <option key={m} value={m}>Mese {m}</option>)}
@@ -141,56 +141,56 @@ export function CalendarioAuto({ color = '#f43f5e' }) {
           </div>
 
           {(new Date().getFullYear() - parseInt(form.immatAnno)) >= 4 && (
-            <div style={{ gridColumn: '1/-1', padding: '16px', background: '#f8fafc', borderRadius: '16px', border: '1px solid #f1f5f9' }}>
-              <label style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Data ultima revisione (se fatta)</label>
+            <div style={{ gridColumn: '1/-1', padding: '16px', background: '#f5f2ec', borderRadius: '16px', border: '1px solid #ece7dd' }}>
+              <label style={{ fontSize: 11, fontWeight: 700, color: '#6f6a5e', textTransform: 'uppercase' }}>Data ultima revisione (se fatta)</label>
               <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-                <select style={{...inputStyle, background: '#fff'}} value={form.ultimaRevMese} onChange={e => setForm({...form, ultimaRevMese: e.target.value})}>
+                <select style={{...inputStyle, background: '#fbfaf7'}} value={form.ultimaRevMese} onChange={e => setForm({...form, ultimaRevMese: e.target.value})}>
                   <option value="">Mese...</option>
                   {Array.from({length:12}, (_,i)=> (i+1).toString().padStart(2,'0')).map(m => <option key={m} value={m}>{m}</option>)}
                 </select>
-                <input type="number" placeholder="Anno" style={{...inputStyle, background: '#fff'}} value={form.ultimaRevAnno} onChange={e => setForm({...form, ultimaRevAnno: e.target.value})} />
+                <input type="number" placeholder="Anno" style={{...inputStyle, background: '#fbfaf7'}} value={form.ultimaRevAnno} onChange={e => setForm({...form, ultimaRevAnno: e.target.value})} />
               </div>
             </div>
           )}
 
           <div style={{ gridColumn: '1/-1' }}>
-            <label style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>Mese scadenza bollo</label>
+            <label style={{ fontSize: 11, fontWeight: 700, color: '#8f897c', textTransform: 'uppercase' }}>Mese scadenza bollo</label>
             <select style={{...inputStyle, marginTop: 6}} value={form.bolloMese} onChange={e => setForm({...form, bolloMese: e.target.value})}>
               {['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'].map((m,i) => <option key={m} value={(i+1).toString().padStart(2,'0')}>{m}</option>)}
             </select>
           </div>
 
           <div style={{ gridColumn: '1/-1' }}>
-            <label style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>Data ultimo tagliando (opzionale)</label>
+            <label style={{ fontSize: 11, fontWeight: 700, color: '#8f897c', textTransform: 'uppercase' }}>Data ultimo tagliando (opzionale)</label>
             <input type="date" style={{...inputStyle, marginTop: 6}} value={form.ultimoTagliando} onChange={e => setForm({...form, ultimoTagliando: e.target.value})} />
           </div>
         </div>
 
         {/* PARTE 2: RIEPILOGO AUTOMATICO */}
-        <div style={{ background: '#f0fdf4', padding: 20, borderRadius: 16, marginBottom: 24, border: '1px solid #dcfce7' }}>
-          <p style={{ marginBottom: 12, fontWeight: 800, color: '#166534', fontSize: 13 }}>Scadenze calcolate:</p>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8, color: '#166534', fontSize: 14 }}>
-            <li>🔍 Revisione: <strong>{scadenzeCalcolate.revisione?.toLocaleDateString('it-IT') || 'Nessun dato'}</strong></li>
-            <li>💳 Bollo: <strong>Fine {scadenzeCalcolate.bollo?.toLocaleDateString('it-IT', {month:'long', year:'numeric'})}</strong></li>
-            <li>🔧 Tagliando: <strong>{scadenzeCalcolate.tagliando?.toLocaleDateString('it-IT') || 'Nessun dato'}</strong> {form.ultimoTagliando === '' && <span style={{fontSize: 12, fontWeight: 500, color: '#15803d'}}>(Stimato su base immatricolazione)</span>}</li>
-            <li>🛞 Cambio Gomme: <strong>15 Nov / 15 Apr</strong></li>
+        <div style={{ background: '#eef3ef', padding: 20, borderRadius: 16, marginBottom: 24, border: '1px solid #e1ebe3' }}>
+          <p style={{ marginBottom: 12, fontWeight: 800, color: '#234a37', fontSize: 13 }}>Scadenze calcolate:</p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8, color: '#234a37', fontSize: 14 }}>
+            <li>Revisione: <strong>{scadenzeCalcolate.revisione?.toLocaleDateString('it-IT') || 'Nessun dato'}</strong></li>
+            <li>Bollo: <strong>Fine {scadenzeCalcolate.bollo?.toLocaleDateString('it-IT', {month:'long', year:'numeric'})}</strong></li>
+            <li>Tagliando: <strong>{scadenzeCalcolate.tagliando?.toLocaleDateString('it-IT') || 'Nessun dato'}</strong> {form.ultimoTagliando === '' && <span style={{fontSize: 12, fontWeight: 500, color: '#2c5a43'}}>(Stimato su base immatricolazione)</span>}</li>
+            <li>Cambio Gomme: <strong>15 Nov / 15 Apr</strong></li>
           </ul>
         </div>
 
         {/* PARTE 3: DATI UTENTE (MAIL!!) */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24, padding: '20px', background: '#f8fafc', borderRadius: '16px' }}>
-          <h4 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: '#0f172a' }}>✉️ Ricevi i promemoria 7 giorni prima</h4>
-          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#64748b' }}>TUO NOME *</label><input placeholder="Es. Mario" required style={{...inputStyle, background:'#fff', marginTop:4}} value={form.nome} onChange={e => setForm({...form, nome: e.target.value})} /></div>
-          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#64748b' }}>LA TUA EMAIL *</label><input type="email" placeholder="nome@email.it" required style={{...inputStyle, background:'#fff', marginTop:4}} value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
-          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#64748b' }}>TARGA (OPZIONALE)</label><input placeholder="AB123CD" style={{...inputStyle, background:'#fff', marginTop:4, textTransform:'uppercase'}} value={form.targa} onChange={e => setForm({...form, targa: e.target.value.toUpperCase()})} /></div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24, padding: '20px', background: '#f5f2ec', borderRadius: '16px' }}>
+          <h4 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: '#17150f' }}>Ricevi i promemoria 7 giorni prima</h4>
+          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#6f6a5e' }}>TUO NOME *</label><input placeholder="Es. Mario" required style={{...inputStyle, background:'#fbfaf7', marginTop:4}} value={form.nome} onChange={e => setForm({...form, nome: e.target.value})} /></div>
+          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#6f6a5e' }}>LA TUA EMAIL *</label><input type="email" placeholder="nome@email.it" required style={{...inputStyle, background:'#fbfaf7', marginTop:4}} value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
+          <div><label style={{ fontSize: 11, fontWeight: 700, color: '#6f6a5e' }}>TARGA (OPZIONALE)</label><input placeholder="AB123CD" style={{...inputStyle, background:'#fbfaf7', marginTop:4, textTransform:'uppercase'}} value={form.targa} onChange={e => setForm({...form, targa: e.target.value.toUpperCase()})} /></div>
         </div>
 
-        {error && <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14, fontSize: 13, color: '#b91c1c', marginBottom: 14 }}>⚠️ {error}</div>}
+        {error && <div style={{ background: '#f4e1d6', border: '1px solid #e8c4b2', borderRadius: 10, padding: 14, fontSize: 13, color: '#9b4220', marginBottom: 14 }}>{error}</div>}
 
-        <button type="submit" disabled={submitting} style={{ width: '100%', padding: 18, background: '#0f172a', color: '#fff', border: 'none', borderRadius: 16, fontSize: 16, fontWeight: 800, cursor: submitting ? 'wait' : 'pointer', transition: '0.2s' }}>
+        <button type="submit" disabled={submitting} style={{ width: '100%', padding: 18, background: '#17150f', color: '#fbfaf7', border: 'none', borderRadius: 16, fontSize: 16, fontWeight: 800, cursor: submitting ? 'wait' : 'pointer', transition: '0.2s' }}>
           {submitting ? 'Attivazione in corso...' : 'Attiva Promemoria Gratuiti →'}
         </button>
-        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 14, textAlign: 'center' }}>🔒 Zero spam. Solo alert tecnici 7 giorni prima della scadenza.</p>
+        <p style={{ fontSize: 11, color: '#8f897c', marginTop: 14, textAlign: 'center' }}>Zero spam. Solo alert tecnici 7 giorni prima della scadenza.</p>
       </form>
     </div>
   );

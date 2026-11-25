@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 // NON fornisce raccomandazioni di investimento ai sensi del MAR.
 // ============================================================================
 
-const THEME = { primary: '#3b82f6', soft: '#dbeafe', bg: '#eff6ff' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // Asset class - dati storici aggregati, nessun riferimento a strumenti specifici (rimossi ISIN)
 // Fonti: MSCI World 1987-2025 (~8%/anno + 17% vol), BBG Global Agg EUR hedged 1999-2025 (~2,5% + 5% vol)
@@ -139,7 +139,7 @@ function proiezione(iniziale, pacMese, anni, retAnnuo, volAnnua, ter) {
 
 // ============================================================================
 
-export function PortafoglioComp({ color = '#3b82f6' }) {
+export function PortafoglioComp({ color = '#4b5f86' }) {
   const [profilo, setProfilo] = useState('bilanciato');
   const [iniziale, setIniziale] = useState(10000);
   const [pacMese, setPacMese] = useState(300);
@@ -160,11 +160,11 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
   );
 
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
   const formatEuro = (v) => `€ ${Math.round(v).toLocaleString('it-IT')}`;
@@ -175,14 +175,14 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
     .sort((a, b) => b[1] - a[1]);
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       {/* ====================================================================
           WARNING DI APERTURA — VISIBILE SUBITO
           ==================================================================== */}
       <div style={{
-        background: '#fffbeb',
-        border: '2px solid #f59e0b',
+        background: '#f6f0e2',
+        border: '2px solid #84652d',
         borderRadius: 16,
         padding: '16px 20px',
         marginBottom: 24,
@@ -190,9 +190,9 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
         gap: 12,
         alignItems: 'flex-start'
       }}>
-        <div style={{ fontSize: 24, flexShrink: 0 }}>⚠️</div>
-        <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.6 }}>
-          <strong style={{ color: '#92400e' }}>Strumento educativo, non consulenza finanziaria.</strong> SoldiBuoni non è iscritto all'Albo OCF né autorizzato CONSOB. Le proiezioni si basano su dati storici di asset class aggregate: non sono previsioni né raccomandazioni di acquisto su strumenti finanziari specifici. Performance passate non garantiscono performance future.
+        <div style={{ fontSize: 24, flexShrink: 0 }}></div>
+        <div style={{ fontSize: 13, color: '#6b5124', lineHeight: 1.6 }}>
+          <strong style={{ color: '#6b5124' }}>Strumento educativo, non consulenza finanziaria.</strong> SoldiBuoni non è iscritto all'Albo OCF né autorizzato CONSOB. Le proiezioni si basano su dati storici di asset class aggregate: non sono previsioni né raccomandazioni di acquisto su strumenti finanziari specifici. Performance passate non garantiscono performance future.
         </div>
       </div>
 
@@ -201,13 +201,13 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Esplora portafogli modello storici
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px', lineHeight: 1.6 }}>
           Seleziona un profilo di rischio, orizzonte temporale e importo. Vedrai l'asset allocation teorica, il rendimento storico medio delle asset class sottostanti e una banda di proiezione basata sulla volatilità storica cumulata.
         </p>
 
@@ -224,9 +224,9 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
                   style={{
                     padding: '14px 16px',
                     borderRadius: 14,
-                    border: active ? `2px solid ${themeColor}` : '1px solid #cbd5e1',
-                    background: active ? t.bg : '#fff',
-                    color: active ? '#0f172a' : '#64748b',
+                    border: active ? `2px solid ${themeColor}` : '1px solid #d6cfc1',
+                    background: active ? t.bg : '#fbfaf7',
+                    color: active ? '#17150f' : '#6f6a5e',
                     cursor: 'pointer', textAlign: 'left',
                     lineHeight: 1.4
                   }}
@@ -252,7 +252,7 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
             value={anni} onChange={(e) => setAnni(parseInt(e.target.value))}
             style={{ width: '100%', accentColor: themeColor }}
           />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#8f897c', marginTop: 4 }}>
             <span>1 anno</span><span>40 anni</span>
           </div>
         </div>
@@ -295,13 +295,13 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 18, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 18, fontWeight: 800, color: '#17150f',
           margin: '0 0 4px', letterSpacing: '-0.01em'
         }}>
           Asset allocation teorica — {porta.label}
         </h3>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 20px', lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 20px', lineHeight: 1.5 }}>
           {porta.descrizione}
         </p>
 
@@ -309,18 +309,18 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
         <div style={{
           display: 'flex', width: '100%', height: 32,
           borderRadius: 8, overflow: 'hidden', marginBottom: 14,
-          border: '1px solid #e2e8f0'
+          border: '1px solid #e6e0d4'
         }}>
           {pesiSorted.map(([k, peso], i) => {
-            const colori = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#64748b'];
+            const colori = ['#4b5f86', '#7a5a6e', '#2c5a43', '#84652d', '#6f6a5e'];
             return (
               <div
                 key={k}
                 style={{
                   width: `${peso}%`,
-                  background: colori[i] || '#94a3b8',
+                  background: colori[i] || '#8f897c',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 11, fontWeight: 800
+                  color: '#fbfaf7', fontSize: 11, fontWeight: 800
                 }}
                 title={`${ASSET_CLASSES[k].label}: ${peso}%`}
               >
@@ -334,26 +334,26 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {pesiSorted.map(([k, peso], i) => {
             const asset = ASSET_CLASSES[k];
-            const colori = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#64748b'];
+            const colori = ['#4b5f86', '#7a5a6e', '#2c5a43', '#84652d', '#6f6a5e'];
             return (
               <div key={k} style={{
                 display: 'flex', gap: 12, alignItems: 'flex-start',
                 padding: '12px 14px',
-                background: '#f8fafc', borderRadius: 12
+                background: '#f5f2ec', borderRadius: 12
               }}>
                 <div style={{
                   width: 12, height: 12, borderRadius: 3,
-                  background: colori[i] || '#94a3b8',
+                  background: colori[i] || '#8f897c',
                   marginTop: 4, flexShrink: 0
                 }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3, gap: 10, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: '#0f172a' }}>{asset.label}</span>
-                    <span style={{ fontSize: 14, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>{peso}%</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: '#17150f' }}>{asset.label}</span>
+                    <span style={{ fontSize: 14, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>{peso}%</span>
                   </div>
-                  <div style={{ fontSize: 11, color: '#64748b', lineHeight: 1.4 }}>
+                  <div style={{ fontSize: 11, color: '#6f6a5e', lineHeight: 1.4 }}>
                     Rendimento storico medio <strong>{formatPerc(asset.retStorico)}</strong> · volatilità storica <strong>{formatPerc(asset.vol, 0)}</strong> · TER tipico ETF UCITS <strong>{formatPerc(asset.terTipico, 2)}</strong>
-                    <div style={{ marginTop: 4, fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>
+                    <div style={{ marginTop: 4, fontSize: 10, color: '#8f897c', fontStyle: 'italic' }}>
                       {asset.descrizione}
                     </div>
                   </div>
@@ -369,35 +369,35 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 14
         }}>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 2 }}>
               Rendimento storico
             </div>
             <div style={{ fontSize: 18, fontWeight: 900, color: themeColor, fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(retStorico)} / anno
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>media 1987-2025, non predittivo</div>
+            <div style={{ fontSize: 10, color: '#8f897c', marginTop: 2 }}>media 1987-2025, non predittivo</div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 2 }}>
               Volatilità storica
             </div>
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(volStorica, 0)}
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 2 }}>
               TER medio
             </div>
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>
               {formatPerc(terMedio, 2)}
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 2 }}>
               Drawdown max storico
             </div>
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#dc2626', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#9b4220', fontVariantNumeric: 'tabular-nums' }}>
               −{formatPerc(porta.drawdownMax, 0)}
             </div>
           </div>
@@ -409,13 +409,13 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           ==================================================================== */}
       <div style={{ ...cardBase, marginBottom: 24 }}>
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 20, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 20, fontWeight: 800, color: '#17150f',
           margin: '0 0 4px', letterSpacing: '-0.01em'
         }}>
           Proiezione storica su {anni} anni
         </h3>
-        <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 24px', lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: '#6f6a5e', margin: '0 0 24px', lineHeight: 1.5 }}>
           Calcolo basato sui rendimenti storici delle asset class selezionate e sulla volatilità cumulata. La banda di proiezione indica l'intervallo coperto nell'80% degli scenari storicamente osservati. <strong>Non è una previsione sul futuro.</strong>
         </p>
 
@@ -424,28 +424,28 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           border: `2px solid ${themeColor}40`,
           borderRadius: 20, padding: '24px', marginBottom: 24, textAlign: 'center'
         }}>
-          <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: '#6f6a5e', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
             Valore nominale (proiezione mediana storica)
           </div>
           <div style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "var(--f-display)",
             fontSize: 44, fontWeight: 900, color: themeColor,
             lineHeight: 1, marginBottom: 8, fontVariantNumeric: 'tabular-nums'
           }}>
             {formatEuro(sim.valoreFinaleNominale)}
           </div>
-          <div style={{ fontSize: 12, color: '#475569' }}>
+          <div style={{ fontSize: 12, color: '#47433a' }}>
             Banda 80% storica: <strong>{formatEuro(sim.finaleInf)}</strong> — <strong>{formatEuro(sim.finaleSup)}</strong>
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
           <BreakdownCell label="Versato totale" value={formatEuro(sim.versatoTot)} sub="Capitale iniziale + PAC cumulato" />
-          <BreakdownCell label="Guadagno nominale" value={formatEuro(sim.guadagno)} sub="Valore finale − Versato" color="#059669" />
-          <BreakdownCell label="Tasse capital gain (26%)" value={`− ${formatEuro(sim.tasse)}`} sub="Su ETF azionari, al momento della vendita" color="#dc2626" />
-          <BreakdownCell label="Costi TER cumulati" value={`− ${formatEuro(sim.costoTER)}`} sub="Stima su capitale medio, esclude commissioni broker" color="#dc2626" />
+          <BreakdownCell label="Guadagno nominale" value={formatEuro(sim.guadagno)} sub="Valore finale − Versato" color="#2c5a43" />
+          <BreakdownCell label="Tasse capital gain (26%)" value={`− ${formatEuro(sim.tasse)}`} sub="Su ETF azionari, al momento della vendita" color="#9b4220" />
+          <BreakdownCell label="Costi TER cumulati" value={`− ${formatEuro(sim.costoTER)}`} sub="Stima su capitale medio, esclude commissioni broker" color="#9b4220" />
           <BreakdownCell label="Netto post tasse" value={formatEuro(sim.nettoPostTasse)} sub="Quello che incassi alla vendita" color={themeColor} strong />
-          <BreakdownCell label="Valore reale (post inflazione 2%)" value={formatEuro(sim.valoreReale)} sub="Potere d'acquisto di oggi" color="#78350f" strong />
+          <BreakdownCell label="Valore reale (post inflazione 2%)" value={formatEuro(sim.valoreReale)} sub="Potere d'acquisto di oggi" color="#6b5124" strong />
         </div>
       </div>
 
@@ -453,11 +453,11 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           NOTA METODOLOGICA
           ==================================================================== */}
       <div style={{
-        padding: '16px 20px', background: '#fffbeb',
-        border: '1px solid #fbbf24', borderRadius: 14,
-        fontSize: 12, color: '#78350f', lineHeight: 1.7, marginBottom: 24
+        padding: '16px 20px', background: '#f6f0e2',
+        border: '1px solid #b0852b', borderRadius: 14,
+        fontSize: 12, color: '#6b5124', lineHeight: 1.7, marginBottom: 24
       }}>
-        <strong style={{ color: '#92400e', display: 'block', marginBottom: 6 }}>
+        <strong style={{ color: '#6b5124', display: 'block', marginBottom: 6 }}>
           ⓘ Come leggere questi numeri
         </strong>
         I rendimenti storici utilizzati si basano sulla media delle asset class per il periodo 1987-2025 (MSCI World per l'azionario globale, indici aggregati obbligazionari per l'area euro). <strong>Performance passate non sono predittive di performance future</strong>. La banda 80% è una semplificazione che usa volatilità cumulata: nella realtà storica ci sono stati drawdown del 40-50% sull'azionario globale (2008, 2020) e nel 20% degli scenari il risultato può essere fuori banda. <strong>Il valore reale</strong> (post-inflazione 2%) è il numero che conta davvero: €100.000 tra 20 anni varranno circa €67.000 di oggi — un investimento che "raddoppia" nominale ma non batte l'inflazione non ti ha arricchito.
@@ -467,12 +467,12 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
           DISCLAIMER LEGALE — RAFFORZATO CON MAR
           ==================================================================== */}
       <div style={{
-        padding: '20px 24px', background: '#f8fafc',
-        border: '2px solid #e2e8f0', borderRadius: 16,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '20px 24px', background: '#f5f2ec',
+        border: '2px solid #e6e0d4', borderRadius: 16,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Disclaimer legale completo — leggere con attenzione
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Disclaimer legale completo — leggere con attenzione
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>SoldiBuoni NON è un consulente finanziario autorizzato.</strong> SoldiBuoni non è iscritto all'Albo Unico dei Consulenti Finanziari (OCF) né è autorizzato CONSOB alla prestazione di servizi di investimento o di consulenza finanziaria ai sensi del TUF (D.Lgs. 58/1998). Questo strumento è esclusivamente di natura <strong>informativa ed educativa</strong>: illustra il comportamento storico aggregato di asset class finanziarie, ma NON costituisce consulenza finanziaria personalizzata, sollecitazione al pubblico risparmio, raccomandazione d'investimento o promozione di strumenti finanziari specifici.
@@ -495,14 +495,14 @@ export function PortafoglioComp({ color = '#3b82f6' }) {
   );
 }
 
-function BreakdownCell({ label, value, sub, color = '#0f172a', strong = false }) {
+function BreakdownCell({ label, value, sub, color = '#17150f', strong = false }) {
   return (
     <div style={{
       padding: '12px 14px',
-      background: '#f8fafc', borderRadius: 12,
-      border: '1px solid #e2e8f0'
+      background: '#f5f2ec', borderRadius: 12,
+      border: '1px solid #e6e0d4'
     }}>
-      <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+      <div style={{ fontSize: 10, fontWeight: 800, color: '#6f6a5e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
         {label}
       </div>
       <div style={{
@@ -511,7 +511,7 @@ function BreakdownCell({ label, value, sub, color = '#0f172a', strong = false })
       }}>
         {value}
       </div>
-      <div style={{ fontSize: 10, color: '#94a3b8', lineHeight: 1.4 }}>
+      <div style={{ fontSize: 10, color: '#8f897c', lineHeight: 1.4 }}>
         {sub}
       </div>
     </div>

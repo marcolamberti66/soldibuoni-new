@@ -1,1483 +1,210 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import NewsletterSignup from '../components/NewsletterSignup.jsx';
-import HeroContact from '../components/HeroContact.jsx';
+import TavolaCasa from '../components/TavolaCasa.astro';
 ---
-
-<Layout title="Soldi Buoni - I tuoi soldi spesi bene" description="Smetti di pagare più del dovuto. Guide, comparatori e strumenti completamente gratuiti per tagliare le spese fisse e semplificare le tue scelte finanziarie.">
-  
+<Layout
+  title="SoldiBuoni · Ogni casa ha il suo conto"
+  description="Mutuo o affitto, bollette, condominio, tributi. SoldiBuoni legge i documenti, calcola quanto ti costa la casa e ogni settimana ti dice cosa esce, cosa scade e cosa sistemare. Gratis, senza pubblicità né affiliazioni."
+>
   <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-inner">
-      
-      <div class="hero-left">
-        <div>
-          <h1>I tuoi soldi <em>spesi bene.</em></h1>
-          <p>Smetti di pagare più del dovuto. Guide, comparatori e strumenti completamente gratuiti per tagliare le spese fisse e semplificare le tue scelte finanziarie.</p>
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="kicker"><span>N° 01</span> Il gestore della casa</p>
+        <h1 class="display hero-t">Ogni casa<br />ha il suo <em>conto.</em></h1>
+        <p class="hero-s">Mutuo, bollette, condominio, tributi. Li carichi così come arrivano, SoldiBuoni li legge e ogni settimana ti dice in un minuto cosa esce, cosa scade e cosa conviene sistemare.</p>
+        <div class="hero-cta">
+          <a href="/casa" class="btn btn-ink btn-lg">Apri la tua casa <span aria-hidden="true">→</span></a>
+          <a href="#settimana" class="hero-link">Come funziona</a>
         </div>
-        <div class="hero-left-bottom">
-          <HeroContact client:load />
-        </div>
+        <ul class="hero-facts">
+          <li><b>4</b> domande per iniziare</li>
+          <li><b>0</b> moduli da compilare</li>
+          <li><b>1</b> minuto a settimana</li>
+        </ul>
       </div>
+      <div class="hero-tav"><TavolaCasa /></div>
+    </div>
+  </section>
 
-      <div class="hero-right">
-        <div class="popular-tools">
-          <h3>⚡ Gli strumenti più usati</h3>
-          <a href="/tfr_pensione" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(20,184,166,.15);">📊</div>
-            <span class="pop-tool-name">Confronta i fondi di investimento</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
-          <a href="/trova-bonus" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(245,158,11,.15);">🎁</div>
-            <span class="pop-tool-name">Trova bonus fiscale</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
-          <a href="/mutuo" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(16,185,129,.15);">🏠</div>
-            <span class="pop-tool-name">Simulatore mutui</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
-          <a href="/bollo_revisione" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(236,72,153,.15);">🚗</div>
-            <span class="pop-tool-name">Memo scadenze auto</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
-          <a href="/calcolo-stipendio" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(99,102,241,.15);">💶</div>
-            <span class="pop-tool-name">Calcolo stipendio lordo/netto</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
-          <a href="/forfettario-vs-ordinario" class="pop-tool">
-            <div class="pop-tool-icon" style="background:rgba(139,92,246,.15);">📋</div>
-            <span class="pop-tool-name">P. Iva: Forfettario vs Ordinario</span>
-            <span class="pop-tool-arrow">→</span>
-          </a>
+  <section id="settimana" class="week">
+    <div class="wrap week-in">
+      <div class="week-copy">
+        <p class="kicker"><span>N° 02</span> Il lunedì mattina</p>
+        <h2 class="display sec-t">Un minuto,<br /><em>e la casa è in ordine.</em></h2>
+        <p class="sec-s">Non ti chiediamo di tenere un registro. Ti mostriamo solo quello che conta questa settimana: quanto esce dal conto, cosa devi fare tu e cosa sta per scadere. Le scadenze finiscono nel calendario del telefono con un tocco.</p>
+      </div>
+      <div class="ticket" aria-label="Esempio di settimana">
+        <div class="ticket-hd">
+          <span>Settimana 48</span><span>Esempio</span>
         </div>
+        <p class="ticket-t">Questa settimana escono</p>
+        <p class="ticket-n"><span class="eur">€</span>1.064<small>,70</small></p>
+        <ul class="ticket-list">
+          <li><time>lun 1</time><span>Rata mutuo<em>addebito automatico</em></span><b>€ 780,00</b></li>
+          <li><time>gio 4</time><span>Gas · Hera<em>da pagare</em></span><b>€ 284,70</b></li>
+        </ul>
+        <div class="ticket-todo">
+          <p class="ticket-k">Da fare</p>
+          <p><i></i>Le condizioni della luce scadono tra 24 giorni: confronta prima del rinnovo.</p>
+          <p><i></i>Bolletta gas su consumi stimati: manda l'autolettura.</p>
+        </div>
+        <div class="ticket-ft">Prossimo: condominio, 13 dicembre</div>
       </div>
     </div>
   </section>
 
-  <div class="trust-strip">
-    <div class="trust-inner">
-      <div class="trust-item">
-        <div class="trust-icon">🔍</div>
-        <div class="trust-text">
-          <span class="trust-title">Trasparente</span>
-          <span class="trust-sub">Quando consigliamo un'offerta, dichiariamo sempre se è in affiliazione</span>
-        </div>
-      </div>
-      <div class="trust-sep"></div>
-      <div class="trust-item">
-        <div class="trust-icon">🏛️</div>
-        <div class="trust-text">
-          <span class="trust-title">Fonti ufficiali</span>
-          <span class="trust-sub">Dati da ARERA, Banca d'Italia, ANIA e COVIP</span>
-        </div>
-      </div>
-      <div class="trust-sep"></div>
-      <div class="trust-item">
-        <div class="trust-icon">🔄</div>
-        <div class="trust-text">
-          <span class="trust-title">Aggiornato mensilmente</span>
-          <span class="trust-sub">Prezzi, tassi e offerte verificati ogni mese</span>
-        </div>
-      </div>
-      <div class="trust-sep"></div>
-      <div class="trust-item">
-        <div class="trust-icon">💶</div>
-        <div class="trust-text">
-          <span class="trust-title">100% gratuito</span>
-          <span class="trust-sub">Tutti gli strumenti, senza registrazione</span>
-        </div>
-      </div>
+  <section class="how">
+    <div class="wrap">
+      <p class="kicker"><span>N° 03</span> Come si comincia</p>
+      <ol class="how-list">
+        <li>
+          <span class="how-n">I</span>
+          <h3>Quattro domande</h3>
+          <p>Proprietà o affitto, con o senza mutuo, quante persone, come si scalda la casa. Basta questo per sapere quali spese aspettarsi.</p>
+        </li>
+        <li>
+          <span class="how-n">II</span>
+          <h3>Le bollette, così come sono</h3>
+          <p>PDF dall'email o foto della carta. Leggiamo fornitore, importo, consumi, prezzo e scadenze: tu confermi e basta.</p>
+        </li>
+        <li>
+          <span class="how-n">III</span>
+          <h3>Il resto lo guardiamo noi</h3>
+          <p>Promozioni che finiscono, prezzi che salgono, letture stimate, rinnovi, scadenze di stagione. Te lo diciamo prima che costi.</p>
+        </li>
+      </ol>
     </div>
-  </div>
+  </section>
 
-
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <!-- SEZIONE 1: 🔥 SPESE FISSE                                        -->
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <span id="cats" style="display:block; position:relative; top:-64px;"></span>
-  <section id="spese-fisse" class="theme-section theme-light">
-    <div class="theme-inner">
-      <div class="theme-header">
-        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#f97316;">🔥 Spese Fisse</span>
-        <h2>Taglia le bollette ricorrenti</h2>
-        <p>Per ogni mercato trovi <strong>guida educational, comparatore e criteri di scelta</strong>: capisci come funziona prima di confrontare.</p>
-      </div>
-
-      <div class="theme-subheader">
-        <span class="theme-sub-label">📊 Confronta & Capisci il mercato</span>
-      </div>
-      <div class="cats-grid">
-        <a href="/luce-gas" class="cat-card" style="--cat-color:#f59e0b">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fef3c7;">⚡🔥</div>
-          <h3>Luce & Gas</h3>
-          <p>Mercato libero, prezzo fisso vs variabile, CRAS</p>
-        </a>
-        <a href="/internet" class="cat-card" style="--cat-color:#8b5cf6">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#ede9fe;">📡</div>
-          <h3>Fibra & Internet</h3>
-          <p>FTTH, FTTC e FWA: differenze e scelta giusta</p>
-        </a>
-        <a href="/conti-correnti" class="cat-card" style="--cat-color:#10b981">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#dcfce7;">💳</div>
-          <h3>Conti Correnti</h3>
-          <p>Canone, interessi, costi nascosti</p>
-        </a>
-        <a href="/rc_auto" class="cat-card" style="--cat-color:#ec4899">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fce7f3;">🚗</div>
-          <h3>RC Auto</h3>
-          <p>Massimali, franchigie e classi di merito</p>
-        </a>
-        <a href="/salute" class="cat-card" style="--cat-color:#ef4444">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fee2e2;">🏥</div>
-          <h3>Polizze Sanitarie</h3>
-          <p>Quando vale davvero l'integrativa</p>
-        </a>
-      </div>
-
-      <div class="theme-subheader" style="margin-top: 36px;">
-        <span class="theme-sub-label">⭐ Offerte recensite dal team</span>
-      </div>
-      <div class="recensioni-strip">
-        <a href="/recensione-eni" class="rec-mini">
-          <span class="rec-mini-ic">⚡</span>
-          <span class="rec-mini-tx"><strong>Eni Plenitude</strong><em>Fixa Time Smart</em></span>
-        </a>
-        <a href="/recensione-windtre" class="rec-mini">
-          <span class="rec-mini-ic">📡</span>
-          <span class="rec-mini-tx"><strong>WindTre Super Fibra</strong><em>FTTH 2.5 Gbps</em></span>
-        </a>
-        <a href="/recensione-lyca" class="rec-mini">
-          <span class="rec-mini-ic">📱</span>
-          <span class="rec-mini-tx"><strong>Lyca Mobile</strong><em>5G · 150 GB</em></span>
-        </a>
-        <a href="/recensione-bbva" class="rec-mini">
-          <span class="rec-mini-ic">💳</span>
-          <span class="rec-mini-tx"><strong>BBVA Conto Online</strong><em>3% interessi · 6 mesi</em></span>
-        </a>
-        <a href="/recensione-hype" class="rec-mini">
-          <span class="rec-mini-ic">💰</span>
-          <span class="rec-mini-tx"><strong>Hype</strong><em>Carta conto · 3 piani</em></span>
-        </a>
+  <section class="manifesto">
+    <div class="wrap man-in">
+      <h2 class="display man-t">Nessuno ci paga<br />per consigliarti<br /><em>un fornitore.</em></h2>
+      <div class="man-b">
+        <p>Niente affiliazioni, niente pubblicità, niente offerte sponsorizzate. Ti diciamo quanto paghi e perché; cosa fare lo decidi tu.</p>
+        <ul>
+          <li>Il file della bolletta viene letto e scartato: teniamo solo i numeri.</li>
+          <li>Nome, indirizzo, codice fiscale, POD, PDR e IBAN non vengono estratti.</li>
+          <li>I dati restano sul tuo dispositivo. Li esporti o li cancelli quando vuoi.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <!-- SEZIONE 2: 🏠 CASA, AUTO & FAMIGLIA                              -->
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <section id="casa-auto-famiglia" class="theme-section theme-light theme-alt">
-    <div class="theme-inner">
-      <div class="theme-header">
-        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#14b8a6;">🏠 Casa, Auto & Famiglia</span>
-        <h2>Le grandi spese della vita</h2>
-        <p>Strumenti per le decisioni che pesano di più: comprare casa, gestire l'auto, pianificare lo studio.</p>
+  <section class="guides">
+    <div class="wrap">
+      <div class="guides-hd">
+        <p class="kicker"><span>N° 04</span> La guida</p>
+        <a href="/guida" class="hero-link">Tutte le guide</a>
       </div>
-
-      <div class="cats-grid">
-        <a href="/mutuo" class="cat-card" style="--cat-color:#10b981">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#dcfce7;">🏠</div>
-          <h3>Simulatore Mutui</h3>
-          <p>Rata, ammortamento, fisso vs variabile</p>
-        </a>
-        <a href="/affitto-vs-mutuo" class="cat-card" style="--cat-color:#059669">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#d1fae5;">⚖️</div>
-          <h3>Affitto vs Mutuo</h3>
-          <p>Il break-even tra affittare e comprare</p>
-        </a>
-        <a href="/bollo_revisione" class="cat-card" style="--cat-color:#ef4444">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fee2e2;">🚗</div>
-          <h3>Memo Scadenze Auto</h3>
-          <p>Bollo, revisione, tagliando, gomme</p>
-        </a>
-        <a href="/istruzione" class="cat-card" style="--cat-color:#6366f1">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#eef2ff;">🎓</div>
-          <h3>Rette Universitarie</h3>
-          <p>Stima tasse per facoltà e fascia ISEE</p>
-        </a>
+      <div class="guides-list">
+        <a href="/guida/costi-casa" class="g-item"><span class="g-n">01</span><h3>Tutte le spese fisse di una casa</h3><p>La mappa completa, e il modo giusto di calcolare il costo mensile.</p></a>
+        <a href="/guida/bolletta-luce" class="g-item"><span class="g-n">02</span><h3>Leggere la bolletta della luce</h3><p>Le quattro voci del totale e le cinque cose da controllare.</p></a>
+        <a href="/guida/bolletta-gas" class="g-item"><span class="g-n">03</span><h3>Leggere la bolletta del gas</h3><p>Smc, scaglioni IVA, consumi stimati, riscaldamento.</p></a>
+        <a href="/guida/internet-telefono" class="g-item"><span class="g-n">04</span><h3>La trappola della promozione</h3><p>Canone promo e di listino, modem a rate, quando cambiare.</p></a>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <!-- SEZIONE 3: 💼 LAVORO & TASSE                                     -->
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <section id="lavoro-tasse" class="theme-section theme-light">
-    <div class="theme-inner">
-      <div class="theme-header">
-        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#8b5cf6;">💼 Lavoro & Tasse</span>
-        <h2>Busta paga e fisco</h2>
-        <p>Capisci quanto resta in tasca e <strong>quali bonus ti spettano davvero</strong>. Strumenti tarati su normativa italiana 2026.</p>
-      </div>
-
-      <div class="cats-grid">
-        <a href="/calcolo-stipendio" class="cat-card" style="--cat-color:#a5b4fc">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#e0e7ff;">💶</div>
-          <h3>Stipendio Lordo/Netto</h3>
-          <p>IRPEF, detrazioni, addizionali regionali</p>
-        </a>
-        <a href="/forfettario-vs-ordinario" class="cat-card" style="--cat-color:#818cf8">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#e0e7ff;">📋</div>
-          <h3>Forfettario vs Ordinario</h3>
-          <p>Quale regime conviene alla tua P.IVA</p>
-        </a>
-        <a href="/trova-bonus" class="cat-card" style="--cat-color:#ec4899">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#fce7f3;">🎁</div>
-          <h3>Trova Bonus Fiscale</h3>
-          <p>Diagnosi delle agevolazioni a cui hai diritto</p>
-        </a>
-      </div>
+  <section class="next">
+    <div class="wrap next-in">
+      <p class="kicker"><span>Tav. 02</span> In preparazione</p>
+      <p class="display next-t">Dopo i conti, la casa intera: manutenzioni, lavori, arredo. <em>Un posto solo.</em></p>
+      <a href="/casa" class="btn btn-ink btn-lg">Inizia dalla prima bolletta <span aria-hidden="true">→</span></a>
     </div>
   </section>
-
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <!-- SEZIONE 4: 📈 INVESTI & PIANIFICA                                -->
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <section id="investi" class="theme-section theme-light theme-alt">
-    <div class="theme-inner">
-      <div class="theme-header">
-        <span class="section-eyebrow section-eyebrow-light" style="--eb-color:#3b82f6;">📈 Investi & Pianifica</span>
-        <h2>Il tuo futuro finanziario</h2>
-        <p>Far crescere quello che hai. Simulazioni su <strong>dati storici reali</strong> e fondi pensione COVIP ufficiali.</p>
-      </div>
-
-      <div class="cats-grid">
-        <a href="/investimenti" class="cat-card" style="--cat-color:#3b82f6">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#dbeafe;">💼</div>
-          <h3>Portafogli Modello</h3>
-          <p>Asset allocation simulate su dati storici</p>
-        </a>
-        <a href="/interesse-composto" class="cat-card" style="--cat-color:#0ea5e9">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#e0f2fe;">📈</div>
-          <h3>Interesse Composto</h3>
-          <p>Come crescono i risparmi nel tempo</p>
-        </a>
-        <a href="/tfr_pensione" class="cat-card" style="--cat-color:#14b8a6">
-          <span class="cat-arrow">↗</span>
-          <div class="cat-icon" style="background:#ccfbf1;">📊</div>
-          <h3>Fondi Pensione & TFR</h3>
-          <p>172 comparti COVIP con rendimenti reali</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <!-- SEZIONE 5: 📖 INIZIA DA QUI & METODO  (sfondo dark)              -->
-  <!-- ════════════════════════════════════════════════════════════════ -->
-  <span id="tools" style="display:block; position:relative; top:-64px;"></span>
-  <section id="metodo" class="all-tools">
-    <div class="all-tools-glow"></div>
-    <div class="all-tools-inner">
-      <div class="all-tools-header">
-        <span class="section-eyebrow section-eyebrow-dark">📖 Metodo & Guide</span>
-        <h2>Inizia da qui, poi approfondisci</h2>
-        <p>Non sai da dove cominciare? Fai la diagnosi in 2 minuti e segui il metodo SoldiBuoni.</p>
-      </div>
-
-      <a href="/quanto-spendo" class="tool-hero">
-        <div class="tool-hero-main">
-          <div class="tool-hero-icon">🧮</div>
-          <div class="tool-hero-text">
-            <span class="tool-hero-badge">Inizia da qui</span>
-            <h3>Quanto Spendo?</h3>
-            <p>Scopri il tuo profilo di spesa in 2 minuti. Capisci dove sprechi e quanto puoi risparmiare su luce, gas, internet, banca e assicurazioni.</p>
-          </div>
-        </div>
-        <span class="tool-hero-cta">Inizia ora <span class="tool-hero-arrow">→</span></span>
-      </a>
-
-      <div class="tool-grid">
-        <a href="/analisi-bolletta" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(245,158,11,.14); color:#fbbf24;">🔍</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Analizza Bolletta</h4>
-              <span class="tool-card-tag tag-ai">AI</span>
-            </div>
-            <p>Scopri se paghi troppo luce e gas</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/guida-risparmio" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#60a5fa;">📖</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Guida Risparmio 2026</h4>
-              <span class="tool-card-tag">Guida</span>
-            </div>
-            <p>Il metodo completo in 7 capitoli per tagliare le spese</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/checklist" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(139,92,246,.14); color:#a78bfa;">✅</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Checklist Salvavita</h4>
-              <span class="tool-card-tag">Azione</span>
-            </div>
-            <p>12 azioni concrete, una al mese</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/recensione-eni" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(245,158,11,.14); color:#fbbf24;">⚡</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Eni Plenitude</h4>
-              <span class="tool-card-tag">Recensione</span>
-            </div>
-            <p>Fixa Time Smart · Luce + Gas a prezzo bloccato</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/recensione-bbva" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(59,130,246,.14); color:#60a5fa;">💳</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>BBVA Conto Online</h4>
-              <span class="tool-card-tag">Recensione</span>
-            </div>
-            <p>3% interessi + 3% cashback per i primi 6 mesi</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/recensione-hype" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(20,184,166,.14); color:#5eead4;">💰</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Hype</h4>
-              <span class="tool-card-tag">Recensione</span>
-            </div>
-            <p>Carta conto · 3 piani da €0 a €9,90/mese</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/recensione-windtre" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(249,115,22,.14); color:#fb923c;">📡</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>WindTre Super Fibra</h4>
-              <span class="tool-card-tag">Recensione</span>
-            </div>
-            <p>FTTH 2.5 Gbps · Wi-Fi 7 · 12 mesi Prime</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-        <a href="/recensione-lyca" class="tool-card">
-          <div class="tool-card-icon" style="background:rgba(14,165,233,.14); color:#38bdf8;">📱</div>
-          <div class="tool-card-body">
-            <div class="tool-card-title-row">
-              <h4>Lyca Mobile</h4>
-              <span class="tool-card-tag">Recensione</span>
-            </div>
-            <p>5G · 150 GB · Rete Vodafone · €5,99/mese</p>
-          </div>
-          <span class="tool-card-arrow">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="offers">
-    <div class="offers-inner">
-      <div class="offers-header">
-        <span class="section-eyebrow section-eyebrow-light">🎯 Offerte</span>
-        <h2>Offerte in evidenza</h2>
-        <p>Selezionate dalla redazione · Aggiornate aprile 2026 · Condizioni verificate</p>
-      </div>
-      <div class="offers-grid">
-
-        <div class="offer-card" style="--accent:#10b981;">
-          <div class="offer-accent"></div>
-          <div class="offer-head">
-            <div class="offer-icon" style="background:#dcfce7;">💳</div>
-            <div class="offer-names">
-              <h3>BBVA Conto Online</h3>
-              <span class="offer-cat">Conto corrente · Canone €0</span>
-            </div>
-            <span class="offer-adv">#ADV</span>
-          </div>
-          <div class="offer-specs">
-            <span class="offer-pill" style="--pill:#059669;">3% lordo · 6 mesi</span>
-            <span class="offer-pill" style="--pill:#3b82f6;">Cashback 3% · 6 mesi</span>
-            <span class="offer-pill" style="--pill:#0f172a;">Bonifici gratis</span>
-          </div>
-          <p class="offer-line">Zero spese, zero vincoli, IBAN italiano. Interessi e cashback (su 280€/mese di spesa) accreditati ogni mese per i primi 6 mesi.</p>
-          <div class="offer-foot">
-            <a href="/recensione-bbva" class="offer-review">Leggi la recensione</a>
-            <a href="https://www.financeads.net/tc.php?t=82784C5581131019T" target="_blank" rel="noopener noreferrer sponsored nofollow" class="offer-go" style="color:var(--accent);">Apri conto →</a>
-          </div>
-          <span class="offer-date">Aggiornato aprile 2026</span>
-        </div>
-
-        <div class="offer-card" style="--accent:#f59e0b;">
-          <div class="offer-accent"></div>
-          <div class="offer-head">
-            <div class="offer-icon" style="background:#fef3c7;">⚡🔥</div>
-            <div class="offer-names">
-              <h3>Eni Plenitude Fixa Time</h3>
-              <span class="offer-cat">Luce + Gas · Fisso 12 mesi</span>
-            </div>
-            <span class="offer-adv">#ADV</span>
-          </div>
-          <div class="offer-specs">
-            <span class="offer-pill" style="--pill:#f59e0b;">−108€ dual</span>
-            <span class="offer-pill" style="--pill:#059669;">Zero penali</span>
-            <span class="offer-pill" style="--pill:#8b5cf6;">Polizza inclusa</span>
-          </div>
-          <p class="offer-line">Luce 0,188 €/kWh · Gas 0,705 €/Smc. Prezzo bloccato, no penali di uscita. Polizza Zurich omaggio.</p>
-          <div class="offer-foot">
-            <a href="/recensione-eni" class="offer-review">Leggi la recensione</a>
-            <a href="https://www.awin1.com/cread.php?awinmid=9529&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored nofollow" class="offer-go" style="color:var(--accent);">Vai all'offerta →</a>
-          </div>
-          <span class="offer-date">Aggiornato aprile 2026</span>
-        </div>
-
-        <div class="offer-card" style="--accent:#00AEFF;">
-          <div class="offer-accent"></div>
-          <div class="offer-head">
-            <div class="offer-icon" style="background:#dbeafe;">💰</div>
-            <div class="offer-names">
-              <h3>Hype</h3>
-              <span class="offer-cat">Carta conto · 3 piani da €0</span>
-            </div>
-            <span class="offer-adv">#ADV</span>
-          </div>
-          <div class="offer-specs">
-            <span class="offer-pill" style="--pill:#00AEFF;">Bonus fino a 25€</span>
-            <span class="offer-pill" style="--pill:#0f172a;">Carta subito</span>
-            <span class="offer-pill" style="--pill:#059669;">Bonifici gratis</span>
-          </div>
-          <p class="offer-line">Base €0, Next €2,90, Premium €9,90. Carta virtuale immediata, IBAN italiano. Codice CIAOHYPER.</p>
-          <div class="offer-foot">
-            <a href="/recensione-hype" class="offer-review">Leggi la recensione</a>
-            <a href="https://www.financeads.net/tc.php?t=82784C257247700T" target="_blank" rel="noopener noreferrer sponsored nofollow" class="offer-go" style="color:var(--accent);">Scopri Hype →</a>
-          </div>
-          <span class="offer-date">Aggiornato aprile 2026</span>
-        </div>
-
-        <div class="offer-card" style="--accent:#f97316;">
-          <div class="offer-accent"></div>
-          <div class="offer-head">
-            <div class="offer-icon" style="background:#fce7f3;">📡</div>
-            <div class="offer-names">
-              <h3>WindTre Super Fibra</h3>
-              <span class="offer-cat">Internet FTTH · 2.5 Gbps</span>
-            </div>
-            <span class="offer-adv">#ADV</span>
-          </div>
-          <div class="offer-specs">
-            <span class="offer-pill" style="--pill:#f97316;">€19,99 anno 1</span>
-            <span class="offer-pill" style="--pill:#0f172a;">Wi-Fi 7</span>
-            <span class="offer-pill" style="--pill:#8b5cf6;">Amazon Prime</span>
-          </div>
-          <p class="offer-line">€19,99 poi €23,99 dal 2° anno. Modem Wi-Fi 7 incluso (rate 48 mesi). 12 mesi Amazon Prime.</p>
-          <div class="offer-foot">
-            <a href="/recensione-windtre" class="offer-review">Leggi la recensione</a>
-            <a href="https://www.awin1.com/cread.php?awinmid=27760&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored nofollow" class="offer-go" style="color:var(--accent);">Vai all'offerta →</a>
-          </div>
-          <span class="offer-date">Aggiornato aprile 2026</span>
-        </div>
-
-        <div class="offer-card" style="--accent:#0ea5e9;">
-          <div class="offer-accent"></div>
-          <div class="offer-head">
-            <div class="offer-icon" style="background:#e0f2fe;">📱</div>
-            <div class="offer-names">
-              <h3>Lyca Mobile Portin 5G</h3>
-              <span class="offer-cat">SIM mobile · Rete Vodafone</span>
-            </div>
-            <span class="offer-adv">#ADV</span>
-          </div>
-          <div class="offer-specs">
-            <span class="offer-pill" style="--pill:#0ea5e9;">€5,99/mese</span>
-            <span class="offer-pill" style="--pill:#0f172a;">150 GB 5G</span>
-            <span class="offer-pill" style="--pill:#059669;">Min/SMS illim.</span>
-            <span class="offer-pill" style="--pill:#8b5cf6;">9 GB roaming UE</span>
-          </div>
-          <p class="offer-line">Portabilità obbligatoria. Rete Vodafone 5G con 150 Giga, minuti e SMS illimitati. 9 GB in UE inclusi.</p>
-          <div class="offer-foot">
-            <a href="/recensione-lyca" class="offer-review">Leggi la recensione</a>
-            <a href="https://www.awin1.com/cread.php?awinmid=118793&awinaffid=2811530" target="_blank" rel="noopener noreferrer sponsored nofollow" class="offer-go" style="color:var(--accent);">Richiedi SIM →</a>
-          </div>
-          <span class="offer-date">Aggiornato aprile 2026</span>
-        </div>
-
-      </div>
-      <p style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 20px; line-height: 1.5; max-width: 640px; margin-left: auto; margin-right: auto;">
-        <em>Le offerte contengono link affiliati (#ADV). Se attivi un prodotto tramite i nostri link, riceviamo una commissione senza costi aggiuntivi per te. Le condizioni indicate possono variare: verifica sempre sul sito del fornitore.</em>
-      </p>
-    </div>
-  </section>
-
-  <section class="cta-s">
-    <NewsletterSignup client:load variant="compact" />
-  </section>
-
 </Layout>
 
 <style>
-  /* ══════ HERO ══════ */
-  .hero {
-    background: linear-gradient(170deg, var(--navy-900), var(--navy-800) 60%, var(--navy-700));
-    padding: 32px;
-    padding-bottom: 72px;
-    min-height: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-glow {
-    position: absolute;
-    top: -120px;
-    right: -80px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: var(--bg);
-    border-radius: 40px 40px 0 0;
-  }
-  .hero-inner {
-    max-width: 1100px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 64px;
-    align-items: stretch;
-    position: relative;
-    z-index: 1;
-  }
+  .kicker { display: flex; align-items: baseline; gap: 14px; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+  .kicker span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+  .btn-lg { height: 54px; padding: 0 26px; font-size: 16px; }
+  .hero-link { font-size: 15.5px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 5px; }
 
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .hero-left h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 56px;
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    letter-spacing: -0.02em;
-  }
-  .hero-left h1 em {
-    font-style: italic;
-    color: var(--green-400);
-  }
-  .hero-left p {
-    font-size: 16px;
-    color: rgba(148,163,184,0.85);
-    line-height: 1.7;
-    margin-bottom: 32px;
-    max-width: 480px;
-  }
+  /* hero */
+  .hero { padding: clamp(40px, 6vw, 88px) 0 clamp(56px, 7vw, 96px); border-bottom: 1px solid var(--ink); }
+  .hero-in { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .hero-t { font-size: clamp(58px, 8.2vw, 124px); line-height: .9; letter-spacing: -0.045em; margin: 28px 0 32px; font-weight: 400; }
+  .hero-t em { font-style: italic; color: var(--brass); }
+  .hero-s { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; max-width: 500px; color: var(--ink-2); }
+  .hero-cta { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin-top: 36px; }
+  .hero-facts { list-style: none; display: flex; gap: 0; margin-top: 48px; border-top: 1px solid var(--line-strong); max-width: 520px; }
+  .hero-facts li { flex: 1; padding: 16px 16px 0 0; font-size: 13.5px; color: var(--ink-3); line-height: 1.35; }
+  .hero-facts li + li { padding-left: 16px; border-left: 1px solid var(--line); }
+  .hero-facts b { display: block; font-family: var(--f-display); font-weight: 500; font-size: 40px; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .hero-tav { max-width: 560px; justify-self: end; width: 100%; }
 
-  :global(.msg-box) {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 18px 20px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  }
-  :global(.msg-box label) {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 8px;
-  }
-  :global(.msg-input) {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    resize: none;
-    color: var(--text-body);
-    transition: border 0.2s;
-  }
-  :global(.msg-input:focus) { border-color: var(--green-600);
-  }
-  :global(.msg-send) {
-    margin-top: 10px;
-    width: 100%;
-    background: var(--green-600);
-    color: #fff;
-    border: none;
-    padding: 11px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s;
-  }
-  :global(.msg-send:hover) { background: #047857;
-  }
+  /* settimana */
+  .week { padding: clamp(80px, 10vw, 140px) 0; }
+  .week-in { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+  .sec-t { font-size: clamp(42px, 5.4vw, 76px); line-height: .95; letter-spacing: -0.04em; margin: 22px 0 26px; }
+  .sec-t em { font-style: italic; color: var(--brass); }
+  .sec-s { font-size: 18px; max-width: 520px; }
+  .ticket { background: var(--card); border: 1px solid var(--ink); border-radius: 4px; padding: 28px 28px 22px; box-shadow: 10px 10px 0 var(--paper-2), 10px 10px 0 1px var(--ink); transform: rotate(-1.2deg); max-width: 440px; justify-self: center; }
+  .ticket-hd { display: flex; justify-content: space-between; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 14px; border-bottom: 1px dashed var(--line-strong); }
+  .ticket-t { margin-top: 22px; font-size: 14px; color: var(--ink-2); }
+  .ticket-n { font-family: var(--f-display); font-size: 64px; line-height: 1; color: var(--ink); letter-spacing: -0.03em; margin: 6px 0 18px; }
+  .ticket-n .eur { font-family: var(--f-ui); font-size: 28px; color: var(--ink-3); margin-right: 8px; vertical-align: 0.6em; }
+  .ticket-n small { font-size: 30px; color: var(--ink-3); }
+  .ticket-list { list-style: none; border-top: 1px solid var(--ink); }
+  .ticket-list li { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--ink); }
+  .ticket-list time { font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+  .ticket-list em { display: block; font-style: normal; font-size: 12.5px; color: var(--ink-3); }
+  .ticket-list b { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .ticket-todo { margin-top: 18px; font-size: 14px; color: var(--ink-2); }
+  .ticket-todo p { display: flex; gap: 10px; margin-top: 8px; line-height: 1.45; }
+  .ticket-todo i { flex-shrink: 0; width: 14px; height: 14px; margin-top: 3px; border: 1.3px solid var(--ink); border-radius: 3px; }
+  .ticket-k { font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--warn); font-weight: 600; }
+  .ticket-ft { margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--line-strong); font-family: var(--f-display); font-style: italic; color: var(--brass); font-size: 16px; }
 
-  .hero-right { display: flex; flex-direction: column; gap: 16px; justify-content: flex-end;
-  }
-  .popular-tools {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 16px 20px;
-    backdrop-filter: blur(8px);
-    display: flex;
-    flex-direction: column;
-  }
-  .popular-tools h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--green-400);
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .pop-tool {
-    display: flex;
-    align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: all 0.2s; }
-  .pop-tool:last-child { border-bottom: none; }
-  .pop-tool:hover { padding-left: 4px;
-  }
-  .pop-tool-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-  .pop-tool-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.85);
-    flex: 1;
-  }
-  .pop-tool-arrow {
-    font-size: 14px;
-    color: rgba(255,255,255,0.3);
-    transition: all 0.2s;
-  }
-  .pop-tool:hover .pop-tool-arrow {
-    color: var(--green-400);
-    transform: translateX(3px);
-  }
+  /* come */
+  .how { padding: clamp(72px, 9vw, 120px) 0; border-top: 1px solid var(--ink); }
+  .how-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 48px; }
+  .how-list li { padding: 0 32px 8px 0; }
+  .how-list li + li { padding-left: 32px; border-left: 1px solid var(--line-strong); }
+  .how-n { display: block; font-family: var(--f-display); font-style: italic; font-size: 72px; line-height: 1; color: var(--brass); margin-bottom: 24px; }
+  .how-list h3 { font-family: var(--f-display); font-weight: 500; font-size: 30px; line-height: 1.05; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 14px; }
+  .how-list p { font-size: 16.5px; }
 
-  /* ══════ PROOF BAR ══════ */
-  .trust-strip {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-  }
-  .trust-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 0;
-  }
-  .trust-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 22px 24px;
-    transition: background 0.25s;
-  }
-  .trust-item:hover {
-    background: rgba(15,23,42,0.02);
-  }
-  .trust-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .trust-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .trust-title {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--navy-900);
-    letter-spacing: -0.01em;
-  }
-  .trust-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-  .trust-sep {
-    width: 1px;
-    background: var(--border);
-    align-self: center;
-    height: 32px;
-    flex-shrink: 0;
-  }
+  /* manifesto */
+  .manifesto { background: var(--ink); color: rgba(245, 242, 236, .76); padding: clamp(80px, 10vw, 140px) 0; }
+  .man-in { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); align-items: end; }
+  .man-t { color: var(--paper); font-size: clamp(42px, 5.4vw, 80px); line-height: .95; letter-spacing: -0.04em; }
+  .man-t em { font-style: italic; color: #d9c49b; }
+  .man-b p { font-size: 19px; color: var(--paper); margin-bottom: 28px; line-height: 1.5; }
+  .man-b ul { list-style: none; }
+  .man-b li { padding: 14px 0; border-top: 1px solid rgba(245, 242, 236, .18); font-size: 15.5px; }
 
-  /* ══════ EYEBROW PILL ══════ */
-  .section-eyebrow {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.8px;
-    margin-bottom: 10px;
-    padding: 5px 12px;
-    border-radius: 20px;
-  }
-  .section-eyebrow-light {
-    color: var(--green-600);
-    background: var(--green-50);
-    border: 1px solid rgba(5,150,105,0.18);
-  }
-  .section-eyebrow-dark {
-    color: var(--green-400);
-    background: rgba(52,211,153,0.08);
-    border: 1px solid rgba(52,211,153,0.18);
-  }
-  /* Override colore eyebrow tramite --eb-color */
-  .section-eyebrow-light[style*="--eb-color"] {
-    color: var(--eb-color);
-    background: color-mix(in srgb, var(--eb-color) 10%, white);
-    border-color: color-mix(in srgb, var(--eb-color) 22%, white);
-  }
+  /* guide */
+  .guides { padding: clamp(72px, 9vw, 120px) 0 0; }
+  .guides-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; }
+  .guides-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .g-item { padding: 24px 24px 32px 0; transition: background .3s var(--ease); }
+  .g-item + .g-item { padding-left: 24px; border-left: 1px solid var(--line-strong); }
+  .g-n { font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .g-item h3 { font-family: var(--f-display); font-weight: 500; font-size: 26px; line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); margin: 18px 0 12px; }
+  .g-item p { font-size: 15px; }
+  .g-item:hover h3 { font-style: italic; color: var(--brass); }
 
-  /* ══════ SEZIONI TEMATICHE ══════ */
-  .theme-section {
-    padding: 56px 0 48px;
-    position: relative;
-  }
-  .theme-light {
-    background: var(--bg);
-  }
-  .theme-alt {
-    background: var(--white);
-  }
-  .theme-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-  .theme-header {
-    margin-bottom: 24px;
-    max-width: 720px;
-  }
-  .theme-header h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 30px;
-    color: var(--navy-900);
-    margin: 8px 0 8px;
-    line-height: 1.2;
-  }
-  .theme-header p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-  .theme-header p strong {
-    color: var(--navy-900);
-    font-weight: 700;
-  }
-  .theme-subheader {
-    margin: 4px 0 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .theme-sub-label {
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--text-muted);
-    padding: 4px 10px;
-    background: rgba(12,35,64,0.04);
-    border-radius: 6px;
-  }
+  /* chiusura */
+  .next { padding: clamp(80px, 10vw, 140px) 0 0; }
+  .next-in { border-top: 1px solid var(--ink); padding-top: 40px; }
+  .next-t { font-size: clamp(36px, 5vw, 68px); line-height: 1; letter-spacing: -0.035em; max-width: 1000px; margin: 24px 0 40px; }
+  .next-t em { font-style: italic; color: var(--brass); }
 
-  /* Strip recensioni dentro le sezioni tematiche */
-  .recensioni-strip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-  .rec-mini {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    transition: all 0.25s var(--ease);
-    box-shadow: 0 2px 6px rgba(12,35,64,0.03);
-  }
-  .rec-mini:hover {
-    transform: translateY(-2px);
-    border-color: rgba(12,35,64,0.14);
-    box-shadow: 0 6px 14px rgba(12,35,64,0.08);
-  }
-  .rec-mini-ic {
-    flex-shrink: 0;
-    font-size: 18px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--green-50);
-    border-radius: 8px;
-  }
-  .rec-mini-tx {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    gap: 1px;
-  }
-  .rec-mini-tx strong {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--navy-900);
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .rec-mini-tx em {
-    font-size: 10px;
-    font-style: normal;
-    color: var(--text-muted);
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* ══════ CATEGORIE ══════ */
-  .cats { padding: 48px 0 40px; }
-  .cats-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
-  .cats-header { margin-bottom: 28px;
-  }
-  .cats-header h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    color: var(--navy-900);
-    margin-bottom: 6px;
-  }
-  .cats-header p { font-size: 15px; color: var(--text-muted); }
-
-  .cats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-  .cat-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 26px 20px 22px;
-    text-align: center;
-    transition: all 0.35s var(--ease);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(12,35,64,0.03);
-  }
-  .cat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--cat-color);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s var(--ease);
-  }
-  .cat-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 0%, var(--cat-color), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.35s var(--ease);
-    pointer-events: none;
-  }
-  .cat-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 48px -12px rgba(12,35,64,0.12);
-    border-color: rgba(12,35,64,0.10);
-  }
-  .cat-card:hover::before { transform: scaleX(1); }
-  .cat-card:hover::after { opacity: 0.04;
-  }
-
-  .cat-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    margin: 0 auto 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    transition: transform 0.35s var(--ease);
-  }
-  .cat-card:hover .cat-icon { transform: scale(1.08);
-  }
-
-  .cat-card h3 {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--navy-900);
-    margin-bottom: 4px;
-    position: relative;
-    z-index: 1;
-  }
-  .cat-card p {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.5;
-    position: relative;
-    z-index: 1;
-  }
-  .cat-card .cat-arrow {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    font-size: 14px;
-    color: var(--text-light);
-    transition: all 0.3s var(--ease);
-    z-index: 1;
-  }
-  .cat-card:hover .cat-arrow {
-    color: var(--cat-color);
-    transform: translate(2px, -2px);
-  }
-
-  /* ══════ OFFERTE IN EVIDENZA ══════ */
-  .offers { padding: 24px 0 40px;
-  }
-  .offers-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
-  .offers-header { margin-bottom: 24px;
-  }
-  .offers-header h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    color: var(--navy-900);
-    margin-bottom: 4px;
-  }
-  .offers-header p { font-size: 14px; color: var(--text-muted); }
-
-  .offers-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .offer-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s var(--ease);
-    position: relative;
-    overflow: hidden;
-  }
-  .offer-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 40px -8px rgba(12,35,64,0.1);
-    border-color: var(--accent);
-  }
-  .offer-accent {
-    height: 3px;
-    background: var(--accent);
-    width: 100%;
-  }
-  .offer-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 20px 0;
-  }
-  .offer-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
-  .offer-names {
-    flex: 1;
-    min-width: 0;
-  }
-  .offer-names h3 {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--navy-900);
-    margin: 0;
-    line-height: 1.2;
-  }
-  .offer-cat {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-  .offer-adv {
-    font-size: 9px;
-    font-weight: 800;
-    color: var(--text-light);
-    background: var(--bg);
-    padding: 2px 7px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    align-self: flex-start;
-    margin-top: 2px;
-  }
-  .offer-specs {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 10px 20px 0;
-  }
-  .offer-pill {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 6px;
-    background: color-mix(in srgb, var(--pill) 8%, transparent);
-    color: var(--pill);
-    white-space: nowrap;
-  }
-  .offer-line {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.5;
-    padding: 8px 20px 0;
-    margin: 0;
-    flex: 1;
-  }
-  .offer-foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px 6px;
-    margin-top: 6px;
-    border-top: 1px solid var(--border);
-  }
-  .offer-review {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .offer-review:hover {
-    color: var(--navy-900);
-    text-decoration: underline;
-  }
-  .offer-go {
-    font-size: 12px;
-    font-weight: 800;
-    text-decoration: none;
-    transition: transform 0.2s;
-    display: inline-block;
-  }
-  .offer-go:hover {
-    transform: translateX(3px);
-  }
-  .offer-date {
-    display: block;
-    font-size: 10px;
-    color: var(--text-light);
-    font-weight: 500;
-    padding: 0 20px 12px;
-  }
-
-  /* ══════ STRUMENTI — COMMAND CENTER ══════ */
-  .all-tools {
-    background: linear-gradient(170deg, var(--navy-900), var(--navy-800) 60%, var(--navy-700));
-    padding: 48px 0 72px;
-    position: relative;
-    overflow: hidden;
-  }
-  .all-tools-glow {
-    position: absolute;
-    top: -100px;
-    left: -100px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(52,211,153,0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .all-tools-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 28px;
-    position: relative;
-    z-index: 1;
-  }
-  .all-tools-header {
-    margin-bottom: 28px;
-  }
-  .all-tools-header h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    color: #fff;
-    margin-bottom: 6px;
-    line-height: 1.2;
-  }
-  .all-tools-header p {
-    font-size: 15px;
-    color: rgba(148,163,184,0.85);
-  }
-
-  /* Hero Tool */
-  .tool-hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(52,211,153,0.25);
-    border-radius: 20px;
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    transition: all 0.35s var(--ease);
-    position: relative;
-    overflow: hidden;
-  }
-  .tool-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 0% 50%, rgba(52,211,153,0.08), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.35s var(--ease);
-    pointer-events: none;
-  }
-  .tool-hero:hover {
-    border-color: rgba(52,211,153,0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 20px 48px -16px rgba(52,211,153,0.25);
-  }
-  .tool-hero:hover::before { opacity: 1; }
-  .tool-hero-main {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex: 1;
-    min-width: 0;
-    position: relative;
-    z-index: 1;
-  }
-  .tool-hero-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: var(--green-600);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    flex-shrink: 0;
-    box-shadow: 0 8px 24px -6px rgba(5,150,105,0.4);
-  }
-  .tool-hero-text { min-width: 0; }
-  .tool-hero-badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--green-400);
-    background: rgba(52,211,153,0.12);
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-bottom: 6px;
-  }
-  .tool-hero-text h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .tool-hero-text p {
-    font-size: 13px;
-    color: rgba(148,163,184,0.9);
-    line-height: 1.55;
-    margin: 0;
-    max-width: 560px;
-  }
-  .tool-hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--green-400);
-    background: rgba(52,211,153,0.1);
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(52,211,153,0.2);
-    transition: all 0.25s var(--ease);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-  }
-  .tool-hero:hover .tool-hero-cta {
-    background: var(--green-600);
-    color: #fff;
-    border-color: var(--green-600);
-  }
-  .tool-hero-arrow {
-    transition: transform 0.25s var(--ease);
-  }
-  .tool-hero:hover .tool-hero-arrow { transform: translateX(3px);
-  }
-
-  /* Tool Grid */
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-  .tool-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 18px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    transition: all 0.3s var(--ease);
-    position: relative;
-    overflow: hidden;
-  }
-  .tool-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--green-400);
-    opacity: 0;
-    transition: opacity 0.3s var(--ease);
-  }
-  .tool-card:hover {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.12);
-    transform: translateY(-2px);
-  }
-  .tool-card:hover::before { opacity: 1; }
-  .tool-card-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    transition: transform 0.3s var(--ease);
-  }
-  .tool-card:hover .tool-card-icon { transform: scale(1.08); }
-  .tool-card-body { flex: 1; min-width: 0;
-  }
-  .tool-card-title-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-  }
-  .tool-card-body h4 {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    margin: 0;
-    line-height: 1.3;
-  }
-  .tool-card-body p {
-    font-size: 12px;
-    color: rgba(203,213,225,0.9);
-    line-height: 1.5;
-    margin: 0;
-  }
-  .tool-card-tag {
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.06);
-    color: rgba(148,163,184,0.9);
-    flex-shrink: 0;
-  }
-  .tool-card-tag.tag-ai {
-    background: rgba(52,211,153,0.12);
-    color: var(--green-400);
-  }
-  .tool-card-tag.tag-new {
-    background: rgba(251,191,36,0.15);
-    color: #fbbf24;
-  }
-  .tool-card-arrow {
-    font-size: 15px;
-    color: rgba(255,255,255,0.25);
-    transition: all 0.3s var(--ease);
-    flex-shrink: 0;
-  }
-  .tool-card:hover .tool-card-arrow {
-    color: var(--green-400);
-    transform: translateX(3px);
-  }
-
-  /* ══════ NEWSLETTER CTA ══════ */
-  .cta-s {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 48px 28px 72px;
-  }
-
-  /* ══════ RESPONSIVE ══════ */
-  @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr;
-    align-items: start; gap: 24px; }
-    .hero-left { gap: 24px; }
-    .hero-left h1 { font-size: 40px;
-    }
-    .hero-left p { margin-bottom: 0; }
-    .hero { padding: 24px 24px 64px;
-    min-height: auto; }
-    .hero-right { margin-top: 0; }
-    .trust-inner { flex-wrap: wrap;
-    }
-    .trust-sep { display: none; }
-    .trust-item { flex: 1 1 45%;
-    padding: 18px 16px; }
-    .cats-grid { grid-template-columns: repeat(2, 1fr); }
-    .offers-grid { grid-template-columns: 1fr;
-    }
-    .recensioni-strip { grid-template-columns: repeat(2, 1fr); }
-    .theme-section { padding: 40px 0 32px; }
-    .theme-header h2 { font-size: 24px; }
-
-    .all-tools { padding: 40px 0 56px; }
-    .all-tools-header h2 { font-size: 24px;
-    }
-    .tool-hero {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
-      padding: 22px;
-    }
-    .tool-hero-cta { width: 100%; justify-content: center; }
-    .tool-grid { grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 500px) {
-    .trust-inner { flex-wrap: wrap;
-    }
-    .trust-item { flex: 1 1 100%; padding: 14px 18px;
-    }
-    .trust-sep { display: none; }
-    .cats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px;
-    }
-    .recensioni-strip { grid-template-columns: 1fr; gap: 8px; }
-    .rec-mini { padding: 10px 12px; }
-    .cat-card { padding: 20px 12px 16px; }
-    .cat-icon { width: 44px; height: 44px;
-    font-size: 20px; margin-bottom: 10px; }
-    .cat-card h3 { font-size: 13px;
-    }
-    .cat-card p { font-size: 11px; }
-    .cat-card .cat-arrow { top: 8px; right: 10px;
-    font-size: 12px; }
-
-    .tool-hero { padding: 18px; }
-    .tool-hero-main { gap: 14px;
-    }
-    .tool-hero-icon { width: 52px; height: 52px; font-size: 24px;
-    }
-    .tool-hero-text h3 { font-size: 18px; }
-    .tool-hero-text p { font-size: 12px;
-    }
-    .tool-grid { grid-template-columns: repeat(2, 1fr); gap: 10px;
-    }
-    .tool-card { 
-      padding: 16px 14px; 
-      gap: 0; 
-      flex-direction: column;
-      align-items: flex-start; 
-      text-align: left; 
-    }
-    .tool-card-icon { width: 36px; height: 36px; font-size: 16px; margin-bottom: 10px;
-    }
-    .tool-card-body { width: 100%; }
-    .tool-card-body h4 { font-size: 13px; line-height: 1.3;
-    }
-    .tool-card-body p { font-size: 12px; color: rgba(203,213,225,0.95); line-height: 1.45; margin-top: 4px;
-    }
-    .tool-card-tag { font-size: 8px; padding: 2px 6px; }
-    .tool-card-arrow { display: none;
-    }
+  @media (max-width: 960px) {
+    .hero-in, .week-in, .man-in { grid-template-columns: 1fr; }
+    .hero-tav { justify-self: stretch; max-width: 520px; }
+    .ticket { justify-self: start; transform: rotate(-.8deg); }
+    .how-list { grid-template-columns: 1fr; }
+    .how-list li, .how-list li + li { padding: 28px 0; border-left: 0; border-top: 1px solid var(--line-strong); }
+    .how-n { font-size: 52px; margin-bottom: 12px; }
+    .guides-list { grid-template-columns: 1fr 1fr; }
+    .g-item:nth-child(3) { padding-left: 0; border-left: 0; }
+    .g-item { border-bottom: 1px solid var(--line); }
+  }
+  @media (max-width: 560px) {
+    .guides-list { grid-template-columns: 1fr; }
+    .g-item, .g-item + .g-item { padding: 22px 0; border-left: 0; }
+    .hero-facts b { font-size: 32px; }
   }
 </style>

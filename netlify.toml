@@ -4,3 +4,32 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Recensioni affiliate dismesse → guide corrispondenti
+[[redirects]]
+  from = "/recensione-eni"
+  to = "/guida/bolletta-luce"
+  status = 301
+[[redirects]]
+  from = "/recensione-windtre"
+  to = "/internet"
+  status = 301
+[[redirects]]
+  from = "/recensione-lyca"
+  to = "/internet"
+  status = 301
+[[redirects]]
+  from = "/recensione-bbva"
+  to = "/conti-correnti"
+  status = 301
+[[redirects]]
+  from = "/recensione-hype"
+  to = "/conti-correnti"
+  status = 301
+[[redirects]]
+  from = "/analisi-bolletta"
+  to = "/casa"
+  status = 301
+
+[functions]
+  node_bundler = "esbuild"

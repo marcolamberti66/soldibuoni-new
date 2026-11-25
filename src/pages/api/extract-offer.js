@@ -5,7 +5,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 
-export var prerender = false;
+export const prerender = false;
 
 var MAX_FILE_BYTES = 8 * 1024 * 1024;
 var MODEL = 'claude-haiku-4-5-20251001';

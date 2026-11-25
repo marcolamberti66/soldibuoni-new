@@ -167,9 +167,9 @@ export const UNI_DATA = {
 
 export const TOPICS = {
   energia: {
-    icon: '⚡',
+    icon: '',
     title: 'Energia Elettrica',
-    color: '#F59E0B',
+    color: '#17150f',
     capire: {
       title: "Capire il mercato dell'energia",
       content: [
@@ -191,9 +191,9 @@ export const TOPICS = {
     }
   },
   gas: {
-    icon: '🔥',
+    icon: '',
     title: 'Gas Naturale',
-    color: '#EF4444',
+    color: '#17150f',
     capire: {
       title: "Capire il mercato del gas",
       content: [
@@ -215,9 +215,9 @@ export const TOPICS = {
     }
   },
   acqua: {
-    icon: '💧',
+    icon: '',
     title: 'Acqua',
-    color: '#3B82F6',
+    color: '#17150f',
     capire: {
       title: "Capire il servizio idrico",
       content: [
@@ -239,9 +239,9 @@ export const TOPICS = {
     }
   },
   internet: {
-    icon: '📡',
+    icon: '',
     title: 'Internet & Telefonia',
-    color: '#8B5CF6',
+    color: '#17150f',
     capire: {
       title: "Capire la connettività in Italia",
       content: [
@@ -262,9 +262,9 @@ export const TOPICS = {
     }
   },
   mutuo: {
-    icon: '🏠',
+    icon: '',
     title: 'Mutuo & Affitto',
-    color: '#10B981',
+    color: '#17150f',
     capire: {
       title: "Capire mutui e mercato immobiliare",
       content: [
@@ -286,9 +286,9 @@ export const TOPICS = {
     }
   },
   rc_auto: {
-    icon: '🚗',
+    icon: '',
     title: 'RC Auto & Assicurazioni',
-    color: '#EC4899',
+    color: '#17150f',
     capire: {
       title: "Capire le assicurazioni auto",
       content: [
@@ -310,9 +310,9 @@ export const TOPICS = {
     }
   },
   bollo_revisione: {
-    icon: '🔧',
+    icon: '',
     title: 'Bollo, Revisione & Manutenzione',
-    color: '#F97316',
+    color: '#17150f',
     capire: {
       title: "Capire gli obblighi del veicolo",
       content: [
@@ -334,9 +334,9 @@ export const TOPICS = {
     }
   },
   istruzione: {
-    icon: '🎓',
+    icon: '',
     title: 'Istruzione Universitaria',
-    color: '#6366F1',
+    color: '#17150f',
     capire: {
       title: "Capire i costi dell'università in Italia",
       content: [
@@ -359,9 +359,9 @@ export const TOPICS = {
     }
   },
   tfr_pensione: {
-    icon: '📊',
+    icon: '',
     title: 'TFR & Pensione Integrativa',
-    color: '#14B8A6',
+    color: '#17150f',
     capire: {
       title: "Capire la previdenza complementare e il TFR",
       content: []
@@ -372,9 +372,9 @@ export const TOPICS = {
     }
   },
   salute: {
-    icon: '🏥',
+    icon: '',
     title: 'Assicurazione Sanitaria',
-    color: '#DC2626',
+    color: '#17150f',
     capire: {
       title: "Capire l'assicurazione sanitaria integrativa",
       content: [
@@ -396,9 +396,9 @@ export const TOPICS = {
     }
   },
   carburante: {
-    icon: '⛽',
+    icon: '',
     title: 'Carburante',
-    color: '#84CC16',
+    color: '#17150f',
     capire: {
       title: "Capire i prezzi del carburante",
       content: [
@@ -431,8 +431,8 @@ export const CONTI_CORRENTI = [
 ];
 
 export const FUEL_PRICES = {
-  benzina: { price: 1.85, label: "Benzina", unit: "€/l", icon: "⛽", color: "#f59e0b", defaultCons: 14 },
-  diesel: { price: 1.74, label: "Diesel", unit: "€/l", icon: "🛢️", color: "#3b82f6", defaultCons: 18 },
-  gpl: { price: 0.71, label: "GPL", unit: "€/l", icon: "🍃", color: "#10b981", defaultCons: 10 },
-  elettrico: { price: 0.25, label: "Elettrico (Ricarica Domestica)", unit: "€/kWh", icon: "⚡", color: "#8b5cf6", defaultCons: 16 }
+  benzina: { price: 1.85, label: "Benzina", unit: "€/l", icon: "", color: "#84652d", defaultCons: 14 },
+  diesel: { price: 1.74, label: "Diesel", unit: "€/l", icon: "", color: "#4b5f86", defaultCons: 18 },
+  gpl: { price: 0.71, label: "GPL", unit: "€/l", icon: "", color: "#2c5a43", defaultCons: 10 },
+  elettrico: { price: 0.25, label: "Elettrico (Ricarica Domestica)", unit: "€/kWh", icon: "", color: "#7a5a6e", defaultCons: 16 }
 };

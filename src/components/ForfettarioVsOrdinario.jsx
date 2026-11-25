@@ -36,7 +36,7 @@ const CATEGORIE_ATECO = [
   { id: 'industrie', label: 'Industrie alimentari', coeff: 0.40, desc: 'Produzione e trasformazione alimentare' }
 ];
 
-const THEME = { primary: '#6366f1', soft: '#e0e7ff', bg: '#eef2ff' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // --- UTILS ---
 function calcolaIrpef(imponibile) {
@@ -145,21 +145,21 @@ export function ForfettarioVsOrdinario({ color }) {
 
   // --- STILI BASE ---
   const cardBase = {
-    background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24,
+    background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24,
     padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)'
   };
   const labelStyle = {
-    display: 'block', fontSize: 11, fontWeight: 800, color: '#475569',
+    display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
   };
   const inputStyle = {
-    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #cbd5e1',
-    borderRadius: 12, boxSizing: 'border-box', color: '#0f172a', background: '#fff', outline: 'none'
+    width: '100%', padding: '12px 14px', fontSize: 15, border: '1px solid #d6cfc1',
+    borderRadius: 12, boxSizing: 'border-box', color: '#17150f', background: '#fbfaf7', outline: 'none'
   };
   const formatEuro = (v) => `€ ${Math.round(v).toLocaleString('it-IT')}`;
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       <style dangerouslySetInnerHTML={{__html:`
         .fvo-card { padding:32px 24px; }
@@ -180,13 +180,13 @@ export function ForfettarioVsOrdinario({ color }) {
           ==================================================================== */}
       <div className="fvo-card" style={{ ...cardBase, marginBottom: 24 }}>
         <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           margin: '0 0 6px', letterSpacing: '-0.01em'
         }}>
           Simulatore regime fiscale
         </h2>
-        <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 24px' }}>
+        <p style={{ fontSize: 13, color: '#6f6a5e', margin: '0 0 24px' }}>
           Inserisci fatturato annuo, spese reali, anni di attività e categoria: il calcolatore confronta il netto in regime forfettario vs ordinario.
         </p>
 
@@ -195,7 +195,7 @@ export function ForfettarioVsOrdinario({ color }) {
           <div>
             <label style={labelStyle}>Fatturato annuo previsto (€)</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700, fontSize: 15 }}>€</span>
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8f897c', fontWeight: 700, fontSize: 15 }}>€</span>
               <input
                 type="number" min="0" step="1000"
                 value={fatturatoStr}
@@ -208,7 +208,7 @@ export function ForfettarioVsOrdinario({ color }) {
           <div>
             <label style={labelStyle}>Spese reali stimate (€)</label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700, fontSize: 15 }}>€</span>
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8f897c', fontWeight: 700, fontSize: 15 }}>€</span>
               <input
                 type="number" min="0" step="100"
                 value={speseStr}
@@ -227,8 +227,8 @@ export function ForfettarioVsOrdinario({ color }) {
               style={inputStyle}
             />
             {parseInt(anniAttivitaStr) <= ANNI_STARTUP && (
-              <div style={{ fontSize: 11, color: '#059669', fontWeight: 700, marginTop: 4 }}>
-                ✓ Aliquota startup agevolata 5% attiva
+              <div style={{ fontSize: 11, color: '#2c5a43', fontWeight: 700, marginTop: 4 }}>
+                Aliquota startup agevolata 5% attiva
               </div>
             )}
           </div>
@@ -247,14 +247,14 @@ export function ForfettarioVsOrdinario({ color }) {
               </option>
             ))}
           </select>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 6 }}>{catSelected.desc}</div>
+          <div style={{ fontSize: 12, color: '#6f6a5e', marginTop: 6 }}>{catSelected.desc}</div>
         </div>
 
         <div>
           <label style={labelStyle}>Contribuzione previdenziale</label>
           <div style={{
             display: 'flex', flexWrap: 'wrap',
-            background: '#f1f5f9', padding: 6, borderRadius: 14, gap: 4
+            background: '#ece7dd', padding: 6, borderRadius: 14, gap: 4
           }}>
             {[
               { id: 'gestione_separata', label: 'Gestione Separata INPS', sub: 'freelance senza cassa' },
@@ -269,8 +269,8 @@ export function ForfettarioVsOrdinario({ color }) {
                   style={{
                     flex: '1 1 130px', padding: '10px 12px',
                     borderRadius: 10, border: 'none',
-                    background: active ? '#fff' : 'transparent',
-                    color: active ? themeColor : '#64748b',
+                    background: active ? '#fbfaf7' : 'transparent',
+                    color: active ? themeColor : '#6f6a5e',
                     fontSize: 12, fontWeight: 700, cursor: 'pointer',
                     boxShadow: active ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
                     transition: 'all 0.2s', textAlign: 'left', lineHeight: 1.2
@@ -283,7 +283,7 @@ export function ForfettarioVsOrdinario({ color }) {
             })}
           </div>
           {tipoInps === 'cassa_propria' && (
-            <div style={{ fontSize: 11, color: '#64748b', marginTop: 6, fontStyle: 'italic' }}>
+            <div style={{ fontSize: 11, color: '#6f6a5e', marginTop: 6, fontStyle: 'italic' }}>
               ⓘ Per le casse professionali i contributi variano molto (5-18%): il calcolatore non li include. Aggiungili manualmente alle "spese reali" se vuoi un risultato completo.
             </div>
           )}
@@ -295,13 +295,13 @@ export function ForfettarioVsOrdinario({ color }) {
           ==================================================================== */}
       {risultati.oltre100k && (
         <div style={{
-          background: '#fee2e2', border: '2px solid #dc2626',
+          background: '#f4e1d6', border: '2px solid #9b4220',
           borderRadius: 16, padding: '16px 20px', marginBottom: 24
         }}>
-          <div style={{ fontWeight: 900, color: '#991b1b', fontSize: 15, marginBottom: 6 }}>
-            🚨 Oltre la soglia di uscita immediata (€100.000)
+          <div style={{ fontWeight: 900, color: '#7d3519', fontSize: 15, marginBottom: 6 }}>
+            Oltre la soglia di uscita immediata (€100.000)
           </div>
-          <div style={{ fontSize: 13, color: '#991b1b', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 13, color: '#7d3519', lineHeight: 1.6 }}>
             Superare i €100.000 di fatturato annuo comporta la <strong>cessazione immediata del regime forfettario nello stesso anno</strong>. Dovrai applicare l'IVA alle fatture emesse dopo il superamento e tassazione IRPEF ordinaria sull'intero reddito dell'anno. Il confronto sotto è puramente teorico.
           </div>
         </div>
@@ -309,13 +309,13 @@ export function ForfettarioVsOrdinario({ color }) {
 
       {risultati.sopraSoglia85k && !risultati.oltre100k && (
         <div style={{
-          background: '#fef3c7', border: '2px solid #f59e0b',
+          background: '#efe5cf', border: '2px solid #84652d',
           borderRadius: 16, padding: '16px 20px', marginBottom: 24
         }}>
-          <div style={{ fontWeight: 900, color: '#92400e', fontSize: 15, marginBottom: 6 }}>
-            ⚠️ Oltre la soglia di accesso (€85.000)
+          <div style={{ fontWeight: 900, color: '#6b5124', fontSize: 15, marginBottom: 6 }}>
+            Oltre la soglia di accesso (€85.000)
           </div>
-          <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 13, color: '#6b5124', lineHeight: 1.6 }}>
             Con un fatturato tra €85.000 e €100.000 <strong>resti in forfettario per l'anno in corso</strong>, ma dal 1° gennaio successivo passi automaticamente al regime ordinario. Programma in anticipo il passaggio (apertura conto IVA, numerazione fatture, software di contabilità).
           </div>
         </div>
@@ -330,14 +330,14 @@ export function ForfettarioVsOrdinario({ color }) {
         borderRadius: 24, padding: '28px 24px', marginBottom: 24, textAlign: 'center'
       }}>
         <div style={{
-          fontSize: 11, color: '#64748b', fontWeight: 800,
+          fontSize: 11, color: '#6f6a5e', fontWeight: 800,
           textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10
         }}>
           Confronto netto annuo
         </div>
         <div style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22, fontWeight: 800, color: '#0f172a',
+          fontFamily: "var(--f-display)",
+          fontSize: 22, fontWeight: 800, color: '#17150f',
           marginBottom: 8, lineHeight: 1.3
         }}>
           {!risultati.eligibile
@@ -349,10 +349,10 @@ export function ForfettarioVsOrdinario({ color }) {
         {risultati.startup && risultati.convieneForf && risultati.eligibile && (
           <div style={{
             display: 'inline-block',
-            fontSize: 12, color: '#059669', fontWeight: 800,
-            background: '#dcfce7', padding: '6px 14px', borderRadius: 20, marginTop: 6
+            fontSize: 12, color: '#2c5a43', fontWeight: 800,
+            background: '#e1ebe3', padding: '6px 14px', borderRadius: 20, marginTop: 6
           }}>
-            ✨ Aliquota startup 5% attiva (primi 5 anni)
+            Aliquota startup 5% attiva (primi 5 anni)
           </div>
         )}
       </div>
@@ -368,12 +368,12 @@ export function ForfettarioVsOrdinario({ color }) {
 
         {/* FORFETTARIO */}
         <div style={{
-          background: '#fff',
+          background: '#fbfaf7',
           border: risultati.convieneForf && risultati.eligibile
             ? `2px solid ${themeColor}`
             : !risultati.eligibile
-              ? '1px solid #fecaca'
-              : '1px solid #e2e8f0',
+              ? '1px solid #e8c4b2'
+              : '1px solid #e6e0d4',
           borderRadius: 24, padding: 24, position: 'relative',
           opacity: !risultati.eligibile ? 0.6 : 1,
           boxShadow: risultati.convieneForf && risultati.eligibile
@@ -383,52 +383,52 @@ export function ForfettarioVsOrdinario({ color }) {
           {risultati.convieneForf && risultati.eligibile && (
             <div style={{
               position: 'absolute', top: -12, left: 20,
-              background: themeColor, color: '#fff',
+              background: themeColor, color: '#fbfaf7',
               fontSize: 10, fontWeight: 900,
               padding: '4px 12px', borderRadius: 20,
               letterSpacing: '0.05em'
-            }}>🥇 SCELTA MIGLIORE</div>
+            }}>SCELTA MIGLIORE</div>
           )}
-          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>
+          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#17150f', marginBottom: 4 }}>
             Regime Forfettario
           </h3>
-          <div style={{ fontSize: 12, color: '#64748b', marginBottom: 18 }}>
+          <div style={{ fontSize: 12, color: '#6f6a5e', marginBottom: 18 }}>
             Imposta sostitutiva {Math.round(risultati.aliquotaForf * 100)}% · Base {Math.round(catSelected.coeff * 100)}% del fatturato
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Reddito imponibile forfettario</span>
-              <span style={{ color: '#0f172a', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#17150f', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 {formatEuro(risultati.forf.redditoImponibile)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Contributi INPS</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(risultati.forf.inps)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Imposta sostitutiva</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(risultati.forf.imposta)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Spese reali sostenute</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(parseFloat(speseStr) || 0)}
               </span>
             </div>
-            <div style={{ height: 1, background: '#e2e8f0', margin: '8px 0' }} />
+            <div style={{ height: 1, background: '#e6e0d4', margin: '8px 0' }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 11, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span style={{ fontSize: 11, color: '#6f6a5e', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Netto in mano
               </span>
               <span style={{
                 fontSize: 26, fontWeight: 900,
-                color: risultati.convieneForf && risultati.eligibile ? themeColor : '#0f172a',
+                color: risultati.convieneForf && risultati.eligibile ? themeColor : '#17150f',
                 fontVariantNumeric: 'tabular-nums'
               }}>
                 {formatEuro(risultati.forf.netto)}
@@ -439,10 +439,10 @@ export function ForfettarioVsOrdinario({ color }) {
 
         {/* ORDINARIO */}
         <div style={{
-          background: '#fff',
+          background: '#fbfaf7',
           border: !risultati.convieneForf || !risultati.eligibile
             ? `2px solid ${themeColor}`
-            : '1px solid #e2e8f0',
+            : '1px solid #e6e0d4',
           borderRadius: 24, padding: 24, position: 'relative',
           boxShadow: !risultati.convieneForf || !risultati.eligibile
             ? `0 20px 40px -12px ${themeColor}30`
@@ -451,52 +451,52 @@ export function ForfettarioVsOrdinario({ color }) {
           {(!risultati.convieneForf || !risultati.eligibile) && (
             <div style={{
               position: 'absolute', top: -12, left: 20,
-              background: themeColor, color: '#fff',
+              background: themeColor, color: '#fbfaf7',
               fontSize: 10, fontWeight: 900,
               padding: '4px 12px', borderRadius: 20,
               letterSpacing: '0.05em'
-            }}>🥇 SCELTA MIGLIORE</div>
+            }}>SCELTA MIGLIORE</div>
           )}
-          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>
+          <h3 style={{ fontSize: 18, fontWeight: 800, color: '#17150f', marginBottom: 4 }}>
             Regime Ordinario
           </h3>
-          <div style={{ fontSize: 12, color: '#64748b', marginBottom: 18 }}>
+          <div style={{ fontSize: 12, color: '#6f6a5e', marginBottom: 18 }}>
             IRPEF a scaglioni + addizionali · spese deducibili
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Utile (fatturato − spese)</span>
-              <span style={{ color: '#0f172a', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#17150f', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 {formatEuro(risultati.ord.reddito)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Contributi INPS</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(risultati.ord.inps)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>IRPEF (3 scaglioni)</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(risultati.ord.irpef)}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748b' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#6f6a5e' }}>
               <span>Addizionali regionale + comunale</span>
-              <span style={{ color: '#dc2626', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ color: '#9b4220', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                 − {formatEuro(risultati.ord.addRegionale + risultati.ord.addComunale)}
               </span>
             </div>
-            <div style={{ height: 1, background: '#e2e8f0', margin: '8px 0' }} />
+            <div style={{ height: 1, background: '#e6e0d4', margin: '8px 0' }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 11, color: '#64748b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span style={{ fontSize: 11, color: '#6f6a5e', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Netto in mano
               </span>
               <span style={{
                 fontSize: 26, fontWeight: 900,
-                color: !risultati.convieneForf || !risultati.eligibile ? themeColor : '#0f172a',
+                color: !risultati.convieneForf || !risultati.eligibile ? themeColor : '#17150f',
                 fontVariantNumeric: 'tabular-nums'
               }}>
                 {formatEuro(risultati.ord.netto)}
@@ -511,12 +511,12 @@ export function ForfettarioVsOrdinario({ color }) {
           NOTA METODOLOGICA SEMPRE VISIBILE
           ==================================================================== */}
       <div style={{
-        padding: '16px 20px', background: '#fffbeb',
-        border: '1px solid #fbbf24', borderRadius: 14,
-        fontSize: 12, color: '#78350f', lineHeight: 1.7, marginBottom: 24
+        padding: '16px 20px', background: '#f6f0e2',
+        border: '1px solid #b0852b', borderRadius: 14,
+        fontSize: 12, color: '#6b5124', lineHeight: 1.7, marginBottom: 24
       }}>
-        <strong style={{ color: '#92400e', display: 'block', marginBottom: 6 }}>
-          ℹ️ Come leggere questi numeri
+        <strong style={{ color: '#6b5124', display: 'block', marginBottom: 6 }}>
+          ℹCome leggere questi numeri
         </strong>
         Il calcolatore confronta il <strong>netto in mano</strong> nei due regimi, sottraendo sempre dal fatturato le spese reali dichiarate (anche in forfettario, dove non sono deducibili fiscalmente ma le hai comunque sostenute). L'ordinario usa una media di addizionali regionale (1,73%) e comunale (0,8%): nel tuo comune possono essere più alte o più basse. <strong>Non sono incluse</strong>: IRAP (non si applica a contribuenti senza autonoma organizzazione), detrazioni personali (spese mediche, familiari a carico, mutuo prima casa, ristrutturazioni: valide solo in ordinario e possono ribaltare il risultato), IVA sulle vendite (il forfettario non la applica, l'ordinario sì ma la compensa su acquisti).
       </div>
@@ -525,12 +525,12 @@ export function ForfettarioVsOrdinario({ color }) {
           DISCLAIMER LEGALE
           ==================================================================== */}
       <div style={{
-        padding: '20px 24px', background: '#f8fafc',
-        border: '1px solid #e2e8f0', borderRadius: 16,
-        fontSize: 11, color: '#64748b', lineHeight: 1.7
+        padding: '20px 24px', background: '#f5f2ec',
+        border: '1px solid #e6e0d4', borderRadius: 16,
+        fontSize: 11, color: '#6f6a5e', lineHeight: 1.7
       }}>
-        <div style={{ fontWeight: 800, color: '#0f172a', marginBottom: 8, fontSize: 12 }}>
-          ⚠️ Disclaimer legale
+        <div style={{ fontWeight: 800, color: '#17150f', marginBottom: 8, fontSize: 12 }}>
+          Disclaimer legale
         </div>
         <p style={{ margin: '0 0 8px' }}>
           <strong>Strumento informativo, non consulenza fiscale.</strong> SoldiBuoni non è un commercialista iscritto all'ODCEC e non fornisce consulenza fiscale personalizzata ai sensi del D.Lgs. 139/2005. Questo simulatore offre un confronto approssimato basato sulle aliquote 2026 e su semplificazioni metodologiche.

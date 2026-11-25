@@ -10,19 +10,15 @@ const topicGas = TOPICS.gas;
 <Layout title="Calcolatore Bollette Luce e Gas | SoldiBuoni" description="Usa il nostro calcolatore indipendente per smascherare i costi nascosti delle bollette e confrontare il reale costo delle offerte luce e gas.">
   <div style="max-width: 960px; margin: 0 auto; padding: 36px 20px 80px;">
     
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 32px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: linear-gradient(135deg, ${topicEnergia.color}14, ${topicGas.color}14); flex-shrink: 0;`}>
-        ⚡🔥
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 800; color: #0f172a; margin: 0;">
-        Le tariffe <span style={`background: linear-gradient(to right, ${topicEnergia.color}, ${topicGas.color}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;`}>Luce & Gas</span>
-      </h1>
-    </div>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">Le tariffe <span style={`background: linear-gradient(to right, ${topicEnergia.color}, ${topicGas.color}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;`}>Luce & Gas</span></h1>
+    </header>
 
     <div class="tab-container">
-      <button class="tab-btn active" data-target="tab-confronta">🧮 <span class="tab-label">Calcolatore</span></button>
-      <button class="tab-btn" data-target="tab-capire">📖 <span class="tab-label">Il mercato</span></button>
-      <button class="tab-btn" data-target="tab-guida">💡 <span class="tab-label">Come scegliere</span></button>
+      <button class="tab-btn active" data-target="tab-confronta"><span class="tab-label">Calcolatore</span></button>
+      <button class="tab-btn" data-target="tab-capire"><span class="tab-label">Il mercato</span></button>
+      <button class="tab-btn" data-target="tab-guida"><span class="tab-label">Come scegliere</span></button>
     </div>
 
     <div id="tab-confronta" class="tab-content" style="display: block;">
@@ -34,39 +30,39 @@ const topicGas = TOPICS.gas;
         
         <!-- SEZIONE LUCE -->
         <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
-            ⚡ Come funziona il mercato elettrico
+          <h2 style={`font-family: var(--f-display); font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            Come funziona il mercato elettrico
           </h2>
           <div class="info-card">
             <h3 style={`color: ${topicEnergia.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il PUN: il prezzo all'ingrosso della luce</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il PUN (Prezzo Unico Nazionale) è il costo dell'energia elettrica scambiata alla Borsa Elettrica italiana. Viene aggiornato ogni ora e varia in base alla domanda e alla produzione. Quando scegli un'offerta a prezzo variabile, il tuo fornitore ti addebita il PUN medio del mese più uno spread (il suo margine). Nelle offerte a prezzo fisso, il fornitore si assume il rischio della volatilità e blocca il prezzo per te.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">Il PUN (Prezzo Unico Nazionale) è il costo dell'energia elettrica scambiata alla Borsa Elettrica italiana. Viene aggiornato ogni ora e varia in base alla domanda e alla produzione. Quando scegli un'offerta a prezzo variabile, il tuo fornitore ti addebita il PUN medio del mese più uno spread (il suo margine). Nelle offerte a prezzo fisso, il fornitore si assume il rischio della volatilità e blocca il prezzo per te.</p>
           </div>
           <div class="info-card">
             <h3 style={`color: ${topicEnergia.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Cosa pesa davvero sulla tua bolletta luce</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">La componente energia (quella su cui puoi agire scegliendo il fornitore) rappresenta circa il 45-55% della bolletta. Il resto è composto da costi di trasporto e gestione del contatore (fissi, uguali per tutti), oneri di sistema (tasse che finanziano le rinnovabili e la dismissione del nucleare) e imposte (IVA al 10% e accise). Nel nostro calcolatore, il moltiplicatore CRAS stima questi costi aggiuntivi in modo forfettario.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">La componente energia (quella su cui puoi agire scegliendo il fornitore) rappresenta circa il 45-55% della bolletta. Il resto è composto da costi di trasporto e gestione del contatore (fissi, uguali per tutti), oneri di sistema (tasse che finanziano le rinnovabili e la dismissione del nucleare) e imposte (IVA al 10% e accise). Nel nostro calcolatore, il moltiplicatore CRAS stima questi costi aggiuntivi in modo forfettario.</p>
           </div>
           <div class="info-card">
             <h3 style={`color: ${topicEnergia.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Fisso o variabile: cosa conviene per la luce?</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il prezzo dell'elettricità è storicamente meno volatile di quello del gas, perché in Italia parte della produzione viene da fonti rinnovabili e nucleare importato. Per chi cerca tranquillità, il prezzo fisso offre la certezza della spesa mensile. Per chi accetta un minimo di rischio, il variabile ha storicamente restituito un risparmio medio del 5-10% su base annua, a patto di non incappare in picchi stagionali.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">Il prezzo dell'elettricità è storicamente meno volatile di quello del gas, perché in Italia parte della produzione viene da fonti rinnovabili e nucleare importato. Per chi cerca tranquillità, il prezzo fisso offre la certezza della spesa mensile. Per chi accetta un minimo di rischio, il variabile ha storicamente restituito un risparmio medio del 5-10% su base annua, a patto di non incappare in picchi stagionali.</p>
           </div>
         </div>
 
         <!-- SEZIONE GAS -->
         <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
-            🔥 Come funziona il mercato del gas
+          <h2 style={`font-family: var(--f-display); font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            Come funziona il mercato del gas
           </h2>
           <div class="info-card">
             <h3 style={`color: ${topicGas.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Il PSV: il prezzo all'ingrosso del gas</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Il PSV (Punto di Scambio Virtuale) è il riferimento per il prezzo del gas naturale in Italia. A differenza della luce, il prezzo del gas è fortemente influenzato da fattori geopolitici (forniture dalla Russia, dalla Norvegia, GNL dagli USA) e dalla stagionalità: in inverno, la domanda per riscaldamento fa impennare i prezzi. Questo rende le offerte a prezzo variabile per il gas più rischiose rispetto a quelle per la luce.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">Il PSV (Punto di Scambio Virtuale) è il riferimento per il prezzo del gas naturale in Italia. A differenza della luce, il prezzo del gas è fortemente influenzato da fattori geopolitici (forniture dalla Russia, dalla Norvegia, GNL dagli USA) e dalla stagionalità: in inverno, la domanda per riscaldamento fa impennare i prezzi. Questo rende le offerte a prezzo variabile per il gas più rischiose rispetto a quelle per la luce.</p>
           </div>
           <div class="info-card">
             <h3 style={`color: ${topicGas.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Cosa pesa davvero sulla tua bolletta gas</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Anche nella bolletta del gas, la materia prima è solo una parte del totale. I costi fissi di trasporto, distribuzione e gestione contatore pesano in proporzione di più rispetto alla luce, soprattutto se i tuoi consumi sono bassi. In più, l'IVA sul gas è al 10% per i primi 480 Smc (uso domestico con riscaldamento) e al 22% per quelli eccedenti, una differenza fiscale importante rispetto all'energia elettrica.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">Anche nella bolletta del gas, la materia prima è solo una parte del totale. I costi fissi di trasporto, distribuzione e gestione contatore pesano in proporzione di più rispetto alla luce, soprattutto se i tuoi consumi sono bassi. In più, l'IVA sul gas è al 10% per i primi 480 Smc (uso domestico con riscaldamento) e al 22% per quelli eccedenti, una differenza fiscale importante rispetto all'energia elettrica.</p>
           </div>
           <div class="info-card">
             <h3 style={`color: ${topicGas.color}; font-size: 16px; font-weight: 800; margin-bottom: 8px;`}>Fisso o variabile: cosa conviene per il gas?</h3>
-            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0;">Per il gas, la scelta è più delicata. La forte stagionalità e la dipendenza da forniture estere rendono il prezzo variabile molto più imprevedibile. Se hai un riscaldamento autonomo a gas (consumi sopra i 1.000 Smc/anno), un prezzo fisso ti protegge da inverni con bollette impreviste. Se usi il gas solo per cucinare e l'acqua calda (consumi sotto i 400 Smc), l'importo è talmente basso che la differenza tra fisso e variabile diventa marginale.</p>
+            <p style="color: #47433a; font-size: 15px; line-height: 1.7; margin: 0;">Per il gas, la scelta è più delicata. La forte stagionalità e la dipendenza da forniture estere rendono il prezzo variabile molto più imprevedibile. Se hai un riscaldamento autonomo a gas (consumi sopra i 1.000 Smc/anno), un prezzo fisso ti protegge da inverni con bollette impreviste. Se usi il gas solo per cucinare e l'acqua calda (consumi sotto i 400 Smc), l'importo è talmente basso che la differenza tra fisso e variabile diventa marginale.</p>
           </div>
         </div>
 
@@ -78,29 +74,29 @@ const topicGas = TOPICS.gas;
         
         <!-- GUIDA LUCE -->
         <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
-            ⚡ Scegliere l'offerta luce
+          <h2 style={`font-family: var(--f-display); font-size: 24px; color: ${topicEnergia.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            Scegliere l'offerta luce
           </h2>
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div class="step-card">
               <div class="step-number" style={`background: ${topicEnergia.color}; box-shadow: 0 4px 12px ${topicEnergia.color}40;`}>1</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Recupera il tuo consumo annuo reale</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Lo trovi sull'ultima bolletta alla voce "consumo annuo" o nell'area clienti del tuo fornitore. Una famiglia di 2 persone consuma in media circa 2.700 kWh/anno. Se non trovi il dato, usa il nostro preset come punto di partenza.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Recupera il tuo consumo annuo reale</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Lo trovi sull'ultima bolletta alla voce "consumo annuo" o nell'area clienti del tuo fornitore. Una famiglia di 2 persone consuma in media circa 2.700 kWh/anno. Se non trovi il dato, usa il nostro preset come punto di partenza.</p>
               </div>
             </div>
             <div class="step-card">
               <div class="step-number" style={`background: ${topicEnergia.color}; box-shadow: 0 4px 12px ${topicEnergia.color}40;`}>2</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Confronta il CRAS, non il prezzo al kWh</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Il prezzo al kWh è fuorviante se preso da solo. Un'offerta con prezzo basso ma costi fissi alti può costare di più di una con prezzo leggermente superiore ma senza canone. Il nostro calcolatore ti mostra il costo totale annuo stimato tenendo conto di entrambe le componenti.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Confronta il CRAS, non il prezzo al kWh</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Il prezzo al kWh è fuorviante se preso da solo. Un'offerta con prezzo basso ma costi fissi alti può costare di più di una con prezzo leggermente superiore ma senza canone. Il nostro calcolatore ti mostra il costo totale annuo stimato tenendo conto di entrambe le componenti.</p>
               </div>
             </div>
             <div class="step-card">
               <div class="step-number" style={`background: ${topicEnergia.color}; box-shadow: 0 4px 12px ${topicEnergia.color}40;`}>3</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica la durata del prezzo bloccato</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Le offerte a prezzo fisso hanno una scadenza (tipicamente 12 o 24 mesi). Al termine, il fornitore ti sposta su condizioni di rinnovo che sono quasi sempre più care. Segna in calendario la data di scadenza e ricordati di rinegoziare o cambiare fornitore prima che scatti il rinnovo automatico.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Verifica la durata del prezzo bloccato</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Le offerte a prezzo fisso hanno una scadenza (tipicamente 12 o 24 mesi). Al termine, il fornitore ti sposta su condizioni di rinnovo che sono quasi sempre più care. Segna in calendario la data di scadenza e ricordati di rinegoziare o cambiare fornitore prima che scatti il rinnovo automatico.</p>
               </div>
             </div>
           </div>
@@ -108,29 +104,29 @@ const topicGas = TOPICS.gas;
 
         <!-- GUIDA GAS -->
         <div>
-          <h2 style={`font-family: 'Playfair Display',serif; font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
-            🔥 Scegliere l'offerta gas
+          <h2 style={`font-family: var(--f-display); font-size: 24px; color: ${topicGas.color}; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;`}>
+            Scegliere l'offerta gas
           </h2>
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div class="step-card">
               <div class="step-number" style={`background: ${topicGas.color}; box-shadow: 0 4px 12px ${topicGas.color}40;`}>1</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Calcola il tuo consumo invernale</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Se usi il gas per il riscaldamento, l'80% del tuo consumo annuale si concentra tra ottobre e marzo. Verifica il consumo annuo in Smc sulla bolletta. Attenzione: alcune bollette riportano i consumi in mc (metri cubi standard alla temperatura e pressione del contatore), non in Smc. Il fattore di conversione è indicato in bolletta.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Calcola il tuo consumo invernale</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Se usi il gas per il riscaldamento, l'80% del tuo consumo annuale si concentra tra ottobre e marzo. Verifica il consumo annuo in Smc sulla bolletta. Attenzione: alcune bollette riportano i consumi in mc (metri cubi standard alla temperatura e pressione del contatore), non in Smc. Il fattore di conversione è indicato in bolletta.</p>
               </div>
             </div>
             <div class="step-card">
               <div class="step-number" style={`background: ${topicGas.color}; box-shadow: 0 4px 12px ${topicGas.color}40;`}>2</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Valuta il dual fuel con cautela</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Molti fornitori offrono sconti per chi attiva luce e gas insieme ("dual fuel"). Può essere conveniente, ma leggi bene: a volte lo sconto si applica solo al primo anno, oppure è condizionato alla domiciliazione bancaria. Confronta sempre il costo annuo totale di entrambe le utenze, non limitarti a guardare lo sconto promozionale.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Valuta il dual fuel con cautela</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Molti fornitori offrono sconti per chi attiva luce e gas insieme ("dual fuel"). Può essere conveniente, ma leggi bene: a volte lo sconto si applica solo al primo anno, oppure è condizionato alla domiciliazione bancaria. Confronta sempre il costo annuo totale di entrambe le utenze, non limitarti a guardare lo sconto promozionale.</p>
               </div>
             </div>
             <div class="step-card">
               <div class="step-number" style={`background: ${topicGas.color}; box-shadow: 0 4px 12px ${topicGas.color}40;`}>3</div>
               <div>
-                <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla le penali e il diritto di recesso</h3>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0;">Per legge, nel mercato libero dell'energia il recesso è gratuito con un preavviso di 30 giorni, a meno che tu non abbia sottoscritto uno sconto legato a un impegno di permanenza. Leggi sempre le condizioni generali di fornitura e verifica che non ci siano clausole penali nascoste, anche se il fornitore dichiara "zero penali". Se hai dubbi, puoi consultare gratuitamente lo Sportello del Consumatore ARERA.</p>
+                <h3 style="color: #17150f; font-size: 16px; font-weight: 800; margin-bottom: 6px;">Controlla le penali e il diritto di recesso</h3>
+                <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0;">Per legge, nel mercato libero dell'energia il recesso è gratuito con un preavviso di 30 giorni, a meno che tu non abbia sottoscritto uno sconto legato a un impegno di permanenza. Leggi sempre le condizioni generali di fornitura e verifica che non ci siano clausole penali nascoste, anche se il fornitore dichiara "zero penali". Se hai dubbi, puoi consultare gratuitamente lo Sportello del Consumatore ARERA.</p>
               </div>
             </div>
           </div>
@@ -147,7 +143,7 @@ const topicGas = TOPICS.gas;
     display: flex;
     gap: 6px;
     margin-bottom: 32px;
-    background: #fff;
+    background: #fbfaf7;
     padding: 6px;
     border-radius: 16px;
     border: 1px solid rgba(0,0,0,0.04);
@@ -167,21 +163,21 @@ const topicGas = TOPICS.gas;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 700;
-    color: #64748b;
+    color: #6f6a5e;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     font-family: inherit;
     white-space: nowrap;
   }
-  .tab-btn:hover { background: #f8fafc; color: #0f172a; }
+  .tab-btn:hover { background: #f5f2ec; color: #17150f; }
   .tab-btn.active {
-    background: #0f172a;
-    color: #fff;
-    box-shadow: 0 8px 20px -6px rgba(15,23,42,0.4);
+    background: #17150f;
+    color: #fbfaf7;
+    box-shadow: 0 8px 20px -6px rgba(23,21,15,0.4);
   }
 
   .info-card {
-    background: #fff; 
+    background: #fbfaf7; 
     border-radius: 20px; 
     padding: 24px; 
     margin-bottom: 16px; 
@@ -195,7 +191,7 @@ const topicGas = TOPICS.gas;
   }
 
   .step-card {
-    background: #fff; 
+    background: #fbfaf7; 
     border-radius: 20px; 
     padding: 24px; 
     border: 1px solid rgba(0,0,0,0.04); 
@@ -211,7 +207,7 @@ const topicGas = TOPICS.gas;
   .step-number {
     width: 36px; height: 36px; 
     border-radius: 12px; 
-    color: #fff; 
+    color: #fbfaf7; 
     display: flex; align-items: center; justify-content: center; 
     font-weight: 800; font-size: 16px; flex-shrink: 0;
   }

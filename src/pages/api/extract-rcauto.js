@@ -3,7 +3,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 
-export var prerender = false;
+export const prerender = false;
 
 var MAX_FILE_BYTES = 8 * 1024 * 1024;
 // Allineato agli altri endpoint: Haiku 4.5 - piu accurato su OCR di PDF assicurativi.

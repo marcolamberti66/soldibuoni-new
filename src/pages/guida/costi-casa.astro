@@ -1,0 +1,41 @@
+---
+import Articolo from '../../components/Articolo.astro';
+---
+<Articolo
+  title="Tutte le spese fisse di una casa · SoldiBuoni"
+  description="La mappa completa delle spese ricorrenti di un'abitazione in Italia: utenze, condominio, TARI, assicurazione. Come metterle in fila e calcolare il costo mensile reale."
+  eyebrow="Spese della casa"
+  titolo="Tutte le spese fisse<br /><em>di una casa</em>"
+  lead="Ognuna arriva con una cadenza diversa: mensile, bimestrale, trimestrale, annuale. Per questo è difficile sapere quanto costa davvero una casa al mese, finché non le metti in fila."
+  aggiornato="2026-11-25"
+>
+  <h2>La mappa</h2>
+  <table>
+    <thead><tr><th>Voce</th><th>Cadenza tipica</th><th>Da cosa dipende</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Luce</strong></td><td>Mensile o bimestrale</td><td>Consumi, offerta, potenza impegnata</td></tr>
+      <tr><td><strong>Gas</strong></td><td>Mensile o bimestrale</td><td>Riscaldamento, zona climatica, offerta</td></tr>
+      <tr><td><strong>Acqua</strong></td><td>Trimestrale o quadrimestrale</td><td>Gestore locale, consumi, componenti del nucleo</td></tr>
+      <tr><td><strong>TARI</strong></td><td>Annuale, di solito in 2–4 rate</td><td>Comune, metri quadri, componenti del nucleo</td></tr>
+      <tr><td><strong>Condominio</strong></td><td>Di solito trimestrale</td><td>Millesimi, servizi, riscaldamento se centralizzato</td></tr>
+      <tr><td><strong>Internet</strong></td><td>Mensile o bimestrale</td><td>Offerta, fine promozione</td></tr>
+      <tr><td><strong>Assicurazione casa</strong></td><td>Annuale</td><td>Coperture scelte</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Come calcolare il costo mensile reale</h2>
+  <p>Per le voci con bolletta, somma gli importi degli ultimi dodici mesi e dividi per dodici. Fare la media di una sola bolletta inganna: il gas di gennaio e quello di luglio non hanno niente in comune. Per le voci senza bolletta, dividi l'importo per i mesi della frequenza: una rata trimestrale di condominio da 240 € vale 80 € al mese.</p>
+  <p class="note">Il numero che conta è il totale mensile medio su un anno. È quello da confrontare con il reddito, e quello che ti dice se un cambio di fornitore vale la fatica.</p>
+
+  <h2>Riferimenti per i consumi</h2>
+  <p>ARERA usa come riferimento un <strong>cliente domestico tipo</strong> con 2.700 kWh di luce l'anno e 3 kW di potenza impegnata, e 1.400 Smc di gas l'anno con riscaldamento autonomo. Sono valori di regolazione, non medie per numero di persone: servono come ordine di grandezza, non come obiettivo.</p>
+
+  <h2>Le scadenze che costano</h2>
+  <ul>
+    <li><strong>Fine delle condizioni economiche</strong> di luce e gas: alla scadenza il prezzo può cambiare.</li>
+    <li><strong>Fine della promozione</strong> internet e mobile: il canone sale al listino.</li>
+    <li><strong>Rate TARI e condominio</strong>: in ritardo si pagano interessi e sanzioni.</li>
+    <li><strong>Rinnovo dell'assicurazione</strong>: spesso tacito, e con un nuovo premio.</li>
+  </ul>
+  <p>Metterle in un unico calendario è metà del lavoro. L'altra metà è guardarle in tempo.</p>
+</Articolo>

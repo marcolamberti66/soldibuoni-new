@@ -25,7 +25,7 @@ const DEFAULT_OFFERS = [
   }
 ];
 
-const THEME = { primary: '#7c3aed', soft: '#ede9fe', bg: '#faf5ff' };
+const THEME = { primary: '#17150f', soft: '#ece7dd', bg: '#f5f2ec' };
 
 // ============================================================================
 // MOTORE DI CALCOLO
@@ -86,21 +86,6 @@ export function InternetComp() {
       calc24: calcolaCosti(off, 24)
     })),
     [offerte, permanenza]
-  );
-
-  // Profilo WindTre Super Fibra (per calcolo confronto coerente)
-  const WINDTRE_PROFILE = {
-    canonePromo: '19.99',
-    durataPromo: 12,
-    canonePieno: '23.99',
-    attivazione: '47.76',     // 1.99 × 24 mesi rateizzati
-    rataModem: '5.99',
-    durataModem: 48,
-    penaleRecesso: '0'
-  };
-  const windtreCalc = useMemo(
-    () => calcolaCosti(WINDTRE_PROFILE, permanenza),
-    [permanenza]
   );
 
   const minTotaleUtente = risultati.length > 0 ? Math.min(...risultati.map(r => r.calc.totale)) : 0;
@@ -187,17 +172,17 @@ export function InternetComp() {
     return '€ ' + v.toLocaleString('it-IT', { minimumFractionDigits: d, maximumFractionDigits: d });
   };
 
-  const cardBase = { background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' };
-  const labelStyle = { display: 'block', fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 };
-  const miniLabel = { fontSize: 11, fontWeight: 800, color: '#475569', display: 'block', marginBottom: 4 };
-  const miniInput = { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #cbd5e1', boxSizing: 'border-box', fontVariantNumeric: 'tabular-nums', fontSize: 14 };
+  const cardBase = { background: '#fbfaf7', border: '1px solid #e6e0d4', borderRadius: 24, padding: '32px 24px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' };
+  const labelStyle = { display: 'block', fontSize: 11, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 };
+  const miniLabel = { fontSize: 11, fontWeight: 800, color: '#47433a', display: 'block', marginBottom: 4 };
+  const miniInput = { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #d6cfc1', boxSizing: 'border-box', fontVariantNumeric: 'tabular-nums', fontSize: 14 };
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', fontFamily: 'var(--f-ui)' }}>
 
       <style dangerouslySetInnerHTML={{__html:`
-        .inet-perm-box { display:flex; gap:12px; align-items:stretch; background:#f8fafc; padding:6px; border-radius:16px; border:1px solid #e2e8f0; }
-        .inet-perm-input { width:120px; padding:10px 14px; font-size:20px; border:1px solid #cbd5e1; border-radius:12px; font-weight:800; background:#fff; font-variant-numeric:tabular-nums; outline:none; box-sizing:border-box; }
+        .inet-perm-box { display:flex; gap:12px; align-items:stretch; background:#f5f2ec; padding:6px; border-radius:16px; border:1px solid #e6e0d4; }
+        .inet-perm-input { width:120px; padding:10px 14px; font-size:20px; border:1px solid #d6cfc1; border-radius:12px; font-weight:800; background:#fbfaf7; font-variant-numeric:tabular-nums; outline:none; box-sizing:border-box; }
         .inet-perm-chips { display:flex; gap:6px; flex:1; flex-wrap:wrap; align-items:center; }
         @media(max-width:500px){
           .inet-perm-box { flex-direction:column; gap:8px; padding:8px; }
@@ -218,7 +203,7 @@ export function InternetComp() {
               const active = permanenza === p.val;
               return (
                 <button key={p.label} onClick={() => setPermanenzaStr(p.val.toString())}
-                  style={{ background: active ? '#fff' : 'transparent', border: active ? `1px solid ${t.primary}` : '1px solid transparent', color: active ? t.primary : '#64748b', padding: '8px 14px', borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: 'pointer', textAlign: 'left', lineHeight: 1.2, boxShadow: active ? '0 2px 6px rgba(15,23,42,0.06)' : 'none', fontFamily: 'inherit' }}
+                  style={{ background: active ? '#fbfaf7' : 'transparent', border: active ? `1px solid ${t.primary}` : '1px solid transparent', color: active ? t.primary : '#6f6a5e', padding: '8px 14px', borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: 'pointer', textAlign: 'left', lineHeight: 1.2, boxShadow: active ? '0 2px 6px rgba(23,21,15,0.06)' : 'none', fontFamily: 'inherit' }}
                 >
                   <div>{p.label}</div>
                   <div style={{ fontSize: 10, opacity: 0.7, fontWeight: 600 }}>{p.sub}</div>
@@ -227,32 +212,32 @@ export function InternetComp() {
             })}
           </div>
         </div>
-        <p style={{ fontSize: 12, color: '#64748b', marginTop: 14, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: '#6f6a5e', marginTop: 14, lineHeight: 1.5 }}>
           Il calcolatore stima il costo <strong>totale</strong> includendo canoni promo, canoni pieni, attivazione, rate modem ed eventuale penale di recesso anticipato.
         </p>
 
         {/* ============== AI EXTRACTION TOGGLE ============== */}
-        <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px dashed #e2e8f0' }}>
+        <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px dashed #e6e0d4' }}>
           <button onClick={() => setAiOpen(!aiOpen)}
-            style={{ width: '100%', background: aiOpen ? '#0f172a' : `linear-gradient(135deg, #0f172a 0%, #1e293b 100%)`, color: '#fff', border: 'none', padding: '14px 20px', borderRadius: 14, fontWeight: 800, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 8px 20px -8px rgba(15,23,42,0.5)' }}
+            style={{ width: '100%', background: aiOpen ? '#17150f' : `linear-gradient(135deg, #17150f 0%, #26231b 100%)`, color: '#fbfaf7', border: 'none', padding: '14px 20px', borderRadius: 14, fontWeight: 800, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 8px 20px -8px rgba(23,21,15,0.5)' }}
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ background: 'rgba(255,255,255,0.15)', padding: '3px 8px', borderRadius: 6, fontSize: 10, letterSpacing: '0.1em' }}>BETA</span>
-              <span>✨ Compila in automatico con l'AI</span>
+              <span>Compila in automatico con l'AI</span>
             </span>
-            <span style={{ fontSize: 12, opacity: 0.7 }}>{aiOpen ? '✕ Chiudi' : 'Apri →'}</span>
+            <span style={{ fontSize: 12, opacity: 0.7 }}>{aiOpen ? 'Chiudi' : 'Apri →'}</span>
           </button>
 
           {aiOpen && (
-            <div style={{ marginTop: 16, background: '#0f172a', borderRadius: 16, padding: 24, color: '#fff' }}>
-              <p style={{ fontSize: 13, lineHeight: 1.6, margin: '0 0 16px', color: '#cbd5e1' }}>
+            <div style={{ marginTop: 16, background: '#17150f', borderRadius: 16, padding: 24, color: '#fbfaf7' }}>
+              <p style={{ fontSize: 13, lineHeight: 1.6, margin: '0 0 16px', color: '#d6cfc1' }}>
                 Incolla qui la sintesi contrattuale dell'offerta internet/mobile. L'AI estrae rate del modem, attivazione, canone e vincoli inserendoli direttamente nel calcolatore.
               </p>
 
               <div style={{ display: 'flex', gap: 6, background: 'rgba(255,255,255,0.06)', padding: 4, borderRadius: 10, marginBottom: 14 }}>
-                {[{ k: 'text', label: '📝 Incolla testo' }, { k: 'image', label: '📸 Carica immagine/PDF' }].map(m => (
+                {[{ k: 'text', label: 'Incolla testo' }, { k: 'image', label: 'Carica immagine/PDF' }].map(m => (
                   <button key={m.k} onClick={() => setAiMode(m.k)}
-                    style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: 'none', background: aiMode === m.k ? '#fff' : 'transparent', color: aiMode === m.k ? '#0f172a' : '#94a3b8', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}
+                    style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: 'none', background: aiMode === m.k ? '#fbfaf7' : 'transparent', color: aiMode === m.k ? '#17150f' : '#8f897c', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}
                   >{m.label}</button>
                 ))}
               </div>
@@ -260,32 +245,32 @@ export function InternetComp() {
               {aiMode === 'text' ? (
                 <textarea value={aiText} onChange={(e) => setAiText(e.target.value)}
                   placeholder="Esempio: Fibra a 19.99€ al mese per 12 mesi, poi 25.99€. Attivazione 39,90€. Modem incluso a 5,99€ per 48 mesi..."
-                  rows={5} style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: 14, color: '#fff', fontSize: 13, fontFamily: 'inherit', resize: 'vertical', outline: 'none' }}
+                  rows={5} style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: 14, color: '#fbfaf7', fontSize: 13, fontFamily: 'inherit', resize: 'vertical', outline: 'none' }}
                 />
               ) : (
                 <div style={{ border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 12, padding: 24, textAlign: 'center' }}>
-                  <input ref={fileRef} type="file" accept="image/*,application/pdf" onChange={(e) => setAiFile(e.target.files?.[0] || null)} style={{ color: '#cbd5e1', fontSize: 13 }} />
-                  {aiFile && <div style={{ marginTop: 10, fontSize: 12, color: '#94a3b8' }}>Selezionato: <strong style={{ color: '#fff' }}>{aiFile.name}</strong> ({Math.round(aiFile.size / 1024)} KB)</div>}
+                  <input ref={fileRef} type="file" accept="image/*,application/pdf" onChange={(e) => setAiFile(e.target.files?.[0] || null)} style={{ color: '#d6cfc1', fontSize: 13 }} />
+                  {aiFile && <div style={{ marginTop: 10, fontSize: 12, color: '#8f897c' }}>Selezionato: <strong style={{ color: '#fbfaf7' }}>{aiFile.name}</strong> ({Math.round(aiFile.size / 1024)} KB)</div>}
                 </div>
               )}
 
               <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-                <label style={{ fontSize: 12, color: '#cbd5e1', fontWeight: 700 }}>Inserisci come →</label>
+                <label style={{ fontSize: 12, color: '#d6cfc1', fontWeight: 700 }}>Inserisci come →</label>
                 <select value={aiTargetId} onChange={(e) => setAiTargetId(parseInt(e.target.value))}
-                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', padding: '8px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700 }}
+                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#fbfaf7', padding: '8px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700 }}
                 >
-                  {offerte.map(o => <option key={o.id} value={o.id} style={{ color: '#0f172a' }}>{o.nome}</option>)}
+                  {offerte.map(o => <option key={o.id} value={o.id} style={{ color: '#17150f' }}>{o.nome}</option>)}
                 </select>
                 <button onClick={extractAI} disabled={aiLoading}
-                  style={{ marginLeft: 'auto', background: aiLoading ? '#475569' : t.primary, color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: 13, cursor: aiLoading ? 'wait' : 'pointer', boxShadow: `0 4px 12px ${t.primary}40` }}
+                  style={{ marginLeft: 'auto', background: aiLoading ? '#47433a' : t.primary, color: '#fbfaf7', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: 13, cursor: aiLoading ? 'wait' : 'pointer', boxShadow: `0 4px 12px ${t.primary}40` }}
                 >
                   {aiLoading ? 'Analizzando...' : 'Estrai e compila →'}
                 </button>
               </div>
 
-              {aiError && <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(220,38,38,0.15)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: 8, fontSize: 13, color: '#fecaca' }}>⚠️ {aiError}</div>}
-              {aiSuccess && <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 8, fontSize: 13, color: '#bbf7d0' }}>✓ {aiSuccess}</div>}
-              <p style={{ fontSize: 11, color: '#64748b', marginTop: 14, lineHeight: 1.5, fontStyle: 'italic' }}>L'estrazione AI è uno strumento di assistenza: verifica sempre i campi compilati.</p>
+              {aiError && <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(155,66,32,0.15)', border: '1px solid rgba(155,66,32,0.3)', borderRadius: 8, fontSize: 13, color: '#e8c4b2' }}>{aiError}</div>}
+              {aiSuccess && <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(44,90,67,0.15)', border: '1px solid rgba(44,90,67,0.3)', borderRadius: 8, fontSize: 13, color: '#c6d8cb' }}>{aiSuccess}</div>}
+              <p style={{ fontSize: 11, color: '#6f6a5e', marginTop: 14, lineHeight: 1.5, fontStyle: 'italic' }}>L'estrazione AI è uno strumento di assistenza: verifica sempre i campi compilati.</p>
             </div>
           )}
         </div>
@@ -296,35 +281,35 @@ export function InternetComp() {
           const isWinner = off.calc.mensileEffettivo === minMensile && off.calc.mensileEffettivo > 0 && offerte.length > 1;
 
           return (
-            <div key={off.id} style={{ background: isWinner ? `linear-gradient(180deg, ${t.bg} 0%, #fff 60%)` : '#fff', border: `2px solid ${isWinner ? t.primary : '#e2e8f0'}`, borderRadius: 24, padding: 24, position: 'relative', boxShadow: isWinner ? `0 20px 40px -12px ${t.primary}30` : '0 4px 12px rgba(0,0,0,0.03)' }}>
-              {isWinner && <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: t.primary, color: '#fff', fontSize: 11, fontWeight: 800, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', boxShadow: `0 4px 12px ${t.primary}50`, letterSpacing: '0.05em' }}>🏆 MIGLIOR RAPPORTO</div>}
-              {offerte.length > 2 && <button onClick={() => rimuoviOfferta(off.id)} style={{ position: 'absolute', top: 10, right: 10, background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: 18, padding: 4 }} title="Rimuovi offerta">×</button>}
+            <div key={off.id} style={{ background: isWinner ? `linear-gradient(180deg, ${t.bg} 0%, #fbfaf7 60%)` : '#fbfaf7', border: `2px solid ${isWinner ? t.primary : '#e6e0d4'}`, borderRadius: 24, padding: 24, position: 'relative', boxShadow: isWinner ? `0 20px 40px -12px ${t.primary}30` : '0 4px 12px rgba(0,0,0,0.03)' }}>
+              {isWinner && <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: t.primary, color: '#fbfaf7', fontSize: 11, fontWeight: 800, padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', boxShadow: `0 4px 12px ${t.primary}50`, letterSpacing: '0.05em' }}>MIGLIOR RAPPORTO</div>}
+              {offerte.length > 2 && <button onClick={() => rimuoviOfferta(off.id)} style={{ position: 'absolute', top: 10, right: 10, background: 'transparent', border: 'none', color: '#8f897c', cursor: 'pointer', fontSize: 18, padding: 4 }} title="Rimuovi offerta">×</button>}
               
-              <input type="text" value={off.nome} onChange={(e) => updateOfferta(off.id, 'nome', e.target.value)} style={{ fontWeight: 900, fontSize: 17, border: 'none', background: 'transparent', width: '100%', paddingBottom: 12, borderBottom: '2px solid #e2e8f0', marginBottom: 18, color: '#0f172a', outline: 'none' }} />
+              <input type="text" value={off.nome} onChange={(e) => updateOfferta(off.id, 'nome', e.target.value)} style={{ fontWeight: 900, fontSize: 17, border: 'none', background: 'transparent', width: '100%', paddingBottom: 12, borderBottom: '2px solid #e6e0d4', marginBottom: 18, color: '#17150f', outline: 'none' }} />
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ padding: '12px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>Canone mensile</div>
+                <div style={{ padding: '12px', background: '#f5f2ec', borderRadius: 10, border: '1px solid #e6e0d4' }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 8 }}>Canone mensile</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginBottom: 3 }}>Promo (€)</label><input type="number" step="0.01" value={off.canonePromo} onChange={(e) => updateOfferta(off.id, 'canonePromo', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
-                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginBottom: 3 }}>Durata (mesi)</label><input type="number" value={off.durataPromo} onChange={(e) => updateOfferta(off.id, 'durataPromo', parseInt(e.target.value) || 0)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
-                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginBottom: 3 }}>Pieno (€)</label><input type="number" step="0.01" value={off.canonePieno} onChange={(e) => updateOfferta(off.id, 'canonePieno', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
+                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#6f6a5e', display: 'block', marginBottom: 3 }}>Promo (€)</label><input type="number" step="0.01" value={off.canonePromo} onChange={(e) => updateOfferta(off.id, 'canonePromo', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
+                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#6f6a5e', display: 'block', marginBottom: 3 }}>Durata (mesi)</label><input type="number" value={off.durataPromo} onChange={(e) => updateOfferta(off.id, 'durataPromo', parseInt(e.target.value) || 0)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
+                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#6f6a5e', display: 'block', marginBottom: 3 }}>Pieno (€)</label><input type="number" step="0.01" value={off.canonePieno} onChange={(e) => updateOfferta(off.id, 'canonePieno', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
                   </div>
                   {parseFloat(off.canonePieno) > parseFloat(off.canonePromo) && parseInt(off.durataPromo) > 0 && permanenza > parseInt(off.durataPromo) && (
-                    <div style={{ fontSize: 11, color: '#b45309', marginTop: 8, fontWeight: 600, background: '#fef3c7', padding: '6px 8px', borderRadius: 6, border: '1px solid #fcd34d' }}>⚠️ Dopo {off.durataPromo} mesi il canone sale a € {parseFloat(off.canonePieno).toFixed(2)}/mese</div>
+                    <div style={{ fontSize: 11, color: '#84652d', marginTop: 8, fontWeight: 600, background: '#efe5cf', padding: '6px 8px', borderRadius: 6, border: '1px solid #d9c49b' }}>Dopo {off.durataPromo} mesi il canone sale a € {parseFloat(off.canonePieno).toFixed(2)}/mese</div>
                   )}
                 </div>
 
                 <div><label style={miniLabel}>Attivazione una tantum (€)</label><input type="number" step="0.01" value={off.attivazione} onChange={(e) => updateOfferta(off.id, 'attivazione', e.target.value)} style={miniInput} /></div>
 
-                <div style={{ padding: '12px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>Rate modem / contributo</div>
+                <div style={{ padding: '12px', background: '#f5f2ec', borderRadius: 10, border: '1px solid #e6e0d4' }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: '#47433a', textTransform: 'uppercase', marginBottom: 8 }}>Rate modem / contributo</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginBottom: 3 }}>Rata (€/mese)</label><input type="number" step="0.01" value={off.rataModem} onChange={(e) => updateOfferta(off.id, 'rataModem', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
-                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#64748b', display: 'block', marginBottom: 3 }}>Durata (mesi)</label><input type="number" value={off.durataModem} onChange={(e) => updateOfferta(off.id, 'durataModem', parseInt(e.target.value) || 0)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
+                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#6f6a5e', display: 'block', marginBottom: 3 }}>Rata (€/mese)</label><input type="number" step="0.01" value={off.rataModem} onChange={(e) => updateOfferta(off.id, 'rataModem', e.target.value)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
+                    <div><label style={{ fontSize: 10, fontWeight: 700, color: '#6f6a5e', display: 'block', marginBottom: 3 }}>Durata (mesi)</label><input type="number" value={off.durataModem} onChange={(e) => updateOfferta(off.id, 'durataModem', parseInt(e.target.value) || 0)} style={{ ...miniInput, padding: '8px 10px', fontSize: 13 }} /></div>
                   </div>
                   {parseInt(off.durataModem) > 0 && permanenza < parseInt(off.durataModem) && (
-                    <div style={{ fontSize: 11, color: '#b45309', marginTop: 8, fontWeight: 600, background: '#fef3c7', padding: '6px 8px', borderRadius: 6, border: '1px solid #fcd34d' }}>⚠️ Disdicendo dopo {permanenza} mesi saldi in unica soluzione il residuo di {parseInt(off.durataModem) - permanenza} rate</div>
+                    <div style={{ fontSize: 11, color: '#84652d', marginTop: 8, fontWeight: 600, background: '#efe5cf', padding: '6px 8px', borderRadius: 6, border: '1px solid #d9c49b' }}>Disdicendo dopo {permanenza} mesi saldi in unica soluzione il residuo di {parseInt(off.durataModem) - permanenza} rate</div>
                   )}
                 </div>
 
@@ -336,22 +321,22 @@ export function InternetComp() {
                 </div>
               </div>
 
-              <div style={{ marginTop: 22, paddingTop: 20, borderTop: '2px dashed #cbd5e1', textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em' }}>Mensile effettivo su {permanenza} mesi</div>
-                <div style={{ fontSize: 34, fontWeight: 900, color: isWinner ? t.primary : '#0f172a', margin: '6px 0', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>{formatEuro(off.calc.mensileEffettivo)}</div>
-                <div style={{ fontSize: 12, color: '#64748b' }}>Totale: <strong>{formatEuro(off.calc.totale, 0)}</strong></div>
+              <div style={{ marginTop: 22, paddingTop: 20, borderTop: '2px dashed #d6cfc1', textAlign: 'center' }}>
+                <div style={{ fontSize: 11, color: '#6f6a5e', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em' }}>Mensile effettivo su {permanenza} mesi</div>
+                <div style={{ fontSize: 34, fontWeight: 900, color: isWinner ? t.primary : '#17150f', margin: '6px 0', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>{formatEuro(off.calc.mensileEffettivo)}</div>
+                <div style={{ fontSize: 12, color: '#6f6a5e' }}>Totale: <strong>{formatEuro(off.calc.totale, 0)}</strong></div>
 
                 <div style={{ display: 'flex', gap: 8, marginTop: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                  <div style={{ background: '#f8fafc', padding: '6px 10px', borderRadius: 8, fontSize: 11, color: '#475569' }}>12 mesi: <strong style={{ color: '#0f172a' }}>{formatEuro(off.calc12.totale, 0)}</strong></div>
-                  <div style={{ background: '#f8fafc', padding: '6px 10px', borderRadius: 8, fontSize: 11, color: '#475569' }}>24 mesi: <strong style={{ color: '#0f172a' }}>{formatEuro(off.calc24.totale, 0)}</strong></div>
+                  <div style={{ background: '#f5f2ec', padding: '6px 10px', borderRadius: 8, fontSize: 11, color: '#47433a' }}>12 mesi: <strong style={{ color: '#17150f' }}>{formatEuro(off.calc12.totale, 0)}</strong></div>
+                  <div style={{ background: '#f5f2ec', padding: '6px 10px', borderRadius: 8, fontSize: 11, color: '#47433a' }}>24 mesi: <strong style={{ color: '#17150f' }}>{formatEuro(off.calc24.totale, 0)}</strong></div>
                 </div>
 
-                <div style={{ marginTop: 14, fontSize: 11, color: '#64748b', display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left', background: '#f8fafc', padding: '10px 12px', borderRadius: 8 }}>
-                  {off.calc.mesiPromo > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Canoni promo ({off.calc.mesiPromo}m)</span><span style={{ fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>€ {(parseFloat(off.canonePromo) * off.calc.mesiPromo).toFixed(0)}</span></div>}
-                  {off.calc.mesiPieno > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Canoni listino ({off.calc.mesiPieno}m)</span><span style={{ fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>€ {(parseFloat(off.canonePieno) * off.calc.mesiPieno).toFixed(0)}</span></div>}
-                  {off.calc.attivazione > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Attivazione</span><span style={{ fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.attivazione.toFixed(0)}</span></div>}
-                  {off.calc.totModem > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Rate modem ({off.durataModem}m)</span><span style={{ fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.totModem.toFixed(0)}</span></div>}
-                  {off.calc.penaleApplicata > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', color: '#b45309' }}><span>Penale recesso</span><span style={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.penaleApplicata.toFixed(0)}</span></div>}
+                <div style={{ marginTop: 14, fontSize: 11, color: '#6f6a5e', display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left', background: '#f5f2ec', padding: '10px 12px', borderRadius: 8 }}>
+                  {off.calc.mesiPromo > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Canoni promo ({off.calc.mesiPromo}m)</span><span style={{ fontWeight: 700, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>€ {(parseFloat(off.canonePromo) * off.calc.mesiPromo).toFixed(0)}</span></div>}
+                  {off.calc.mesiPieno > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Canoni listino ({off.calc.mesiPieno}m)</span><span style={{ fontWeight: 700, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>€ {(parseFloat(off.canonePieno) * off.calc.mesiPieno).toFixed(0)}</span></div>}
+                  {off.calc.attivazione > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Attivazione</span><span style={{ fontWeight: 700, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.attivazione.toFixed(0)}</span></div>}
+                  {off.calc.totModem > 0 && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Rate modem ({off.durataModem}m)</span><span style={{ fontWeight: 700, color: '#17150f', fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.totModem.toFixed(0)}</span></div>}
+                  {off.calc.penaleApplicata > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', color: '#84652d' }}><span>Penale recesso</span><span style={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>€ {off.calc.penaleApplicata.toFixed(0)}</span></div>}
                 </div>
               </div>
             </div>
@@ -360,208 +345,13 @@ export function InternetComp() {
       </div>
 
       {offerte.length < 4 && (
-        <button onClick={aggiungiOfferta} style={{ display: 'block', margin: '0 auto 28px', background: '#fff', border: '2px dashed #cbd5e1', color: '#475569', padding: '12px 24px', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>+ Aggiungi un'offerta da confrontare ({offerte.length}/4)</button>
+        <button onClick={aggiungiOfferta} style={{ display: 'block', margin: '0 auto 28px', background: '#fbfaf7', border: '2px dashed #d6cfc1', color: '#47433a', padding: '12px 24px', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>+ Aggiungi un'offerta da confrontare ({offerte.length}/4)</button>
       )}
 
-      <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 48, lineHeight: 1.6, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
+      <p style={{ fontSize: 11, color: '#8f897c', textAlign: 'center', marginBottom: 48, lineHeight: 1.6, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
         <em>Il calcolatore modella il passaggio automatico dal canone promozionale al canone a listino alla scadenza della promo, il costo di attivazione, le rate residue del modem in caso di recesso anticipato (saldo in unica soluzione) e l'eventuale penale. Non include costi extra per chiamate a consumo, roaming, servizi aggiuntivi opzionali o costi di disattivazione amministrativa. Questo strumento è una stima indicativa e non costituisce consulenza contrattuale.</em>
       </p>
 
-      {/* ==================================================================
-          BLOCCO 3 — AFFILIATE (riscritto per compliance)
-          ================================================================== */}
-      <div style={{
-        background: '#fff', border: '2px solid #0f172a', borderRadius: 24,
-        padding: '36px 28px 32px', position: 'relative',
-        boxShadow: '0 20px 40px -12px rgba(15, 23, 42, 0.18)'
-      }}>
-        <div style={{
-          position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)',
-          background: '#0f172a', color: '#fff', fontSize: 11, fontWeight: 800,
-          textTransform: 'uppercase', letterSpacing: '0.15em',
-          padding: '6px 18px', borderRadius: 30, whiteSpace: 'nowrap'
-        }}>★ La selezione del Team</div>
-
-        <p style={{ fontSize: 15, color: '#64748b', textAlign: 'center', marginBottom: 32, marginTop: 18, lineHeight: 1.6, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
-          Una offerta fibra e una mobile selezionate dal nostro team dopo analisi di coperture, transizioni promo→listino e vincoli contrattuali.
-        </p>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
-
-          {/* ========== CARD 1: WINDTRE FIBRA ========== */}
-          <div style={{
-            background: '#f8fafc', border: '1px solid #e2e8f0',
-            borderRadius: 20, padding: '24px 22px', position: 'relative'
-          }}>
-            <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-              <span style={{
-                background: '#fef3c7', color: '#92400e', fontSize: 10, fontWeight: 800,
-                letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 4, border: '1px solid #fcd34d'
-              }}>#ADV</span>
-              <span style={{
-                background: '#fff', color: '#475569', fontSize: 10, fontWeight: 700,
-                padding: '4px 8px', borderRadius: 4, border: '1px solid #e2e8f0'
-              }}>Link affiliato</span>
-            </div>
-
-            <div style={{
-              background: '#f97316', color: '#fff', fontSize: 10, fontWeight: 800,
-              textTransform: 'uppercase', padding: '4px 10px', borderRadius: 20,
-              display: 'inline-block', marginBottom: 12, letterSpacing: '0.08em'
-            }}>Categoria: fibra FTTH consumer</div>
-
-            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-              WindTre
-            </div>
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', margin: '0 0 6px', fontFamily: "'DM Serif Display', 'Playfair Display', serif" }}>
-              Super Fibra
-            </h3>
-            <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionata il <strong>aprile 2026</strong>
-            </p>
-
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
-              background: '#e2e8f0', borderRadius: 12, overflow: 'hidden',
-              marginBottom: 16, border: '1px solid #e2e8f0'
-            }}>
-              {[
-                { l: 'Canone promo', v: '19,99 €', h: true },
-                { l: 'Canone listino', v: '23,99 €', h: false },
-                { l: 'Durata promo', v: '12 mesi', h: false },
-                { l: 'Velocità', v: '2,5 Gbps', h: true },
-                { l: 'Modem', v: 'Wi-Fi 7 incluso', h: true },
-                { l: 'Servizi extra', v: 'Prime 12m', h: true }
-              ].map((item, i) => (
-                <div key={i} style={{ background: '#fff', padding: '10px 12px', textAlign: 'center' }}>
-                  <div style={{ fontSize: 10, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>{item.l}</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* COSTO TOTALE STIMATO PER LA TUA PERMANENZA — calcolato con stesso engine */}
-            <div style={{
-              background: '#fff7ed', border: '1px solid #fed7aa',
-              borderRadius: 12, padding: '14px 16px', marginBottom: 16, textAlign: 'center'
-            }}>
-              <div style={{ fontSize: 10, fontWeight: 800, color: '#9a3412', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
-                Costo totale su {permanenza} mesi (con la tua durata)
-              </div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
-                € {Math.round(windtreCalc.totale).toLocaleString('it-IT')}
-              </div>
-              <div style={{ fontSize: 11, color: '#9a3412', fontWeight: 700, marginTop: 2 }}>
-                = € {windtreCalc.mensileEffettivo.toFixed(2)}/mese effettivi
-              </div>
-              {minTotaleUtente > 0 && Math.abs(windtreCalc.totale - minTotaleUtente) > 5 && (
-                <div style={{ fontSize: 11, marginTop: 6, fontWeight: 700, color: windtreCalc.totale < minTotaleUtente ? '#059669' : '#dc2626' }}>
-                  {windtreCalc.totale < minTotaleUtente ? '▼' : '▲'} € {Math.abs(Math.round(windtreCalc.totale - minTotaleUtente)).toLocaleString('it-IT')} {windtreCalc.totale < minTotaleUtente ? 'meno' : 'più'} dell'offerta migliore tra quelle confrontate
-                </div>
-              )}
-              {windtreCalc.penaleApplicata > 0 && (
-                <div style={{ fontSize: 10, marginTop: 4, color: '#9a3412' }}>
-                  ⚠ Include € {Math.round(windtreCalc.penaleApplicata)} di rate modem residue (recesso prima dei 48 mesi)
-                </div>
-              )}
-            </div>
-
-            <a href="/recensione-windtre" style={{
-              display: 'block', background: '#fff', color: '#0f172a',
-              border: '2px solid #0f172a', padding: '12px', borderRadius: 10,
-              fontWeight: 800, fontSize: 13, textDecoration: 'none',
-              textAlign: 'center', marginBottom: 8
-            }}>📖 Leggi l'analisi dei vincoli →</a>
-            <a href="https://www.awin1.com/cread.php?awinmid=27760&awinaffid=2811530"
-              target="_blank" rel="noopener noreferrer sponsored nofollow"
-              style={{
-                display: 'block', background: '#f97316', color: '#fff',
-                padding: '12px', borderRadius: 10, fontWeight: 800, fontSize: 13,
-                textDecoration: 'none', textAlign: 'center'
-              }}>Scopri WindTre Super Fibra →</a>
-          </div>
-
-          {/* ========== CARD 2: LYCA MOBILE ========== */}
-          <div style={{
-            background: '#f8fafc', border: '1px solid #e2e8f0',
-            borderRadius: 20, padding: '24px 22px', position: 'relative'
-          }}>
-            <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-              <span style={{
-                background: '#fef3c7', color: '#92400e', fontSize: 10, fontWeight: 800,
-                letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 4, border: '1px solid #fcd34d'
-              }}>#ADV</span>
-              <span style={{
-                background: '#fff', color: '#475569', fontSize: 10, fontWeight: 700,
-                padding: '4px 8px', borderRadius: 4, border: '1px solid #e2e8f0'
-              }}>Link affiliato</span>
-            </div>
-
-            <div style={{
-              background: '#0ea5e9', color: '#fff', fontSize: 10, fontWeight: 800,
-              textTransform: 'uppercase', padding: '4px 10px', borderRadius: 20,
-              display: 'inline-block', marginBottom: 12, letterSpacing: '0.08em'
-            }}>Categoria: offerta mobile MVNO</div>
-
-            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-              Lyca Mobile (rete Vodafone)
-            </div>
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0f172a', margin: '0 0 6px', fontFamily: "'DM Serif Display', 'Playfair Display', serif" }}>
-              Portin 5G 599
-            </h3>
-            <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 16px' }}>
-              Selezionata il <strong>aprile 2026</strong>
-            </p>
-
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
-              background: '#e2e8f0', borderRadius: 12, overflow: 'hidden',
-              marginBottom: 16, border: '1px solid #e2e8f0'
-            }}>
-              {[
-                { l: 'Canone', v: '5,99 €/m', h: true },
-                { l: 'Giga', v: '150 GB 5G', h: true },
-                { l: 'Minuti', v: 'Illimitati', h: true },
-                { l: 'Rete', v: 'Vodafone', h: false },
-                { l: 'Vincoli', v: 'Nessuno', h: true },
-                { l: 'Tipo', v: 'Portabilità', h: false }
-              ].map((item, i) => (
-                <div key={i} style={{ background: '#fff', padding: '10px 12px', textAlign: 'center' }}>
-                  <div style={{ fontSize: 10, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>{item.l}</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: item.h ? '#16a34a' : '#0f172a' }}>{item.v}</div>
-                </div>
-              ))}
-            </div>
-
-            <a href="/recensione-lyca" style={{
-              display: 'block', background: '#fff', color: '#0f172a',
-              border: '2px solid #0f172a', padding: '12px', borderRadius: 10,
-              fontWeight: 800, fontSize: 13, textDecoration: 'none',
-              textAlign: 'center', marginBottom: 8
-            }}>📖 Dettagli e roaming UE →</a>
-            <a href="https://www.awin1.com/cread.php?awinmid=118793&awinaffid=2811530"
-              target="_blank" rel="noopener noreferrer sponsored nofollow"
-              style={{
-                display: 'block', background: '#0ea5e9', color: '#fff',
-                padding: '12px', borderRadius: 10, fontWeight: 800, fontSize: 13,
-                textDecoration: 'none', textAlign: 'center'
-              }}>Attiva Lyca Mobile →</a>
-          </div>
-
-        </div>
-
-        {/* Disclaimer compliant */}
-        <div style={{
-          background: '#fafbfc', border: '1px solid #e2e8f0',
-          borderRadius: 12, padding: '14px 16px', marginTop: 20
-        }}>
-          <p style={{ fontSize: 11, color: '#64748b', margin: 0, lineHeight: 1.6 }}>
-            <strong style={{ color: '#0f172a' }}>Trasparenza commerciale.</strong> Questa sezione contiene link di affiliazione: se attivi un servizio attraverso i nostri collegamenti, riceviamo una commissione dall'operatore senza alcun costo aggiuntivo per te.
-            La selezione editoriale è indipendente e non determinata dall'importo della commissione: la metodologia di valutazione è descritta nelle analisi linkate sopra.
-            Le condizioni indicate (canoni, velocità, servizi, durata promo) sono quelle pubblicate dagli operatori alla data riportata su ciascuna scheda; verifica sempre le condizioni aggiornate sul sito ufficiale prima di sottoscrivere, con particolare attenzione al canone a listino applicato dopo la scadenza della promo.
-          </p>
-        </div>
-      </div>
 
     </div>
   );

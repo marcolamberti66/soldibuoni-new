@@ -141,7 +141,7 @@ const calcNext = next ? calcolaStipendio(next) : null;
 const ralFmt = fmt(ral);
 const titleSeo = `Stipendio netto da ${ralFmt} euro lordi 2026: quanto prendi al mese`;
 const descrSeo = `Stipendio netto da ${ralFmt} € lordi: ${fmt(calc.nettoMensile13)} € al mese (13ª) o ${fmt(calc.nettoMensile14)} € (14ª). Calcolo aggiornato 2026 con IRPEF 23/33/43%, INPS e detrazioni.`;
-const color = '#10b981';
+const color = '#2c5a43';
 
 // Schema.org FAQ data
 const faqs = [
@@ -180,40 +180,36 @@ const faqJsonLd = {
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
 
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" style="font-size: 13px; color: #64748b; margin-bottom: 18px;">
-      <a href="/" style="color: #64748b;">Home</a>
-      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
-      <a href="/calcolo-stipendio" style="color: #64748b;">Calcolo Stipendio</a>
-      <span style="margin: 0 6px; color: #cbd5e1;">›</span>
-      <span style="color: #0f172a; font-weight: 600;">{ralFmt} € lordi</span>
+    <nav aria-label="breadcrumb" style="font-size: 13px; color: #6f6a5e; margin-bottom: 18px;">
+      <a href="/" style="color: #6f6a5e;">Home</a>
+      <span style="margin: 0 6px; color: #d6cfc1;">›</span>
+      <a href="/calcolo-stipendio" style="color: #6f6a5e;">Calcolo Stipendio</a>
+      <span style="margin: 0 6px; color: #d6cfc1;">›</span>
+      <span style="color: #17150f; font-weight: 600;">{ralFmt} € lordi</span>
     </nav>
 
     <!-- Header -->
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
-      <div style={`width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: ${color}14; flex-shrink: 0;`}>
-        💶
-      </div>
-      <h1 style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">
-        Stipendio netto da <span style={`color: ${color};`}>{ralFmt} € lordi</span>
-      </h1>
-    </div>
-    <p style="color: #94a3b8; font-size: 13px; margin: 0 0 28px 0;">Calcolo aggiornato Legge di Bilancio 2026 · IRPEF 23/33/43% · INPS 9,19%</p>
+    <header class="tool-head">
+      <p class="eyebrow">Strumento</p>
+      <h1 class="display tool-title">Stipendio netto da <span style={`color: ${color};`}>{ralFmt} € lordi</span></h1>
+    </header>
+    <p style="color: #8f897c; font-size: 13px; margin: 0 0 28px 0;">Calcolo aggiornato Legge di Bilancio 2026 · IRPEF 23/33/43% · INPS 9,19%</p>
 
     <!-- BIG NUMBER CARD -->
-    <div style={`background: linear-gradient(135deg, ${color} 0%, #059669 100%); border-radius: 24px; padding: 32px; color: #fff; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(16,185,129,0.25);`}>
+    <div style={`background: linear-gradient(135deg, ${color} 0%, #2c5a43 100%); border-radius: 24px; padding: 32px; color: #fbfaf7; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(44,90,67,0.25);`}>
       <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 8px;">Il tuo netto mensile (stima nazionale)</div>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px;">
         <div>
           <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">12 mensilità</div>
-          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile12)}</div>
+          <div style="font-family: var(--f-display); font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile12)}</div>
         </div>
         <div>
           <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">13 mensilità</div>
-          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile13)}</div>
+          <div style="font-family: var(--f-display); font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile13)}</div>
         </div>
         <div>
           <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">14 mensilità</div>
-          <div style="font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile14)}</div>
+          <div style="font-family: var(--f-display); font-size: 28px; font-weight: 800;">€ {fmt(calc.nettoMensile14)}</div>
         </div>
       </div>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
@@ -233,13 +229,13 @@ const faqJsonLd = {
     </div>
 
     <!-- Intro testuale (unico per ogni pagina, ricco di keyword) -->
-    <p style="color: #475569; font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
+    <p style="color: #47433a; font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
       Se hai un contratto di lavoro dipendente con una <strong>Retribuzione Annua Lorda di {ralFmt} euro</strong>, in busta paga ti restano circa <strong>{fmt(calc.nettoMensile13)} € al mese</strong> con 13 mensilità (l'ipotesi più comune per il CCNL del commercio, metalmeccanico industria, terziario), oppure <strong>{fmt(calc.nettoMensile14)} €</strong> se il tuo contratto prevede anche la quattordicesima. La cifra esatta dipende da Regione e Comune di residenza, dalle detrazioni per familiari a carico e da eventuali bonus o fringe benefit. Sotto trovi il dettaglio completo di come si arriva a questo numero, con tutte le voci di tasse e contributi calcolate sulla normativa fiscale italiana 2026.
     </p>
 
     <!-- BREAKDOWN -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Dal lordo al netto: ogni voce</h2>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 18px 0;`}>Dal lordo al netto: ogni voce</h2>
 
       <div style="display: flex; flex-direction: column; gap: 0;">
         <div class="brk-row brk-row-positive">
@@ -311,9 +307,9 @@ const faqJsonLd = {
     </div>
 
     <!-- CTA al calcolatore principale -->
-    <div style={`background: #f8fafc; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
-      <div style="font-size: 14px; color: #475569; margin-bottom: 12px;">Vuoi il calcolo esatto sulla <strong>tua Regione e Comune</strong>, con detrazioni per familiari e premi?</div>
-      <a href="/calcolo-stipendio" style={`display: inline-block; background: ${color}; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
+    <div style={`background: #f5f2ec; border: 2px dashed ${color}40; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 32px;`}>
+      <div style="font-size: 14px; color: #47433a; margin-bottom: 12px;">Vuoi il calcolo esatto sulla <strong>tua Regione e Comune</strong>, con detrazioni per familiari e premi?</div>
+      <a href="/calcolo-stipendio" style={`display: inline-block; background: ${color}; color: #fbfaf7; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
         Apri il calcolatore personalizzato →
       </a>
     </div>
@@ -321,8 +317,8 @@ const faqJsonLd = {
     <!-- CONFRONTO con stipendi adiacenti -->
     {(calcPrev || calcNext) && (
       <div class="info-card" style="margin-bottom: 16px;">
-        <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 8px 0;`}>Confronto con stipendi vicini</h2>
-        <p style="color: #64748b; font-size: 14px; margin: 0 0 18px 0;">Un piccolo aumento di RAL non sempre porta un aumento proporzionale del netto, per via degli scaglioni IRPEF.</p>
+        <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 8px 0;`}>Confronto con stipendi vicini</h2>
+        <p style="color: #6f6a5e; font-size: 14px; margin: 0 0 18px 0;">Un piccolo aumento di RAL non sempre porta un aumento proporzionale del netto, per via degli scaglioni IRPEF.</p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
           {calcPrev && (
@@ -330,7 +326,7 @@ const faqJsonLd = {
               <div class="cmp-tag">Stipendio precedente</div>
               <div class="cmp-ral">€ {fmt(calcPrev.ral)} lordi</div>
               <div class="cmp-net">≈ € {fmt(calcPrev.nettoMensile13)}/mese (13ª)</div>
-              <div class="cmp-diff" style="color: #ef4444;">– € {fmt(calc.nettoMedio - calcPrev.nettoMedio)}/anno netti</div>
+              <div class="cmp-diff" style="color: #9b4220;">– € {fmt(calc.nettoMedio - calcPrev.nettoMedio)}/anno netti</div>
             </a>
           )}
 
@@ -346,7 +342,7 @@ const faqJsonLd = {
               <div class="cmp-tag">Stipendio successivo</div>
               <div class="cmp-ral">€ {fmt(calcNext.ral)} lordi</div>
               <div class="cmp-net">≈ € {fmt(calcNext.nettoMensile13)}/mese (13ª)</div>
-              <div class="cmp-diff" style="color: #10b981;">+ € {fmt(calcNext.nettoMedio - calc.nettoMedio)}/anno netti</div>
+              <div class="cmp-diff" style="color: #2c5a43;">+ € {fmt(calcNext.nettoMedio - calc.nettoMedio)}/anno netti</div>
             </a>
           )}
         </div>
@@ -355,7 +351,7 @@ const faqJsonLd = {
 
     <!-- FAQ section -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 18px 0;`}>Domande frequenti</h2>
       <div style="display: flex; flex-direction: column; gap: 14px;">
         {faqs.map(f => (
           <details class="faq-item">
@@ -368,8 +364,8 @@ const faqJsonLd = {
 
     <!-- Tutti gli stipendi: link interno per indicizzazione -->
     <div class="info-card" style="margin-bottom: 16px;">
-      <h2 style={`color: ${color}; font-family: 'Playfair Display',serif; font-size: 20px; margin: 0 0 14px 0;`}>Calcola altri stipendi</h2>
-      <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0;">Trova subito quanto resta in tasca con altri importi di RAL.</p>
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 20px; margin: 0 0 14px 0;`}>Calcola altri stipendi</h2>
+      <p style="color: #6f6a5e; font-size: 14px; margin: 0 0 16px 0;">Trova subito quanto resta in tasca con altri importi di RAL.</p>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         {tutti.filter(s => s !== ral).map(s => (
           <a href={`/calcolo-stipendio/${s}-euro-lordi`} class="pill-link">€ {fmt(s)}</a>
@@ -378,9 +374,9 @@ const faqJsonLd = {
     </div>
 
     <!-- Disclaimer trasparenza -->
-    <div style="margin-top: 24px; padding: 16px 20px; background: #fef3c7; border-radius: 12px; border-left: 3px solid #f59e0b;">
-      <div style="font-size: 12px; color: #78350f; line-height: 1.6;">
-        <strong>Nota metodologica:</strong> i calcoli si basano su scaglioni IRPEF 2026 (L. 199/2025), aliquota INPS dipendente standard del 9,19%, detrazioni lavoro dipendente ex art. 13 TUIR e trattamento integrativo (bonus 100€). Le addizionali regionali e comunali sono mostrate come range nazionale reale (min 1,33% – max 4,23%): il calcolo esatto richiede di specificare Regione e Comune. Non sono incluse detrazioni per familiari a carico, premi di produttività detassati, fringe benefit o quote sindacali. Per il calcolo personalizzato, usa il <a href="/calcolo-stipendio" style="color: #92400e; text-decoration: underline;">simulatore principale</a>.
+    <div style="margin-top: 24px; padding: 16px 20px; background: #efe5cf; border-radius: 12px; border-left: 3px solid #84652d;">
+      <div style="font-size: 12px; color: #6b5124; line-height: 1.6;">
+        <strong>Nota metodologica:</strong> i calcoli si basano su scaglioni IRPEF 2026 (L. 199/2025), aliquota INPS dipendente standard del 9,19%, detrazioni lavoro dipendente ex art. 13 TUIR e trattamento integrativo (bonus 100€). Le addizionali regionali e comunali sono mostrate come range nazionale reale (min 1,33% – max 4,23%): il calcolo esatto richiede di specificare Regione e Comune. Non sono incluse detrazioni per familiari a carico, premi di produttività detassati, fringe benefit o quote sindacali. Per il calcolo personalizzato, usa il <a href="/calcolo-stipendio" style="color: #6b5124; text-decoration: underline;">simulatore principale</a>.
       </div>
     </div>
 
@@ -389,7 +385,7 @@ const faqJsonLd = {
 
 <style>
   .info-card {
-    background: #fff;
+    background: #fbfaf7;
     border-radius: 20px;
     padding: 24px;
     border: 1px solid rgba(0,0,0,0.04);
@@ -401,33 +397,33 @@ const faqJsonLd = {
     justify-content: space-between;
     align-items: center;
     padding: 14px 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #ece7dd;
     gap: 16px;
   }
   .brk-row:last-child { border-bottom: none; }
   .brk-label {
     font-weight: 700;
-    color: #0f172a;
+    color: #17150f;
     font-size: 14px;
     margin-bottom: 2px;
   }
   .brk-sub {
     font-size: 12px;
-    color: #94a3b8;
+    color: #8f897c;
     line-height: 1.4;
   }
   .brk-value {
     font-weight: 700;
     font-size: 16px;
-    color: #0f172a;
+    color: #17150f;
     flex-shrink: 0;
     text-align: right;
   }
-  .brk-row-negative .brk-value { color: #ef4444; }
-  .brk-row-positive .brk-value { color: #10b981; }
-  .brk-row-info { background: #f8fafc; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
+  .brk-row-negative .brk-value { color: #9b4220; }
+  .brk-row-positive .brk-value { color: #2c5a43; }
+  .brk-row-info { background: #f5f2ec; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
   .brk-row-total {
-    background: #f0fdf4;
+    background: #eef3ef;
     margin: 8px -12px 0;
     padding: 18px 12px;
     border-radius: 12px;
@@ -435,8 +431,8 @@ const faqJsonLd = {
   }
 
   .cmp-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f5f2ec;
+    border: 1px solid #e6e0d4;
     border-radius: 14px;
     padding: 16px;
     text-decoration: none;
@@ -445,8 +441,8 @@ const faqJsonLd = {
     display: block;
   }
   .cmp-card:hover:not(.cmp-card-current) {
-    background: #fff;
-    border-color: #10b981;
+    background: #fbfaf7;
+    border-color: #2c5a43;
     transform: translateY(-2px);
   }
   .cmp-card-current {
@@ -457,38 +453,38 @@ const faqJsonLd = {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #94a3b8;
+    color: #8f897c;
     margin-bottom: 6px;
   }
   .cmp-ral {
     font-size: 16px;
     font-weight: 800;
-    color: #0f172a;
+    color: #17150f;
     margin-bottom: 4px;
   }
   .cmp-net {
     font-size: 13px;
-    color: #475569;
+    color: #47433a;
     margin-bottom: 6px;
   }
   .cmp-diff {
     font-size: 12px;
     font-weight: 600;
-    color: #64748b;
+    color: #6f6a5e;
   }
 
   .faq-item {
-    background: #f8fafc;
+    background: #f5f2ec;
     border-radius: 12px;
     padding: 14px 18px;
     transition: background 0.2s;
   }
   .faq-item[open] {
-    background: #f0fdf4;
+    background: #eef3ef;
   }
   .faq-item summary {
     font-weight: 700;
-    color: #0f172a;
+    color: #17150f;
     cursor: pointer;
     list-style: none;
     font-size: 14px;
@@ -503,16 +499,16 @@ const faqJsonLd = {
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
-    color: #94a3b8;
+    color: #8f897c;
     transition: transform 0.2s;
   }
   .faq-item[open] summary::after {
     content: '−';
-    color: #10b981;
+    color: #2c5a43;
   }
   .faq-item p {
     margin: 12px 0 0 0;
-    color: #475569;
+    color: #47433a;
     font-size: 14px;
     line-height: 1.7;
   }
@@ -520,19 +516,19 @@ const faqJsonLd = {
   .pill-link {
     display: inline-block;
     padding: 8px 14px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f5f2ec;
+    border: 1px solid #e6e0d4;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
-    color: #475569;
+    color: #47433a;
     text-decoration: none;
     transition: all 0.2s;
   }
   .pill-link:hover {
-    background: #10b981;
-    border-color: #10b981;
-    color: #fff;
+    background: #2c5a43;
+    border-color: #2c5a43;
+    color: #fbfaf7;
   }
 
   @media (max-width: 600px) {
