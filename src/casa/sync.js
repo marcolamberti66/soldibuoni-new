@@ -194,6 +194,12 @@ export async function inviaLink(email) {
   if (error) throw error;
 }
 
+export async function verificaCodice(email, codice) {
+  const token = String(codice).replace(/\D/g, '');
+  const { error } = await sb().auth.verifyOtp({ email, token, type: 'email' });
+  if (error) throw error;
+}
+
 export async function esci() {
   await sb().auth.signOut();
 }

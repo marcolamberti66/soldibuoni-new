@@ -349,3 +349,10 @@
 @media (hover: none) { .ca-touch-only { display: inline; } .ca-hover-only { display: none; } }
 /* numeri: niente cifre tabellari nelle righe, solo dove serve allineare */
 .ca-row-v, .ca-kpi-v, .ca-month-tot { font-variant-numeric: lining-nums; }
+
+.ca-acc-code { display: flex; gap: 8px; margin-top: 14px; }
+.ca-acc-code input { width: 170px; height: 52px; border: 1px solid var(--ink); border-radius: 12px; padding: 0 16px; font-size: 24px; letter-spacing: .3em; text-align: center; background: var(--card); color: var(--ink); }
+.ca-acc-code input:focus { outline: none; box-shadow: 0 0 0 3px var(--brass-soft); }
+.ca-acc-code .btn { height: 52px; }
+.ca-acc-code .btn:disabled { opacity: .4; }
+.ca-acc-again { display: block; margin-top: 12px; font-size: 13.5px; }
