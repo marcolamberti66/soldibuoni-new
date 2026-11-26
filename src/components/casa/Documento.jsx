@@ -7,7 +7,10 @@ const CATS_BOLLETTA = ORDINE.filter((c) => CATEGORIE[c].bolletta || c === 'altro
 /** Modulo di revisione/modifica di un documento (estratto o manuale). */
 export function SchedaDocumento({ iniziale, onSalva, onScarta, etichettaSalva = 'Salva', compatta = false }) {
   const [d, setD] = useState(iniziale);
-  const [dettagli, setDettagli] = useState(!compatta);
+  // I dettagli servono solo al controllo della bolletta: chiusi di default, aperti se c'è già qualcosa da rivedere.
+  const CAMPI_EXTRA = ['consumo', 'canone_mensile', 'offerta', 'fine_condizioni', 'prezzo_materia', 'tipo_prezzo', 'quota_fissa_mese', 'potenza_kw', 'consumi_stimati', 'conguaglio'];
+  const compilati = CAMPI_EXTRA.filter((k) => iniziale[k] != null && iniziale[k] !== '' && iniziale[k] !== false).length;
+  const [dettagli, setDettagli] = useState(false);
   const set = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setD((x) => ({ ...x, [k]: v === '' ? null : v }));
@@ -36,13 +39,23 @@ export function SchedaDocumento({ iniziale, onSalva, onScarta, etichettaSalva = 
 
   return (
     <form className="ca-doc" onSubmit={salva}>
+      <div className="ca-doc-tipi" role="radiogroup" aria-label="Tipo di bolletta">
+        {CATS_BOLLETTA.map((k) => (
+          <button
+            key={k} type="button" role="radio" aria-checked={d.categoria === k}
+            className={'ca-doc-tipo' + (d.categoria === k ? ' on' : '')}
+            onClick={() => setD((x) => ({ ...x, categoria: k }))}
+          >
+            <Icona nome={CATEGORIE[k].icona} size={16} />
+            <span>{k === 'mobile' ? 'Cellulare' : CATEGORIE[k].label}</span>
+          </button>
+        ))}
+      </div>
+
       <div className="ca-doc-hd">
         <IconaCategoria cat={d.categoria} size={44} />
         <div className="ca-doc-hd-t">
-          <select className="ca-doc-cat" value={d.categoria} onChange={set('categoria')} aria-label="Categoria">
-            {CATS_BOLLETTA.map((k) => <option key={k} value={k}>{CATEGORIE[k].label}</option>)}
-          </select>
-          <input className="ca-doc-forn" value={d.fornitore || ''} onChange={set('fornitore')} placeholder="Fornitore" aria-label="Fornitore" />
+          <input className="ca-doc-forn" value={d.fornitore || ''} onChange={set('fornitore')} placeholder="Fornitore (facoltativo)" aria-label="Fornitore" />
         </div>
         {d.fonte === 'ai' && d.affidabilita && (
           <span className={'ca-pill ' + (d.affidabilita === 'alta' ? 'ok' : d.affidabilita === 'bassa' ? 'warn' : '')}>
@@ -59,28 +72,39 @@ export function SchedaDocumento({ iniziale, onSalva, onScarta, etichettaSalva = 
         />
       </div>
 
+      <Campo label="Da pagare entro" hint="Ti avvisiamo qualche giorno prima">
+        <input type="date" value={d.scadenza_pagamento || ''} onChange={set('scadenza_pagamento')} />
+      </Campo>
       <div className="ca-grid2">
         <Campo label="Periodo dal"><input type="date" value={d.periodo_dal || ''} onChange={set('periodo_dal')} /></Campo>
         <Campo label="al"><input type="date" value={d.periodo_al || ''} onChange={set('periodo_al')} /></Campo>
-        <Campo label="Da pagare entro"><input type="date" value={d.scadenza_pagamento || ''} onChange={set('scadenza_pagamento')} /></Campo>
-        {energia ? (
-          <Campo label={`Consumo (${c.unita})`}><input inputMode="decimal" className="num" value={nv(d.consumo)} onChange={setNum('consumo')} /></Campo>
-        ) : tlc ? (
-          <Campo label="Canone mensile €"><input inputMode="decimal" className="num" value={nv(d.canone_mensile)} onChange={setNum('canone_mensile')} /></Campo>
-        ) : <span />}
       </div>
 
       <label className="ca-check">
         <input type="checkbox" checked={!!d.domiciliazione} onChange={set('domiciliazione')} />
-        <span>Addebito automatico su conto o carta</span>
+        <span>Si paga da sola (addebito su conto o carta)</span>
       </label>
 
       {!dettagli ? (
-        <button type="button" className="ca-link" onClick={() => setDettagli(true)}>Mostra tutti i dettagli</button>
+        <button type="button" className="ca-doc-extra" onClick={() => setDettagli(true)} aria-expanded="false">
+          <span className="ca-doc-extra-t">
+            {energia ? 'Consumi e prezzi' : 'Offerta e scadenze'}
+            {compilati > 0 && <span className="ca-doc-extra-n">{compilati} {compilati === 1 ? 'dato letto' : 'dati letti'}</span>}
+          </span>
+          <span className="ca-doc-extra-d">
+            Facoltativo. {energia ? 'Serve a controllare se paghi il giusto e ad avvisarti quando scade il prezzo.' : 'Serve ad avvisarti quando finisce la promozione.'}
+          </span>
+          <Icona nome="piu" size={18} />
+        </button>
       ) : (
         <div className="ca-grid2 ca-doc-more">
-          <Campo label="Offerta"><input value={d.offerta || ''} onChange={set('offerta')} /></Campo>
+          {energia ? (
+            <Campo label={`Consumo (${c.unita})`}><input inputMode="decimal" className="num" value={nv(d.consumo)} onChange={setNum('consumo')} /></Campo>
+          ) : tlc ? (
+            <Campo label="Canone mensile €"><input inputMode="decimal" className="num" value={nv(d.canone_mensile)} onChange={setNum('canone_mensile')} /></Campo>
+          ) : null}
           <Campo label={tlc ? 'Fine promozione' : 'Condizioni valide fino al'}><input type="date" value={d.fine_condizioni || ''} onChange={set('fine_condizioni')} /></Campo>
+          <Campo label="Nome dell'offerta"><input value={d.offerta || ''} onChange={set('offerta')} /></Campo>
           {energia && d.categoria !== 'acqua' && <>
             <Campo label={`Prezzo energia €/${c.unita}`} hint="Solo la materia prima, IVA esclusa"><input inputMode="decimal" className="num" value={nv(d.prezzo_materia)} onChange={setNum('prezzo_materia')} /></Campo>
             <Campo label="Tipo di prezzo">
@@ -91,7 +115,7 @@ export function SchedaDocumento({ iniziale, onSalva, onScarta, etichettaSalva = 
             <Campo label="Quota fissa €/mese"><input inputMode="decimal" className="num" value={nv(d.quota_fissa_mese)} onChange={setNum('quota_fissa_mese')} /></Campo>
             {d.categoria === 'luce' && <Campo label="Potenza impegnata kW"><input inputMode="decimal" className="num" value={nv(d.potenza_kw)} onChange={setNum('potenza_kw')} /></Campo>}
           </>}
-          <label className="ca-check"><input type="checkbox" checked={!!d.consumi_stimati} onChange={set('consumi_stimati')} /><span>Consumi stimati</span></label>
+          {energia && <label className="ca-check"><input type="checkbox" checked={!!d.consumi_stimati} onChange={set('consumi_stimati')} /><span>Consumi stimati</span></label>}
           <label className="ca-check"><input type="checkbox" checked={!!d.conguaglio} onChange={set('conguaglio')} /><span>Contiene un conguaglio</span></label>
         </div>
       )}
