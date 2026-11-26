@@ -4,6 +4,25 @@
    un solo accento ottone. Serif per i titoli, grotesk per l'UI,
    mono tabellare per i numeri.
    ───────────────────────────────────────────────────────────── */
+/* Il simbolo € di Bodoni Moda sembra una "C": per il solo glifo U+20AC
+   si usa quello di Schibsted, prima di Bodoni nella catena dei font. */
+@font-face {
+  font-family: 'SB Euro';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('../../node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+20AC;
+}
+@font-face {
+  font-family: 'SB Euro';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('../../node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-italic.woff2') format('woff2-variations');
+  unicode-range: U+20AC;
+}
+
 :root {
   /* superfici */
   --paper: #f5f2ec;
@@ -41,7 +60,7 @@
   /* tipografia */
   /* Bodoni: tipografia italiana (Parma, fine '700), contrasto alto, ottica variabile.
      Schibsted Grotesk: grotesk editoriale, leggibile, numeri tabellari. */
-  --f-display: 'Bodoni Moda Variable', 'Bodoni 72', 'Didot', Georgia, serif;
+  --f-display: 'SB Euro', 'Bodoni Moda Variable', 'Bodoni 72', 'Didot', Georgia, serif;
   --f-ui: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --f-mono: var(--f-ui);
 
@@ -133,7 +152,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tool-title { font-size: clamp(42px, 6.4vw, 72px) !important; margin-top: 12px; }
 .tool-title span { color: var(--brass) !important; background: none !important; -webkit-text-fill-color: currentColor !important; font-style: italic; }
 .tab-container {
-  background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--line-strong) !important;
+  /* Le schede restano visibili sotto la testata (alta 68px) mentre si scorre. */
+  position: sticky !important; top: 68px !important; z-index: 40 !important;
+  background: var(--paper) !important; border: 0 !important; border-bottom: 1px solid var(--line-strong) !important;
   border-radius: 0 !important; padding: 0 !important; gap: 28px !important; box-shadow: none !important;
   overflow-x: auto; scrollbar-width: none;
 }

@@ -6,37 +6,22 @@ const casa = [
   { href: '/affitto-vs-mutuo', t: 'Affitto o mutuo', d: 'Il punto di pareggio tra comprare e restare in affitto.' },
 ];
 const altri = [
-  { href: '/luce-gas', t: 'Confronto offerte luce e gas' },
-  { href: '/internet', t: 'Confronto offerte internet' },
-  { href: '/quanto-spendo', t: 'Quanto spendo' },
-  { href: '/checklist', t: 'Checklist risparmio' },
-  { href: '/calcolo-stipendio', t: 'Stipendio lordo/netto' },
-  { href: '/forfettario-vs-ordinario', t: 'Forfettario o ordinario' },
-  { href: '/trova-bonus', t: 'Bonus fiscali' },
-  { href: '/conti-correnti', t: 'Costo del conto corrente' },
-  { href: '/rc_auto', t: 'RC auto' },
-  { href: '/bollo_revisione', t: 'Scadenze auto' },
-  { href: '/salute', t: 'Polizze sanitarie' },
-  { href: '/istruzione', t: 'Rette universitarie' },
-  { href: '/investimenti', t: 'Portafogli modello' },
-  { href: '/interesse-composto', t: 'Interesse composto' },
-  { href: '/tfr_pensione', t: 'Fondi pensione e TFR' },
-];
+  { href: '/calcolo-stipendio', t: 'Stipendio lordo/netto', d: 'Il netto in busta paga con IRPEF, contributi e detrazioni 2026.' },
+]
 ---
 <Layout title="Calcolatori casa: rata mutuo, affitto o mutuo e altri strumenti | SoldiBuoni" description="Calcolatori per la casa: mutuo, affitto o acquisto, luce e gas, internet. Più gli strumenti per stipendio, tasse e risparmio.">
   <section class="wrap st">
-    <p class="eyebrow">Strumenti</p>
+    <p class="eyebrow">Calcolatori</p>
     <h1 class="display st-t">Calcoli che<br /><em>valgono una decisione.</em></h1>
-    <p class="st-lead">Due calcoli per le decisioni grandi. Per tutto il resto non serve compilare niente: carica le bollette in <a href="/casa">La tua casa</a> e i conti li facciamo noi.</p>
+    <p class="st-lead">Pochi calcoli, per le decisioni grandi. Per tutto il resto non serve compilare niente: carica le bollette in <a href="/casa">La tua casa</a> e i conti li facciamo noi.</p>
     <h2 class="st-h">Per la casa</h2>
     <div class="st-grid">
       {casa.map((s) => <a href={s.href} class="st-c"><span class="st-ct">{s.t}</span><span class="st-cd">{s.d}</span><span class="st-ca" aria-hidden="true">→</span></a>)}
     </div>
-    <h2 class="st-h">Altri strumenti</h2>
-    <p class="st-note">Strumenti nati prima di “La tua casa”. Restano disponibili mentre li ripensiamo.</p>
-    <ul class="st-list">
-      {altri.map((s) => <li><a href={s.href}>{s.t}</a></li>)}
-    </ul>
+    <h2 class="st-h">Lavoro</h2>
+    <div class="st-grid">
+      {altri.map((s) => <a href={s.href} class="st-c"><span class="st-ct">{s.t}</span><span class="st-cd">{s.d}</span><span class="st-ca" aria-hidden="true">→</span></a>)}
+    </div>
   </section>
 </Layout>
 <style>
@@ -52,9 +37,4 @@ const altri = [
   .st-ct { font-family: var(--f-display); font-size: 30px; color: var(--ink); line-height: 1.05; padding-right: 30px; }
   .st-cd { font-size: 15px; }
   .st-ca { position: absolute; top: 24px; right: 24px; color: var(--ink-3); }
-  .st-note { font-size: 15px; margin: -6px 0 16px; color: var(--ink-3); }
-  .st-list { list-style: none; columns: 3 220px; column-gap: 32px; border-top: 1px solid var(--line); }
-  .st-list li { break-inside: avoid; border-bottom: 1px solid var(--line); }
-  .st-list a { display: block; padding: 14px 0; color: var(--ink); }
-  .st-list a:hover { text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; }
 </style>

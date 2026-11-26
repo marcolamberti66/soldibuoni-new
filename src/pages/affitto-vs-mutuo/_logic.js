@@ -1,3 +1,4 @@
+import { TASSI } from '../../data/tassi.js';
 // =====================================================================
 // Logica condivisa per /affitto-vs-mutuo/[slug]
 // Calcolo break-even basato su confronto PATRIMONIO NETTO dei due scenari
@@ -49,7 +50,7 @@ function rataMensile(C, anni, tassoPerc) {
 // =====================================================================
 function calcolaBreakEven(prezzoTotale, affittoMensile) {
   const ANTICIPO_PERC = 20;
-  const TASSO_MUTUO = 3.20;
+  const TASSO_MUTUO = TASSI.fisso;
   const DURATA_MUTUO = 25;
   const REND_ANTICIPO = 3.0;
   const ISTAT = 1.5;
