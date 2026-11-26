@@ -14,13 +14,13 @@ const {
 // Percorso pulito: niente .html, niente /index, niente barra finale (tranne la home).
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/(.)\/$/, '$1') || '/';
 const canonical = 'https://soldibuoni.it' + (path === '/' ? '/' : path);
+// Testata: tre voci + la chiamata all'app ("La tua casa" è già il bottone; "Chi siamo" sta nel footer).
 const nav = [
-  { href: '/casa', label: 'La tua casa' },
   { href: '/controlla-bolletta', label: 'Controlla bolletta' },
-  { href: '/guida', label: 'Guida' },
-  { href: '/strumenti', label: 'Strumenti' },
-  { href: '/chi-siamo', label: 'Chi siamo' },
+  { href: '/guida', label: 'Guide' },
+  { href: '/strumenti', label: 'Calcolatori' },
 ];
+const navMobile = [{ href: '/casa', label: 'La tua casa' }, ...nav, { href: '/chi-siamo', label: 'Chi siamo' }];
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
 // QR per aprire l'app dal telefono (generato in fase di build, nessuna richiesta esterna).
 const qr = await QRCode.toString('https://soldibuoni.it/casa?origine=qr', { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#17150f', light: '#0000' } });
@@ -112,7 +112,7 @@ const icoTel = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="tru
     </div>
     <nav id="mnav" class="mnav" aria-label="Menu mobile" hidden>
       <div class="wrap">
-        {nav.map((n) => <a href={n.href} class="mnav-a">{n.label}</a>)}
+        {navMobile.map((n) => <a href={n.href} class="mnav-a">{n.label}</a>)}
         <button type="button" class="mnav-a mnav-app" data-app-apri="menu">Scarica l'app</button>
       </div>
     </nav>

@@ -12,23 +12,153 @@
   status = 301
 [[redirects]]
   from = "/recensione-windtre"
-  to = "/internet"
+  to = "/guida/internet-telefono"
   status = 301
 [[redirects]]
   from = "/recensione-lyca"
-  to = "/internet"
+  to = "/guida/internet-telefono"
   status = 301
 [[redirects]]
   from = "/recensione-bbva"
-  to = "/conti-correnti"
+  to = "/strumenti"
   status = 301
 [[redirects]]
   from = "/recensione-hype"
-  to = "/conti-correnti"
+  to = "/strumenti"
   status = 301
 [[redirects]]
   from = "/analisi-bolletta"
   to = "/casa"
+  status = 301
+
+# Strumenti dismessi (novembre 2026, zero traffico organico in 90 giorni) → contenuto più vicino
+[[redirects]]
+  from = "/luce-gas"
+  to = "/controlla-bolletta"
+  status = 301
+[[redirects]]
+  from = "/luce-gas.html"
+  to = "/controlla-bolletta"
+  status = 301
+[[redirects]]
+  from = "/internet"
+  to = "/guida/internet-telefono"
+  status = 301
+[[redirects]]
+  from = "/internet.html"
+  to = "/guida/internet-telefono"
+  status = 301
+[[redirects]]
+  from = "/guida-risparmio"
+  to = "/guida/costi-casa"
+  status = 301
+[[redirects]]
+  from = "/guida-risparmio.html"
+  to = "/guida/costi-casa"
+  status = 301
+[[redirects]]
+  from = "/checklist"
+  to = "/guida/costi-casa"
+  status = 301
+[[redirects]]
+  from = "/checklist.html"
+  to = "/guida/costi-casa"
+  status = 301
+[[redirects]]
+  from = "/quanto-spendo"
+  to = "/casa"
+  status = 301
+[[redirects]]
+  from = "/quanto-spendo.html"
+  to = "/casa"
+  status = 301
+[[redirects]]
+  from = "/report-risparmio"
+  to = "/casa"
+  status = 301
+[[redirects]]
+  from = "/report-risparmio.html"
+  to = "/casa"
+  status = 301
+[[redirects]]
+  from = "/rc_auto"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/rc_auto.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/bollo_revisione"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/bollo_revisione.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/salute"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/salute.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/investimenti"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/investimenti.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/istruzione"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/istruzione.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/tfr_pensione"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/tfr_pensione.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/forfettario-vs-ordinario"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/forfettario-vs-ordinario.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/interesse-composto"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/interesse-composto.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/conti-correnti"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/conti-correnti.html"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/trova-bonus"
+  to = "/strumenti"
+  status = 301
+[[redirects]]
+  from = "/trova-bonus.html"
+  to = "/strumenti"
   status = 301
 
 [functions]

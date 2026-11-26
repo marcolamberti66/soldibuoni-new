@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { TOPICS } from '../data.js';
+import { TASSI, fmtPerc } from '../data/tassi.js';
+const F = TASSI.fisso.toFixed(2), V = TASSI.variabile.toFixed(2);
 
 const topic = TOPICS.mutuo;
 ---
@@ -46,15 +48,16 @@ const topic = TOPICS.mutuo;
       <div class="calc-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <label class="calc-label" style="margin-bottom: 0;">
-            Tasso (TAEG): <span id="tasso-value" class="calc-accent">3.20%</span>
+            Tasso (TAN): <span id="tasso-value" class="calc-accent">{F}%</span>
           </label>
           <div style="display: flex; gap: 4px;">
-            <button class="tipo-pill active" data-tasso="3.20">Fisso</button>
-            <button class="tipo-pill" data-tasso="4.50">Variabile</button>
+            <button class="tipo-pill active" data-tasso={F}>Fisso</button>
+            <button class="tipo-pill" data-tasso={V}>Variabile</button>
           </div>
         </div>
-        <input type="range" id="tasso-slider" min="1.0" max="6.0" step="0.05" value="3.20" class="calc-slider">
+        <input type="range" id="tasso-slider" min="1.0" max="6.0" step="0.01" value={F} class="calc-slider">
         <div class="calc-range"><span>1.0%</span><span>6.0%</span></div>
+        <p style="font-size: 12.5px; color: #57534a; margin: 8px 0 0;">Fisso e Variabile partono dalle medie delle offerte di {TASSI.aggiornatoTesto} ({fmtPerc(TASSI.fisso)} e {fmtPerc(TASSI.variabile)}; fonte: {TASSI.fonte}).</p>
       </div>
 
       <!-- ANTICIPO -->

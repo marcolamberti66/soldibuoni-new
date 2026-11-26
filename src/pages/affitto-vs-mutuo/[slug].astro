@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { cittaList, importiList, elaboraDati, fmt } from './_logic.js';
+import { TASSI, fmtPerc } from '../../data/tassi.js';
+const TM = fmtPerc(TASSI.fisso);
 
 export const prerender = true;
 
@@ -40,7 +42,7 @@ const jsonLdString = JSON.stringify(d.faqJsonLd);
     {type === 'citta' ? (
       <p class="subtitle">{d.cittaObj.regione} · Dati OMI Agenzia delle Entrate Q4 2025</p>
     ) : (
-      <p class="subtitle">Confronto basato su yield medio nazionale 5% · Tasso mutuo 3,20% · Anticipo 20%</p>
+      <p class="subtitle">Confronto basato su yield medio nazionale 5% · Tasso mutuo fisso {TM} ({TASSI.aggiornatoTesto}) · Anticipo 20%</p>
     )}
 
     <div class="verdetto-box" style={`background: linear-gradient(135deg, ${d.verdettoColor} 0%, ${d.verdettoColor}dd 100%);`}>
@@ -75,7 +77,7 @@ const jsonLdString = JSON.stringify(d.faqJsonLd);
         <div class="kpi-box">
           <div class="kpi-label">{type === 'citta' ? 'Rendita lorda' : 'Rata mensile'}</div>
           <div class="kpi-value">{type === 'citta' ? `${d.cittaObj.yield}%` : `€ ${fmt(d.rata)}`}</div>
-          <div class="kpi-sub">{type === 'citta' ? 'canone annuo / prezzo' : '25 anni @ 3,20%'}</div>
+          <div class="kpi-sub">{type === 'citta' ? 'canone annuo / prezzo' : `25 anni al ${TM}`}</div>
         </div>
         {type === 'importo' && (
           <div class="kpi-box">
@@ -127,7 +129,7 @@ const jsonLdString = JSON.stringify(d.faqJsonLd);
           <div class="brk-row-total">
             <div class="brk-row border-none">
               <div>
-                <div class="brk-label" style="font-size: 16px;">Rata mensile (25 anni @ 3,20%)</div>
+                <div class="brk-label" style="font-size: 16px;">Rata mensile (25 anni al {TM})</div>
                 <div class="brk-sub">Mutuo a tasso fisso</div>
               </div>
               <div class="brk-value" style={`font-size: 22px; color: ${d.color};`}>€ {fmt(d.rata)}</div>
@@ -234,7 +236,7 @@ const jsonLdString = JSON.stringify(d.faqJsonLd);
     <div class="methodology-box">
       <div class="methodology-text">
         <strong>Nota metodologica:</strong> {type === 'citta' ? 
-          `I prezzi al mq derivano dalle quotazioni OMI Q4 2025 dell'Agenzia delle Entrate per zone semicentrali, abitazioni civili in stato normale. Il calcolo del break-even include rata mutuo (tasso fisso 3,20%, durata 25 anni, anticipo 20%), spese accessorie all'acquisto (~6%), manutenzione 1%/anno del valore, indicizzazione ISTAT 1,5%/anno dei canoni, costo opportunità dell'anticipo investito al 3% lordo.` 
+          `I prezzi al mq derivano dalle quotazioni OMI Q4 2025 dell'Agenzia delle Entrate per zone semicentrali, abitazioni civili in stato normale. Il calcolo del break-even include rata mutuo (tasso fisso ${TM}, media offerte di ${TASSI.aggiornatoTesto}, durata 25 anni, anticipo 20%), spese accessorie all'acquisto (~6%), manutenzione 1%/anno del valore, indicizzazione ISTAT 1,5%/anno dei canoni, costo opportunità dell'anticipo investito al 3% lordo.` 
           : 
           `Il prezzo casa equivalente è derivato dal canone applicando lo yield medio italiano del 5% lordo. Questo è un valore medio nazionale.`
         }
