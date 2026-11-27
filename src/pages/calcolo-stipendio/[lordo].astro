@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { TASSI } from '../../data/tassi.js';
+import { ISTAT } from '../../data/energia.js';
 
 // Forza il pre-render statico al build (compatibile sia con modalità
 // static che hybrid/server). Necessario su Netlify in modalità SSR.
@@ -146,6 +148,14 @@ const calcNext = next ? calcolaStipendio(next) : null;
 
 // SEO meta
 const ralFmt = fmt(ral);
+// Ponte verso la casa: quanto di questo stipendio può andare in affitto o rata (regola prudenziale del 30%).
+const nettoMese12 = calc.nettoMedio / 12;
+const quotaCasa = Math.round(nettoMese12 * 0.30 / 10) * 10;
+const iMese = TASSI.fisso / 100 / 12, nRate = 25 * 12;
+const capitale = quotaCasa * (1 - Math.pow(1 + iMese, -nRate)) / iMese;
+const IMPORTI_MUTUO = [50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 220000, 240000, 250000, 270000, 280000, 300000, 320000, 350000, 380000, 400000, 420000, 450000, 480000, 500000];
+const mutuoVicino = IMPORTI_MUTUO.reduce((a, b) => (Math.abs(b - capitale) < Math.abs(a - capitale) ? b : a));
+const fmtK = (n) => Math.round(n / 1000).toLocaleString('it-IT') + '.000';
 // Il numero nel titolo: chi cerca "26000 lordi quanti sono netti" vede la risposta già nel risultato.
 const titleSeo = `${ralFmt} euro lordi quanti sono netti? ${fmt(calc.nettoMensile13)} € al mese (2026)`;
 const descrSeo = `${ralFmt} € lordi l'anno sono ${fmt(calc.nettoMedio)} € netti: ${fmt(calc.nettoMensile13)} € al mese con 13 mensilità, ${fmt(calc.nettoMensile14)} € con 14. Calcolo 2026 con taglio del cuneo.`;
@@ -320,6 +330,18 @@ const faqJsonLd = {
       <a href="/calcolo-stipendio" style={`display: inline-block; background: ${color}; color: #fbfaf7; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none;`}>
         Apri il calcolatore personalizzato →
       </a>
+    </div>
+
+    <!-- PONTE VERSO LA CASA: quanto puoi spendere per abitare -->
+    <div class="info-card" style="margin-bottom: 16px;">
+      <h2 style={`color: ${color}; font-family: var(--f-display); font-size: 22px; margin: 0 0 8px 0;`}>Quanto puoi spendere per la casa con {fmt(calc.nettoMensile13)} € al mese</h2>
+      <p style="color: #47433a; font-size: 15px; line-height: 1.6; margin: 0 0 16px 0;">Una regola prudente, simile a quella che usano le banche per concedere un mutuo, è non superare il <strong>30% del netto</strong> tra affitto o rata. Con {ralFmt} € lordi vuol dire circa <strong>{fmt(quotaCasa)} € al mese</strong>, calcolati sul netto annuo diviso per dodici.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 14px;">
+        <div class="cmp-card"><div class="cmp-tag">Affitto o rata sostenibile</div><div class="cmp-ral">{fmt(quotaCasa)} € al mese</div><div class="cmp-net">30% del netto mensile</div></div>
+        <a href={`/mutuo/${mutuoVicino}-euro-25-anni`} class="cmp-card"><div class="cmp-tag">Mutuo indicativo a 25 anni</div><div class="cmp-ral">circa {fmtK(capitale)} €</div><div class="cmp-net">tasso fisso medio {TASSI.fisso.toLocaleString('it-IT')}% · vedi la rata →</div></a>
+        <div class="cmp-card"><div class="cmp-tag">Le medie italiane</div><div class="cmp-ral">{ISTAT.affittoMedio} € · {ISTAT.rataMutuoMedia} €</div><div class="cmp-net">affitto medio · rata media (ISTAT {ISTAT.anno})</div></div>
+      </div>
+      <p style="color: #6f6a5e; font-size: 13.5px; line-height: 1.55; margin: 0;">Alla rata vanno aggiunte le spese della casa: per una famiglia tipo luce, gas e TARI valgono da sole circa 250 € al mese ai prezzi di fine 2026, prima del condominio (<a href="/costi-casa" style={`color: ${color}; text-decoration: underline;`}>quanto costa mantenere una casa</a>). Per vedere il tuo conto reale, voce per voce, c'è <a href="/casa" style={`color: ${color}; text-decoration: underline;`}>La tua casa</a>, gratis.</p>
     </div>
 
     <!-- CONFRONTO con stipendi adiacenti -->
