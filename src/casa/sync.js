@@ -24,7 +24,7 @@ export function sb() {
 }
 
 const COLONNE = {
-  case: ['id', 'nome', 'cap', 'persone', 'mq', 'riscaldamento', 'titolo', 'creato_il', 'aggiornato_il'],
+  case: ['id', 'nome', 'cap', 'citta', 'persone', 'mq', 'riscaldamento', 'titolo', 'creato_il', 'aggiornato_il'],
   documenti: ['id', 'categoria', 'fornitore', 'offerta', 'periodo_dal', 'periodo_al', 'data_emissione', 'scadenza_pagamento',
     'fine_condizioni', 'importo', 'consumo', 'unita', 'consumo_annuo_dichiarato', 'prezzo_materia', 'quota_fissa_mese',
     'canone_mensile', 'tipo_prezzo', 'potenza_kw', 'consumi_stimati', 'conguaglio', 'domiciliazione', 'pagato', 'fonte',
@@ -65,7 +65,7 @@ function daDb(riga) {
 }
 
 // ── stato della sincronizzazione (per l'interfaccia) ─────────
-let info = { utente: null, stato: 'off', errore: null, ultimo: null };
+let info = { utente: null, stato: 'off', errore: null, ultimo: null, verificato: false };
 const asc = new Set();
 const set = (p) => { info = { ...info, ...p }; asc.forEach((f) => f()); };
 export function useAccount() {
@@ -83,6 +83,7 @@ const TABELLE = ['documenti', 'ricorrenti', 'promemoria', 'conviventi', 'movimen
 const vuotoSync = () => ({ noti: Object.fromEntries(TABELLE.map((t) => [t, []])), eliminati: Object.fromEntries(TABELLE.map((t) => [t, []])) });
 const TABELLA_ASSENTE = /^(42P01|PGRST20[45])$/;
 const assenti = new Set();
+let senzaCitta = false;
 const quando = (x) => Date.parse(x?.aggiornato_il || x?.creato_il || '') || 0;
 
 async function casaRemota(uid) {
@@ -154,7 +155,9 @@ async function sincronizza(uid) {
     // Se la casa locale è un'altra (prima volta, o casa appena condivisa), i dati
     // locali non ancora salvati confluiscono nella casa del database.
     const stessa = s.casa && s.casa.id === r.casa.id;
-    const casa = stessa && quando(s.casa) > quando(r.casa) ? { ...r.casa, ...s.casa, proprietario: r.casa.proprietario } : r.casa;
+    let casa = stessa && quando(s.casa) > quando(r.casa) ? { ...r.casa, ...s.casa, proprietario: r.casa.proprietario } : r.casa;
+    // Il comune si salva sul database solo dopo la migrazione 5: fino ad allora resta quello del dispositivo.
+    if (stessa && !casa.citta && s.casa.citta) casa = { ...casa, citta: s.casa.citta };
     unito = { casa };
     for (const t of TABELLE) unito[t] = unisciLista(s[t], r[t], stessa ? sy.noti[t] || [] : [], sy.eliminati[t] || []);
   } else {
@@ -165,7 +168,15 @@ async function sincronizza(uid) {
 
   // Carica: casa, elementi, cancellazioni.
   const casaId = unito.casa.id;
-  const { error: e1 } = await c.from('case').upsert(versoDb(unito.casa, 'case', { user_id: unito.casa.proprietario || uid }));
+  let rigaCasa = versoDb(unito.casa, 'case', { user_id: unito.casa.proprietario || uid });
+  if (senzaCitta) { const { citta, ...r } = rigaCasa; rigaCasa = r; }
+  let { error: e1 } = await c.from('case').upsert(rigaCasa);
+  if (e1 && /citta/.test(e1.message || '')) {
+    // Colonna "citta" non ancora creata (migrazione 5): salviamo il resto.
+    senzaCitta = true;
+    const { citta, ...r } = rigaCasa;
+    ({ error: e1 } = await c.from('case').upsert(r));
+  }
   if (e1) throw e1;
   for (const t of TABELLE) {
     if (assenti.has(t)) continue;
@@ -264,7 +275,10 @@ export function avviaSync() {
   if (avviato || typeof window === 'undefined') return;
   avviato = true;
   const c = sb();
-  c.auth.getSession().then(({ data }) => { if (data.session?.user) accesso(data.session.user); });
+  c.auth.getSession()
+    .then(({ data }) => { if (data.session?.user) accesso(data.session.user); })
+    .catch(() => {})
+    .finally(() => set({ verificato: true }));
   c.auth.onAuthStateChange((evento, sessione) => {
     if (evento === 'SIGNED_IN' && sessione?.user && sessione.user.id !== info.utente?.id) {
       accesso(sessione.user);

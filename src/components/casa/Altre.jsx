@@ -12,6 +12,7 @@ import { SchedaTelefono } from './Telefono.jsx';
 import { SchedaCondivisa } from './Condivisa.jsx';
 import { useAccount, eliminaCasaRemota } from '../../casa/sync.js';
 import { conta } from '../../casa/dispositivo.js';
+import { TARI } from '../../data/tari-2025.js';
 
 // ── Scadenze ────────────────────────────────────────────────
 export function Scadenze({ stato, vai }) {
@@ -204,7 +205,7 @@ function Sezione({ titolo, stato, aperta, children }) {
   );
 }
 
-export function Casa({ stato }) {
+export function Casa({ stato, vai }) {
   const casa = stato.casa || {};
   const acc = useAccount();
   const inImp = useRef(null);
@@ -212,7 +213,27 @@ export function Casa({ stato }) {
   const profilo = [TITOLO[casa.titolo], casa.persone ? (casa.persone >= 5 ? '5+' : casa.persone) + (casa.persone === 1 ? ' persona' : ' persone') : null].filter(Boolean).join(' · ');
   return (
     <section className="ca-page">
-      <Testata titolo="Impostazioni" sotto="Account, condivisione, telefono, profilo della casa e dati." />
+      <Testata titolo="Altro" sotto="Strumenti, guide e impostazioni della casa." />
+
+      <div className="ca-card flush ca-list ca-altro">
+        <button className="ca-row" onClick={() => vai('dividi')}>
+          <span className="ca-altro-i"><Icona nome="dividi" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Dividi le spese</span><span className="ca-row-s">{stato.conviventi.length ? 'Chi deve a chi in casa' : 'Con chi vive con te: chi deve a chi'}</span></span>
+          <Icona nome="freccia" size={18} />
+        </button>
+        <a className="ca-row" href="/guida">
+          <span className="ca-altro-i"><Icona nome="libro" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Guide</span><span className="ca-row-s">TARI, IMU, bollette, condominio, 730</span></span>
+          <Icona nome="freccia" size={18} />
+        </a>
+        <a className="ca-row" href="/strumenti">
+          <span className="ca-altro-i"><Icona nome="strumenti" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Strumenti</span><span className="ca-row-s">Mutuo, affitto o mutuo, TARI della tua città</span></span>
+          <Icona nome="freccia" size={18} />
+        </a>
+      </div>
+
+      <h2 className="ca-h2">Impostazioni</h2>
 
       <Sezione titolo="Account e email del lunedì" stato={acc.utente ? acc.utente.email : 'Non attivo'}>
         <Account />
@@ -227,7 +248,7 @@ export function Casa({ stato }) {
         <div className="ca-card ca-form">
           <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
           <div className="ca-grid2">
-            <Campo label="CAP"><input inputMode="numeric" maxLength={5} defaultValue={casa.cap || ''} onBlur={(e) => set('cap')(e.target.value.replace(/\D/g, '') || null)} /></Campo>
+            <Campo label="Comune"><input list="ca-comuni-p" defaultValue={casa.citta || ''} placeholder="Milano" onBlur={(e) => set('citta')(e.target.value.trim() || null)} /><datalist id="ca-comuni-p">{TARI.map((t) => <option key={t.slug} value={t.citta} />)}</datalist></Campo>
             <Campo label="Metri quadri"><input inputMode="numeric" defaultValue={casa.mq || ''} onBlur={(e) => set('mq')(Number(e.target.value) || null)} /></Campo>
           </div>
           <p className="ca-field-l ca-form-h">La casa è</p>
@@ -257,18 +278,21 @@ export function Casa({ stato }) {
 }
 
 // ── Onboarding: quattro tocchi ──────────────────────────────
+// Risposte date nella stima in home: l'onboarding parte già compilato.
+const stimaSalvata = () => { try { return JSON.parse(localStorage.getItem('sb_stima')) || {}; } catch { return {}; } };
+
 export function Benvenuto() {
-  const [accedi, setAccedi] = useState(false);
-  const [titolo, setTitolo] = useState(null);
+  const [st0] = useState(stimaSalvata);
+  const [titolo, setTitolo] = useState(st0.titolo || null);
   const [rata, setRata] = useState('');
-  const [persone, setPersone] = useState(null);
-  const [risc, setRisc] = useState(null);
-  const [cap, setCap] = useState('');
+  const [persone, setPersone] = useState(st0.persone || null);
+  const [risc, setRisc] = useState(st0.riscaldamento || null);
+  const [citta, setCitta] = useState(st0.citta || '');
   const pronto = titolo && persone && risc;
   const conRata = titolo === 'proprieta_mutuo' || titolo === 'affitto';
 
   const vai = () => {
-    azioni.creaCasa({ titolo, persone, riscaldamento: risc, cap: cap || null });
+    azioni.creaCasa({ titolo, persone, riscaldamento: risc, citta: citta.trim() || null });
     conta('onboarding', titolo);
     const importo = parseNumero(rata) || 0;
     if (conRata && importo > 0) {
@@ -293,10 +317,7 @@ export function Benvenuto() {
     <section className="ca-page ca-onb">
       <Percorso passo={0} />
       <h1 className="display ca-onb-t">La tua casa,<br /><em>in quattro risposte.</em></h1>
-      <p className="ca-onb-s">Un minuto, nessuna registrazione. Poi carichi una bolletta (o lo fai dopo) e si apre la <strong>tua panoramica</strong>: ogni settimana cosa esce, cosa scade, cosa fare.</p>
-      {accedi ? <div className="ca-onb-acc"><Account variante="rientro" /></div> : (
-        <p className="ca-onb-retl">Hai già usato SoldiBuoni su un altro dispositivo? <button className="ca-link" onClick={() => setAccedi(true)}>Accedi e ritrova la tua casa</button></p>
-      )}
+      <p className="ca-onb-s">Un minuto. Poi carichi un documento (o lo fai dopo) e si apre la <strong>tua casa</strong>: quanto costa, cosa esce questo mese, nei mesi in cui pesa.</p>
 
       <div className="ca-onb-q">
         <p className="ca-onb-l"><span className="ca-onb-n">I</span> La casa è {ok(titolo)}</p>
@@ -326,8 +347,9 @@ export function Benvenuto() {
         ]} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="ca-onb-n">IV</span> CAP <span className="ca-muted">facoltativo</span></p>
-        <input className="ca-onb-cap num" inputMode="numeric" maxLength={5} value={cap} onChange={(e) => setCap(e.target.value.replace(/\D/g, ''))} placeholder="20100" aria-label="CAP" />
+        <p className="ca-onb-l"><span className="ca-onb-n">IV</span> In che comune? <span className="ca-muted">facoltativo, per la TARI e i confronti</span></p>
+        <input className="ca-onb-citta" list="ca-comuni" value={citta} onChange={(e) => setCitta(e.target.value)} placeholder="Milano" aria-label="Comune" maxLength={60} autoComplete="address-level2" />
+        <datalist id="ca-comuni">{TARI.map((t) => <option key={t.slug} value={t.citta} />)}</datalist>
       </div>
 
       <div className="ca-onb-fine">
@@ -336,7 +358,7 @@ export function Benvenuto() {
         </button>
         <p className="ca-onb-dopo">{pronto ? 'Poi ti chiedo una bolletta da leggere. Puoi anche saltare.' : 'Le domande I, II e III sono obbligatorie, il resto no.'}</p>
       </div>
-      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Nessuna registrazione. I dati restano sul tuo dispositivo.</p>
+      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> I dati della casa sono visibili solo a te e a chi inviti. Server in Unione Europea.</p>
     </section>
   );
 }

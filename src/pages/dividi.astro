@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DividiSolo from '../components/DividiSolo.jsx';
+
+const faq = [
+  ['Come si calcola chi deve a chi?', 'Per ogni persona sommiamo quanto ha pagato e sottraiamo la sua quota di ogni spesa. Chi ha un saldo positivo deve ricevere, chi ce l\'ha negativo deve dare. Poi calcoliamo il minimo numero di passaggi di denaro per mettere tutti in pari.'],
+  ['Serve registrarsi?', 'No. Le spese restano solo nel tuo browser: nessun account, nessun dato inviato a noi. Se cancelli i dati del sito, le spese spariscono.'],
+  ['Posso dividere una spesa solo tra alcune persone?', 'Sì: per ogni spesa scegli tra chi va divisa. La quota è uguale per tutti quelli selezionati, al centesimo.'],
+  ['E per chi vive insieme tutto l\'anno?', 'In La tua casa i conti si tengono insieme a bollette, affitto e scadenze, condivisi tra i telefoni di chi vive con te. Puoi dividere anche in proporzione al reddito o con importi diversi.'],
+];
+const schema = [
+  { '@type': 'WebApplication', name: 'Dividi le spese', url: 'https://soldibuoni.it/dividi', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: { '@id': 'https://soldibuoni.it/#org' } },
+  { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://soldibuoni.it/' },
+    { '@type': 'ListItem', position: 2, name: 'Strumenti', item: 'https://soldibuoni.it/strumenti' },
+    { '@type': 'ListItem', position: 3, name: 'Dividi le spese', item: 'https://soldibuoni.it/dividi' },
+  ] },
+];
+---
+<Layout
+  title="Dividere le spese tra coinquilini o in coppia: chi deve a chi | SoldiBuoni"
+  description="Scrivi chi ha pagato cosa: calcoliamo chi deve a chi con il minimo di passaggi di denaro. Gratis, senza registrazione, per coinquilini, coppie e viaggi."
+  schema={schema}
+>
+  <section class="wrap dvp">
+    <nav class="dvp-bc" aria-label="Percorso"><a href="/strumenti">Strumenti</a> <span aria-hidden="true">/</span> Dividi le spese</nav>
+    <div class="dvp-head">
+      <p class="eyebrow">Strumento gratuito · senza registrazione</p>
+      <h1 class="display dvp-t">Chi deve<br /><em>a chi.</em></h1>
+      <p class="dvp-s">Coinquilini, coppia, una vacanza: scrivi chi ha pagato cosa e ti diciamo chi deve dare quanto a chi, con il minor numero di bonifici.</p>
+    </div>
+    <DividiSolo client:only="react" />
+    <noscript><p>Per dividere le spese serve JavaScript attivo.</p></noscript>
+  </section>
+
+  <section class="wrap dvp-app">
+    <div>
+      <p class="eyebrow">Vivete insieme?</p>
+      <h2 class="display dvp-h2">I conti di casa<br /><em>si tengono da soli.</em></h2>
+    </div>
+    <div>
+      <p>In <a href="/casa">La tua casa</a> le spese da dividere stanno insieme a bollette, affitto e scadenze, sul telefono di ognuno. Una bolletta caricata da uno compare a tutti, già divisa. Puoi dividere anche in proporzione al reddito.</p>
+      <a href="/casa" class="btn btn-ink">Apri la tua casa <span aria-hidden="true">→</span></a>
+      <p class="dvp-g">Per scegliere il metodo: <a href="/guida/dividere-spese-casa">come dividere le spese di casa</a>.</p>
+    </div>
+  </section>
+
+  <section class="wrap dvp-faq">
+    <h2 class="dvp-fh">Domande frequenti</h2>
+    {faq.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}
+  </section>
+</Layout>
+
+<style>
+  .dvp { padding-top: clamp(28px, 5vw, 64px); max-width: 860px; }
+  .dvp-bc { font-size: 13.5px; color: var(--ink-3); margin-bottom: 18px; }
+  .dvp-bc a { color: var(--ink-2); }
+  .dvp-t { font-size: clamp(52px, 8vw, 96px); line-height: .92; margin: 14px 0 18px; }
+  .dvp-t em { color: var(--brass); }
+  .dvp-s { font-size: 18px; max-width: 580px; margin-bottom: 36px; }
+  .dvp-app { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; padding-top: 80px; padding-bottom: 24px; border-bottom: 1px solid var(--line); max-width: 860px; }
+  .dvp-h2 { font-size: clamp(34px, 4.5vw, 52px); line-height: 1; margin-top: 12px; }
+  .dvp-h2 em { color: var(--brass); }
+  .dvp-app p { font-size: 16px; margin-bottom: 18px; }
+  .dvp-app a:not(.btn) { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
+  .dvp-g { margin-top: 18px; font-size: 14.5px !important; }
+  .dvp-faq { max-width: 860px; padding-top: 48px; padding-bottom: 96px; }
+  .dvp-fh { font-family: var(--f-display); font-size: 30px; margin-bottom: 12px; }
+  .dvp-faq details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .dvp-faq summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+  .dvp-faq p { margin-top: 10px; }
+  @media (max-width: 720px) { .dvp-app { grid-template-columns: 1fr; gap: 16px; } }
+
+  :global(.dv) { display: grid; gap: 14px; }
+  :global(.dv-boot) { min-height: 420px; }
+  :global(.dv-card) { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(18px, 3vw, 28px); }
+  :global(.dv-h) { display: flex; align-items: center; gap: 12px; font-family: var(--f-display); font-size: 26px; font-weight: 400; color: var(--ink); margin-bottom: 16px; }
+  :global(.dv-h span) { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--ink); font-style: italic; font-size: 16px; }
+  :global(.dv-pers) { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 12px; }
+  :global(.dv-p) { position: relative; }
+  :global(.dv-p input, .dv-f input, .dv-f select) { width: 100%; height: 46px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); padding: 0 12px; font: inherit; font-size: 16px; color: var(--ink); }
+  :global(.dv-p input) { padding-right: 38px; }
+  :global(.dv-x) { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border: 0; background: none; font-size: 20px; color: var(--ink-3); cursor: pointer; border-radius: 8px; }
+  :global(.dv-x:hover) { color: var(--ink); background: var(--paper-2); }
+  :global(.dv-link) { background: none; border: 0; padding: 6px 0; font: inherit; font-size: 15px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; cursor: pointer; }
+  :global(.dv-muted) { color: var(--ink-3); font-size: 15px; }
+  :global(.dv-form) { display: grid; gap: 14px; }
+  :global(.dv-row) { display: grid; grid-template-columns: 2fr 1fr 1.2fr; gap: 10px; }
+  :global(.dv-f) { display: grid; gap: 6px; font-size: 13px; color: var(--ink-2); }
+  :global(.dv-tra) { border: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  :global(.dv-tra legend) { font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+  :global(.dv-chip) { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 14.5px; cursor: pointer; color: var(--ink-2); }
+  :global(.dv-chip.on) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  :global(.dv-chip input) { position: absolute; opacity: 0; pointer-events: none; }
+  :global(.dv-chip:has(input:focus-visible)) { outline: 2px solid var(--brass); outline-offset: 2px; }
+  :global(.dv-form .btn) { justify-self: start; }
+  :global(.dv-list) { list-style: none; margin-top: 18px; border-top: 1px solid var(--line); }
+  :global(.dv-list li) { position: relative; display: flex; align-items: center; gap: 12px; padding: 12px 40px 12px 0; border-bottom: 1px solid var(--line); }
+  :global(.dv-l-t) { flex: 1; display: flex; flex-direction: column; color: var(--ink); font-size: 15.5px; }
+  :global(.dv-l-t small) { font-size: 13px; color: var(--ink-3); }
+  :global(.dv-l-v) { font-size: 15.5px; color: var(--ink); }
+  :global(.dv-res) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  :global(.dv-res .dv-h) { color: var(--paper); }
+  :global(.dv-res .dv-h span) { border-color: var(--paper); }
+  :global(.dv-res .dv-muted) { color: color-mix(in srgb, var(--paper) 65%, transparent); }
+  :global(.dv-tot) { font-size: 15px; opacity: .8; margin-bottom: 14px; }
+  :global(.dv-pass) { list-style: none; display: grid; gap: 8px; margin-bottom: 18px; }
+  :global(.dv-pass li) { font-family: var(--f-display); font-size: clamp(22px, 3vw, 30px); line-height: 1.2; }
+  :global(.dv-pass b) { font-weight: 500; }
+  :global(.dv-pass b.num) { font-family: var(--f-body, inherit); color: #e6c98f; }
+  :global(.dv-pari) { font-family: var(--f-display); font-size: 30px; margin-bottom: 16px; }
+  :global(.dv-sal) { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; opacity: .85; padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--paper) 20%, transparent); }
+  :global(.dv-sal .pos) { color: #a9d7b5; } :global(.dv-sal .neg) { color: #f0b3a3; }
+  :global(.dv-act) { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  :global(.dv-res .btn-ink) { background: var(--paper); color: var(--ink); }
+  :global(.dv-res .btn-line) { border-color: color-mix(in srgb, var(--paper) 50%, transparent); color: var(--paper); }
+  @media (max-width: 640px) { :global(.dv-row) { grid-template-columns: 1fr 1fr; } :global(.dv-f-w) { grid-column: 1 / -1; } }
+</style>
