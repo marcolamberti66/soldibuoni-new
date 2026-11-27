@@ -1,0 +1,127 @@
+.tav { margin: 0; }
+  .tav svg { width: 100%; height: auto; overflow: visible; display: block; }
+
+  .tav-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tav-seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--paper-2); border: 1px solid var(--line); }
+  .tav-seg button { border: 0; background: transparent; color: var(--ink-2); font-size: 13.5px; font-weight: 500; padding: 8px 14px; border-radius: 999px; cursor: pointer; transition: background .25s var(--ease), color .25s var(--ease); }
+  .tav-seg button[aria-checked='true'] { background: var(--ink); color: var(--paper); }
+  .tav-seg button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  .tav-hint { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); transition: opacity .3s var(--ease); }
+  .tav.scelto .tav-hint { opacity: 0; }
+  .tav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 0 rgba(132, 101, 45, .5); animation: tavPulse 2s infinite; }
+  @keyframes tavPulse { 70% { box-shadow: 0 0 0 9px rgba(132, 101, 45, 0); } 100% { box-shadow: 0 0 0 0 rgba(132, 101, 45, 0); } }
+
+  .tav-line { stroke: var(--ink); stroke-width: 1.4; }
+  .tav-lead { stroke: var(--ink-3); stroke-width: .8; stroke-dasharray: 2 3; transition: stroke .3s var(--ease); }
+  .tav-l { font-family: var(--f-ui); font-size: 15px; fill: var(--ink); font-weight: 500; }
+  .tav-s { font-family: var(--f-display); font-style: italic; font-size: 14px; fill: var(--brass); }
+  .tav-v { font-family: var(--f-display); font-size: 23px; font-weight: 500; fill: var(--ink); font-variant-numeric: lining-nums; }
+  .tav-e { font-family: var(--f-ui); font-size: .62em; font-weight: 400; fill: var(--ink-3); }
+  .tav-v-big { font-size: 30px; }
+
+  /* piani interattivi */
+  .tav-p { cursor: pointer; outline: none; animation: tavIn .9s var(--ease) both; animation-delay: calc(var(--i) * 110ms + 150ms); }
+  @keyframes tavIn { from { opacity: 0; transform: translateY(10px); } }
+  .tav-hit { fill: transparent; }
+  .tav-room { fill: var(--paper); transition: fill .3s var(--ease); }
+  .tav-band { transition: width .35s var(--ease); }
+  .tav-win { fill: var(--paper); stroke: var(--ink); stroke-width: 1; transition: fill .45s var(--ease); }
+  .tav-p > text, .tav-p > .tav-room, .tav-p > .tav-band, .tav-f-hatch { transition: opacity .3s var(--ease); }
+  .tav-p:hover .tav-room { fill: var(--card); }
+  .tav-p:hover .tav-lead, .tav-p.on .tav-lead { stroke: var(--ink); stroke-dasharray: none; }
+  .tav-p:focus-visible .tav-room, .tav-p:focus-visible .tav-f-hatch { stroke: var(--brass); stroke-width: 2.4; }
+  .tav-p.on .tav-room { fill: var(--card); }
+  .tav-p.on .tav-band { width: 12px; }
+  .tav-p.on .tav-win { fill: url(#cs-luce); }
+  .tav-p.on .tav-f-fill { opacity: .16; }
+  .tav.scelto .tav-p:not(.on) > :not(.tav-hit):not(.tav-lead) { opacity: .38; }
+  .tav.sera .tav-win { fill: #f1dfb4; }
+  .tav.sera .tav-p.on .tav-win { fill: url(#cs-luce); }
+
+  /* affitto: fondamenta tratteggiate, "in prestito" */
+  .tav[data-modo='affitto'] .tav-f-hatch { stroke-dasharray: 6 5; fill: none; }
+  .tav[data-modo='affitto'] .tav-f-fill { opacity: .03; }
+
+  /* fumo dal camino */
+  .tav-fumo circle { fill: none; stroke: var(--ink-3); stroke-width: .9; opacity: 0; animation: tavFumo 5s infinite; }
+  .tav-fumo circle:nth-child(2) { animation-delay: 1.2s; }
+  .tav-fumo circle:nth-child(3) { animation-delay: 2.4s; }
+  @keyframes tavFumo { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: .55; } 100% { opacity: 0; transform: translateY(-14px); } }
+
+  /* scheda */
+  .tav-scheda { margin-top: 20px; border-top: 1px solid var(--ink); padding-top: 16px; min-height: 196px; }
+  .tav-k { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); display: flex; gap: 10px; align-items: baseline; margin: 0; }
+  .tav-k span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+  .tav-k b { font-weight: 600; color: var(--ink); }
+  .tav-sw { width: 10px; height: 10px; border-radius: 2px; align-self: center; }
+  .tav-vt { font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 10px 0 0; max-width: 440px; }
+  .tav-vt strong { color: var(--ink); }
+  .tav-piena { animation: tavScheda .35s var(--ease); }
+  @keyframes tavScheda { from { opacity: 0; transform: translateY(6px); } }
+  .tav-sh { display: flex; justify-content: space-between; align-items: center; }
+  .tav-x { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); cursor: pointer; }
+  .tav-x:hover { background: var(--card); }
+  .tav-num { display: flex; align-items: baseline; gap: 12px; margin: 8px 0 10px; }
+  .tav-num .num { font-family: var(--f-display); font-size: 40px; line-height: 1; color: var(--ink); letter-spacing: -0.02em; }
+  .tav-num small { font-size: 13.5px; color: var(--ink-2); }
+  .tav-bar { display: block; height: 4px; border-radius: 999px; background: var(--paper-2); overflow: hidden; margin-bottom: 14px; }
+  .tav-bar em { display: block; height: 100%; background: var(--brass); border-radius: 999px; transition: width .5s var(--ease); }
+  .tav-cosa { font-size: 15.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 12px; }
+  .tav-noi { display: grid; gap: 3px; font-size: 15px; line-height: 1.5; color: var(--ink); padding: 12px 14px; background: var(--card); border-left: 3px solid var(--brass); border-radius: 0 var(--r-sm) var(--r-sm) 0; margin: 0 0 12px; }
+  .tav-noi span:first-child { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); font-weight: 600; }
+  .tav-link { font-size: 14.5px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brass); }
+  .tav figcaption { font-size: 12.5px; color: var(--ink-2); margin-top: 14px; }
+
+  @media (max-width: 560px) {
+    .tav-l { font-size: 19px; } .tav-s { font-size: 17px; } .tav-v { font-size: 26px; } .tav-v-big { font-size: 34px; }
+    .tav-seg button { font-size: 13px; padding: 8px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tav-p, .tav-piena, .tav-dot, .tav-fumo circle { animation: none; }
+  }
+
+/* ── Home: stima + casa ─────────────────────────────────── */
+.cs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.cs-kick { display: flex; align-items: baseline; gap: 14px; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+.cs-kick span { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--brass); }
+.cs-t { font-size: clamp(48px, 5.2vw, 84px); line-height: .92; letter-spacing: -0.045em; margin: 20px 0 22px; font-weight: 400; }
+.cs-t em { font-style: italic; color: var(--brass); }
+.cs-q { display: grid; gap: 18px; padding: 22px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); background: var(--card); }
+.cs-f { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.cs-f > span, .cs-f legend { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; padding: 0; margin-bottom: 8px; }
+.cs-f input { height: 52px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper); padding: 0 16px; font: inherit; font-size: 18px; color: var(--ink); width: 100%; }
+.cs-f input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--paper-2); }
+.cs-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.cs-seg button { flex: 1 1 auto; min-width: 46px; height: 44px; padding: 0 12px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink-2); font: inherit; font-size: 15px; cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease); }
+.cs-seg button:hover { border-color: var(--ink); color: var(--ink); }
+.cs-seg button.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.cs-seg button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.cs-tot { margin: 0 0 22px; }
+.cs-n { font-family: var(--f-display); color: var(--ink); font-size: clamp(64px, 6.4vw, 104px); line-height: .9; letter-spacing: -0.05em; margin: 0 0 12px; font-variant-numeric: lining-nums; }
+.cs-eur { font-size: .42em; vertical-align: .95em; margin-right: .08em; color: var(--brass); }
+.cs-n small { font-family: var(--f-ui); font-size: 17px; letter-spacing: 0; margin-left: 12px; color: var(--ink-2); }
+.cs-det { font-size: 15.5px; color: var(--ink-2); margin: 0; line-height: 1.5; }
+.cs-det b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.cs-det2 { font-size: 14px; color: var(--ink-3); margin: 6px 0 0; }
+.cs-cta { margin-top: 22px; }
+
+/* piani che crescono e calano con la stima */
+.tav .tav-hit, .tav .tav-room, .tav .tav-band { transition: y .55s var(--ease), height .55s var(--ease), fill .3s var(--ease), width .35s var(--ease), opacity .3s var(--ease); }
+.tav .tav-win { transition: height .55s var(--ease), fill .45s var(--ease); }
+.cs-tetto, .cs-fin, .cs-lab { transition: transform .55s var(--ease); }
+.tav-p.ignoto .tav-room { fill: transparent; }
+.tav-p.ignoto .tav-win { stroke-dasharray: 3 3; }
+.tav-p.ignoto .tav-l { fill: var(--ink-2); }
+.cs-tua { font-size: 15px; }
+.cs-tua-n { font-style: italic; color: var(--brass) !important; font-size: 32px !important; }
+.tav-nota { font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 0 0 10px; }
+.tav-nota a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
+.tav[data-modo='proprieta'] .tav-f-hatch { fill-opacity: .6; }
+
+@media (max-width: 960px) {
+  .cs { grid-template-columns: 1fr; }
+  .cs .tav { max-width: 560px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tav .tav-hit, .tav .tav-room, .tav .tav-band, .tav .tav-win, .cs-tetto, .cs-fin, .cs-lab { transition: none; }
+}
