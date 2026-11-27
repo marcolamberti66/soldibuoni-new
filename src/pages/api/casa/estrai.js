@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // POST /api/casa/estrai
-// Riceve una bolletta (PDF o immagine) e restituisce i dati
+// Riceve un documento della casa (PDF o immagine): bolletta,
+// rate del condominio, TARI, F24 IMU, mutuo… e restituisce i dati
 // economici strutturati. Il file NON viene salvato: è letto,
 // passato al modello e scartato. I dati personali sono esclusi
 // per istruzione e per schema (non esistono campi per riceverli).
@@ -45,23 +46,55 @@ const DOC_SCHEMA = {
   required: ['categoria', 'importo'],
 };
 
+const DATA = { type: ['string', 'null'], description: 'YYYY-MM-DD' };
+// Spese della casa senza bolletta: condominio, TARI, IMU, mutuo, affitto, assicurazione.
+const SPESA_SCHEMA = {
+  type: 'object',
+  properties: {
+    categoria: { type: 'string', enum: ['condominio', 'tari', 'imu', 'mutuo', 'affitto', 'assicurazione', 'manutenzione', 'altro'] },
+    descrizione: { type: 'string', description: 'Breve, senza dati personali: es. "Condominio, gestione ordinaria 2026", "TARI 2026", "IMU saldo 2026", "Conguaglio gestione 2025", "Rata mutuo".' },
+    tipo: { type: 'string', enum: ['rate', 'periodica', 'una_tantum'], description: 'rate = importi diversi a date diverse nello stesso anno; periodica = stesso importo a intervalli regolari (mutuo, affitto, premio annuale); una_tantum = un solo pagamento (conguaglio, saldo, rata straordinaria).' },
+    rate: { type: 'array', items: { type: 'object', properties: { data: { type: 'string' }, importo: { type: 'number' } }, required: ['data', 'importo'] }, description: 'Solo per tipo "rate": ogni rata con data di scadenza e importo, in ordine.' },
+    importo: { type: ['number', 'null'], description: 'Per "periodica" e "una_tantum": importo di ogni pagamento in euro.' },
+    frequenza: { type: ['string', 'null'], enum: ['mensile', 'bimestrale', 'trimestrale', 'quadrimestrale', 'semestrale', 'annuale', null] },
+    data: { ...DATA, description: 'Per "periodica": prossima scadenza; per "una_tantum": data di pagamento. YYYY-MM-DD.' },
+    data_fine: { ...DATA, description: 'Mutuo: data dell\'ultima rata. Affitto: fine del contratto.' },
+    tasso: { type: ['number', 'null'], description: 'Mutuo: TAN in percentuale (es. 3.1).' },
+    tipo_tasso: { type: ['string', 'null'], enum: ['fisso', 'variabile', 'misto', null] },
+    debito_residuo: { type: ['number', 'null'], description: 'Mutuo: capitale residuo in euro.' },
+    domiciliazione: { type: ['boolean', 'null'] },
+  },
+  required: ['categoria', 'descrizione', 'tipo'],
+};
+
 const TOOL = {
   name: 'registra_documenti',
-  description: 'Registra i dati economici di una bolletta o fattura domestica italiana.',
+  description: 'Registra i dati economici di un documento domestico italiano: bollette e fatture, oppure spese senza bolletta (condominio, TARI, IMU, mutuo, affitto, assicurazione).',
   input_schema: {
     type: 'object',
     properties: {
-      documenti: { type: 'array', items: DOC_SCHEMA, description: 'Uno per servizio. Una bolletta dual luce+gas con subtotali separati diventa due documenti.' },
+      documenti: { type: 'array', items: DOC_SCHEMA, description: 'Bollette e fatture di utenze (luce, gas, acqua, internet, telefonia). Una per servizio. Vuoto se il documento non è una bolletta.' },
+      spese: { type: 'array', items: SPESA_SCHEMA, description: 'Spese senza bolletta trovate nel documento: rate del condominio, conguagli, avvisi TARI, F24 IMU, piano del mutuo, contratto d\'affitto, polizza.' },
       affidabilita: { type: 'string', enum: ['alta', 'media', 'bassa'] },
-      non_e_una_bolletta: { type: 'boolean', description: 'true se il file non è una bolletta o fattura di un servizio domestico.' },
+      serve_riferimento: { type: 'boolean', description: 'true se il documento riporta importi di molte unità o persone (es. riparto condominiale) e non è stato indicato a quale riferirsi, oppure il riferimento indicato non si trova.' },
+      non_e_una_bolletta: { type: 'boolean', description: 'true se il file non è un documento di spese della casa.' },
     },
-    required: ['documenti', 'affidabilita'],
+    required: ['documenti', 'spese', 'affidabilita'],
   },
 };
 
-const SYSTEM = `Leggi bollette e fatture domestiche italiane (luce, gas, acqua, internet, telefonia, TARI, condominio) ed estrai solo dati economici e di consumo.
+const SYSTEM = `Leggi documenti di spesa della casa italiani ed estrai solo dati economici e di consumo.
+- Bollette e fatture di utenze (luce, gas, acqua, internet, telefonia) → "documenti".
+- Spese senza bolletta → "spese": rate e conguagli del condominio (preventivi, rateizzazioni, avvisi di pagamento), avvisi TARI con le rate, F24 IMU (acconto e saldo), piano di ammortamento o avviso di rata del mutuo, contratto d'affitto, polizza della casa.
 
-Regole:
+Regole per le spese:
+- Riparti condominiali con molte unità: usa solo la riga dell'unità indicata nel riferimento dell'utente (cognome o numero di unità). Se non c'è un riferimento o non lo trovi, non inventare: restituisci spese vuote e serve_riferimento true.
+- Rate del condominio con importi diversi → tipo "rate", con ogni data e importo. Un conguaglio o un saldo a debito → "una_tantum" con la sua data (se scritto "a vista", usa la data della prima rata). Un saldo a credito non è una spesa.
+- Se il riferimento ha più unità (es. appartamento e box), somma le rate alla stessa data e indica le unità nella descrizione.
+- TARI con più rate → tipo "rate". IMU: acconto e saldo → tipo "rate" con le due date.
+- Mutuo → tipo "periodica", frequenza della rata, con tasso, debito residuo e data dell'ultima rata se scritti.
+
+Regole generali:
 - Non inventare mai un numero. Se un dato non è scritto chiaramente, usa null.
 - Ignora e non riportare mai dati personali: nomi, indirizzi, codice fiscale, POD, PDR, codice cliente, IBAN.
 - Date sempre in formato YYYY-MM-DD.
@@ -91,10 +124,12 @@ export async function POST({ request }) {
     return json({ errore: 'Abbiamo raggiunto il limite di letture automatiche per oggi. Puoi inserire i dati a mano o riprovare domani.' }, 429);
   }
 
-  let file;
+  let file, riferimento = '';
   try {
     const form = await request.formData();
     file = form.get('file');
+    // Facoltativo: cognome o numero di unità, per i riparti del condominio. Usato solo nella lettura, mai salvato.
+    riferimento = String(form.get('riferimento') || '').replace(/[^\p{L}\p{N} .,'/-]/gu, '').trim().slice(0, 80);
   } catch { return json({ errore: 'Richiesta non valida.' }, 400); }
   if (!file || typeof file === 'string') return json({ errore: 'Nessun file ricevuto.' }, 400);
   if (file.size > MAX_FILE_BYTES) return json({ errore: 'Il file supera 8 MB.' }, 413);
@@ -112,11 +147,11 @@ export async function POST({ request }) {
     try {
       risposta = await client.messages.create({
         model,
-        max_tokens: 1500,
+        max_tokens: 3000,
         system: SYSTEM,
         tools: [TOOL],
         tool_choice: { type: 'tool', name: TOOL.name },
-        messages: [{ role: 'user', content: [blocco, { type: 'text', text: 'Estrai i dati di questo documento.' }] }],
+        messages: [{ role: 'user', content: [blocco, { type: 'text', text: 'Estrai i dati di questo documento.' + (riferimento ? ` Riferimento dell'utente per i riparti condominiali: "${riferimento}".` : '') + ` Oggi è il ${new Date().toISOString().slice(0, 10)}.` }] }],
       });
       break;
     } catch (e) {
@@ -133,7 +168,7 @@ export async function POST({ request }) {
   const uso = risposta.content.find((c) => c.type === 'tool_use');
   if (!uso) return json({ errore: 'Non sono riuscito a leggere il documento.' }, 422);
   const out = uso.input || {};
-  if (out.non_e_una_bolletta) return json({ errore: 'Il file non sembra una bolletta o una fattura domestica.' }, 422);
+  if (out.non_e_una_bolletta) return json({ errore: 'Il file non sembra un documento di spese della casa.' }, 422);
 
   await contatore(true);
 
@@ -146,6 +181,21 @@ export async function POST({ request }) {
     return x;
   }).filter((d) => d.categoria);
 
-  if (!pulito.length) return json({ errore: 'Non ho trovato importi leggibili nel documento.' }, 422);
-  return json({ documenti: pulito, affidabilita: out.affidabilita || 'media' });
+  const isoOk = (x) => typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x);
+  const spese = (out.spese || []).map((x) => {
+    const y = {};
+    for (const k of Object.keys(SPESA_SCHEMA.properties)) if (x[k] !== undefined && x[k] !== null) y[k] = x[k];
+    for (const k of ['data', 'data_fine']) if (y[k] && !isoOk(y[k])) delete y[k];
+    if (y.rate) y.rate = y.rate.filter((r) => isoOk(r.data) && Number(r.importo) > 0).slice(0, 12);
+    if (y.tipo === 'rate' && !(y.rate?.length)) return null;
+    if (y.tipo !== 'rate' && !(Number(y.importo) > 0)) return null;
+    y.descrizione = String(y.descrizione || '').slice(0, 80);
+    return y;
+  }).filter(Boolean);
+
+  if (!pulito.length && !spese.length) {
+    if (out.serve_riferimento) return json({ errore: riferimento ? `Non trovo "${riferimento}" nel documento: controlla come è scritto (cognome o numero di unità).` : 'Il documento riguarda molte unità: scrivi il tuo cognome o il numero della tua unità e ricaricalo.', serve_riferimento: true }, 422);
+    return json({ errore: 'Non ho trovato importi leggibili nel documento.' }, 422);
+  }
+  return json({ documenti: pulito, spese, affidabilita: out.affidabilita || 'media' });
 }

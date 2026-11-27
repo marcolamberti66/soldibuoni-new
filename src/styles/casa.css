@@ -662,3 +662,10 @@
 .ca-stima-v span { display: inline-flex; align-items: center; gap: 8px; }
 .ca-stima-v b { color: var(--ink); font-weight: 500; }
 @media (prefers-reduced-motion: reduce) { .ca-cal-b i { transition: none; } }
+.ca-rif { display: grid; gap: 8px; margin: 14px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--paper-2); font-size: 14px; color: var(--ink-2); }
+.ca-rif.evid { outline: 2px solid var(--brass); }
+.ca-rif input { height: 46px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); padding: 0 12px; font: inherit; font-size: 16px; color: var(--ink); }
+.ca-rif small { color: #a2412b; font-size: 13px; }
+.ca-rif-apri { display: block; margin: 14px 0 0; font-size: 14px; }
+.ca-spesa-k { font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); margin: 0 0 14px; }
+.ca-spesa-salta { display: block; margin: 14px auto 0; font-size: 14px; }

@@ -19,13 +19,14 @@ export async function preparaFile(file) {
   }
 }
 
-export async function leggi(file) {
+export async function leggi(file, { riferimento } = {}) {
   const fd = new FormData();
   fd.append('file', await preparaFile(file));
+  if (riferimento) fd.append('riferimento', riferimento);
   const res = await fetch('/api/casa/estrai', { method: 'POST', body: fd });
   let body = null;
   try { body = await res.json(); } catch { /* risposta non JSON */ }
-  if (!res.ok) throw new Error(body?.errore || 'Lettura non riuscita.');
+  if (!res.ok) { const e = new Error(body?.errore || 'Lettura non riuscita.'); e.serveRiferimento = !!body?.serve_riferimento; throw e; }
   return body;
 }
 

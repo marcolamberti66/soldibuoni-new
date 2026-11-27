@@ -174,8 +174,10 @@ export function SchedaRicorrente({ iniziale, onSalva, onElimina }) {
   // Rate di importo diverso (es. condominio: 20% / 30% / 30% / 20%): ogni rata
   // diventa una spesa annuale con la sua data, così scadenze e costo medio tornano.
   const puoRate = !iniziale?.id && !mutuo && !affitto;
-  const [aRate, setARate] = useState(false);
-  const [rate, setRate] = useState(() => Array.from({ length: 4 }, () => ({ data: '', importo: '' })));
+  const [aRate, setARate] = useState(() => !!iniziale?.rate?.length);
+  const [rate, setRate] = useState(() => iniziale?.rate?.length
+    ? iniziale.rate.map((x) => ({ data: x.data, importo: String(x.importo).replace('.', ',') }))
+    : Array.from({ length: 4 }, () => ({ data: '', importo: '' })));
   const rateOk = rate.filter((x) => x.data && n(x.importo) > 0);
   const totRate = rateOk.reduce((t, x) => t + n(x.importo), 0);
   const valido = aRate ? rateOk.length > 0 : n(r.importo) > 0;
@@ -189,7 +191,8 @@ export function SchedaRicorrente({ iniziale, onSalva, onElimina }) {
       ord.forEach((x, i) => onSalva({ categoria: r.categoria, nome: `Rata ${i + 1} di ${ord.length} · ${base}`, importo: n(x.importo), frequenza: 'annuale', prossima_scadenza: x.data, domiciliazione: !!r.domiciliazione }));
       return;
     }
-    onSalva({ ...r, importo: n(r.importo), tasso: n(r.tasso), debito_residuo: n(r.debito_residuo) });
+    const { rate: _r, ...pulito } = r;
+    onSalva({ ...pulito, importo: n(r.importo), tasso: n(r.tasso), debito_residuo: n(r.debito_residuo) });
   };
   return (
     <form className="ca-doc" onSubmit={salva}>
