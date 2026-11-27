@@ -1,8 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import TavolaCasa from '../components/TavolaCasa.astro';
+import HomeStima from '../components/HomeStima.jsx';
+import { LUCE_TRIMESTRI } from '../data/stima-casa.js';
+import { FONTE_TARI } from '../data/tari-2025.js';
+import { TASSI, fmtPerc } from '../data/tassi.js';
+import { LUCE } from '../data/energia.js';
 import { GUIDE } from '../data/guide.js';
 const inEvidenza = ['costi-casa', 'spese-condominiali', 'bolletta-luce', 'detrazione-interessi-mutuo'].map((s) => GUIDE.find((g) => g.slug === s));
+const [q3, q4] = LUCE_TRIMESTRI.slice(-2);
+const varLuce = (q4.p / q3.p - 1) * 100;
+const varTari = (FONTE_TARI.media / FONTE_TARI.media2024 - 1) * 100;
+const pct = (n, d = 1) => (n > 0 ? '+' : '') + n.toFixed(d).replace('.', ',') + '%';
+const numeri = [
+  { href: '/guida/bolletta-luce-media', k: 'Luce', v: q4.p.toFixed(2).replace('.', ','), u: 'c€/kWh', d: pct(varLuce), su: varLuce > 0, t: `Prezzo di riferimento ARERA, ${q4.t}. Era ${q3.p.toFixed(2).replace('.', ',')} nel trimestre prima.` },
+  { href: '/tari', k: 'TARI', v: String(FONTE_TARI.media), u: '€ l\'anno', d: pct(varTari), su: varTari > 0, t: `Media dei capoluoghi per 3 persone in 100 m². Nel 2024 era ${FONTE_TARI.media2024} €.` },
+  { href: '/mutuo', k: 'Mutuo', v: fmtPerc(TASSI.fisso).replace('%', ''), u: '% fisso', d: `variabile ${fmtPerc(TASSI.variabile)}`, su: null, t: `TAN medio delle offerte prima casa, ${TASSI.aggiornatoTesto}. Fonte: ${TASSI.fonte.split(':')[0]}.` },
+];
 const schemaHome = [{
   '@type': 'WebApplication', name: 'SoldiBuoni · La tua casa', url: 'https://soldibuoni.it/casa',
   applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT',
@@ -15,36 +28,44 @@ const schemaHome = [{
   title="Gestione spese di casa: bollette, mutuo, condominio | SoldiBuoni"
   description="App gratuita per le spese di casa: carichi le bollette, le leggiamo noi e ti avvisiamo prima di ogni scadenza. Mutuo, condominio, TARI, IMU in un posto solo."
 >
-  <section class="hero">
-    <div class="wrap hero-in">
-      <div class="hero-copy">
-        <p class="kicker"><span>N° 01</span> Il gestore della casa</p>
-        <h1 class="display hero-t">Ogni casa<br />ha il suo <em>conto.</em></h1>
-        <p class="hero-s">Mutuo, bollette, condominio, tributi. Li carichi così come arrivano, SoldiBuoni li legge e ogni settimana ti dice in un minuto cosa esce, cosa scade e cosa conviene sistemare.</p>
-        <div class="hero-cta">
-          <a href="/casa" class="btn btn-ink btn-lg">Inizia gratis <span aria-hidden="true">→</span></a>
-          <button type="button" class="btn btn-line btn-lg hero-app" data-app-apri="home">
-            <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            Scarica l'app
-          </button>
-        </div>
-        <a class="hero-cb" href="/controlla-bolletta">Hai solo una bolletta sotto mano? <b>Controllala in dieci secondi</b> <span aria-hidden="true">→</span></a>
-        <ol class="hero-passi" aria-label="Come si comincia">
-          <li><span>I</span><p><b>4 domande</b>Un minuto, senza registrazione</p></li>
-          <li><span>II</span><p><b>Una bolletta</b>PDF o foto, la leggiamo noi</p></li>
-          <li><span>III</span><p><b>La tua panoramica</b>Ogni settimana cosa esce e cosa scade</p></li>
-        </ol>
+  <section class="hero" id="stima">
+    <div class="wrap">
+      <div class="hero-head">
+        <p class="kicker"><span>N° 01</span> La tua casa, in un numero</p>
+        <h1 class="display hero-t">Quanto costa<br />una casa <em>come la tua?</em></h1>
+        <p class="hero-s">Tre risposte, e vedi subito quanto spendi di luce, gas e TARI nella tua città, ai prezzi di oggi. Poi, con le tue bollette, diventa il conto vero.</p>
       </div>
-      <div class="hero-tav"><TavolaCasa /></div>
+      <HomeStima client:load />
+    </div>
+  </section>
+
+  <section class="numeri" aria-labelledby="numeri-t">
+    <div class="wrap">
+      <div class="guides-hd"><p class="kicker" id="numeri-t"><span>N° 02</span> I numeri del mese</p></div>
+      <div class="num-g">
+        {numeri.map((n) => (
+          <a href={n.href} class="num-c">
+            <span class="num-k">{n.k}</span>
+            <span class="num-v"><b>{n.v}</b> {n.u}</span>
+            <span class:list={['num-d', { su: n.su === true, giu: n.su === false }]}>{n.su === true ? '▲ ' : n.su === false ? '▼ ' : ''}{n.d}</span>
+            <span class="num-t">{n.t}</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
   <section id="settimana" class="week">
     <div class="wrap week-in">
       <div class="week-copy">
-        <p class="kicker"><span>N° 02</span> Il lunedì mattina</p>
-        <h2 class="display sec-t">Un minuto,<br /><em>e la casa è in ordine.</em></h2>
-        <p class="sec-s">Non ti chiediamo di tenere un registro. Ti mostriamo solo quello che conta questa settimana: quanto esce dal conto, cosa devi fare tu e cosa sta per scadere. Le scadenze finiscono nel calendario del telefono con un tocco.</p>
+        <p class="kicker"><span>N° 03</span> La tua casa</p>
+        <h2 class="display sec-t">Crea la tua casa,<br /><em>e i conti si fanno da soli.</em></h2>
+        <p class="sec-s">Carichi bollette, condominio, TARI e rate così come arrivano: PDF o foto, li leggiamo noi. Vedi quanto costa la casa voce per voce, cosa sale e cosa scende, in quali mesi pesa. Ogni lunedì un'email con cosa esce.</p>
+        <div class="hero-cta">
+          <a href="/casa" class="btn btn-ink btn-lg">Crea la tua casa <span aria-hidden="true">→</span></a>
+          <a class="hero-link" href="/controlla-bolletta">Prima prova con una bolletta</a>
+        </div>
+        <p class="week-n">Gratis, senza password: entri con un codice via email.</p>
       </div>
       <div class="ticket" aria-label="Esempio di settimana">
         <div class="ticket-hd">
@@ -66,61 +87,10 @@ const schemaHome = [{
     </div>
   </section>
 
-  <section class="how">
-    <div class="wrap">
-      <p class="kicker"><span>N° 03</span> Come si comincia</p>
-      <ol class="how-list">
-        <li>
-          <span class="how-n">I</span>
-          <h3>Quattro domande</h3>
-          <p>Proprietà o affitto, con o senza mutuo, quante persone, come si scalda la casa. Basta questo per sapere quali spese aspettarsi.</p>
-        </li>
-        <li>
-          <span class="how-n">II</span>
-          <h3>Le bollette, così come sono</h3>
-          <p>PDF dall'email o foto della carta. Leggiamo fornitore, importo, consumi, prezzo e scadenze: tu confermi e basta.</p>
-        </li>
-        <li>
-          <span class="how-n">III</span>
-          <h3>Il resto lo guardiamo noi</h3>
-          <p>Promozioni che finiscono, prezzi che salgono, letture stimate, rinnovi, scadenze di stagione. Te lo diciamo prima che costi.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="manifesto">
-    <div class="wrap man-in">
-      <h2 class="display man-t">Nessuno ci paga<br />per consigliarti<br /><em>un fornitore.</em></h2>
-      <div class="man-b">
-        <p>Niente affiliazioni, niente pubblicità, niente offerte sponsorizzate. Ti diciamo quanto paghi e perché; cosa fare lo decidi tu.</p>
-        <ul>
-          <li>Il file della bolletta viene letto e scartato: teniamo solo i numeri.</li>
-          <li>Nome, indirizzo, codice fiscale, POD, PDR e IBAN non vengono estratti.</li>
-          <li>Senza account i dati restano sul tuo dispositivo; con l'account sono sincronizzati su server in Unione Europea. Li esporti o li cancelli quando vuoi.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="hubs" aria-labelledby="hubs-t">
-    <div class="wrap">
-      <div class="guides-hd">
-        <p class="kicker" id="hubs-t"><span>N° 04</span> I numeri della casa</p>
-      </div>
-      <div class="hubs-g">
-        <a href="/costi-casa" class="hub-c"><span class="hub-k">Costi</span><span class="hub-t">Quanto costa mantenere una casa</span><span class="hub-d">Voce per voce, con le fonti ufficiali.</span></a>
-        <a href="/bollette" class="hub-c"><span class="hub-k">Bollette</span><span class="hub-t">Luce e gas: i prezzi di oggi</span><span class="hub-d">Il riferimento ARERA e come leggere la tua.</span></a>
-        <a href="/tari" class="hub-c"><span class="hub-k">TARI</span><span class="hub-t">La TARI in 110 città</span><span class="hub-d">Da 196 € a Cremona a 602 € a Catania.</span></a>
-        <a href="/famiglia" class="hub-c"><span class="hub-k">Famiglia</span><span class="hub-t">Quanto spende una famiglia</span><span class="hub-d">I dati ISTAT e come dividere le spese.</span></a>
-      </div>
-    </div>
-  </section>
-
   <section class="guides">
     <div class="wrap">
       <div class="guides-hd">
-        <p class="kicker"><span>N° 05</span> La guida</p>
+        <p class="kicker"><span>N° 04</span> Le guide</p>
         <a href="/guida" class="hero-link">Tutte le guide</a>
       </div>
       <div class="guides-list">
@@ -131,11 +101,46 @@ const schemaHome = [{
     </div>
   </section>
 
-  <section class="next">
-    <div class="wrap next-in">
-      <p class="kicker"><span>Tav. 02</span> In preparazione</p>
-      <p class="display next-t">Dopo i conti, la casa intera: manutenzioni, lavori, arredo. <em>Un posto solo.</em></p>
-      <a href="/casa" class="btn btn-ink btn-lg">Inizia dalla prima bolletta <span aria-hidden="true">→</span></a>
+  <section class="hubs" aria-labelledby="hubs-t">
+    <div class="wrap">
+      <div class="guides-hd">
+        <p class="kicker" id="hubs-t"><span>N° 05</span> I costi della casa, voce per voce</p>
+      </div>
+      <div class="hubs-g">
+        <a href="/costi-casa" class="hub-c"><span class="hub-k">Costi</span><span class="hub-t">Quanto costa mantenere una casa</span><span class="hub-d">Voce per voce, con le fonti ufficiali.</span></a>
+        <a href="/bollette" class="hub-c"><span class="hub-k">Bollette</span><span class="hub-t">Luce e gas: i prezzi di oggi</span><span class="hub-d">Il riferimento ARERA e come leggere la tua.</span></a>
+        <a href="/tari" class="hub-c"><span class="hub-k">TARI</span><span class="hub-t">La TARI in 110 città</span><span class="hub-d">Da 196 € a Cremona a 602 € a Catania.</span></a>
+        <a href="/famiglia" class="hub-c"><span class="hub-k">Famiglia</span><span class="hub-t">Quanto spende una famiglia</span><span class="hub-d">I dati ISTAT e come dividere le spese.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools">
+    <div class="wrap">
+      <div class="guides-hd">
+        <p class="kicker"><span>N° 06</span> Strumenti</p>
+        <a href="/strumenti" class="hero-link">Tutti gli strumenti</a>
+      </div>
+      <div class="hubs-g">
+        <a href="/controlla-bolletta" class="hub-c"><span class="hub-k">Bolletta</span><span class="hub-t">Controlla la tua bolletta</span><span class="hub-d">Quanto paghi davvero al kWh. Dieci secondi.</span></a>
+        <a href="/dividi" class="hub-c"><span class="hub-k">Insieme</span><span class="hub-t">Dividi le spese</span><span class="hub-d">Coinquilini o coppia: chi deve a chi.</span></a>
+        <a href="/mutuo" class="hub-c"><span class="hub-k">Mutuo</span><span class="hub-t">La rata del mutuo</span><span class="hub-d">Con i tassi di questo mese.</span></a>
+        <a href="/affitto-vs-mutuo" class="hub-c"><span class="hub-k">Decidere</span><span class="hub-t">Affitto o mutuo</span><span class="hub-d">Quando conviene comprare invece di restare in affitto.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="wrap man-in">
+      <h2 class="display man-t">Nessuno ci paga<br />per consigliarti<br /><em>un fornitore.</em></h2>
+      <div class="man-b">
+        <p>Niente affiliazioni, niente pubblicità, niente offerte sponsorizzate. Ti diciamo quanto paghi e perché; cosa fare lo decidi tu.</p>
+        <ul>
+          <li>I documenti che carichi non li conserviamo: teniamo solo i numeri.</li>
+          <li>Nome, indirizzo, codice fiscale, POD, PDR e IBAN non vengono estratti.</li>
+          <li>I dati della casa stanno su server in Unione Europea, visibili solo a te e a chi inviti. Li esporti o li cancelli quando vuoi.</li>
+        </ul>
+      </div>
     </div>
   </section>
 </Layout>
@@ -259,4 +264,55 @@ const schemaHome = [{
   .hub-c:hover .hub-t { text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; }
   @media (max-width: 900px) { .hubs-g { grid-template-columns: 1fr 1fr; } .hub-c:nth-child(3) { padding-left: 0; border-left: 0; } .hub-c { border-bottom: 1px solid var(--line); } }
   @media (max-width: 560px) { .hubs-g { grid-template-columns: 1fr; } .hub-c, .hub-c + .hub-c { padding-left: 0; border-left: 0; } }
+
+  /* hero con la stima */
+  .hero-head { max-width: 900px; margin-bottom: clamp(28px, 4vw, 48px); }
+  .hero-head .hero-t { margin: 22px 0 22px; font-size: clamp(52px, 7.6vw, 112px); }
+  :global(.hs) { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+  :global(.hs-q) { display: grid; gap: 22px; padding: clamp(20px, 2.6vw, 32px); border: 1px solid var(--ink); border-radius: var(--r-lg); background: var(--card); }
+  :global(.hs-f) { display: grid; gap: 10px; border: 0; padding: 0; margin: 0; min-width: 0; }
+  :global(.hs-f > span), :global(.hs-f legend) { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; padding: 0; margin-bottom: 10px; }
+  :global(.hs-f input) { height: 54px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper); padding: 0 16px; font: inherit; font-size: 19px; color: var(--ink); width: 100%; }
+  :global(.hs-f input:focus) { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--paper-2); }
+  :global(.hs-seg) { display: flex; flex-wrap: wrap; gap: 6px; }
+  :global(.hs-seg button) { flex: 1 1 auto; min-width: 48px; height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink-2); font: inherit; font-size: 15.5px; cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease); }
+  :global(.hs-seg button:hover) { border-color: var(--ink); color: var(--ink); }
+  :global(.hs-seg button.on) { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  :global(.hs-seg button:focus-visible) { outline: 2px solid var(--brass); outline-offset: 2px; }
+  :global(.hs-r) { padding: clamp(22px, 3vw, 40px); border-radius: var(--r-lg); background: var(--ink); color: rgba(245, 242, 236, .78); }
+  :global(.hs-k) { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: #d9c49b; }
+  :global(.hs-n) { font-family: var(--f-display); color: var(--paper); font-size: clamp(76px, 10vw, 140px); line-height: .9; letter-spacing: -0.05em; margin: 14px 0 6px; font-variant-numeric: lining-nums; }
+  :global(.hs-eur) { font-size: .45em; vertical-align: .9em; margin-right: .08em; color: #d9c49b; }
+  :global(.hs-n small) { font-family: var(--f-ui); font-size: 17px; letter-spacing: 0; margin-left: 12px; color: rgba(245, 242, 236, .7); }
+  :global(.hs-y) { font-size: 15px; margin-bottom: 22px; }
+  :global(.hs-v) { list-style: none; display: grid; gap: 14px; padding: 18px 0; border-top: 1px solid rgba(245, 242, 236, .18); border-bottom: 1px solid rgba(245, 242, 236, .18); }
+  :global(.hs-v li) { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(60px, 1fr) auto; gap: 14px; align-items: center; }
+  :global(.hs-vl) { color: var(--paper); font-size: 16px; display: flex; flex-direction: column; }
+  :global(.hs-vl small) { font-size: 12.5px; color: rgba(245, 242, 236, .6); }
+  :global(.hs-vb) { height: 8px; border-radius: 4px; background: rgba(245, 242, 236, .12); overflow: hidden; }
+  :global(.hs-vb i) { display: block; height: 100%; border-radius: 4px; transition: width .5s var(--ease); }
+  :global(.hs-vv) { color: var(--paper); font-size: 17px; font-variant-numeric: tabular-nums; }
+  :global(.hs-cmp) { font-size: 14.5px; margin-top: 16px; }
+  :global(.hs-cmp a), :global(.hs-src a) { color: var(--paper); text-decoration: underline; text-decoration-color: #d9c49b; text-underline-offset: 3px; }
+  :global(.hs-cta) { margin-top: 22px; background: var(--paper) !important; color: var(--ink) !important; width: 100%; justify-content: center; }
+  :global(.hs-src) { font-size: 12.5px; line-height: 1.5; margin-top: 14px; color: rgba(245, 242, 236, .55); }
+  @media (prefers-reduced-motion: reduce) { :global(.hs-vb i) { transition: none; } }
+  @media (max-width: 900px) { :global(.hs) { grid-template-columns: 1fr; } }
+
+  /* numeri del mese */
+  .numeri { padding: clamp(64px, 8vw, 112px) 0 0; }
+  .num-g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .num-c { display: flex; flex-direction: column; gap: 6px; padding: 24px 24px 28px 0; color: var(--ink-2); }
+  .num-c + .num-c { padding-left: 24px; border-left: 1px solid var(--line-strong); }
+  .num-k { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
+  .num-v { font-size: 15px; color: var(--ink-2); }
+  .num-v b { font-family: var(--f-display); font-weight: 400; font-size: clamp(48px, 5vw, 68px); line-height: 1; color: var(--ink); letter-spacing: -0.03em; margin-right: 4px; }
+  .num-d { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+  .num-d.su { color: #a2412b; } .num-d.giu { color: #2c5a43; }
+  .num-t { font-size: 14px; line-height: 1.45; }
+  .num-c:hover .num-v b { font-style: italic; color: var(--brass); }
+  @media (max-width: 760px) { .num-g { grid-template-columns: 1fr; } .num-c, .num-c + .num-c { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line); } }
+
+  .week-n { font-size: 14px; color: var(--ink-3); margin-top: 14px; }
+  .tools { padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 8vw, 112px); }
 </style>
