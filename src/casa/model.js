@@ -59,7 +59,11 @@ export const FREQUENZE = {
   quadrimestrale: { label: 'ogni 4 mesi', mesi: 4 },
   semestrale: { label: 'ogni 6 mesi', mesi: 6 },
   annuale: { label: 'una volta l\'anno', mesi: 12 },
+  una_tantum: { label: 'una volta sola', mesi: 12, unaVolta: true },
 };
+
+/** Spesa una tantum: una sola scadenza, fuori dalla media mensile. */
+export const unaVolta = (r) => !!FREQUENZE[r.frequenza]?.unaVolta;
 
 export const RISCALDAMENTO = {
   gas_autonomo: 'Caldaia a gas autonoma',
@@ -126,7 +130,9 @@ export function costoMensile(stato, categoria) {
     mesiDati = docs.reduce((s, d) => s + mesiCoperti(d), 0);
     if (mesiDati > 0) { mensile += tot / mesiDati; fonte = 'bollette'; }
   }
-  const ric = stato.ricorrenti.filter((r) => r.categoria === categoria && r.attiva !== false);
+  // Le spese una tantum (conguagli, anticipi, riparazioni) non entrano nella media mensile:
+  // la falserebbero. Compaiono nelle scadenze e nella lista delle spese.
+  const ric = stato.ricorrenti.filter((r) => r.categoria === categoria && r.attiva !== false && !unaVolta(r));
   if (ric.length) {
     mensile += ric.reduce((s, r) => s + (Number(r.importo) || 0) / (FREQUENZE[r.frequenza]?.mesi || 1), 0);
     fonte = fonte ? 'misto' : 'ricorrente';

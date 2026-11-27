@@ -572,3 +572,29 @@
 .dv-riep, .dv-invito { margin: 0 0 18px; }
 .dv-e { font-family: var(--f-ui); font-size: .48em; margin-right: .2em; vertical-align: .35em; opacity: .8; }
 .dv-chip-t { padding: 0 16px; }
+
+/* Rate di importo diverso */
+.ca-rate { display: grid; gap: 8px; margin: 4px 0 14px; padding: 14px; background: var(--paper-2, #ece7dd); border-radius: 10px; }
+.ca-rate-r { display: grid; grid-template-columns: 22px 1fr 112px; gap: 8px; align-items: center; }
+.ca-rate-n { font-size: 13px; color: var(--muted, #6f6a5e); text-align: center; font-variant-numeric: tabular-nums; }
+.ca-rate-r input { min-width: 0; }
+.ca-rate-ft { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+.ca-rate .small { font-size: 12.5px; margin: 0; }
+
+/* Impostazioni: sezioni richiudibili */
+.ca-sez { border-top: 1px solid var(--line, #d9d3c6); }
+.ca-sez:last-of-type { border-bottom: 1px solid var(--line, #d9d3c6); }
+.ca-sez > summary { list-style: none; display: grid; grid-template-columns: 1fr auto 16px; align-items: center; gap: 12px; padding: 18px 2px; cursor: pointer; min-height: 44px; }
+.ca-sez > summary::-webkit-details-marker { display: none; }
+.ca-sez > summary svg { transition: transform .2s ease; color: var(--ink-2); transform: rotate(90deg); }
+.ca-sez[open] > summary svg { transform: rotate(-90deg); }
+.ca-sez-t { font-family: var(--f-display); font-size: 19px; color: var(--ink, #17150f); }
+.ca-sez-s { font-size: 13px; color: var(--ink-2, #6f6a5e); text-align: right; max-width: 52vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ca-sez-b { padding: 0 0 20px; display: grid; gap: 14px; }
+.ca-sez-b > .ca-card { margin: 0; }
+.ca-tot { margin: 10px 2px 4px; }
+.ca-data a { color: inherit; }
+@media (prefers-reduced-motion: reduce) { .ca-sez > summary svg { transition: none; } }
+.ca-done-acc { max-width: 520px; width: 100%; margin: 28px auto 0; text-align: left; }
+.ca-onb-retl { font-size: 14px; color: var(--ink-2, #6f6a5e); margin: 4px 0 8px; }
+.ca-list-wrap .ca-row-t { white-space: normal; overflow: visible; text-overflow: clip; }

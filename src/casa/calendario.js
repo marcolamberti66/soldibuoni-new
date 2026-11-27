@@ -66,7 +66,7 @@ export function creaICS(stato) {
       uid: 'ric-' + r.id, data: r.prossima_scadenza,
       titolo: `${r.nome || CATEGORIE[r.categoria]?.label}${eur(r.importo)}`,
       descrizione: r.domiciliazione ? 'Addebito automatico.' : 'Da pagare.',
-      rrule: `FREQ=MONTHLY;INTERVAL=${mesi}${until}`,
+      rrule: FREQUENZE[r.frequenza]?.unaVolta ? undefined : `FREQ=MONTHLY;INTERVAL=${mesi}${until}`,
     }));
     if (r.categoria === 'affitto' && r.data_fine && r.data_fine >= oggi) {
       ev.push(evento({ uid: 'fine-' + r.id, data: r.data_fine, anticipo: 180, titolo: 'Scade il contratto di affitto', descrizione: 'Verifica i termini di disdetta o rinnovo nel contratto.' }));

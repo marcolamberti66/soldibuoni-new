@@ -28,8 +28,8 @@ const TABS = [
   { r: 'scadenze', l: 'Scadenze', i: 'calendario' },
   { r: 'aggiungi', l: 'Aggiungi', i: 'piu', primario: true },
   { r: 'dividi', l: 'Dividi', i: 'dividi', soloCondivisa: true },
-  { r: 'archivio', l: 'Archivio', i: 'archivio' },
-  { r: 'casa', l: 'Casa', i: 'casa' },
+  { r: 'archivio', l: 'Spese', i: 'archivio' },
+  { r: 'casa', l: 'Impostazioni', i: 'casa' },
 ];
 // "Dividi" compare quando in casa vive più di una persona (o i conti sono già iniziati).
 const conDividi = (s) => (Number(s.casa?.persone) || 1) > 1 || s.conviventi.length > 0;

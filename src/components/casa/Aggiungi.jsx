@@ -5,12 +5,16 @@ import { CATEGORIE } from '../../casa/model.js';
 import { Icona, Percorso } from './ui.jsx';
 import { SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
 import { leggi } from '../../casa/lettura.js';
+import { useAccount } from '../../casa/sync.js';
+import Account from './Account.jsx';
 
 export default function Aggiungi({ parametri, vai }) {
   const preset = parametri.get('cat');
   const primo = parametri.get('primo') === '1';
+  const acc = useAccount();
   const presetRicorrente = preset && CATEGORIE[preset] && !CATEGORIE[preset].bolletta;
-  const [fase, setFase] = useState(presetRicorrente ? 'ricorrente' : 'scegli');
+  const tipo = parametri.get('tipo');
+  const [fase, setFase] = useState(tipo === 'unatantum' ? 'unatantum' : presetRicorrente || tipo === 'fissa' ? 'ricorrente' : 'scegli');
   const [coda, setCoda] = useState([]);      // documenti da rivedere
   const [stato, setStato] = useState(null);  // { fatti, totale, errori: [] }
   const [salvati, setSalvati] = useState(0);
@@ -72,13 +76,16 @@ export default function Aggiungi({ parametri, vai }) {
     else setCoda(coda.slice(1));
   };
 
-  if (fase === 'ricorrente') {
+  if (fase === 'ricorrente' || fase === 'unatantum') {
+    const una = fase === 'unatantum';
     return (
       <section className="ca-page">
-        <Testata titolo="Spesa senza bolletta" sotto="Condominio, TARI, assicurazione casa: basta importo e frequenza." onIndietro={() => setFase('scegli')} />
+        <Testata titolo={una ? 'Spesa una tantum' : 'Spesa fissa'}
+          sotto={una ? 'Un conguaglio, una riparazione, una rata straordinaria: importo e data.' : 'Mutuo, condominio, TARI, assicurazione: importo e frequenza, oppure rate di importo diverso.'}
+          onIndietro={() => setFase('scegli')} />
         <div className="ca-card">
           <SchedaRicorrente
-            iniziale={{ categoria: preset && CATEGORIE[preset] ? preset : 'condominio' }}
+            iniziale={{ categoria: preset && CATEGORIE[preset] && !CATEGORIE[preset].bolletta ? preset : una ? 'manutenzione' : 'condominio', ...(una ? { frequenza: 'una_tantum' } : {}) }}
             onSalva={(r) => { azioni.salvaRicorrente(r); conta('spesa_fissa', r.categoria); vai(''); }}
           />
         </div>
@@ -134,6 +141,7 @@ export default function Aggiungi({ parametri, vai }) {
           </div>
           {primo && <p className="ca-muted ca-done-n">Passo 3 di 3: la panoramica è la pagina da riaprire ogni settimana.</p>}
         </div>
+        {salvati > 0 && !acc.utente && <div className="ca-done-acc"><Account /></div>}
       </section>
     );
   }
@@ -143,7 +151,7 @@ export default function Aggiungi({ parametri, vai }) {
       {primo && <Percorso passo={1} />}
       <Testata
         titolo={primo ? 'Ora la prima bolletta' : 'Aggiungi una spesa'}
-        sotto={primo ? 'Luce o gas, PDF dall\'email o foto della carta: la leggo io in pochi secondi. È il modo più rapido per riempire la panoramica.' : 'Carica la bolletta così com\'è: PDF dall\'email o foto della carta.'}
+        sotto={primo ? 'Luce o gas, PDF dall\'email o foto della carta: la leggo io in pochi secondi. È il modo più rapido per riempire la panoramica.' : 'Le bollette le leggo io: PDF dall\'email o foto della carta. Le spese senza bolletta le inserisci qui sotto.'}
       />
       {primo && <button className="ca-link ca-salta" onClick={() => vai('')}>Salta, la carico dopo: vai alla panoramica <Icona nome="freccia" size={16} /></button>}
       <div
@@ -169,7 +177,10 @@ export default function Aggiungi({ parametri, vai }) {
           <Icona nome="matita" /><span><strong>Inserisci a mano</strong><small>Se non hai il file sottomano</small></span><Icona nome="freccia" size={18} />
         </button>
         <button className="ca-alt-b" onClick={() => setFase('ricorrente')}>
-          <Icona nome="ripeti" /><span><strong>Spesa senza bolletta</strong><small>Condominio, TARI, assicurazione</small></span><Icona nome="freccia" size={18} />
+          <Icona nome="ripeti" /><span><strong>Spesa fissa</strong><small>Mutuo, condominio, TARI, assicurazione</small></span><Icona nome="freccia" size={18} />
+        </button>
+        <button className="ca-alt-b" onClick={() => setFase('unatantum')}>
+          <Icona nome="calendario" /><span><strong>Spesa una tantum</strong><small>Conguaglio, riparazione, straordinaria</small></span><Icona nome="freccia" size={18} />
         </button>
       </div>
     </section>

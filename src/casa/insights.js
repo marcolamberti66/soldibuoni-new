@@ -17,9 +17,10 @@ function ultimiDue(docs, cat, campo) {
   return [lista[0], lista[1]];
 }
 
-function prossimaRicorrenza(r, oggi) {
+export function prossimaRicorrenza(r, oggi = oggiISO()) {
   if (!r.prossima_scadenza) return null;
   let d = r.prossima_scadenza;
+  if (FREQUENZE[r.frequenza]?.unaVolta) return d >= addGiorni(oggi, -30) ? d : null;
   const mesi = FREQUENZE[r.frequenza]?.mesi || 1;
   let guard = 0;
   while (d < oggi && guard++ < 120) {

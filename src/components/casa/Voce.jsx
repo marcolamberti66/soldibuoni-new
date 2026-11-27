@@ -1,3 +1,4 @@
+import { prossimaRicorrenza } from '../../casa/insights.js';
 import { useMemo, useState } from 'react';
 import { azioni } from '../../casa/store.js';
 import {
@@ -100,7 +101,7 @@ export default function Voce({ cat, stato, vai }) {
             {ric.map((r) => (
               <button className="ca-row" key={r.id} onClick={() => setRicAperta(r)}>
                 <IconaCategoria cat={r.categoria} size={36} />
-                <span className="ca-row-main"><span className="ca-row-t">{r.nome || c.label}</span><span className="ca-row-s">{FREQUENZE[r.frequenza]?.label}{r.prossima_scadenza ? ' · prossima ' + dataBreve(r.prossima_scadenza) : ''}</span></span>
+                <span className="ca-row-main"><span className="ca-row-t">{r.nome || c.label}</span><span className="ca-row-s">{FREQUENZE[r.frequenza]?.label}{prossimaRicorrenza(r) ? ' · prossima ' + dataBreve(prossimaRicorrenza(r)) : ''}</span></span>
                 <span className="num ca-row-v">{eur(r.importo, 2)}</span>
               </button>
             ))}
