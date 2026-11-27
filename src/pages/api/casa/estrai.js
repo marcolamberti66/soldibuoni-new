@@ -17,6 +17,10 @@ const env = (k) =>
 
 // Primo modello disponibile tra quelli in lista (il primo che l'API accetta).
 const MODELLI = () => [env('CASA_MODEL'), 'claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-haiku-4-5'].filter(Boolean);
+// Documenti lunghi (riparti e verbali del condominio, spesso scansionati): tabelle fitte,
+// serve il modello più accurato. Costa di più, ma si caricano una o due volte l'anno.
+const MODELLI_LUNGHI = () => [env('CASA_MODEL_LUNGHI'), 'claude-sonnet-5-5', 'claude-opus-5-5', 'claude-haiku-5-5'].filter(Boolean);
+const contaPagine = (buf) => (buf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
 const LIMITE_GIORNALIERO = () => Number(env('CASA_DAILY_CAP') || 300);
 
 const DOC_SCHEMA = {
@@ -139,7 +143,9 @@ export async function POST({ request }) {
   if (file.size > MAX_FILE_BYTES) return json({ errore: 'Il file supera 8 MB.' }, 413);
 
   const tipo = file.type || '';
-  const data = Buffer.from(await file.arrayBuffer()).toString('base64');
+  const buf = Buffer.from(await file.arrayBuffer());
+  const data = buf.toString('base64');
+  const lungo = tipo === 'application/pdf' && contaPagine(buf) > 4;
   let blocco;
   if (tipo === 'application/pdf') blocco = { type: 'document', source: { type: 'base64', media_type: tipo, data } };
   else if (['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(tipo)) blocco = { type: 'image', source: { type: 'base64', media_type: tipo, data } };
@@ -147,7 +153,7 @@ export async function POST({ request }) {
 
   let risposta, ultimoErrore;
   const client = new Anthropic({ apiKey });
-  for (const model of MODELLI()) {
+  for (const model of (lungo ? MODELLI_LUNGHI() : MODELLI())) {
     try {
       risposta = await client.messages.create({
         model,
