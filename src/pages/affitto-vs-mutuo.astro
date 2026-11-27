@@ -9,9 +9,9 @@ const topic = {
 };
 ---
 
-<Layout 
+<Layout schema={[{ '@type': 'WebApplication', name: 'Affitto o mutuo: simulatore del punto di pareggio', url: 'https://soldibuoni.it/affitto-vs-mutuo', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT', description: 'Calcola dopo quanti anni comprare casa diventa più conveniente che restare in affitto, considerando rata, IMU, manutenzione e costo opportunità dell\'anticipo.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: { '@id': 'https://soldibuoni.it/#org' } }, { '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'Conviene comprare casa o restare in affitto?', acceptedAnswer: { '@type': 'Answer', text: 'Dipende da quanti anni pensi di restare: comprare ha costi iniziali alti (notaio, imposte, agenzia) che si recuperano solo nel tempo. Il simulatore calcola il numero di anni dopo cui comprare conviene.' } }] }]} 
   title="Affitto vs Mutuo: quale conviene? | SoldiBuoni" 
-  description="Scopri dopo quanti anni comprare casa diventa più conveniente che affittare. Simulatore con grafico break-even basato su rata, IMU, manutenzione e costo opportunità."
+  description="Dopo quanti anni comprare casa conviene più che affittare? Simulatore con punto di pareggio su rata, IMU, manutenzione e costo opportunità."
 >
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
     
@@ -20,7 +20,7 @@ const topic = {
       <h1 class="display tool-title">{topic.title}</h1>
     </header>
 
-    <p class="intro-text">Scopri dopo quanti anni comprare casa diventa più conveniente che continuare ad affittare. Il simulatore considera rata, IMU, manutenzione, spese d'acquisto e il costo opportunità dell'anticipo.</p>
+    <p class="intro-text">Scopri dopo quanti anni comprare casa diventa più conveniente che continuare ad affittare. Il simulatore considera rata, IMU, manutenzione, spese d'acquisto e il costo opportunità dell\'anticipo.</p>
 
     <AffittoVsMutuo client:load color={topic.color} />
 

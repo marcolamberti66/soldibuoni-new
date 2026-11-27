@@ -138,8 +138,8 @@ const varPiuBasso = variabile.rata < fisso.rata;
 const confronto = varPiuBasso
   ? `Con i tassi medi di ${TASSI.aggiornatoTesto} il variabile parte più basso di circa ${fmt(diffRata)} € al mese. Il fisso costa qualcosa in più, ma la rata non può salire: con il variabile basta un rialzo medio di qualche decimo di punto per annullare il vantaggio iniziale.`
   : `Con i tassi medi di ${TASSI.aggiornatoTesto} il fisso costa circa ${fmt(diffRata)} € in meno al mese del variabile, e in più la rata resta uguale per tutta la durata.`;
-const titleSeo = `Rata mutuo ${importoFmt} euro per ${durata} anni: quanto pagherai al mese`;
-const descrSeo = `Mutuo ${importoFmt} € a ${durata} anni: rata di ${fmt(fisso.rata)} €/mese a tasso fisso (${PF}) o ${fmt(variabile.rata)} €/mese a variabile (${PV}), tassi di ${TASSI.aggiornatoTesto}. Calcolo, interessi totali e stipendio necessario.`;
+const titleSeo = `Mutuo ${importoFmt} euro in ${durata} anni: rata di ${fmt(fisso.rata)} € al mese`;
+const descrSeo = `Un mutuo di ${importoFmt} € in ${durata} anni costa ${fmt(fisso.rata)} € al mese a tasso fisso (${PF}) o ${fmt(variabile.rata)} € a variabile (${PV}). Interessi totali e stipendio necessario.`;
 const color = '#2c5a43';
 
 // FAQ Schema.org

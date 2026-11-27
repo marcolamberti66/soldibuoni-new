@@ -1,0 +1,59 @@
+---
+import Articolo from '../../components/Articolo.astro';
+import { LUCE, eur } from '../../data/energia.js';
+const consumi = [1500, 2000, 2700, 3500];
+const trimestri = [
+  { t: 'Gennaio–marzo 2026', p: 27.97 },
+  { t: 'Aprile–giugno 2026', p: 30.24 },
+  { t: 'Luglio–settembre 2026', p: 31.63 },
+  { t: 'Ottobre–dicembre 2026', p: 43.43 },
+];
+---
+<Articolo
+  slug="bolletta-luce-media"
+  title="Bolletta luce media al mese nel 2026: quanto si paga | SoldiBuoni"
+  description={`Con il prezzo ARERA di fine 2026 (${eur(LUCE.prezzoKwh * 100, 2)} c€/kWh) 2.000 kWh l'anno costano circa ${eur(LUCE.prezzoKwh * 2000 / 12)} € al mese. Tabella per consumo e come capire se paghi troppo.`}
+  eyebrow="Luce"
+  titolo="Quanto costa la luce<br /><em>al mese</em>"
+  lead={`Al prezzo di riferimento ARERA di ${LUCE.periodo}, ${eur(LUCE.prezzoKwh * 100, 2)} centesimi al kWh tasse incluse, una famiglia che consuma 2.000 kWh l'anno spende circa ${eur(LUCE.prezzoKwh * 2000 / 12)} € al mese. Ecco quanto si paga con altri consumi e come confrontare la tua bolletta.`}
+  aggiornato="2026-11-27"
+  pubblicato="2026-11-27"
+>
+  <h2>Quanto si paga in base al consumo</h2>
+  <p>Il prezzo di riferimento è quello che ARERA fissa ogni trimestre per i clienti vulnerabili rimasti in Maggior Tutela. È l'unico prezzo pubblico per una famiglia tipo ed è il metro più usato per giudicare un'offerta del mercato libero.</p>
+  <table>
+    <thead><tr><th>Consumo annuo</th><th>Al mese</th><th>All'anno</th></tr></thead>
+    <tbody>
+      {consumi.map((c) => (<tr><td>{eur(c)} kWh{c === LUCE.consumoTipo ? ' (cliente tipo ARERA)' : ''}</td><td class="num">{eur(c * LUCE.prezzoKwh / 12)} €</td><td class="num">{eur(c * LUCE.prezzoKwh)} €</td></tr>))}
+    </tbody>
+  </table>
+  <p><small>Nostro calcolo: consumo moltiplicato per {eur(LUCE.prezzoKwh * 100, 2)} c€/kWh, il prezzo tutto compreso di {LUCE.periodo} (<a href={LUCE.url} rel="noopener">{LUCE.fonte}</a>). È una stima: se il prezzo restasse questo per dodici mesi.</small></p>
+
+  <h2>Il prezzo nel 2026, trimestre per trimestre</h2>
+  <table>
+    <thead><tr><th>Periodo</th><th>Prezzo di riferimento</th><th>2.000 kWh, al mese</th></tr></thead>
+    <tbody>
+      {trimestri.map((q) => (<tr><td>{q.t}</td><td class="num">{eur(q.p, 2)} c€/kWh</td><td class="num">{eur(q.p * 20 / 12)} €</td></tr>))}
+    </tbody>
+  </table>
+  <p>In un anno il prezzo è salito di oltre il 50%, quasi tutto nell'ultimo trimestre: ARERA lo attribuisce al rialzo dei prezzi all'ingrosso. Su tutto il 2026 la spesa stimata per il cliente tipo è di <strong>{eur(LUCE.spesaAnno2026, 2)} €</strong>, il 9,3% in più dell'anno prima.</p>
+
+  <h2>Quanto consuma una famiglia</h2>
+  <p>ARERA usa come riferimento <strong>2.000 kWh l'anno con 3 kW di potenza</strong>. Una persona sola in un appartamento piccolo sta spesso sotto i 1.500 kWh; una famiglia con piano a induzione, pompa di calore o auto elettrica può superare i 3.500. Il consumo esatto è scritto in ogni bolletta, nel riquadro dei consumi annui.</p>
+
+  <h2>Come capire se paghi troppo</h2>
+  <ol>
+    <li>Prendi il totale della bolletta e dividilo per i kWh fatturati: è il tuo costo medio per kWh, tasse e quota fissa comprese.</li>
+    <li>Confrontalo con il prezzo di riferimento del periodo della bolletta (tabella sopra).</li>
+    <li>Se sei sopra di molto per più bollette di fila, guarda la quota fissa e la data di scadenza del tuo prezzo: spesso il problema è lì.</li>
+  </ol>
+  <p>Il <a href="/controlla-bolletta">controllo bolletta</a> fa questi tre passaggi da solo: carichi la foto o il PDF e in un minuto vedi il costo vero al kWh e il confronto. Per capire le singole voci c'è la guida <a href="/guida/bolletta-luce">come leggere la bolletta della luce</a>.</p>
+
+  <h2>Domande frequenti</h2>
+  <h3>Quanto costa 1 kWh di luce oggi?</h3>
+  <p>Per i clienti vulnerabili in tutela, {eur(LUCE.prezzoKwh * 100, 2)} centesimi tasse incluse nel trimestre {LUCE.periodo}. Sul mercato libero dipende dal contratto: il prezzo dell'energia scritto nell'offerta non comprende trasporto, oneri e imposte.</p>
+  <h3>Perché la mia bolletta è più alta della media?</h3>
+  <p>Le cause più comuni sono un conguaglio dopo letture stimate, un prezzo fisso scaduto e passato al prezzo variabile del fornitore, o consumi davvero più alti. La guida sul <a href="/guida/conguaglio-bolletta">conguaglio</a> spiega come riconoscerlo.</p>
+  <h3>Ogni quanto cambia il prezzo di riferimento?</h3>
+  <p>Ogni tre mesi, alla fine di marzo, giugno, settembre e dicembre. Il prossimo aggiornamento vale da gennaio 2027.</p>
+</Articolo>

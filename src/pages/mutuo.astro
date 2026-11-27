@@ -7,7 +7,7 @@ const F = TASSI.fisso.toFixed(2), V = TASSI.variabile.toFixed(2);
 const topic = TOPICS.mutuo;
 ---
 
-<Layout title="Calcola Rata Mutuo — Simulatore Gratuito | SoldiBuoni" description="Simula la rata del mutuo casa. Confronta durate e tassi, visualizza il piano di ammortamento e scopri quanto paghi davvero di interessi.">
+<Layout schema={[{ '@type': 'WebApplication', name: 'Simulatore rata mutuo', url: 'https://soldibuoni.it/mutuo', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'it-IT', description: 'Calcola la rata mensile del mutuo a tasso fisso o variabile con i tassi medi del mese, gli interessi totali e il piano di ammortamento.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: { '@id': 'https://soldibuoni.it/#org' } }, { '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'Come si calcola la rata del mutuo?', acceptedAnswer: { '@type': 'Answer', text: "Con la formula dell'ammortamento alla francese: rata = capitale × tasso mensile / (1 − (1 + tasso mensile) elevato a − numero di rate). Il simulatore la calcola per importo, durata e tasso." } }, { '@type': 'Question', name: 'Meglio tasso fisso o variabile?', acceptedAnswer: { '@type': 'Answer', text: "Il fisso dà una rata che non cambia mai; il variabile segue l'Euribor e può scendere o salire. Conviene il fisso se un aumento della rata ti metterebbe in difficoltà." } }] }]} title="Calcola Rata Mutuo — Simulatore Gratuito | SoldiBuoni" description="Simula la rata del mutuo casa. Confronta durate e tassi, visualizza il piano di ammortamento e scopri quanto paghi davvero di interessi.">
   <div style="max-width: 880px; margin: 0 auto; padding: 36px 20px 80px;">
     
     <header class="tool-head">

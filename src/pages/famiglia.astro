@@ -1,0 +1,53 @@
+---
+import Hub from '../components/Hub.astro';
+import { ISTAT, eur } from '../data/energia.js';
+const casa = Math.round(ISTAT.spesaMese * ISTAT.quotaAbitazione / 100);
+const aree = Object.entries(ISTAT.aree);
+const faq = [
+  { q: 'Quanto spende in media una famiglia italiana al mese?', a: `${eur(ISTAT.spesaMese)} euro nel 2025, secondo l'ISTAT, in pratica come nel 2024 (+1%). Chi vive da solo spende in media ${eur(ISTAT.single)} euro.` },
+  { q: 'Qual è la spesa più pesante per una famiglia?', a: `La casa: abitazione, acqua, elettricità e gas valgono il ${eur(ISTAT.quotaAbitazione, 1)}% della spesa, seguite dai trasporti. Nella voce casa l'ISTAT include l'affitto figurativo di chi vive in una casa di proprietà.` },
+  { q: 'Come si dividono le spese di casa tra coinquilini o in coppia?', a: 'In parti uguali, in proporzione al reddito o per uso. Il metodo più semplice è annotare chi paga cosa e pareggiare una volta al mese: lo spiega la <a href="/guida/dividere-spese-casa">guida su come dividere le spese</a>, e Dividi in La tua casa fa il conto da solo.' },
+];
+---
+<Hub
+  slug="famiglia"
+  nome="Budget familiare"
+  title={`Quanto spende una famiglia al mese: ${eur(ISTAT.spesaMese)} € (ISTAT 2025) | SoldiBuoni`}
+  description={`Spesa media di una famiglia italiana nel 2025: ${eur(ISTAT.spesaMese)} € al mese, il ${eur(ISTAT.quotaAbitazione, 0)}% per la casa. Differenze tra regioni, affitto e mutuo medi, come dividere le spese.`}
+  eyebrow="Budget familiare"
+  titolo="Quanto spende<br /><em>una famiglia al mese</em>"
+  lead={`Nel 2025 una famiglia italiana spende in media <strong>${eur(ISTAT.spesaMese)} € al mese</strong>. Più di un terzo se ne va per la casa e le sue utenze. Qui trovi i dati ISTAT, le differenze tra Nord e Sud e come organizzare le spese comuni in famiglia, in coppia o tra coinquilini.`}
+  aggiornato="2026-11-27"
+  strumenti={[
+    { href: '/casa', t: 'La tua casa', d: 'Il tuo costo mensile reale, voce per voce, con gli avvisi prima delle scadenze.' },
+    { href: '/casa#/dividi', t: 'Dividi le spese', d: 'Per coppie e coinquilini: chi ha pagato cosa e chi deve quanto a chi.' },
+  ]}
+  guide={['dividere-spese-casa', 'costi-casa', 'spese-condominiali', 'bolletta-luce-media']}
+  faq={faq}
+>
+  <h2>I numeri ISTAT del 2025</h2>
+  <table>
+    <thead><tr><th>Indicatore</th><th>Valore</th></tr></thead>
+    <tbody>
+      <tr><td>Spesa media mensile per famiglia</td><td class="num">{eur(ISTAT.spesaMese)} €</td></tr>
+      <tr><td>Quota per abitazione, acqua, elettricità e gas</td><td class="num">{eur(ISTAT.quotaAbitazione, 1)}% (circa {eur(casa)} €)*</td></tr>
+      <tr><td>Famiglia di una sola persona</td><td class="num">{eur(ISTAT.single)} €</td></tr>
+      <tr><td>Affitto medio ({ISTAT.famiglieAffitto} di famiglie)</td><td class="num">{ISTAT.affittoMedio} €</td></tr>
+      <tr><td>Rata media del mutuo ({ISTAT.famiglieMutuo} di famiglie)</td><td class="num">{ISTAT.rataMutuoMedia} €</td></tr>
+    </tbody>
+  </table>
+  <p><small>Fonte: <a href={ISTAT.url} rel="noopener">{ISTAT.fonte}</a>. *Importo calcolato da noi applicando la quota alla spesa media; include l'affitto figurativo delle case di proprietà.</small></p>
+
+  <h2>Nord e Sud</h2>
+  <p>La spesa cambia molto con il territorio: nel Nord-est una famiglia spende il 39,3% in più che al Sud.</p>
+  <table>
+    <thead><tr><th>Area</th><th>Spesa media mensile</th></tr></thead>
+    <tbody>{aree.map(([a, v]) => (<tr><td>{a}</td><td class="num">{eur(v)} €</td></tr>))}</tbody>
+  </table>
+
+  <h2>Dove si risparmia davvero</h2>
+  <p>Sulle spese fisse della casa si risparmia poco tagliando i consumi e molto controllando i contratti: un'offerta di luce o gas scaduta, una promozione internet finita, un conguaglio sbagliato. Sono voci che si pagano in automatico e che nessuno ricontrolla. Il primo passo è sapere quanto spendi davvero al mese, voce per voce: le <a href="/costi-casa">spese della casa</a> spiega come fare il conto.</p>
+
+  <h2>Spese in comune</h2>
+  <p>In coppia o tra coinquilini il problema non è quanto si spende ma chi paga cosa. Funziona un metodo semplice e deciso prima: parti uguali per affitto e bollette, oppure in proporzione al reddito. Il resto lo fa un registro condiviso con un pareggio periodico. Tutti i dettagli sono nella guida su <a href="/guida/dividere-spese-casa">come dividere le spese di casa</a>.</p>
+</Hub>
