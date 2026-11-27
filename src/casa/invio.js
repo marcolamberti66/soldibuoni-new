@@ -1,5 +1,5 @@
 // Invio email transazionali via Brevo (stessa chiave già usata dal sito).
-export async function inviaEmail({ apiKey, a, oggetto, html, testo, mittente }) {
+export async function inviaEmail({ apiKey, a, oggetto, html, testo, mittente, disiscrivi, unClic }) {
   const r = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: { 'api-key': apiKey, 'Content-Type': 'application/json', accept: 'application/json' },
@@ -10,6 +10,7 @@ export async function inviaEmail({ apiKey, a, oggetto, html, testo, mittente }) 
       htmlContent: html,
       textContent: testo,
       tags: ['email-lunedi'],
+      ...(disiscrivi ? { headers: { 'List-Unsubscribe': `<${unClic || disiscrivi}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}),
     }),
   });
   if (!r.ok) throw new Error('Brevo ' + r.status + ': ' + (await r.text()).slice(0, 200));

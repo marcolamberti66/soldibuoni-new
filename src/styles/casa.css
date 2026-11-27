@@ -366,6 +366,7 @@
 .ca-acc-code .btn { height: 52px; }
 .ca-acc-code .btn:disabled { opacity: .4; }
 .ca-acc-again { display: block; margin-top: 12px; font-size: 13.5px; }
+.ca-acc-del { display: block; margin-top: 18px; font-size: 13px; }
 
 /* ── telefono: app installata e notifiche ─────────────────── */
 .btn-sm { height: 36px; padding: 0 16px; font-size: 13.5px; }

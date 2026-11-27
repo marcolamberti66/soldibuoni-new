@@ -8,6 +8,9 @@ import { createClient } from '@supabase/supabase-js';
 import { caricaStatoUtente } from '../../src/casa/dati-utente.js';
 import { costruisciEmail, statoDaRighe } from '../../src/casa/email.js';
 import { inviaEmail } from '../../src/casa/invio.js';
+import { linkDisiscrizione, linkUnClic } from '../../src/casa/firma.js';
+
+const SITO = 'https://soldibuoni.it';
 
 export default async () => {
   const URL_SB = process.env.PUBLIC_SUPABASE_URL || 'https://wudxegrfbjxwzuzadykh.supabase.co';
@@ -31,9 +34,10 @@ export default async () => {
       if (!email) { saltate++; continue; }
       const stato = await caricaStatoUtente(db, n.user_id);
       if (!stato.casa) { saltate++; continue; }
-      const msg = costruisciEmail(stato);
+      const disiscrivi = linkDisiscrizione(SITO, n.user_id, SERVICE);
+      const msg = costruisciEmail(stato, { sito: SITO, disiscrivi });
       if (!msg) { saltate++; continue; } // niente da dire: niente email
-      await inviaEmail({ apiKey: BREVO, a: email, oggetto: msg.subject, html: msg.html, testo: msg.text, mittente: process.env.SENDER_EMAIL });
+      await inviaEmail({ apiKey: BREVO, a: email, oggetto: msg.subject, html: msg.html, testo: msg.text, mittente: process.env.SENDER_EMAIL, disiscrivi, unClic: linkUnClic(SITO, n.user_id, SERVICE) });
       await db.from('notifiche').update({ ultimo_invio: new Date().toISOString() }).eq('user_id', n.user_id);
       inviate++;
     } catch (e) {

@@ -11,7 +11,7 @@ const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 const giorno = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
 
 /** Ritorna null se non c'è niente di utile da dire questa settimana. */
-export function costruisciEmail(stato, { sito = 'https://soldibuoni.it', forza = false } = {}) {
+export function costruisciEmail(stato, { sito = 'https://soldibuoni.it', forza = false, disiscrivi = null } = {}) {
   const oggi = oggiISO();
   const tra7 = addGiorni(oggi, 7), tra30 = addGiorni(oggi, 30);
   const scad = calcolaScadenze(stato, 40);
@@ -64,7 +64,7 @@ export function costruisciEmail(stato, { sito = 'https://soldibuoni.it', forza =
     <a href="${sito}/casa" style="display:inline-block;background:#17150f;color:#f5f2ec;text-decoration:none;padding:13px 22px;border-radius:999px;font-size:15px">Apri la tua casa</a>
   </td></tr>
 </table>
-<p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#6f6a5e">Ricevi questa email perché hai attivato l'email del lunedì su SoldiBuoni. Per non riceverla più, disattivala in <a href="${sito}/casa#/casa" style="color:#47433a">La casa</a>. Nessuna pubblicità, nessuna affiliazione.</p>
+<p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#6f6a5e">Ricevi questa email perché hai attivato l'email del lunedì su SoldiBuoni. Per non riceverla più, ${disiscrivi ? `<a href="${disiscrivi}" style="color:#47433a">disiscriviti con un clic</a> o disattivala` : 'disattivala'} in <a href="${sito}/casa#/casa" style="color:#47433a">La casa</a>. Nessuna pubblicità, nessuna affiliazione.</p>
 </td></tr></table></body></html>`;
 
   const text = [
@@ -72,6 +72,7 @@ export function costruisciEmail(stato, { sito = 'https://soldibuoni.it', forza =
     ...sett.map((x) => `- ${giorno(x.data)}: ${x.titolo}${x.importo ? ' ' + eur(x.importo, 2) : ''}`),
     daFare.length ? '\nDa fare:' : '', ...daFare.map((a) => `- ${a.titolo}`),
     `\nApri la tua casa: ${sito}/casa`,
+    disiscrivi ? `Non vuoi più riceverla? ${disiscrivi}` : '',
   ].filter(Boolean).join('\n');
 
   return { subject, html, text };

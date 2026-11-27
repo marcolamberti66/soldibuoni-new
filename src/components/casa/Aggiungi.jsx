@@ -162,7 +162,7 @@ export default function Aggiungi({ parametri, vai }) {
         <input ref={inFile} type="file" accept="application/pdf,image/*" multiple hidden onChange={(e) => elabora(e.target.files)} />
         <input ref={inFoto} type="file" accept="image/*" capture="environment" hidden onChange={(e) => elabora(e.target.files)} />
       </div>
-      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Il file viene letto e scartato subito. Teniamo solo i numeri: niente nomi, indirizzi, POD, PDR o IBAN.</p>
+      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Non salviamo il file: lo legge un servizio di AI (Anthropic), che lo cancella entro 30 giorni. Teniamo solo i numeri: niente nomi, indirizzi, POD, PDR o IBAN.</p>
 
       <div className="ca-alt">
         <button className="ca-alt-b" onClick={() => { setCoda([{ categoria: preset && CATEGORIE[preset]?.bolletta ? preset : 'luce', fonte: 'manuale' }]); setFase('revisione'); }}>
