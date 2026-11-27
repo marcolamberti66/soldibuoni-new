@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import HomeStima from '../components/HomeStima.jsx';
+import TavolaCasa from '../components/TavolaCasa.astro';
 import { LUCE_TRIMESTRI } from '../data/stima-casa.js';
 import { FONTE_TARI } from '../data/tari-2025.js';
 import { TASSI, fmtPerc } from '../data/tassi.js';
@@ -29,13 +30,14 @@ const schemaHome = [{
   description="App gratuita per le spese di casa: carichi le bollette, le leggiamo noi e ti avvisiamo prima di ogni scadenza. Mutuo, condominio, TARI, IMU in un posto solo."
 >
   <section class="hero" id="stima">
-    <div class="wrap">
+    <div class="wrap hero-g">
       <div class="hero-head">
         <p class="kicker"><span>N° 01</span> La tua casa, in un numero</p>
         <h1 class="display hero-t">Quanto costa<br />una casa <em>come la tua?</em></h1>
         <p class="hero-s">Tre risposte, e vedi subito quanto spendi di luce, gas e TARI nella tua città, ai prezzi di oggi. Poi, con le tue bollette, diventa il conto vero.</p>
       </div>
-      <HomeStima client:load />
+      <div class="hero-tav"><TavolaCasa /></div>
+      <div class="hero-stima"><HomeStima client:load /></div>
     </div>
   </section>
 
@@ -315,4 +317,15 @@ const schemaHome = [{
 
   .week-n { font-size: 14px; color: var(--ink-3); margin-top: 14px; }
   .tools { padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 8vw, 112px); }
+
+  /* hero: titolo e casa disegnata affiancati, la stima sotto (su mobile: titolo, stima, casa) */
+  .hero-g { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 500px); grid-template-areas: "head tav" "stima stima"; column-gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .hero-g .hero-head { grid-area: head; }
+  .hero-g .hero-tav { grid-area: tav; max-width: 500px; width: 100%; justify-self: end; margin-bottom: clamp(28px, 4vw, 48px); }
+  .hero-g .hero-stima { grid-area: stima; }
+  @media (max-width: 960px) {
+    .hero-g { grid-template-columns: 1fr; grid-template-areas: "head" "stima" "tav"; }
+    .hero-g .hero-tav { justify-self: stretch; max-width: 560px; margin: clamp(40px, 8vw, 64px) 0 0; }
+  }
+  @media (min-width: 961px) { .hero-g .hero-head .hero-t { font-size: clamp(56px, 5.6vw, 92px); } .hero-g .hero-head { margin-bottom: clamp(28px, 4vw, 48px); } }
 </style>
