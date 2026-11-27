@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAccount } from '../../casa/sync.js';
-import { ambiente, useInstallazione, apriScaricaApp } from '../../casa/dispositivo.js';
 import { Icona } from './ui.jsx';
 
 const CHIUSO = 'sb_primi_passi_chiusi';
@@ -16,9 +14,6 @@ const scrivi = (k, v) => { try { v == null ? localStorage.removeItem(k) : localS
 export const primiPassiChiusi = () => leggi(CHIUSO) === '1';
 
 export default function PrimiPassi({ stato, vai, vuota = false }) {
-  const acc = useAccount();
-  const inst = useInstallazione();
-  const a = ambiente();
   const [chiuso, setChiuso] = useState(() => leggi(CHIUSO) === '1');
   const [benvenuto] = useState(() => leggi(BENVENUTO) === '1');
   // Il benvenuto resta finché la panoramica non è stata davvero vista (non solo montata
@@ -33,11 +28,9 @@ export default function PrimiPassi({ stato, vai, vuota = false }) {
   const fisse = stato.ricorrenti.length;
   const conMutuo = stato.casa?.titolo === 'proprieta_mutuo';
   const passi = [
-    { id: 'casa', fatto: true, t: 'Casa impostata', s: 'Le quattro risposte iniziali. Puoi cambiarle dalla sezione Casa.', az: 'Modifica', fn: () => vai('casa') },
+    { id: 'casa', fatto: true, t: 'Casa impostata', s: 'Le risposte iniziali. Puoi cambiarle dalle Impostazioni.', az: 'Modifica', fn: () => vai('casa') },
     { id: 'bolletta', fatto: bollette > 0, t: 'Carica una bolletta', s: 'Luce o gas, PDF o foto: leggo importo, consumi, prezzo e scadenze.', az: 'Carica', fn: () => vai('aggiungi') },
-    { id: 'fisse', fatto: fisse > 0, t: conMutuo ? 'Rata del mutuo e condominio' : 'Spese fisse della casa', s: 'Le spese senza bolletta: bastano importo e frequenza.', az: 'Aggiungi', fn: () => vai('aggiungi?cat=' + (conMutuo && !stato.ricorrenti.some((r) => r.categoria === 'mutuo') ? 'mutuo' : 'condominio')) },
-    { id: 'app', fatto: a.standalone || inst === 'installata', t: 'App sul telefono', s: 'Un\'icona sulla Home, si apre a schermo intero e funziona offline.', az: 'Scarica', fn: () => apriScaricaApp('primi-passi') },
-    { id: 'avvisi', fatto: !!acc.utente, t: 'Avvisi e copia di sicurezza', s: 'Accedi con l\'email: ricevi l\'email del lunedì, le notifiche e ritrovi i dati su ogni dispositivo.', az: 'Attiva', fn: () => vai('casa') },
+    { id: 'fisse', fatto: fisse > 0, t: conMutuo ? 'Rata del mutuo e condominio' : 'Spese fisse della casa', s: 'Le spese senza bolletta: importo e frequenza, oppure rate con date e importi diversi.', az: 'Aggiungi', fn: () => vai('aggiungi?cat=' + (conMutuo && !stato.ricorrenti.some((r) => r.categoria === 'mutuo') ? 'mutuo' : 'condominio')) },
   ];
   const fatti = passi.filter((p) => p.fatto).length;
   if (chiuso || fatti === passi.length) return null;

@@ -11,8 +11,8 @@ export const CATEGORIE = {
   condominio:   { label: 'Condominio',       unita: null,  colore: 'var(--c-condominio)',   bolletta: false, icona: 'condominio', gruppo: 'abitazione' },
   assicurazione:{ label: 'Assicurazione casa', unita: null, colore: 'var(--c-assicurazione)', bolletta: false, icona: 'scudo',    gruppo: 'abitazione' },
   manutenzione: { label: 'Manutenzione',     unita: null,  colore: 'var(--c-manutenzione)', bolletta: false, icona: 'chiaveinglese', gruppo: 'abitazione' },
-  tari:         { label: 'TARI',             unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'tari',       gruppo: 'abitazione' },
-  imu:          { label: 'IMU e tributi',    unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'documento',  gruppo: 'abitazione' },
+  tari:         { label: 'TARI',             unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'tari',       gruppo: 'tasse' },
+  imu:          { label: 'IMU e tributi',    unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'documento',  gruppo: 'tasse' },
   // Utenze
   luce:         { label: 'Luce',             unita: 'kWh', colore: 'var(--c-luce)',         bolletta: true,  icona: 'luce',       gruppo: 'utenze' },
   gas:          { label: 'Gas',              unita: 'Smc', colore: 'var(--c-gas)',          bolletta: true,  icona: 'gas',        gruppo: 'utenze' },
@@ -24,7 +24,7 @@ export const CATEGORIE = {
 
 export const ORDINE = ['mutuo', 'affitto', 'condominio', 'luce', 'gas', 'acqua', 'internet', 'mobile', 'tari', 'imu', 'assicurazione', 'manutenzione', 'altro'];
 
-export const GRUPPI = { abitazione: 'Abitazione', utenze: 'Utenze e servizi' };
+export const GRUPPI = { abitazione: 'Abitazione', utenze: 'Utenze e servizi', tasse: 'Tasse' };
 
 export const TITOLO = {
   proprieta_mutuo: 'Di proprietà, con mutuo',
@@ -59,7 +59,11 @@ export const FREQUENZE = {
   quadrimestrale: { label: 'ogni 4 mesi', mesi: 4 },
   semestrale: { label: 'ogni 6 mesi', mesi: 6 },
   annuale: { label: 'una volta l\'anno', mesi: 12 },
+  una_tantum: { label: 'una volta sola', mesi: 12, unaVolta: true },
 };
+
+/** Spesa una tantum: una sola scadenza, fuori dalla media mensile. */
+export const unaVolta = (r) => !!FREQUENZE[r.frequenza]?.unaVolta;
 
 export const RISCALDAMENTO = {
   gas_autonomo: 'Caldaia a gas autonoma',
@@ -126,7 +130,9 @@ export function costoMensile(stato, categoria) {
     mesiDati = docs.reduce((s, d) => s + mesiCoperti(d), 0);
     if (mesiDati > 0) { mensile += tot / mesiDati; fonte = 'bollette'; }
   }
-  const ric = stato.ricorrenti.filter((r) => r.categoria === categoria && r.attiva !== false);
+  // Le spese una tantum (conguagli, anticipi, riparazioni) non entrano nella media mensile:
+  // la falserebbero. Compaiono nelle scadenze e nella lista delle spese.
+  const ric = stato.ricorrenti.filter((r) => r.categoria === categoria && r.attiva !== false && !unaVolta(r));
   if (ric.length) {
     mensile += ric.reduce((s, r) => s + (Number(r.importo) || 0) / (FREQUENZE[r.frequenza]?.mesi || 1), 0);
     fonte = fonte ? 'misto' : 'ricorrente';

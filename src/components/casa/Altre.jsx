@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { azioni, prendiInAttesa, ciSonoInAttesa } from '../../casa/store.js';
 import { CATEGORIE, ORDINE, RISCALDAMENTO, FREQUENZE, TITOLO, parseNumero, dataDoc, eur, dataBreve, oggiISO, addGiorni } from '../../casa/model.js';
-import { calcolaAvvisi, calcolaScadenze } from '../../casa/insights.js';
+import { calcolaAvvisi, calcolaScadenze, prossimaRicorrenza } from '../../casa/insights.js';
 import { scaricaCalendario } from '../../casa/calendario.js';
 import { Campo, Foglio, Icona, IconaCategoria, Percorso, Scelta } from './ui.jsx';
 import { RigaDocumento, SchedaDocumento, SchedaRicorrente } from './Documento.jsx';
@@ -12,6 +12,7 @@ import { SchedaTelefono } from './Telefono.jsx';
 import { SchedaCondivisa } from './Condivisa.jsx';
 import { useAccount, eliminaCasaRemota } from '../../casa/sync.js';
 import { conta } from '../../casa/dispositivo.js';
+import { TARI } from '../../data/tari-2025.js';
 
 // ── Scadenze ────────────────────────────────────────────────
 export function Scadenze({ stato, vai }) {
@@ -87,18 +88,66 @@ function Promemoria({ onSalva }) {
   );
 }
 
-// ── Archivio ────────────────────────────────────────────────
+// ── Spese: fisse e a rate, una tantum, bollette ─────────────
+const sottoRic = (r) => {
+  const f = FREQUENZE[r.frequenza];
+  if (f?.unaVolta) return r.prossima_scadenza ? 'una volta sola · ' + dataBreve(r.prossima_scadenza) : 'una volta sola';
+  const d = prossimaRicorrenza(r);
+  return (f?.label || '') + (d ? ' · prossima ' + dataBreve(d) : '');
+};
+
+function ListaRicorrenti({ voci, onApri }) {
+  return (
+    <div className="ca-card flush ca-list ca-list-wrap">
+      {voci.map((r) => (
+        <button className="ca-row" key={r.id} onClick={() => onApri(r)}>
+          <IconaCategoria cat={r.categoria} size={36} />
+          <span className="ca-row-main"><span className="ca-row-t">{r.nome || CATEGORIE[r.categoria]?.label}</span><span className="ca-row-s">{sottoRic(r)}</span></span>
+          <span className="num ca-row-v">{eur(r.importo, 2)}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function Archivio({ stato, vai }) {
   const [filtro, setFiltro] = useState('tutte');
   const [aperto, setAperto] = useState(null);
+  const [ric, setRic] = useState(null);
   const presenti = ORDINE.filter((c) => stato.documenti.some((d) => d.categoria === c));
   const docs = stato.documenti
     .filter((d) => filtro === 'tutte' || d.categoria === filtro)
     .sort((a, b) => (dataDoc(b) || '').localeCompare(dataDoc(a) || ''));
   const doc = aperto && stato.documenti.find((d) => d.id === aperto);
+  const ordina = (a, b) => ORDINE.indexOf(a.categoria) - ORDINE.indexOf(b.categoria) || (a.prossima_scadenza || '').localeCompare(b.prossima_scadenza || '');
+  const fisse = stato.ricorrenti.filter((r) => !FREQUENZE[r.frequenza]?.unaVolta).sort(ordina);
+  const una = stato.ricorrenti.filter((r) => FREQUENZE[r.frequenza]?.unaVolta).sort((a, b) => (b.prossima_scadenza || '').localeCompare(a.prossima_scadenza || ''));
+  const annuo = fisse.reduce((t, r) => t + (Number(r.importo) || 0) * 12 / (FREQUENZE[r.frequenza]?.mesi || 1), 0);
   return (
     <section className="ca-page">
-      <Testata titolo="Archivio" sotto={`${stato.documenti.length} documenti registrati.`} />
+      <Testata titolo="Spese" sotto="Tutto quello che hai inserito: spese fisse, una tantum e bollette." />
+
+      <div className="ca-h2-row">
+        <h2 className="ca-h2">Spese fisse e a rate</h2>
+        <button className="ca-link" onClick={() => vai('aggiungi?tipo=fissa')}>+ Aggiungi</button>
+      </div>
+      {fisse.length ? <>
+        <ListaRicorrenti voci={fisse} onApri={setRic} />
+        <p className="ca-muted small ca-tot">In un anno <strong className="num">{eur(annuo, 0)}</strong>, cioè {eur(annuo / 12, 0)} al mese.</p>
+      </> : <div className="ca-card ca-empty-s">Mutuo o affitto, condominio, TARI, assicurazione: aggiungile per avere il costo completo della casa.</div>}
+
+      {una.length > 0 && <>
+        <div className="ca-h2-row">
+          <h2 className="ca-h2">Una tantum</h2>
+          <button className="ca-link" onClick={() => vai('aggiungi?tipo=unatantum')}>+ Aggiungi</button>
+        </div>
+        <ListaRicorrenti voci={una} onApri={setRic} />
+      </>}
+
+      <div className="ca-h2-row">
+        <h2 className="ca-h2">Bollette e documenti</h2>
+        <button className="ca-link" onClick={() => vai('aggiungi')}>+ Carica</button>
+      </div>
       {presenti.length > 1 && (
         <div className="ca-chips ca-filter" role="tablist">
           {['tutte', ...presenti].map((c) => (
@@ -111,7 +160,7 @@ export function Archivio({ stato, vai }) {
       {docs.length ? (
         <div className="ca-card flush ca-list">{docs.map((d) => <RigaDocumento key={d.id} d={d} onApri={() => setAperto(d.id)} />)}</div>
       ) : (
-        <div className="ca-card ca-empty-s">Ancora nessun documento. <button className="ca-link" onClick={() => vai('aggiungi')}>Carica la prima bolletta</button></div>
+        <div className="ca-card ca-empty-s">Ancora nessuna bolletta. <button className="ca-link" onClick={() => vai('aggiungi')}>Carica la prima</button></div>
       )}
       <Foglio aperto={!!doc} onChiudi={() => setAperto(null)} titolo="Modifica documento">
         {doc && <>
@@ -121,6 +170,9 @@ export function Archivio({ stato, vai }) {
             <button className="ca-link danger" onClick={() => { if (confirm('Eliminare questo documento?')) { azioni.eliminaDocumento(doc.id); setAperto(null); } }}>Elimina documento</button>
           </div>
         </>}
+      </Foglio>
+      <Foglio aperto={!!ric} onChiudi={() => setRic(null)} titolo={ric && FREQUENZE[ric.frequenza]?.unaVolta ? 'Spesa una tantum' : 'Spesa fissa'}>
+        {ric && <SchedaRicorrente key={ric.id || 'nuova'} iniziale={ric} onSalva={(r) => { azioni.salvaRicorrente(r); setRic(null); }} onElimina={ric.id ? () => { azioni.eliminaRicorrente(ric.id); setRic(null); } : null} />}
       </Foglio>
     </section>
   );
@@ -144,82 +196,103 @@ function CancellaTutto() {
   );
 }
 
-export function Casa({ stato }) {
+function Sezione({ titolo, stato, aperta, children }) {
+  return (
+    <details className="ca-sez" open={aperta}>
+      <summary><span className="ca-sez-t">{titolo}</span>{stato && <span className="ca-sez-s">{stato}</span>}<Icona nome="freccia" size={16} /></summary>
+      <div className="ca-sez-b">{children}</div>
+    </details>
+  );
+}
+
+export function Casa({ stato, vai }) {
   const casa = stato.casa || {};
-  const [ric, setRic] = useState(null);
+  const acc = useAccount();
   const inImp = useRef(null);
   const set = (k) => (v) => azioni.modificaCasa({ [k]: v });
+  const profilo = [TITOLO[casa.titolo], casa.persone ? (casa.persone >= 5 ? '5+' : casa.persone) + (casa.persone === 1 ? ' persona' : ' persone') : null].filter(Boolean).join(' · ');
   return (
     <section className="ca-page">
-      <Testata titolo="La casa" sotto="Account, profilo della casa e spese fisse." />
-      <Account />
-      <SchedaCondivisa />
-      <SchedaTelefono />
+      <Testata titolo="Altro" sotto="Strumenti, guide e impostazioni della casa." />
 
-      <div className="ca-card ca-form">
-        <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
-        <div className="ca-grid2">
-          <Campo label="CAP"><input inputMode="numeric" maxLength={5} defaultValue={casa.cap || ''} onBlur={(e) => set('cap')(e.target.value.replace(/\D/g, '') || null)} /></Campo>
-          <Campo label="Metri quadri"><input inputMode="numeric" defaultValue={casa.mq || ''} onBlur={(e) => set('mq')(Number(e.target.value) || null)} /></Campo>
-        </div>
-        <p className="ca-field-l ca-form-h">La casa è</p>
-        <Scelta nome="Titolo" valore={casa.titolo} onChange={set('titolo')} colonne={3} opzioni={Object.entries(TITOLO).map(([v, l]) => ({ v, l }))} />
-        <p className="ca-field-l ca-form-h">Persone in casa</p>
-        <Scelta nome="Persone" valore={casa.persone} onChange={set('persone')} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
-        <p className="ca-field-l ca-form-h">Riscaldamento</p>
-        <Scelta nome="Riscaldamento" valore={casa.riscaldamento} onChange={set('riscaldamento')} opzioni={Object.entries(RISCALDAMENTO).map(([v, l]) => ({ v, l }))} colonne={2} />
+      <div className="ca-card flush ca-list ca-altro">
+        <button className="ca-row" onClick={() => vai('dividi')}>
+          <span className="ca-altro-i"><Icona nome="dividi" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Dividi le spese</span><span className="ca-row-s">{stato.conviventi.length ? 'Chi deve a chi in casa' : 'Con chi vive con te: chi deve a chi'}</span></span>
+          <Icona nome="freccia" size={18} />
+        </button>
+        <a className="ca-row" href="/guida">
+          <span className="ca-altro-i"><Icona nome="libro" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Guide</span><span className="ca-row-s">TARI, IMU, bollette, condominio, 730</span></span>
+          <Icona nome="freccia" size={18} />
+        </a>
+        <a className="ca-row" href="/strumenti">
+          <span className="ca-altro-i"><Icona nome="strumenti" size={20} /></span>
+          <span className="ca-row-main"><span className="ca-row-t">Strumenti</span><span className="ca-row-s">Mutuo, affitto o mutuo, TARI della tua città</span></span>
+          <Icona nome="freccia" size={18} />
+        </a>
       </div>
 
-      <div className="ca-h2-row">
-        <h2 className="ca-h2">Spese fisse</h2>
-        <button className="ca-link" onClick={() => setRic({})}>+ Aggiungi</button>
-      </div>
-      {stato.ricorrenti.length ? (
-        <div className="ca-card flush ca-list">
-          {stato.ricorrenti.map((r) => (
-            <button className="ca-row" key={r.id} onClick={() => setRic(r)}>
-              <IconaCategoria cat={r.categoria} size={36} />
-              <span className="ca-row-main"><span className="ca-row-t">{r.nome || CATEGORIE[r.categoria]?.label}</span><span className="ca-row-s">{FREQUENZE[r.frequenza]?.label}</span></span>
-              <span className="num ca-row-v">{eur(r.importo, 2)}</span>
-            </button>
-          ))}
-        </div>
-      ) : <div className="ca-card ca-empty-s">Mutuo o affitto, condominio, TARI, assicurazione: aggiungile per avere il costo completo.</div>}
+      <h2 className="ca-h2">Impostazioni</h2>
 
-      <h2 className="ca-h2">I tuoi dati</h2>
-      <div className="ca-card ca-data">
-        <p><Icona nome="lucchetto" size={18} /> Senza account i dati restano solo in questo browser. Con l'account sono salvati anche sul nostro database in Europa, visibili solo a te. Il file delle bollette non viene mai conservato.</p>
-        <div className="ca-data-act">
-          <button className="btn btn-line" onClick={azioni.esporta}>Esporta backup</button>
-          <button className="btn btn-line" onClick={() => inImp.current.click()}>Importa backup</button>
-          <input ref={inImp} type="file" accept="application/json" hidden onChange={async (e) => {
-            const f = e.target.files[0]; if (!f) return;
-            try { await azioni.importa(f); alert('Backup importato.'); } catch { alert('File non valido.'); }
-          }} />
-          <CancellaTutto />
+      <Sezione titolo="Account e email del lunedì" stato={acc.utente ? acc.utente.email : 'Non attivo'}>
+        <Account />
+      </Sezione>
+      <Sezione titolo="Chi vive qui" stato="Condividi la casa">
+        <SchedaCondivisa />
+      </Sezione>
+      <Sezione titolo="Telefono" stato="App e notifiche">
+        <SchedaTelefono />
+      </Sezione>
+      <Sezione titolo="Profilo della casa" stato={profilo}>
+        <div className="ca-card ca-form">
+          <Campo label="Nome"><input defaultValue={casa.nome || ''} placeholder="La mia casa" onBlur={(e) => set('nome')(e.target.value.trim() || null)} /></Campo>
+          <div className="ca-grid2">
+            <Campo label="Comune"><input list="ca-comuni-p" defaultValue={casa.citta || ''} placeholder="Milano" onBlur={(e) => set('citta')(e.target.value.trim() || null)} /><datalist id="ca-comuni-p">{TARI.map((t) => <option key={t.slug} value={t.citta} />)}</datalist></Campo>
+            <Campo label="Metri quadri"><input inputMode="numeric" defaultValue={casa.mq || ''} onBlur={(e) => set('mq')(Number(e.target.value) || null)} /></Campo>
+          </div>
+          <p className="ca-field-l ca-form-h">La casa è</p>
+          <Scelta nome="Titolo" valore={casa.titolo} onChange={set('titolo')} colonne={3} opzioni={Object.entries(TITOLO).map(([v, l]) => ({ v, l }))} />
+          <p className="ca-field-l ca-form-h">Persone in casa</p>
+          <Scelta nome="Persone" valore={casa.persone} onChange={set('persone')} opzioni={[1, 2, 3, 4, 5].map((n) => ({ v: n, l: n === 5 ? '5+' : String(n) }))} colonne={5} />
+          <p className="ca-field-l ca-form-h">Riscaldamento</p>
+          <Scelta nome="Riscaldamento" valore={casa.riscaldamento} onChange={set('riscaldamento')} opzioni={Object.entries(RISCALDAMENTO).map(([v, l]) => ({ v, l }))} colonne={2} />
         </div>
-      </div>
-
-      <Foglio aperto={!!ric} onChiudi={() => setRic(null)} titolo="Spesa fissa">
-        {ric && <SchedaRicorrente iniziale={ric} onSalva={(r) => { azioni.salvaRicorrente(r); setRic(null); }} onElimina={ric.id ? () => { azioni.eliminaRicorrente(ric.id); setRic(null); } : null} />}
-      </Foglio>
+      </Sezione>
+      <Sezione titolo="I tuoi dati" stato="Backup e cancellazione">
+        <div className="ca-card ca-data">
+          <p><Icona nome="lucchetto" size={18} /> Senza account i dati restano solo in questo browser. Con l'account sono salvati anche sul nostro database in Europa, visibili solo a te e a chi condivide la casa con te. Le bollette caricate non le conserviamo: le legge un servizio di AI che le cancella entro 30 giorni. <a href="/privacy">Informativa privacy</a></p>
+          <div className="ca-data-act">
+            <button className="btn btn-line" onClick={azioni.esporta}>Esporta backup</button>
+            <button className="btn btn-line" onClick={() => inImp.current.click()}>Importa backup</button>
+            <input ref={inImp} type="file" accept="application/json" hidden onChange={async (e) => {
+              const f = e.target.files[0]; if (!f) return;
+              try { await azioni.importa(f); alert('Backup importato.'); } catch { alert('File non valido.'); }
+            }} />
+            <CancellaTutto />
+          </div>
+        </div>
+      </Sezione>
     </section>
   );
 }
 
 // ── Onboarding: quattro tocchi ──────────────────────────────
+// Risposte date nella stima in home: l'onboarding parte già compilato.
+const stimaSalvata = () => { try { return JSON.parse(localStorage.getItem('sb_stima')) || {}; } catch { return {}; } };
+
 export function Benvenuto() {
-  const [accedi, setAccedi] = useState(false);
-  const [titolo, setTitolo] = useState(null);
+  const [st0] = useState(stimaSalvata);
+  const [titolo, setTitolo] = useState(st0.titolo || null);
   const [rata, setRata] = useState('');
-  const [persone, setPersone] = useState(null);
-  const [risc, setRisc] = useState(null);
-  const [cap, setCap] = useState('');
+  const [persone, setPersone] = useState(st0.persone || null);
+  const [risc, setRisc] = useState(st0.riscaldamento || null);
+  const [citta, setCitta] = useState(st0.citta || '');
   const pronto = titolo && persone && risc;
   const conRata = titolo === 'proprieta_mutuo' || titolo === 'affitto';
 
   const vai = () => {
-    azioni.creaCasa({ titolo, persone, riscaldamento: risc, cap: cap || null });
+    azioni.creaCasa({ titolo, persone, riscaldamento: risc, citta: citta.trim() || null });
     conta('onboarding', titolo);
     const importo = parseNumero(rata) || 0;
     if (conRata && importo > 0) {
@@ -244,14 +317,7 @@ export function Benvenuto() {
     <section className="ca-page ca-onb">
       <Percorso passo={0} />
       <h1 className="display ca-onb-t">La tua casa,<br /><em>in quattro risposte.</em></h1>
-      <p className="ca-onb-s">Un minuto, nessuna registrazione. Poi carichi una bolletta (o lo fai dopo) e si apre la <strong>tua panoramica</strong>: ogni settimana cosa esce, cosa scade, cosa fare.</p>
-      {accedi ? <div className="ca-onb-acc"><Account variante="rientro" /></div> : (
-        <button className="ca-onb-ret" onClick={() => setAccedi(true)}>
-          <span className="ca-onb-ret-i"><Icona nome="chiave" size={20} /></span>
-          <span className="ca-onb-ret-t"><strong>Hai già un account?</strong><small>Accedi e ritrova la tua casa su questo dispositivo</small></span>
-          <span className="ca-onb-ret-a">Accedi <Icona nome="freccia" size={16} /></span>
-        </button>
-      )}
+      <p className="ca-onb-s">Un minuto. Poi carichi un documento (o lo fai dopo) e si apre la <strong>tua casa</strong>: quanto costa, cosa esce questo mese, nei mesi in cui pesa.</p>
 
       <div className="ca-onb-q">
         <p className="ca-onb-l"><span className="ca-onb-n">I</span> La casa è {ok(titolo)}</p>
@@ -281,8 +347,9 @@ export function Benvenuto() {
         ]} />
       </div>
       <div className="ca-onb-q">
-        <p className="ca-onb-l"><span className="ca-onb-n">IV</span> CAP <span className="ca-muted">facoltativo</span></p>
-        <input className="ca-onb-cap num" inputMode="numeric" maxLength={5} value={cap} onChange={(e) => setCap(e.target.value.replace(/\D/g, ''))} placeholder="20100" aria-label="CAP" />
+        <p className="ca-onb-l"><span className="ca-onb-n">IV</span> In che comune? <span className="ca-muted">facoltativo, per la TARI e i confronti</span></p>
+        <input className="ca-onb-citta" list="ca-comuni" value={citta} onChange={(e) => setCitta(e.target.value)} placeholder="Milano" aria-label="Comune" maxLength={60} autoComplete="address-level2" />
+        <datalist id="ca-comuni">{TARI.map((t) => <option key={t.slug} value={t.citta} />)}</datalist>
       </div>
 
       <div className="ca-onb-fine">
@@ -291,7 +358,7 @@ export function Benvenuto() {
         </button>
         <p className="ca-onb-dopo">{pronto ? 'Poi ti chiedo una bolletta da leggere. Puoi anche saltare.' : 'Le domande I, II e III sono obbligatorie, il resto no.'}</p>
       </div>
-      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> Nessuna registrazione. I dati restano sul tuo dispositivo.</p>
+      <p className="ca-privacy"><Icona nome="lucchetto" size={16} /> I dati della casa sono visibili solo a te e a chi inviti. Server in Unione Europea.</p>
     </section>
   );
 }

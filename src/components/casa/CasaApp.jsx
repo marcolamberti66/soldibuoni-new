@@ -11,6 +11,7 @@ import Aggiungi from './Aggiungi.jsx';
 import Voce from './Voce.jsx';
 import Dividi from './Dividi.jsx';
 import { Scadenze, Archivio, Casa, Benvenuto } from './Altre.jsx';
+import Accesso from './Accesso.jsx';
 
 function useRotta() {
   const leggi = () => (typeof location === 'undefined' ? '' : location.hash.replace(/^#\/?/, ''));
@@ -24,15 +25,12 @@ function useRotta() {
 }
 
 const TABS = [
-  { r: '', l: 'Panoramica', i: 'panoramica' },
+  { r: '', l: 'Casa', i: 'casa' },
   { r: 'scadenze', l: 'Scadenze', i: 'calendario' },
   { r: 'aggiungi', l: 'Aggiungi', i: 'piu', primario: true },
-  { r: 'dividi', l: 'Dividi', i: 'dividi', soloCondivisa: true },
-  { r: 'archivio', l: 'Archivio', i: 'archivio' },
-  { r: 'casa', l: 'Casa', i: 'casa' },
+  { r: 'archivio', l: 'Spese', i: 'archivio' },
+  { r: 'altro', l: 'Altro', i: 'menu', anche: ['casa', 'dividi'] },
 ];
-// "Dividi" compare quando in casa vive più di una persona (o i conti sono già iniziati).
-const conDividi = (s) => (Number(s.casa?.persone) || 1) > 1 || s.conviventi.length > 0;
 
 export default function CasaApp() {
   const stato = useCasa();
@@ -67,7 +65,7 @@ export default function CasaApp() {
   const vai = (r) => { location.hash = '#/' + r; };
   const nAvvisi = useMemo(() => calcolaAvvisi(stato).filter((a) => a.livello !== 'info').length, [stato]);
 
-  if (!pronto) return <div className="ca-boot" aria-busy="true" />;
+  if (!pronto || !acc.verificato) return <div className="ca-boot" aria-busy="true" />;
   if (invito && !acc.utente) {
     return (
       <div className="ca ca-solo"><div className="ca-main">
@@ -79,6 +77,9 @@ export default function CasaApp() {
   if (!stato.casa && acc.utente && acc.stato === 'salvataggio') {
     return <div className="ca ca-solo"><div className="ca-main"><p className="ca-sync-wait" aria-busy="true">Recupero la tua casa…</p></div></div>;
   }
+  // Si entra con l'account. Chi ha già una casa solo su questo dispositivo (versione
+  // precedente) continua a usarla: in panoramica trova l'invito a salvarla.
+  if (!stato.casa && !acc.utente) return <div className="ca ca-solo"><div className="ca-main"><Accesso /></div></div>;
   if (!stato.casa) return <div className="ca ca-solo"><div className="ca-main"><Benvenuto /></div></div>;
 
   let vista;
@@ -87,15 +88,15 @@ export default function CasaApp() {
   else if (percorso === 'scadenze') vista = <Scadenze stato={stato} vai={vai} />;
   else if (percorso === 'archivio') vista = <Archivio stato={stato} vai={vai} />;
   else if (percorso === 'dividi') vista = <Dividi stato={stato} vai={vai} />;
-  else if (percorso === 'casa') vista = <Casa stato={stato} vai={vai} />;
+  else if (percorso === 'casa' || percorso === 'altro') vista = <Casa stato={stato} vai={vai} />;
   else vista = <Panoramica stato={stato} vai={vai} />;
 
-  const attiva = (t) => (t.r === '' ? percorso === '' || percorso.startsWith('voce/') : percorso === t.r);
+  const attiva = (t) => (t.r === '' ? percorso === '' || percorso.startsWith('voce/') : percorso === t.r || (t.anche || []).includes(percorso));
 
   return (
     <div className="ca">
       <nav className="ca-tabs" aria-label="Sezioni">
-        {TABS.filter((t) => !t.soloCondivisa || conDividi(stato) || percorso === 'dividi').map((t) => (
+        {TABS.map((t) => (
           <a key={t.r} href={'#/' + t.r} className={'ca-tab' + (attiva(t) ? ' on' : '') + (t.primario ? ' prim' : '')} aria-current={attiva(t) ? 'page' : undefined}>
             <span className="ca-tab-i">
               <Icona nome={t.i} size={t.primario ? 22 : 21} />

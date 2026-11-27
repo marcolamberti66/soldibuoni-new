@@ -166,16 +166,33 @@ export function SchedaRicorrente({ iniziale, onSalva, onElimina }) {
   };
   const setCat = (e) => {
     const c = e.target.value;
-    setR((x) => ({ ...x, categoria: c, frequenza: x.id ? x.frequenza : FREQ_DEFAULT[c] || x.frequenza }));
+    setR((x) => ({ ...x, categoria: c, frequenza: x.id || x.frequenza === 'una_tantum' ? x.frequenza : FREQ_DEFAULT[c] || x.frequenza }));
   };
   const n = parseNumero;
-  const valido = n(r.importo) > 0;
   const mutuo = r.categoria === 'mutuo';
   const affitto = r.categoria === 'affitto';
+  // Rate di importo diverso (es. condominio: 20% / 30% / 30% / 20%): ogni rata
+  // diventa una spesa annuale con la sua data, così scadenze e costo medio tornano.
+  const puoRate = !iniziale?.id && !mutuo && !affitto;
+  const [aRate, setARate] = useState(() => !!iniziale?.rate?.length);
+  const [rate, setRate] = useState(() => iniziale?.rate?.length
+    ? iniziale.rate.map((x) => ({ data: x.data, importo: String(x.importo).replace('.', ',') }))
+    : Array.from({ length: 4 }, () => ({ data: '', importo: '' })));
+  const rateOk = rate.filter((x) => x.data && n(x.importo) > 0);
+  const totRate = rateOk.reduce((t, x) => t + n(x.importo), 0);
+  const valido = aRate ? rateOk.length > 0 : n(r.importo) > 0;
+  const setRata = (i, k) => (e) => { const v = e.target.value; setRate((l) => l.map((x, j) => (j === i ? { ...x, [k]: v } : x))); };
   const salva = (e) => {
     e.preventDefault();
     if (!valido) return;
-    onSalva({ ...r, importo: n(r.importo), tasso: n(r.tasso), debito_residuo: n(r.debito_residuo) });
+    if (aRate) {
+      const base = r.nome || CATEGORIE[r.categoria]?.label;
+      const ord = rateOk; // l'ordine in cui le inserisci è quello del preventivo
+      ord.forEach((x, i) => onSalva({ categoria: r.categoria, nome: `Rata ${i + 1} di ${ord.length} · ${base}`, importo: n(x.importo), frequenza: 'annuale', prossima_scadenza: x.data, domiciliazione: !!r.domiciliazione }));
+      return;
+    }
+    const { rate: _r, ...pulito } = r;
+    onSalva({ ...pulito, importo: n(r.importo), tasso: n(r.tasso), debito_residuo: n(r.debito_residuo) });
   };
   return (
     <form className="ca-doc" onSubmit={salva}>
@@ -186,17 +203,39 @@ export function SchedaRicorrente({ iniziale, onSalva, onElimina }) {
           </select>
         </Campo>
         <Campo label={mutuo ? 'Banca (facoltativo)' : 'Nome (facoltativo)'}><input value={r.nome || ''} onChange={set('nome')} placeholder={PLACEHOLDER[r.categoria] || ''} /></Campo>
-        <Campo label={mutuo ? 'Rata €' : affitto ? 'Canone €' : 'Importo €'}><input inputMode="decimal" className="num" value={r.importo ?? ''} onChange={set('importo')} placeholder="0,00" /></Campo>
-        <Campo label="Ogni">
-          <select value={r.frequenza} onChange={set('frequenza')}>
-            {Object.entries(FREQUENZE).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
-          </select>
-        </Campo>
-        <Campo label="Prossima scadenza" hint="Ti avvisiamo prima"><input type="date" value={r.prossima_scadenza || ''} onChange={set('prossima_scadenza')} /></Campo>
-        {mutuo || affitto
-          ? <Campo label={mutuo ? 'Ultima rata' : 'Fine contratto'}><input type="date" value={r.data_fine || ''} onChange={set('data_fine')} /></Campo>
-          : <span />}
+        {!aRate && <>
+          <Campo label={mutuo ? 'Rata €' : affitto ? 'Canone €' : 'Importo €'}><input inputMode="decimal" className="num" value={r.importo ?? ''} onChange={set('importo')} placeholder="0,00" /></Campo>
+          <Campo label="Ogni">
+            <select value={r.frequenza} onChange={set('frequenza')}>
+              {Object.entries(FREQUENZE).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
+            </select>
+          </Campo>
+          <Campo label={r.frequenza === 'una_tantum' ? 'Data' : 'Prossima scadenza'} hint="Ti avvisiamo prima"><input type="date" value={r.prossima_scadenza || ''} onChange={set('prossima_scadenza')} /></Campo>
+          {mutuo || affitto
+            ? <Campo label={mutuo ? 'Ultima rata' : 'Fine contratto'}><input type="date" value={r.data_fine || ''} onChange={set('data_fine')} /></Campo>
+            : <span />}
+        </>}
       </div>
+      {puoRate && (
+        <label className="ca-check"><input type="checkbox" checked={aRate} onChange={(e) => setARate(e.target.checked)} />
+          <span>Rate di importo diverso<br /><small className="ca-muted">Per esempio il condominio: ogni rata con la sua data e il suo importo.</small></span></label>
+      )}
+      {aRate && (
+        <div className="ca-rate">
+          {rate.map((x, i) => (
+            <div className="ca-rate-r" key={i}>
+              <span className="ca-rate-n">{i + 1}</span>
+              <input type="date" aria-label={`Data rata ${i + 1}`} value={x.data} onChange={setRata(i, 'data')} />
+              <input inputMode="decimal" className="num" aria-label={`Importo rata ${i + 1}`} placeholder="0,00" value={x.importo} onChange={setRata(i, 'importo')} />
+            </div>
+          ))}
+          <div className="ca-rate-ft">
+            {rate.length < 12 && <button type="button" className="ca-link" onClick={() => setRate((l) => [...l, { data: '', importo: '' }])}>+ Aggiungi una rata</button>}
+            {totRate > 0 && <span className="ca-muted small">Totale <strong className="num">{eur(totRate, 2)}</strong> l'anno · {eur(totRate / 12, 0)} al mese</span>}
+          </div>
+          <p className="ca-muted small">Le rate si ripetono ogni anno alle stesse date. Quando arriva il nuovo preventivo, aggiorna gli importi.</p>
+        </div>
+      )}
       {mutuo && (
         <div className="ca-grid2 ca-doc-more">
           <Campo label="Tasso (TAN %)"><input inputMode="decimal" className="num" value={r.tasso ?? ''} onChange={set('tasso')} placeholder="3,10" /></Campo>

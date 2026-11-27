@@ -20,13 +20,15 @@ export default function Account({ variante } = {}) {
   if (!acc.utente) {
     return (
       <div className="ca-card ca-acc">
-        <p className="ca-acc-k">{variante === 'rientro' ? 'Bentornato' : variante === 'invito' ? 'Ultimo passo' : 'Account'}</p>
-        <h3 className="ca-acc-t">{variante === 'rientro' ? 'Ritrova la tua casa.' : variante === 'invito' ? 'Entra con la tua email.' : 'Ogni lunedì, la settimana della casa nella tua email.'}</h3>
-        <p className="ca-muted">{variante === 'rientro'
+        <p className="ca-acc-k">{variante === 'rientro' ? 'Bentornato' : variante === 'invito' ? 'Ultimo passo' : variante === 'accesso' ? 'Entra' : 'Account'}</p>
+        <h3 className="ca-acc-t">{variante === 'rientro' ? 'Ritrova la tua casa.' : variante === 'invito' ? 'Entra con la tua email.' : variante === 'accesso' ? 'Crea la tua casa o ritrovala.' : 'Salva la tua casa nell\'account.'}</h3>
+        <p className="ca-muted">{variante === 'accesso'
+          ? 'Scrivi la tua email: ti mandiamo un codice di 6 cifre. Se hai già un account ritrovi i tuoi dati, altrimenti ne creiamo uno.'
+          : variante === 'rientro'
           ? 'Scrivi l\'email con cui ti sei registrato: ti mandiamo un link, lo apri e i tuoi dati compaiono qui.'
           : variante === 'invito'
             ? 'Ti mandiamo un codice di 6 cifre: lo scrivi qui e la casa condivisa compare, con bollette e scadenze. Niente password.'
-            : 'Accedi con la tua email: i dati restano anche se cambi telefono o browser, e ogni lunedì ricevi il riepilogo. Niente password, ti mandiamo un link.'}</p>
+            : 'Oggi i dati sono solo in questo browser. Con l\'account restano anche se cambi telefono, e ogni lunedì ricevi il riepilogo. Niente password, ti mandiamo un codice.'}</p>
         {fase === 'inviato' ? (
           <>
             <div className="ca-acc-ok">
@@ -53,7 +55,7 @@ export default function Account({ variante } = {}) {
             finally { setOccupato(false); }
           }}>
             <input type="email" required autoComplete="email" inputMode="email" placeholder="nome@email.it" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Email" />
-            <button className="btn btn-ink" disabled={occupato}>{occupato ? 'Invio…' : 'Mandami il link'}</button>
+            <button className="btn btn-ink" disabled={occupato}>{occupato ? 'Invio…' : variante === 'accesso' ? 'Continua' : 'Mandami il codice'}</button>
           </form>
         )}
         {msg && <p className="ca-acc-err">{msg}</p>}
