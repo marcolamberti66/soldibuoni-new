@@ -11,8 +11,8 @@ export const CATEGORIE = {
   condominio:   { label: 'Condominio',       unita: null,  colore: 'var(--c-condominio)',   bolletta: false, icona: 'condominio', gruppo: 'abitazione' },
   assicurazione:{ label: 'Assicurazione casa', unita: null, colore: 'var(--c-assicurazione)', bolletta: false, icona: 'scudo',    gruppo: 'abitazione' },
   manutenzione: { label: 'Manutenzione',     unita: null,  colore: 'var(--c-manutenzione)', bolletta: false, icona: 'chiaveinglese', gruppo: 'abitazione' },
-  tari:         { label: 'TARI',             unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'tari',       gruppo: 'abitazione' },
-  imu:          { label: 'IMU e tributi',    unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'documento',  gruppo: 'abitazione' },
+  tari:         { label: 'TARI',             unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'tari',       gruppo: 'tasse' },
+  imu:          { label: 'IMU e tributi',    unita: null,  colore: 'var(--c-tari)',         bolletta: false, icona: 'documento',  gruppo: 'tasse' },
   // Utenze
   luce:         { label: 'Luce',             unita: 'kWh', colore: 'var(--c-luce)',         bolletta: true,  icona: 'luce',       gruppo: 'utenze' },
   gas:          { label: 'Gas',              unita: 'Smc', colore: 'var(--c-gas)',          bolletta: true,  icona: 'gas',        gruppo: 'utenze' },
@@ -24,7 +24,7 @@ export const CATEGORIE = {
 
 export const ORDINE = ['mutuo', 'affitto', 'condominio', 'luce', 'gas', 'acqua', 'internet', 'mobile', 'tari', 'imu', 'assicurazione', 'manutenzione', 'altro'];
 
-export const GRUPPI = { abitazione: 'Abitazione', utenze: 'Utenze e servizi' };
+export const GRUPPI = { abitazione: 'Abitazione', utenze: 'Utenze e servizi', tasse: 'Tasse' };
 
 export const TITOLO = {
   proprieta_mutuo: 'Di proprietà, con mutuo',

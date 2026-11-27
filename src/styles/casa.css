@@ -616,3 +616,49 @@
 .ca-acc-in-n { font-size: 14px; color: var(--ink-2); margin-top: 14px; }
 .ca-acc-in-n a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
 .ca-onb-citta { max-width: 320px; font-size: 18px; }
+
+/* ── Cruscotto ───────────────────────────────────────────── */
+.ca-dash-s { margin-top: 8px; }
+.ca-dash-k { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); margin: 0 0 8px; }
+.ca-salva { margin: 0 0 22px; }
+.ca-costo { padding: clamp(18px, 3vw, 28px); }
+.ca-costo-tot { font-size: 15px; color: var(--ink-2); margin: 0 0 14px; }
+.ca-costo-tot > .num { font-family: var(--f-display); font-size: clamp(44px, 6vw, 64px); color: var(--ink); letter-spacing: -0.03em; line-height: 1; margin-right: 6px; }
+.ca-costo-m { white-space: nowrap; }
+.ca-costo-list { margin-top: 8px; }
+.ca-costo-r .ca-row-s { white-space: normal; }
+.ca-quota { font-size: 12.5px; color: var(--ink-3); margin-left: 6px; font-weight: 500; }
+.ca-costo-v { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; color: var(--ink); font-size: 15.5px; }
+.ca-costo-v small { font-size: 12.5px; color: var(--ink-3); }
+.ca-var { font-size: 13px; color: var(--ink-2); }
+.ca-var.su { color: #a2412b; } .ca-var.giu { color: #2c5a43; } .ca-var.n { color: var(--ink-2); }
+
+.ca-cal { padding: clamp(18px, 3vw, 28px); }
+.ca-cal-s { font-size: 15.5px; color: var(--ink-2); margin: 0 0 18px; line-height: 1.5; }
+.ca-cal-s b { color: var(--ink); }
+.ca-cal-g { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(3px, 1vw, 10px); align-items: end; height: 170px; }
+.ca-cal-m { display: flex; flex-direction: column; align-items: stretch; gap: 6px; height: 100%; border: 0; background: none; padding: 0; cursor: pointer; font: inherit; min-width: 0; }
+.ca-cal-b { flex: 1; display: flex; flex-direction: column-reverse; justify-content: flex-start; border-radius: 6px 6px 2px 2px; overflow: hidden; }
+.ca-cal-b i { display: block; width: 100%; flex: none; }
+.ca-cal-b i.ce, .ca-cal-leg i.ce { background: var(--ink); }
+.ca-cal-b i.st, .ca-cal-leg i.st { background: color-mix(in srgb, var(--ink) 22%, transparent); }
+.ca-cal-m.picco .ca-cal-b i.ce { background: var(--brass); }
+.ca-cal-m.on .ca-cal-b { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ca-cal-m:focus-visible .ca-cal-b { outline: 2px solid var(--brass); outline-offset: 2px; }
+.ca-cal-l { font-size: 11.5px; color: var(--ink-3); text-align: center; text-transform: capitalize; }
+.ca-cal-m.picco .ca-cal-l { color: var(--brass); font-weight: 600; }
+.ca-cal-leg { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--ink-3); margin: 14px 0 0; }
+.ca-cal-leg span { display: inline-flex; align-items: center; gap: 6px; }
+.ca-cal-leg i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+.ca-cal-det { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.ca-cal-dt { font-family: var(--f-display); font-size: 22px; color: var(--ink); margin: 0 0 8px; text-transform: capitalize; }
+.ca-cal-dr { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center; font-size: 14.5px; color: var(--ink-2); margin: 6px 0; }
+.ca-cal-dr b { color: var(--ink); font-weight: 500; }
+
+.ca-stima { padding: clamp(18px, 3vw, 28px); margin: 18px 0 8px; }
+.ca-stima-n { font-size: 16px; color: var(--ink-2); margin: 0 0 8px; }
+.ca-stima-n .num { font-family: var(--f-display); font-size: clamp(40px, 6vw, 56px); color: var(--ink); letter-spacing: -0.03em; margin-right: 6px; }
+.ca-stima-v { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 14px; font-size: 15px; color: var(--ink-2); }
+.ca-stima-v span { display: inline-flex; align-items: center; gap: 8px; }
+.ca-stima-v b { color: var(--ink); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .ca-cal-b i { transition: none; } }
