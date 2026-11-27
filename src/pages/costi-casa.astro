@@ -1,0 +1,54 @@
+---
+import Hub from '../components/Hub.astro';
+import { LUCE, GAS, ISTAT, eur } from '../data/energia.js';
+import { FONTE_TARI } from '../data/tari-2025.js';
+const luceMese = LUCE.spesaAnno2026 / 12;
+const gasMese = (GAS.prezzoSmc * GAS.consumoTipo) / 12;
+const tariMese = FONTE_TARI.media / 12;
+const faq = [
+  { q: 'Quanto costa mantenere una casa al mese?', a: `Senza mutuo né affitto, per una famiglia tipo le sole voci con un prezzo di riferimento pubblico (luce, gas e TARI) valgono circa ${eur(luceMese + gasMese + tariMese)} euro al mese ai prezzi di fine 2026, prima di condominio, acqua e manutenzione. Con la rata media del mutuo (${ISTAT.rataMutuoMedia} euro secondo l'ISTAT) si arriva a circa ${eur(luceMese + gasMese + tariMese + ISTAT.rataMutuoMedia)} euro, sempre prima di condominio, acqua e manutenzione.` },
+  { q: 'Quanto spende una famiglia italiana per la casa?', a: `Per l'ISTAT la voce abitazione, acqua, elettricità e gas vale il ${eur(ISTAT.quotaAbitazione, 1)}% di una spesa media di ${eur(ISTAT.spesaMese)} euro al mese (2025). In questa voce l'ISTAT conta anche l'affitto "figurativo" di chi vive in una casa di proprietà, quindi non coincide con i soldi che escono davvero dal conto.` },
+  { q: 'In quale città costa di più mantenere casa?', a: 'Secondo lo studio Facile.it e Mutui.it su 10 città (casa di 100 m² con mutuo), Milano supera i 24.000 euro l\'anno e Palermo resta sotto gli 8.500. Per la sola TARI trovi tutti i capoluoghi nella <a href="/tari">classifica TARI</a>.' },
+];
+---
+<Hub
+  slug="costi-casa"
+  nome="Quanto costa mantenere una casa"
+  title="Quanto costa mantenere una casa nel 2026: voce per voce | SoldiBuoni"
+  description="Quanto costa mantenere una casa nel 2026: mutuo o affitto, luce, gas, TARI, condominio. Ogni voce con i dati ISTAT, ARERA e Cittadinanzattiva."
+  eyebrow="Costi della casa"
+  titolo="Quanto costa<br /><em>mantenere una casa</em>"
+  lead={`Una famiglia tipo spende circa <strong>${eur(luceMese + gasMese + tariMese)} € al mese</strong> solo tra luce, gas e TARI ai prezzi di fine 2026, prima di condominio e acqua. Con la rata media del mutuo (${ISTAT.rataMutuoMedia} €) si sale a circa ${eur(luceMese + gasMese + tariMese + ISTAT.rataMutuoMedia)} €. Ecco ogni voce, con la sua fonte.`}
+  aggiornato="2026-11-27"
+  strumenti={[
+    { href: '/casa', t: 'Calcola la tua casa', d: 'Inserisci le tue spese: vedi il costo mensile reale e le prossime scadenze.' },
+    { href: '/tari', t: 'TARI nella tua città', d: 'L\'importo della famiglia tipo in 110 capoluoghi.' },
+    { href: '/affitto-vs-mutuo', t: 'Affitto o mutuo', d: 'Il punto di pareggio per la tua città e il tuo budget.' },
+  ]}
+  guide={['costi-casa', 'spese-condominiali', 'tari', 'imu', 'bolletta-luce-media', 'mutuo-fisso-o-variabile']}
+  faq={faq}
+>
+  <h2>Voce per voce</h2>
+  <table>
+    <thead><tr><th>Voce</th><th>Quanto al mese</th><th>Su che base</th></tr></thead>
+    <tbody>
+      <tr><td>Rata del mutuo</td><td class="num">{ISTAT.rataMutuoMedia} €</td><td>rata media delle {ISTAT.famiglieMutuo} di famiglie con mutuo, <a href={ISTAT.url} rel="noopener">ISTAT 2025</a></td></tr>
+      <tr><td>Affitto (in alternativa)</td><td class="num">{ISTAT.affittoMedio} €</td><td>affitto medio delle {ISTAT.famiglieAffitto} di famiglie in affitto, ISTAT 2025</td></tr>
+      <tr><td>Luce</td><td class="num">{eur(luceMese)} €</td><td>spesa 2026 del cliente tipo da {eur(LUCE.consumoTipo)} kWh, <a href={LUCE.url} rel="noopener">ARERA</a></td></tr>
+      <tr><td>Gas</td><td class="num">{eur(gasMese)} €</td><td>{eur(GAS.consumoTipo)} m³ l'anno al prezzo di {GAS.periodo}, <a href={GAS.url} rel="noopener">ARERA</a> (nostro calcolo)</td></tr>
+      <tr><td>TARI</td><td class="num">{eur(tariMese)} €</td><td>media nazionale 2025 di {FONTE_TARI.media} € l'anno, famiglia di 3 persone, Cittadinanzattiva</td></tr>
+      <tr><td>Condominio, acqua, manutenzione</td><td>dipende</td><td>non esiste una media nazionale affidabile: vedi <a href="/guida/spese-condominiali">spese condominiali</a> e <a href="/guida/costi-casa">elenco delle spese fisse</a></td></tr>
+      <tr><td>IMU</td><td>0 € sulla prima casa</td><td>solo seconde case e abitazioni di lusso, vedi <a href="/guida/imu">IMU</a></td></tr>
+    </tbody>
+  </table>
+  <p><small>Il gas è la voce che cambia di più: il prezzo di ottobre 2026 è alto e i consumi si concentrano d'inverno, quindi la media mensile dell'anno sarà diversa. Gli importi al mese sono nostre divisioni per 12 dei valori annui delle fonti.</small></p>
+
+  <h2>Quanto pesa la casa sul bilancio familiare</h2>
+  <p>Nel 2025 una famiglia italiana spende in media <strong>{eur(ISTAT.spesaMese)} € al mese</strong> e la voce più pesante è l'abitazione con le sue utenze: il {eur(ISTAT.quotaAbitazione, 1)}% del totale. Attenzione però: in questa voce l'ISTAT inserisce anche l'affitto "figurativo" di chi vive in una casa di proprietà, una stima di quanto pagherebbe se fosse in affitto. Per sapere quanto esce davvero dal conto bisogna sommare le voci una per una, come nella tabella sopra. Più dati sulla spesa delle famiglie sono nella pagina <a href="/famiglia">budget familiare</a>.</p>
+
+  <h2>Le differenze tra città</h2>
+  <p>Lo studio di Facile.it e Mutui.it su dieci città, per una casa di circa 100 m² comprata con mutuo, stima in media 1.298 € al mese, con Milano oltre i 24.000 € l'anno e Palermo sotto gli 8.500 (<a href="https://www.facile.it/ufficio-stampa/comunicati/casa-servono-15-mila-euro-lanno-per-mantenerla.html" rel="noopener">comunicato Facile.it</a>). Quasi tutta la differenza la fa la rata, cioè il prezzo della casa. Tra le voci che dipendono dal Comune, la TARI va da 196 € a Cremona a 602 € a Catania: la tua città è nella <a href="/tari">classifica TARI</a>.</p>
+
+  <h2>Il modo giusto di fare il conto</h2>
+  <p>Molte spese della casa arrivano ogni due mesi, ogni tre o una volta l'anno. Per conoscere il costo mensile vero bisogna riportarle tutte a dodici mesi: una bolletta bimestrale da 120 € vale 60 € al mese, una TARI annua da 340 € vale 28 €. È esattamente quello che fa <a href="/casa">La tua casa</a> con le bollette che carichi.</p>
+</Hub>

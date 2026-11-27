@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TARI, FONTE_TARI } from '../../data/tari-2025.js';
+const eur = (n) => n.toLocaleString('it-IT');
+const pct = (n) => (n > 0 ? '+' : '') + n.toLocaleString('it-IT', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+const regioni = [...new Set(TARI.map((t) => t.regione))].sort((a, b) => a.localeCompare(b, 'it'));
+const piuCare = TARI.slice(0, 5), piuEco = TARI.slice(-5).reverse();
+const aumenti = [...TARI].sort((a, b) => b.var - a.var).slice(0, 3);
+const url = 'https://soldibuoni.it/tari';
+const schema = [
+  { '@type': 'Dataset', name: 'TARI 2025 nei capoluoghi di provincia italiani', url,
+    description: 'Importo annuo della TARI 2025 per una famiglia di 3 persone in un\'abitazione di proprietà di 100 m², in 110 capoluoghi di provincia, con confronto 2024.',
+    temporalCoverage: '2024/2025', spatialCoverage: { '@type': 'Place', name: 'Italia' },
+    creator: { '@type': 'Organization', name: 'Cittadinanzattiva – Osservatorio Prezzi & Tariffe' }, publisher: { '@id': 'https://soldibuoni.it/#org' }, isAccessibleForFree: true },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'SoldiBuoni', item: 'https://soldibuoni.it/' },
+    { '@type': 'ListItem', position: 2, name: 'Tasse sulla casa', item: 'https://soldibuoni.it/tasse-casa' },
+    { '@type': 'ListItem', position: 3, name: 'TARI per città', item: url } ] },
+];
+---
+<Layout title="TARI 2025 città per città: la classifica dei capoluoghi | SoldiBuoni" description="Quanto costa la TARI in 110 capoluoghi: da 602 € a Catania a 196 € a Cremona per una famiglia di 3 persone. Media 340 €. Cerca la tua città." schema={schema}>
+  <section class="wrap tx">
+    <nav class="tx-bc" aria-label="Percorso"><a href="/">SoldiBuoni</a> <span aria-hidden="true">/</span> <a href="/tasse-casa">Tasse sulla casa</a> <span aria-hidden="true">/</span> TARI per città</nav>
+    <p class="eyebrow">TARI 2025</p>
+    <h1 class="display tx-t">La TARI in <em>ogni capoluogo</em></h1>
+    <p class="tx-s">Per una famiglia di tre persone in una casa di 100 m² la TARI 2025 va da {eur(TARI[TARI.length - 1].t25)} € a {TARI[TARI.length - 1].citta} a {eur(TARI[0].t25)} € a {TARI[0].citta}. La media italiana è {eur(FONTE_TARI.media)} €, il 3,3% in più del 2024. Al Nord si pagano in media {eur(FONTE_TARI.aree['Nord'])} €, al Centro {eur(FONTE_TARI.aree['Centro'])} €, al Sud e nelle Isole {eur(FONTE_TARI.aree['Sud e Isole'])} €.</p>
+
+    <div class="tx-hi">
+      <div><h2 class="tx-h">Le più care</h2><ol>{piuCare.map((t) => <li><a href={`/tari/${t.slug}`}>{t.citta}</a> <span class="num">{eur(t.t25)} €</span></li>)}</ol></div>
+      <div><h2 class="tx-h">Le più economiche</h2><ol>{piuEco.map((t) => <li><a href={`/tari/${t.slug}`}>{t.citta}</a> <span class="num">{eur(t.t25)} €</span></li>)}</ol></div>
+      <div><h2 class="tx-h">Gli aumenti più forti</h2><ol>{aumenti.map((t) => <li><a href={`/tari/${t.slug}`}>{t.citta}</a> <span class="num">{pct(t.var)}</span></li>)}</ol></div>
+    </div>
+
+    <label class="tx-f">
+      <span>Cerca la tua città</span>
+      <input type="search" id="tx-q" placeholder="Es. Bologna" autocomplete="off" />
+    </label>
+
+    <div class="tx-tw">
+      <table class="tx-tab">
+        <thead><tr><th>#</th><th>Capoluogo</th><th>Regione</th><th>TARI 2025</th><th>Var. sul 2024</th></tr></thead>
+        <tbody>
+          {TARI.map((t, i) => (
+            <tr data-q={(t.citta + ' ' + t.regione).toLowerCase()}>
+              <td class="num">{i + 1}</td>
+              <td><a href={`/tari/${t.slug}`}>{t.citta}</a></td>
+              <td>{t.regione}</td>
+              <td class="num">{eur(t.t25)} €</td>
+              <td class="num">{pct(t.var)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="tx-h2">Per regione</h2>
+    <p class="tx-reg">{regioni.map((r, i) => <>{i > 0 && ' · '}{r}: {TARI.filter((t) => t.regione === r).map((t, j) => <>{j > 0 && ', '}<a href={`/tari/${t.slug}`}>{t.citta}</a></>)}</>)}</p>
+
+    <p class="tx-src">Fonte: <a href={FONTE_TARI.url} rel="noopener">{FONTE_TARI.nome}</a>, {FONTE_TARI.data}. Famiglia di 3 persone, abitazione di proprietà di 100 m², importi annui con IVA e addizionali. Treviso non è presente nella rilevazione. Come si calcola e come si paga: <a href="/guida/tari">guida alla TARI</a>.</p>
+  </section>
+</Layout>
+<script>
+  const q = document.getElementById('tx-q');
+  const rows = [...document.querySelectorAll('.tx-tab tbody tr')];
+  q?.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase();
+    rows.forEach((r) => { r.hidden = v && !r.dataset.q.includes(v); });
+  });
+</script>
+<style>
+  .tx { padding-top: 40px; }
+  .tx-bc { font-size: 14px; color: var(--ink-3); margin-bottom: 28px; }
+  .tx-bc a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  .tx-t { font-size: clamp(44px, 7vw, 92px); margin: 14px 0 20px; }
+  .tx-t em { color: var(--brass); }
+  .tx-s { font-size: 18px; max-width: 760px; color: var(--ink-2); }
+  .tx-hi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+  .tx-hi > div { border: 1px solid var(--line-strong); border-radius: var(--r-lg); padding: 20px 22px; background: var(--card); }
+  .tx-h { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; margin-bottom: 12px; }
+  .tx-hi ol { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
+  .tx-hi li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  .tx-hi a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  .tx-f { display: flex; flex-direction: column; gap: 6px; max-width: 360px; font-size: 14px; color: var(--ink-2); margin-bottom: 16px; }
+  .tx-f input { height: 48px; border: 1px solid var(--line-strong); border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; background: var(--paper); color: var(--ink); }
+  .tx-tw { overflow-x: auto; }
+  .tx-tab { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+  .tx-tab th { text-align: left; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; padding: 10px 12px; border-bottom: 1px solid var(--ink); }
+  .tx-tab td { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .tx-tab td a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  .tx-h2 { font-family: var(--f-display); font-size: clamp(30px, 3.4vw, 40px); margin: 56px 0 14px; }
+  .tx-reg { font-size: 15px; line-height: 1.8; color: var(--ink-2); max-width: 900px; }
+  .tx-reg a { color: var(--ink); }
+  .tx-src { font-size: 13.5px; color: var(--ink-3); margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); max-width: 900px; }
+  @media (max-width: 800px) { .tx-hi { grid-template-columns: 1fr; } .tx-tab th:nth-child(3), .tx-tab td:nth-child(3) { display: none; } }
+</style>

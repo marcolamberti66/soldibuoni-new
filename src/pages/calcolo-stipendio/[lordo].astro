@@ -10,11 +10,10 @@ export const prerender = true;
 // netto in Italia. Ogni voce genera una pagina statica al build time.
 // =====================================================================
 export async function getStaticPaths() {
+  // Ogni 1.000 € tra 15.000 e 50.000 (le ricerche più frequenti, una per importo), poi a salti.
   const stipendi = [
-    15000, 18000, 20000, 22000, 24000, 25000, 26000, 27000, 28000,
-    30000, 32000, 33000, 35000, 38000, 40000, 42000, 45000, 48000,
-    50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000,
-    100000, 120000, 150000
+    ...Array.from({ length: 36 }, (_, i) => 15000 + i * 1000),
+    55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 100000, 120000, 150000,
   ];
 
   return stipendi.map((s, idx) => ({
@@ -147,8 +146,9 @@ const calcNext = next ? calcolaStipendio(next) : null;
 
 // SEO meta
 const ralFmt = fmt(ral);
-const titleSeo = `Stipendio netto da ${ralFmt} euro lordi 2026: quanto prendi al mese`;
-const descrSeo = `Stipendio netto da ${ralFmt} € lordi: ${fmt(calc.nettoMensile13)} € al mese (13ª) o ${fmt(calc.nettoMensile14)} € (14ª). Calcolo aggiornato 2026 con IRPEF 23/33/43%, INPS e detrazioni.`;
+// Il numero nel titolo: chi cerca "26000 lordi quanti sono netti" vede la risposta già nel risultato.
+const titleSeo = `${ralFmt} euro lordi quanti sono netti? ${fmt(calc.nettoMensile13)} € al mese (2026)`;
+const descrSeo = `${ralFmt} € lordi l'anno sono ${fmt(calc.nettoMedio)} € netti: ${fmt(calc.nettoMensile13)} € al mese con 13 mensilità, ${fmt(calc.nettoMensile14)} € con 14. Calcolo 2026 con taglio del cuneo.`;
 const color = '#2c5a43';
 
 // Schema.org FAQ data

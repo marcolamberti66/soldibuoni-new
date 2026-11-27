@@ -1,0 +1,51 @@
+---
+import Hub from '../components/Hub.astro';
+import { LUCE, GAS, eur } from '../data/energia.js';
+const luceAnno = LUCE.prezzoKwh * LUCE.consumoTipo;
+const gasAnno = GAS.prezzoSmc * GAS.consumoTipo;
+const faq = [
+  { q: 'Quanto costa la bolletta della luce al mese?', a: `Con il prezzo di riferimento ARERA di ${LUCE.periodo} (${eur(LUCE.prezzoKwh * 100, 2)} centesimi al kWh tasse incluse) una famiglia che consuma ${eur(LUCE.consumoTipo)} kWh l'anno spenderebbe circa ${eur(luceAnno / 12)} euro al mese. Su tutto il 2026 ARERA stima per lo stesso cliente ${eur(LUCE.spesaAnno2026, 2)} euro, perché nei mesi precedenti il prezzo era più basso.` },
+  { q: 'Quanto costa la bolletta del gas al mese?', a: `Al prezzo di riferimento di ${GAS.periodo} (${eur(GAS.prezzoSmc * 100, 2)} centesimi al metro cubo) una famiglia tipo da ${eur(GAS.consumoTipo)} metri cubi l'anno spenderebbe circa ${eur(gasAnno)} euro l'anno. I consumi però si concentrano tra novembre e marzo: d'inverno la bolletta è molto più alta della media.` },
+  { q: 'Come capisco se pago troppo la luce o il gas?', a: 'Guarda il costo per kWh o per metro cubo di tutta la bolletta, non il totale. Il <a href="/controlla-bolletta">controllo bolletta</a> lo calcola dalla foto o dal PDF e lo confronta con il riferimento ARERA.' },
+  { q: 'Il prezzo ARERA vale anche per me?', a: 'Si applica solo ai clienti vulnerabili rimasti in tutela. Chi è sul mercato libero paga il prezzo del proprio contratto, ma il riferimento ARERA resta il metro più usato per capire se un\'offerta è cara.' },
+];
+---
+<Hub
+  slug="bollette"
+  nome="Bollette di casa"
+  title="Bollette luce e gas: quanto si paga oggi e come controllarle | SoldiBuoni"
+  description={`Prezzo ARERA luce ${eur(LUCE.prezzoKwh * 100, 2)} c€/kWh e gas ${eur(GAS.prezzoSmc * 100, 2)} c€/m³: quanto costa una bolletta, come leggerla e come capire se paghi troppo.`}
+  eyebrow="Bollette"
+  titolo="Bollette di casa:<br /><em>quanto si paga oggi</em>"
+  lead={`La luce costa ${eur(LUCE.prezzoKwh * 100, 2)} centesimi al kWh e il gas ${eur(GAS.prezzoSmc * 100, 2)} centesimi al metro cubo, tasse incluse, secondo i riferimenti ARERA più recenti. Qui trovi cosa significano per la tua bolletta, come leggerla e come capire se paghi più del dovuto.`}
+  aggiornato="2026-11-27"
+  strumenti={[
+    { href: '/controlla-bolletta', t: 'Controlla la tua bolletta', d: 'Carica foto o PDF: costo vero al kWh e confronto con ARERA in un minuto.' },
+    { href: '/casa', t: 'Scadenze e avvisi', d: 'Tutte le bollette in un posto, con un promemoria prima di ogni pagamento.' },
+  ]}
+  guide={['bolletta-luce-media', 'bolletta-luce', 'bolletta-gas', 'conguaglio-bolletta', 'autolettura-contatore', 'cambiare-fornitore-luce-gas', 'internet-telefono']}
+  faq={faq}
+>
+  <h2>I prezzi di riferimento di oggi</h2>
+  <table>
+    <thead><tr><th></th><th>Luce</th><th>Gas</th></tr></thead>
+    <tbody>
+      <tr><td>Prezzo, tasse incluse</td><td class="num">{eur(LUCE.prezzoKwh * 100, 2)} c€/kWh</td><td class="num">{eur(GAS.prezzoSmc * 100, 2)} c€/m³</td></tr>
+      <tr><td>Periodo</td><td>{LUCE.periodo}</td><td>{GAS.periodo}</td></tr>
+      <tr><td>Famiglia tipo ARERA</td><td>{eur(LUCE.consumoTipo)} kWh/anno, {LUCE.potenzaTipo} kW</td><td>{eur(GAS.consumoTipo)} m³/anno</td></tr>
+      <tr><td>Spesa se il prezzo restasse questo per 12 mesi*</td><td class="num">{eur(luceAnno)} €/anno</td><td class="num">{eur(gasAnno)} €/anno</td></tr>
+    </tbody>
+  </table>
+  <p><small>Fonti: <a href={LUCE.url} rel="noopener">{LUCE.fonte}</a>; <a href={GAS.url} rel="noopener">{GAS.fonte}</a>. *Il calcolo è nostro: consumo tipo moltiplicato per il prezzo del periodo. Per il 2026 intero ARERA stima {eur(LUCE.spesaAnno2026, 2)} € per la luce, perché nei mesi precedenti il prezzo era più basso.</small></p>
+
+  <h2>Cosa guardare in bolletta</h2>
+  <p>Il totale da solo non dice se paghi tanto o poco: dipende da quanto hai consumato e dal periodo. Il numero che conta è il <strong>costo medio per kWh o per metro cubo</strong>, cioè il totale diviso per il consumo fatturato. Se è molto sopra il riferimento ARERA, la tua offerta è cara oppure hai una quota fissa alta.</p>
+  <ul>
+    <li><strong>Letture stimate o reali:</strong> con le stime si accumulano conguagli. L'<a href="/guida/autolettura-contatore">autolettura</a> li evita.</li>
+    <li><strong>Scadenza delle condizioni:</strong> le offerte a prezzo fisso durano 12 o 24 mesi. Dopo, il fornitore può cambiare il prezzo con un preavviso.</li>
+    <li><strong>Quota fissa:</strong> si paga anche a consumi zero. Su una casa poco abitata pesa più del prezzo dell'energia.</li>
+  </ul>
+
+  <h2>Quando conviene cambiare</h2>
+  <p>Cambiare fornitore è gratuito e non interrompe la fornitura: lo spiega la <a href="/guida/cambiare-fornitore-luce-gas">guida al cambio</a>. Ha senso quando il tuo costo per kWh o per metro cubo resta sopra il riferimento per più bollette di fila, o quando sta per scadere un prezzo bloccato. Noi non vendiamo offerte: ti diciamo solo se stai pagando più del necessario.</p>
+</Hub>

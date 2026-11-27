@@ -1,0 +1,57 @@
+---
+import Hub from '../components/Hub.astro';
+import { TARI, FONTE_TARI } from '../data/tari-2025.js';
+const big = ['roma', 'milano', 'napoli', 'torino', 'palermo', 'genova', 'bologna', 'firenze', 'bari', 'catania', 'venezia', 'verona'];
+const grandi = big.map((s) => TARI.find((t) => t.slug === s)).filter(Boolean);
+const eur = (n) => n.toLocaleString('it-IT');
+const faq = [
+  { q: 'Quando si paga il saldo IMU 2026?', a: 'Entro mercoledì 16 dicembre 2026, con il modello F24. Il saldo è l\'imposta dell\'anno calcolata con le aliquote 2026 del tuo Comune, meno l\'acconto versato a giugno. I passaggi sono nella <a href="/guida/imu">guida all\'IMU</a>.' },
+  { q: 'Chi paga la TARI, il proprietario o l\'inquilino?', a: 'Chi occupa la casa: con un contratto di almeno sei mesi la paga l\'inquilino. L\'IMU invece è sempre del proprietario.' },
+  { q: 'Quanto si paga di TARI in media?', a: `Per una famiglia di tre persone in 100 m² la media nazionale 2025 è di ${FONTE_TARI.media} euro l'anno, da ${eur(TARI[TARI.length - 1].t25)} euro a ${TARI[TARI.length - 1].citta} a ${eur(TARI[0].t25)} euro a ${TARI[0].citta} (Cittadinanzattiva). La tua città è nella <a href="/tari">classifica completa</a>.` },
+  { q: 'Sulla prima casa si paga l\'IMU?', a: 'No, se è la tua abitazione principale e non è accatastata come A/1, A/8 o A/9. Si paga sulle seconde case, sulle case date in affitto e sugli immobili di lusso.' },
+];
+---
+<Hub
+  slug="tasse-casa"
+  nome="Tasse sulla casa"
+  title="Tasse sulla casa 2026: IMU, TARI, scadenze e importi per città | SoldiBuoni"
+  description="IMU e TARI spiegate semplici: saldo IMU entro il 16 dicembre 2026, TARI media 340 € e classifica di 110 città, chi paga cosa tra proprietario e inquilino."
+  eyebrow="Tasse sulla casa"
+  titolo="Tasse sulla casa:<br /><em>chi paga, quanto, quando</em>"
+  lead="Le tasse di una casa sono due: l'<strong>IMU</strong>, che paga il proprietario sulle case che non sono la sua abitazione principale, e la <strong>TARI</strong>, la tassa sui rifiuti, che paga chi ci vive. La prossima scadenza è il <strong>saldo IMU del 16 dicembre 2026</strong>."
+  aggiornato="2026-11-27"
+  strumenti={[
+    { href: '/tari', t: 'TARI città per città', d: 'Quanto paga una famiglia in 110 capoluoghi, con la classifica.' },
+    { href: '/casa', t: 'Promemoria IMU e TARI', d: 'Aggiungi le rate: ti avvisiamo prima di ogni scadenza.' },
+  ]}
+  guide={['imu', 'tari', 'detrazione-interessi-mutuo', 'spese-condominiali']}
+  faq={faq}
+>
+  <h2>IMU e TARI a confronto</h2>
+  <table>
+    <thead><tr><th></th><th>IMU</th><th>TARI</th></tr></thead>
+    <tbody>
+      <tr><td>Chi la paga</td><td>il proprietario (o chi ha l'usufrutto)</td><td>chi occupa la casa, anche in affitto</td></tr>
+      <tr><td>Prima casa</td><td>esente, salvo A/1, A/8, A/9</td><td>si paga</td></tr>
+      <tr><td>Da cosa dipende</td><td>rendita catastale e aliquota del Comune</td><td>metri quadri e numero di persone</td></tr>
+      <tr><td>Scadenze</td><td>16 giugno e 16 dicembre</td><td>decise dal Comune, sull'avviso</td></tr>
+      <tr><td>Come si paga</td><td>F24, calcolato da te o dal CAF</td><td>F24 o PagoPA già compilati dal Comune</td></tr>
+    </tbody>
+  </table>
+
+  <h2>La TARI nelle grandi città</h2>
+  <p>Per una famiglia di tre persone in una casa di 100 m², 2025:</p>
+  <table>
+    <thead><tr><th>Città</th><th>TARI annua</th><th>Sul 2024</th></tr></thead>
+    <tbody>
+      {grandi.map((t) => (<tr><td><a href={`/tari/${t.slug}`}>{t.citta}</a></td><td class="num">{eur(t.t25)} €</td><td class="num">{(t.var > 0 ? '+' : '') + t.var.toLocaleString('it-IT', { minimumFractionDigits: 1 })}%</td></tr>))}
+    </tbody>
+  </table>
+  <p><small>Fonte: {FONTE_TARI.nome}, {FONTE_TARI.data}. <a href="/tari">Tutte le 110 città</a>.</small></p>
+
+  <h2>Il saldo IMU di dicembre</h2>
+  <p>Il saldo si paga entro il <strong>16 dicembre 2026</strong>. Si calcola l'imposta di tutto l'anno con le aliquote che il tuo Comune ha deliberato per il 2026 e si toglie quanto versato in acconto a giugno, che di solito era calcolato con le aliquote dell'anno prima. Se il Comune ha cambiato le aliquote, la differenza finisce tutta nel saldo. Il calcolo passo per passo e i codici tributo per l'F24 sono nella <a href="/guida/imu">guida all'IMU</a>.</p>
+
+  <h2>Le altre spese che sembrano tasse</h2>
+  <p>Le <a href="/guida/spese-condominiali">spese condominiali</a> non sono una tassa ma si pagano a rate come una tassa, e tra inquilino e proprietario si dividono secondo regole precise. Chi ha un mutuo sulla prima casa recupera invece parte degli interessi con la <a href="/guida/detrazione-interessi-mutuo">detrazione del 19%</a> nel 730.</p>
+</Hub>

@@ -1,71 +1,55 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const schema = [{ '@type': 'AboutPage', name: 'Chi siamo e come lavoriamo', url: 'https://soldibuoni.it/chi-siamo', about: { '@id': 'https://soldibuoni.it/#org' }, inLanguage: 'it-IT', dateModified: '2026-11-27' }];
+const fonti = [
+  ['ARERA', 'prezzi di riferimento di luce e gas, regole delle bollette', 'https://www.arera.it/'],
+  ['ISTAT', 'spesa delle famiglie, affitti e rate medie', 'https://www.istat.it/'],
+  ['Cittadinanzattiva', 'TARI nei capoluoghi di provincia', 'https://www.cittadinanzattiva.it/'],
+  ['Agenzia delle Entrate e Dipartimento delle Finanze', 'IMU, detrazioni, 730, aliquote comunali', 'https://www.agenziaentrate.gov.it/'],
+  ['Banca d\'Italia e medie di mercato', 'tassi dei mutui, Euribor, IRS', 'https://www.bancaditalia.it/'],
+];
 ---
+<Layout title="Chi siamo e come lavoriamo | SoldiBuoni" description="SoldiBuoni è un'app indipendente per le spese di casa: niente affiliazioni, pubblicità o offerte sponsorizzate. Da dove vengono i nostri numeri e come li controlliamo." schema={schema}>
+  <section class="cs wrap">
+    <p class="eyebrow">Chi siamo</p>
+    <h1 class="display cs-t">I costi della casa,<br /><em>in conti chiari.</em></h1>
+    <p class="cs-lead">SoldiBuoni è un'app gratuita per tenere sotto controllo le spese di casa: bollette, rate, tasse e condominio in un posto solo, con un avviso prima di ogni scadenza. Intorno all'app ci sono guide e calcolatori che spiegano ogni voce con i dati ufficiali.</p>
 
-<Layout title="Chi Siamo e il nostro Metodo — SoldiBuoni.it" description="Scopri la visione di SoldiBuoni: la piattaforma indipendente per l'educazione finanziaria e l'ottimizzazione delle tue spese domestiche.">
-  <section style="max-width: 680px; margin: 0 auto; padding: 40px 20px 60px;">
-    
-    <h1 style="font-family: var(--f-display); font-size: 38px; color: #17150f; margin-bottom: 24px; line-height: 1.2;">
-      Chi Siamo
-    </h1>
-
-    <div class="about-body">
-
-      <h2>La nostra visione</h2>
-      <p>
-        SoldiBuoni.it nasce da una profonda inefficienza del mercato: in Italia, milioni di famiglie pagano ogni anno centinaia di euro in più del dovuto per utenze, assicurazioni e servizi finanziari. Non per mancanza di alternative, ma per l'assenza di strumenti chiari, imparziali e di facile utilizzo.
-      </p>
-      <p>
-        Siamo una piattaforma indipendente di educazione finanziaria. Il nostro obiettivo è <strong>restituirti il controllo sui tuoi soldi</strong>, abbattendo la complessità del gergo bancario e assicurativo. Vogliamo che ogni euro in uscita dal tuo conto corrente sia un euro <em>speso bene.</em>
-      </p>
-
-      <h2>Indipendenza e Trasparenza</h2>
-      <p>
-        Crediamo che la fiducia sia la valuta più importante del web. Per questo motivo abbiamo fissato delle regole ferree per la nostra redazione:
-      </p>
+    <div class="prose cs-body">
+      <h2>Cosa non facciamo</h2>
       <ul>
-        <li><strong>Nessun banner pubblicitario invasivo:</strong> L'esperienza sul sito deve essere pulita, veloce e concentrata sui dati.</li>
-        <li><strong>I dati vincono sempre:</strong> I nostri comparatori e strumenti (come il simulatore mutui o l'interesse composto) si basano su formule matematiche pubbliche e indicatori ufficiali (BCE, Euribor, PUN, PSV).</li>
-        <li><strong>Privacy assoluta:</strong> Gli strumenti avanzati basati su IA (come l'analizzatore di bollette) processano i documenti nella memoria volatile del server. Non salviamo, non leggiamo e non rivendiamo mai i tuoi dati di consumo o le tue informazioni personali.</li>
+        <li><strong>Niente link di affiliazione:</strong> nessun fornitore ci paga se cambi offerta, apri un conto o firmi un contratto.</li>
+        <li><strong>Niente pubblicità</strong> e niente contenuti sponsorizzati.</li>
+        <li><strong>Niente vendita di dati:</strong> le bollette che carichi servono a calcolare i tuoi numeri e a nient'altro. Cosa conserviamo e cosa no è scritto nella <a href="/privacy">privacy</a>.</li>
       </ul>
+      <p>Ti diciamo quanto paghi e perché. La scelta di cosa fare resta tua.</p>
 
-      <h2>Il nostro modello di business</h2>
-      <p>
-        Mantenere in piedi server, intelligenza artificiale e continui aggiornamenti ha un costo. Abbiamo scelto di mantenere <strong>tutto il sito gratuito al 100%</strong> per i nostri utenti. 
-      </p>
-      <p>
-        Come ci sosteniamo? In modo trasparente, attraverso l'<em>Affiliate Marketing</em>. Se, dopo aver usato i nostri comparatori, decidi di attivare un'offerta o aprire un conto tramite i nostri link, le aziende partner ci riconoscono una piccola commissione di segnalazione. <strong>Il prezzo finale per te rimane assolutamente identico</strong> a quello che troveresti sul sito ufficiale.
-      </p>
+      <h2>Da dove vengono i numeri</h2>
+      <p>Ogni cifra delle guide e delle pagine dati ha la sua fonte accanto, con la data. Usiamo fonti pubbliche e verificabili:</p>
+      <table>
+        <thead><tr><th>Fonte</th><th>Per cosa</th></tr></thead>
+        <tbody>{fonti.map(([n, d, u]) => (<tr><td><a href={u} rel="noopener">{n}</a></td><td>{d}</td></tr>))}</tbody>
+      </table>
+      <p>Quando un numero è un nostro calcolo (per esempio una spesa annua divisa per dodici, o il prezzo di un trimestre moltiplicato per un consumo tipo) lo scriviamo. Quando una media nazionale affidabile non esiste, come per le spese condominiali, non la inventiamo.</p>
 
-      <h2>Mettiti in contatto</h2>
-      <p>
-        Dietro gli schermi ci sono persone reali. Se vuoi segnalarci un bug in un calcolatore, chiederci un'analisi di mercato specifica o proporci una partnership, la nostra casella di posta è sempre aperta.
-      </p>
-      <p style="margin-top: 24px; padding: 20px; background: #f5f2ec; border-radius: 12px; border: 1px solid #e6e0d4; font-weight: 600; text-align: center;">
-        Email: <a href="mailto:clart.mgmt@gmail.com" style="color: #2c5a43; text-decoration: underline;">clart.mgmt@gmail.com</a>
-      </p>
+      <h2>Come aggiorniamo</h2>
+      <ul>
+        <li>Tassi dei mutui: ogni mese.</li>
+        <li>Prezzi di riferimento ARERA: a ogni aggiornamento (trimestrale per la luce, mensile per il gas).</li>
+        <li>TARI per città, spesa delle famiglie: quando escono i nuovi rapporti annuali.</li>
+        <li>Calcolo dello stipendio, IMU, detrazioni: quando cambiano le regole.</li>
+      </ul>
+      <p>Ogni pagina mostra la data dell'ultimo aggiornamento. I contenuti sono informativi e non sostituiscono la consulenza di un professionista sul tuo caso specifico.</p>
 
+      <h2>Errori e segnalazioni</h2>
+      <p>Se trovi un numero sbagliato, una regola cambiata o un calcolo che non torna, scrivici a <a href="mailto:clart.mgmt@gmail.com">clart.mgmt@gmail.com</a>. Correggiamo e aggiorniamo la data della pagina.</p>
     </div>
   </section>
 </Layout>
-
 <style>
-  .about-body h2 {
-    font-family: var(--f-display);
-    font-size: 24px; color: #17150f;
-    margin-top: 36px; margin-bottom: 12px;
-  }
-  .about-body p {
-    font-size: 16px; color: #47433a;
-    line-height: 1.7; margin-bottom: 16px;
-  }
-  .about-body ul {
-    margin-bottom: 24px;
-    padding-left: 20px;
-  }
-  .about-body li {
-    font-size: 15px; color: #47433a;
-    line-height: 1.7;
-    margin-bottom: 10px;
-  }
+  .cs { padding-top: clamp(48px, 8vw, 96px); padding-bottom: 40px; }
+  .cs-t { font-size: clamp(46px, 7.5vw, 92px); margin: 16px 0 22px; }
+  .cs-t em { color: var(--brass); }
+  .cs-lead { font-size: clamp(18px, 1.9vw, 21px); max-width: 720px; color: var(--ink-2); }
+  .cs-body { margin-top: 24px; }
 </style>
