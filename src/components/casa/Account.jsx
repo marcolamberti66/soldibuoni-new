@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useAccount, inviaLink, verificaCodice, esci, leggiNotifiche, impostaNotifiche, emailDiProva } from '../../casa/sync.js';
+import { useAccount, inviaLink, verificaCodice, esci, leggiNotifiche, impostaNotifiche, emailDiProva, eliminaAccount } from '../../casa/sync.js';
+import { azioni } from '../../casa/store.js';
 import { Icona } from './ui.jsx';
 
 /** Accesso con link via email, stato della sincronizzazione, email del lunedì. */
@@ -83,6 +84,13 @@ export default function Account({ variante } = {}) {
         <button className="btn btn-line" onClick={esci}>Esci</button>
       </div>
       {msg && <p className="ca-muted small" style={{ marginTop: 10 }}>{msg}</p>}
+      <button className="ca-link danger ca-acc-del" disabled={occupato} onClick={async () => {
+        if (!confirm('Cancellare l\'account ' + acc.utente.email + '?\n\nSpariscono per sempre l\'account, le case che hai creato (anche per chi le condivide con te), documenti, spese, scadenze e notifiche. Da questo dispositivo vengono tolti anche i dati locali. Non si può annullare.')) return;
+        setMsg(null); setOccupato(true);
+        try { await eliminaAccount(); azioni.azzera(); setMsg('Account cancellato.'); }
+        catch (e) { setMsg(e.message); }
+        finally { setOccupato(false); }
+      }}>Cancella l'account</button>
     </div>
   );
 }

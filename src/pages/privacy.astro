@@ -8,89 +8,118 @@ import Layout from '../layouts/Layout.astro';
     <h1 style="font-family: var(--f-display); font-size: 32px; color: #17150f; margin-bottom: 8px;">
       Privacy Policy
     </h1>
-    <p style="font-size: 13px; color: #8f897c; margin-bottom: 32px;">Ultimo aggiornamento: 25 novembre 2026</p>
+    <p style="font-size: 13px; color: #8f897c; margin-bottom: 32px;">Ultimo aggiornamento: 27 novembre 2026</p>
 
     <div class="legal-content">
 
       <h2>1. Titolare del trattamento</h2>
       <p>
-        Il titolare del trattamento dei dati è il proprietario del sito web SoldiBuoni.it. Per qualsiasi richiesta o comunicazione relativa alla protezione dei tuoi dati personali, puoi contattare il responsabile all'indirizzo email: 
-        <strong>clart.mgmt@gmail.com</strong>
+        Il titolare del trattamento dei dati è il proprietario del sito web SoldiBuoni.it. Per qualsiasi richiesta o comunicazione relativa alla protezione dei tuoi dati personali puoi scrivere a
+        <strong>clart.mgmt@gmail.com</strong>.
       </p>
 
       <h2>2. Dati raccolti</h2>
 
       <h3>2.1 La tua casa senza account</h3>
       <p>
-        Se usi “La tua casa” senza accedere, i dati che inserisci (profilo della casa, importi, scadenze, documenti letti) restano <strong>solo sul tuo dispositivo</strong>, nella memoria del browser o dell'app installata. Non li riceviamo e non li conserviamo.
+        Se usi “La tua casa” senza accedere, i dati che inserisci (profilo della casa, importi, scadenze, documenti letti) restano <strong>solo sul tuo dispositivo</strong>, nella memoria del browser o dell'app installata. Non li riceviamo e non li conserviamo, salvo le bollette che scegli di far leggere (punto 2.3).
       </p>
 
       <h3>2.2 La tua casa con account</h3>
       <p>
-        Se accedi con la tua email, conserviamo l'indirizzo email e i dati della casa che inserisci, per sincronizzarli tra i tuoi dispositivi e per mandarti, se lo scegli, l'email del lunedì e le notifiche. I dati sono su un database Supabase in Unione Europea, protetto da regole che permettono a ciascun account di leggere solo i propri dati. Non chiediamo nome, codice fiscale, indirizzo o dati bancari.
+        Se accedi con la tua email, conserviamo l'indirizzo email e i dati della casa che inserisci, per sincronizzarli tra i tuoi dispositivi e, se è condivisa, con le persone che hai invitato. I dati sono su un database Supabase in Unione Europea, protetto da regole che permettono a ciascun account di leggere solo i propri dati e quelli delle case condivise di cui fa parte. Non chiediamo nome, codice fiscale, indirizzo o dati bancari.
       </p>
 
       <h3>2.3 Lettura delle bollette</h3>
       <p>
-        Quando carichi una bolletta, il file viene inviato al nostro server ed elaborato con un modello di intelligenza artificiale (Anthropic). <strong>Il file non viene salvato</strong>: viene letto, se ne estraggono solo i dati economici (importi, periodo, consumi, scadenze, condizioni dell'offerta) e viene scartato. Lo schema di estrazione non prevede campi per i dati personali.
+        Quando carichi una bolletta, il file passa dal nostro server e viene inviato ad Anthropic, che lo elabora con un modello di intelligenza artificiale per conto nostro. <strong>Noi non salviamo il file</strong>: ne teniamo solo i dati economici restituiti (importi, periodo, consumi, scadenze, condizioni dell'offerta). Lo schema di estrazione non prevede campi per i dati personali.
+      </p>
+      <p>
+        Il file, però, contiene anche i dati che il fornitore stampa in bolletta: di solito nome, indirizzo di fornitura e codici POD o PDR. Anthropic (Stati Uniti) cancella automaticamente input e risultati dai propri sistemi entro 30 giorni, salvo i casi previsti dalle sue condizioni: necessità di verificare abusi del servizio o obblighi di legge. Anthropic non usa questi dati per addestrare i suoi modelli. Se preferisci, puoi caricare una foto o un PDF con i dati personali coperti: la lettura funziona lo stesso.
       </p>
 
-      <h3>2.4 Notifiche sul telefono</h3>
+      <h3>2.4 Email del lunedì</h3>
+      <p>
+        Con l'account ricevi l'email del lunedì: il riepilogo di pagamenti, scadenze e cose da fare della tua casa, mandata solo quando c'è qualcosa da dire. È parte del servizio, non contiene pubblicità né offerte di terzi. Puoi disattivarla in ogni momento da “La casa” o con il link presente in ogni email, senza bisogno di accedere.
+      </p>
+
+      <h3>2.5 Notifiche sul telefono</h3>
       <p>
         Se attivi le notifiche, conserviamo l'indirizzo tecnico di consegna fornito dal tuo browser o telefono (un codice anonimo del servizio di notifiche di Apple, Google o Mozilla), collegato al tuo account. Puoi disattivarle in ogni momento dalla sezione “Casa” o dalle impostazioni del telefono; uscendo dall'account vengono disattivate su quel dispositivo.
       </p>
 
-      <h3>2.5 Misurazione anonima dell'uso</h3>
+      <h3>2.6 Dati di altre persone: “Dividi”</h3>
+      <p>
+        Nella sezione “Dividi” puoi indicare con chi vivi e le spese da dividere. Questi dati riguardano persone che non hanno un rapporto con noi: inserisci solo quello che serve, per esempio un nome o un soprannome, e informale che usi l'app per tenere i conti comuni. Se sei stato aggiunto da qualcun altro e vuoi essere tolto, chiedilo a chi ti ha inserito (basta “Togli” accanto al tuo nome) oppure scrivici.
+      </p>
+
+      <h3>2.7 Misurazione anonima dell'uso</h3>
       <p>
         Per capire se l'app è utile contiamo alcuni eventi (per esempio “app aperta”, “bolletta letta”, “notifiche attivate”) con la sola data e un dettaglio generico, come da quanto tempo usi l'app o se la apri dall'app installata. <strong>Non usiamo cookie né identificativi</strong>, non registriamo indirizzi IP e non è possibile collegare due eventi alla stessa persona. È un conteggio statistico aggregato, assimilabile agli strumenti tecnici secondo le Linee guida del Garante sui cookie (10 giugno 2021), e non richiede consenso.
       </p>
 
-      <h3>2.6 Newsletter e promemoria auto</h3>
+      <h3>2.8 Google Analytics</h3>
       <p>
-        Per chi si è iscritto in passato alla newsletter o allo scadenzario auto conserviamo email, nome (se indicato), preferenze e, per l'auto, le date di scadenza inserite, presso Brevo (Unione Europea), solo per inviare le comunicazioni richieste.
+        Solo se lo accetti nel banner, il sito usa Google Analytics con IP anonimizzato per misurare le visite alle pagine. Google tratta questi dati anche negli Stati Uniti. Puoi cambiare idea in ogni momento da “Gestione cookie”, in fondo a ogni pagina.
       </p>
 
-      <h3>2.7 Dati di navigazione</h3>
+      <h3>2.9 Newsletter e promemoria auto</h3>
+      <p>
+        Per chi si è iscritto in passato alla newsletter o allo scadenzario auto conserviamo email, nome (se indicato), preferenze e, per l'auto, le date di scadenza inserite, presso Brevo (Unione Europea), solo per inviare le comunicazioni richieste. Ogni email contiene il link per disiscriversi.
+      </p>
+
+      <h3>2.10 Dati di navigazione</h3>
       <p>
         Il sito è ospitato da Netlify, che può registrare dati tecnici (indirizzo IP, browser, pagine richieste) per sicurezza e diagnostica.
       </p>
 
       <h2>3. Finalità del trattamento</h2>
       <p>
-        — Erogare “La tua casa”: sincronizzazione, calcoli, avvisi e scadenze<br/>
-        — Inviare l'email del lunedì e le notifiche, solo se attivate<br/>
+        — Erogare “La tua casa”: sincronizzazione, condivisione, calcoli, avvisi e scadenze<br/>
+        — Inviare l'email del lunedì e le notifiche<br/>
         — Leggere le bollette caricate e restituirne i dati economici<br/>
         — Inviare newsletter e promemoria auto a chi li ha richiesti<br/>
-        — Statistiche aggregate e anonime sull'uso del servizio
+        — Misurare le visite (Google Analytics, solo con consenso) e l'uso del servizio in forma anonima<br/>
+        — Sicurezza e prevenzione degli abusi
       </p>
 
       <h2>4. Base giuridica</h2>
       <p>
-        Esecuzione del servizio richiesto (art. 6, par. 1, lett. b GDPR) per account, sincronizzazione, lettura delle bollette, email e notifiche attivate; consenso (lett. a) per newsletter e Google Analytics; legittimo interesse (lett. f) per sicurezza e statistiche anonime.
+        Esecuzione del servizio richiesto (art. 6, par. 1, lett. b GDPR) per account, sincronizzazione, lettura delle bollette, email del lunedì e notifiche; consenso (lett. a) per newsletter e Google Analytics; legittimo interesse (lett. f) per sicurezza, statistiche anonime e per i dati delle altre persone inserite in “Dividi”, limitati a quanto serve a tenere i conti comuni.
       </p>
 
       <h2>5. Conservazione dei dati</h2>
       <p>
-        <strong>Account e dati della casa:</strong> finché l'account resta attivo. Puoi cancellare i dati dalla sezione “Casa” o chiedere la cancellazione dell'account scrivendoci.<br/>
+        <strong>Account e dati della casa:</strong> finché l'account resta attivo. Puoi cancellare la casa o l'intero account in ogni momento dalla sezione “Casa”: la cancellazione è immediata e definitiva.<br/>
+        <strong>Bollette:</strong> nessuna conservazione del file da parte nostra; presso Anthropic fino a 30 giorni, salvo le eccezioni indicate al punto 2.3.<br/>
         <strong>Notifiche:</strong> fino alla disattivazione, o finché il servizio di notifiche segnala che il dispositivo non è più raggiungibile.<br/>
-        <strong>Bollette:</strong> nessuna conservazione del file.<br/>
         <strong>Eventi anonimi:</strong> fino a 24 mesi, in forma aggregata.<br/>
+        <strong>Google Analytics:</strong> per il periodo impostato nel servizio, al massimo 14 mesi.<br/>
         <strong>Newsletter e promemoria auto:</strong> fino alla disiscrizione; i dati auto per 12 mesi dall'ultima scadenza.
       </p>
 
-      <h2>6. Fornitori</h2>
+      <h2>6. Fornitori e trasferimenti fuori dall'Unione Europea</h2>
       <p>
-        Supabase (database e accesso), Netlify (hosting e funzioni), Brevo (invio email), Anthropic (lettura delle bollette), servizi di notifica di Apple, Google e Mozilla (solo consegna: il testo della notifica viaggia cifrato e non è leggibile da loro).
+        Usiamo questi fornitori, che trattano i dati per nostro conto e solo per le finalità indicate:<br/>
+        — <strong>Supabase</strong>: database e accesso (dati conservati in Unione Europea)<br/>
+        — <strong>Netlify</strong>: hosting e funzioni del sito (Stati Uniti)<br/>
+        — <strong>Anthropic</strong>: lettura delle bollette (Stati Uniti)<br/>
+        — <strong>Brevo</strong>: invio delle email (Unione Europea)<br/>
+        — <strong>Google</strong>: Google Analytics, solo con consenso (Stati Uniti)<br/>
+        — <strong>Apple, Google e Mozilla</strong>: consegna delle notifiche; il testo viaggia cifrato e non è leggibile da loro
+      </p>
+      <p>
+        I trasferimenti verso gli Stati Uniti avvengono sulla base dell'EU-US Data Privacy Framework, per i fornitori che vi aderiscono, o delle clausole contrattuali standard approvate dalla Commissione europea, previste nei contratti sul trattamento dei dati di ciascun fornitore.
       </p>
 
       <h2>7. Diritti dell'utente</h2>
       <p>
-        Ai sensi del GDPR puoi accedere ai tuoi dati, chiederne rettifica, cancellazione o portabilità (l'esportazione è disponibile anche dalla sezione “Casa”), opporti al trattamento e revocare il consenso. Scrivi a <strong>clart.mgmt@gmail.com</strong>. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.
+        Ai sensi del GDPR puoi accedere ai tuoi dati, chiederne rettifica, cancellazione o portabilità, opporti al trattamento e revocare il consenso. Dalla sezione “Casa” puoi farlo anche da solo: esportare i dati, cancellare la casa o cancellare l'account. Per tutto il resto scrivi a <strong>clart.mgmt@gmail.com</strong>: rispondiamo entro 30 giorni. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.
       </p>
 
       <h2>8. Cookie</h2>
       <p>
-        Usiamo solo memoria tecnica del browser necessaria al funzionamento (preferenze, dati locali della casa, sessione di accesso) e, <strong>solo con il tuo consenso</strong>, Google Analytics con IP anonimizzato. Nessun cookie di profilazione pubblicitaria.
+        Usiamo solo memoria tecnica del browser necessaria al funzionamento (preferenze, dati locali della casa, sessione di accesso) e, <strong>solo con il tuo consenso</strong>, i cookie di Google Analytics (punto 2.8). Nessun cookie di profilazione pubblicitaria.
       </p>
 
     </div>

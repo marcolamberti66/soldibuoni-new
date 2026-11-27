@@ -326,6 +326,18 @@ export async function emailDiProva() {
   return b;
 }
 
+/** Cancella l'account e tutto ciò che vi è collegato, poi i dati locali. */
+export async function eliminaAccount() {
+  const { data } = await sb().auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) throw new Error('Accedi prima di cancellare l\'account.');
+  await import('./dispositivo.js').then((m) => m.disattivaPush()).catch(() => {});
+  const r = await fetch('/api/casa/elimina-account', { method: 'POST', headers: { Authorization: 'Bearer ' + token } });
+  const b = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(b.errore || 'Cancellazione non riuscita.');
+  await sb().auth.signOut({ scope: 'local' }).catch(() => {});
+}
+
 // ── casa condivisa ───────────────────────────────────────────
 const LETTERE = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
