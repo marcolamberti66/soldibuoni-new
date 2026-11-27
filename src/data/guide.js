@@ -1,5 +1,6 @@
 // Elenco unico delle guide: alimenta indice, "leggi anche", home e footer.
 export const GUIDE = [
+  { slug: '730-casa', eb: '730', t: 'Il 730 di chi ha una casa', d: 'Interessi del mutuo, affitto, lavori e mobili: le detrazioni per le spese 2026 e cosa conservare.', tema: 'casa', hub: 'tasse-casa' },
   { slug: 'bolletta-luce-media', eb: 'Luce', t: 'Quanto costa la luce al mese', d: 'Il prezzo ARERA di fine 2026, quanto si paga per consumo e come capire se la tua bolletta è cara.', tema: 'bollette', hub: 'bollette' },
   { slug: 'dividere-spese-casa', eb: 'Spese condivise', t: 'Come dividere le spese di casa', d: 'Parti uguali, in proporzione al reddito o per uso: tre metodi per coinquilini e coppie, e come pareggiare.', tema: 'casa', hub: 'famiglia' },
   { slug: 'costi-casa', eb: 'Casa', t: 'Tutte le spese fisse di una casa', d: 'La mappa completa delle spese ricorrenti e il modo giusto di calcolare il costo mensile reale.', tema: 'casa', hub: 'costi-casa' },
