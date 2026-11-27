@@ -20,9 +20,9 @@ import Layout from '../layouts/Layout.astro';
 
       <h2>2. Dati raccolti</h2>
 
-      <h3>2.1 La tua casa senza account</h3>
+      <h3>2.1 Strumenti senza account</h3>
       <p>
-        Se usi “La tua casa” senza accedere, i dati che inserisci (profilo della casa, importi, scadenze, documenti letti) restano <strong>solo sul tuo dispositivo</strong>, nella memoria del browser o dell'app installata. Non li riceviamo e non li conserviamo, salvo le bollette che scegli di far leggere (punto 2.3).
+        La stima dei costi in home, “Dividi le spese” e chi ha iniziato a usare “La tua casa” prima dell'introduzione dell'account conservano i dati <strong>solo sul proprio dispositivo</strong>, nella memoria del browser. Non li riceviamo e non li conserviamo, salvo i documenti che scegli di far leggere (punto 2.3).
       </p>
 
       <h3>2.2 La tua casa con account</h3>
@@ -30,9 +30,9 @@ import Layout from '../layouts/Layout.astro';
         Se accedi con la tua email, conserviamo l'indirizzo email e i dati della casa che inserisci, per sincronizzarli tra i tuoi dispositivi e, se è condivisa, con le persone che hai invitato. I dati sono su un database Supabase in Unione Europea, protetto da regole che permettono a ciascun account di leggere solo i propri dati e quelli delle case condivise di cui fa parte. Non chiediamo nome, codice fiscale, indirizzo o dati bancari.
       </p>
 
-      <h3>2.3 Lettura delle bollette</h3>
+      <h3>2.3 Lettura dei documenti</h3>
       <p>
-        Quando carichi una bolletta, il file passa dal nostro server e viene inviato ad Anthropic, che lo elabora con un modello di intelligenza artificiale per conto nostro. <strong>Noi non salviamo il file</strong>: ne teniamo solo i dati economici restituiti (importi, periodo, consumi, scadenze, condizioni dell'offerta). Lo schema di estrazione non prevede campi per i dati personali.
+        Quando carichi un documento (bolletta, rate o riparto del condominio, avviso TARI, F24, piano del mutuo), il file passa dal nostro server e viene inviato ad Anthropic, che lo elabora con un modello di intelligenza artificiale per conto nostro. <strong>Noi non salviamo il file</strong>: ne teniamo solo i dati economici restituiti (importi, rate, periodo, consumi, scadenze, condizioni dell'offerta). Se per un riparto condominiale indichi il tuo cognome o numero di unità, lo usiamo solo per trovare la tua riga: resta sul tuo dispositivo e non lo salviamo. Lo schema di estrazione non prevede campi per i dati personali.
       </p>
       <p>
         Il file, però, contiene anche i dati che il fornitore stampa in bolletta: di solito nome, indirizzo di fornitura e codici POD o PDR. Anthropic (Stati Uniti) cancella automaticamente input e risultati dai propri sistemi entro 30 giorni, salvo i casi previsti dalle sue condizioni: necessità di verificare abusi del servizio o obblighi di legge. Anthropic non usa questi dati per addestrare i suoi modelli. Se preferisci, puoi caricare una foto o un PDF con i dati personali coperti: la lettura funziona lo stesso.
