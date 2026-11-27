@@ -89,8 +89,12 @@ const SYSTEM = `Leggi documenti di spesa della casa italiani ed estrai solo dati
 
 Regole per le spese:
 - Riparti condominiali con molte unità: usa solo la riga dell'unità indicata nel riferimento dell'utente (cognome o numero di unità). Se non c'è un riferimento o non lo trovi, non inventare: restituisci spese vuote e serve_riferimento true.
-- Rate del condominio con importi diversi → tipo "rate", con ogni data e importo. Un conguaglio o un saldo a debito → "una_tantum" con la sua data (se scritto "a vista", usa la data della prima rata). Un saldo a credito non è una spesa.
-- Se il riferimento ha più unità (es. appartamento e box), somma le rate alla stessa data e indica le unità nella descrizione.
+- Cerca la tabella "Rateizzazione" (o "piano rate", "avviso di pagamento"): per ogni unità ha una colonna "Conguaglio" e poi le colonne "Rata n. 1", "Rata n. 2"… ognuna con la sua data di scadenza nell'intestazione, e infine il totale.
+  · Le colonne "Rata n. …" → UNA spesa di tipo "rate", con tutte le rate (data dall'intestazione della colonna, importo dalla riga dell'unità). Non fermarti alla prima colonna.
+  · La colonna "Conguaglio", se positiva → una spesa SEPARATA di tipo "una_tantum" (descrizione "Conguaglio gestione …"), con la data della colonna. Se negativa è un credito: non è una spesa, ma riducine la prima rata solo se il documento lo fa già nel totale.
+  · Se non c'è la tabella delle rate ma solo il riparto annuo, usa il totale annuo dell'unità come spesa "periodica" annuale e indicalo nella descrizione.
+- Se il riferimento indica più unità (es. appartamento e box), leggi la riga di ciascuna e somma gli importi alla stessa data, sia per le rate sia per il conguaglio; indica le unità nella descrizione.
+- Rate straordinarie o anticipate deliberate con una data e un importo → "una_tantum".
 - TARI con più rate → tipo "rate". IMU: acconto e saldo → tipo "rate" con le due date.
 - Mutuo → tipo "periodica", frequenza della rata, con tasso, debito residuo e data dell'ultima rata se scritti.
 
